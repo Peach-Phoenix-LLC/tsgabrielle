@@ -35,6 +35,16 @@
     height: 35px;
 }
 
+.logoTextFallback {
+    font-size: 1.2rem;
+    font-weight: 900;
+    letter-spacing: -0.05em;
+    text-transform: uppercase;
+    color: white;
+    /* Default for dark nav */
+    white-space: nowrap;
+}
+
 .logoWhite,
 .logoPurple {
     position: absolute;

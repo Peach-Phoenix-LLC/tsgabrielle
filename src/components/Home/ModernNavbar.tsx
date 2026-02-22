@@ -45,15 +45,23 @@ const ModernNavbar = ({ theme = 'dark' }: ModernNavbarProps) => {
                 </nav>
 
                 {/* Logo (Centered) */}
-                <Link href="/" className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 group">
-                    <div className="relative w-40 h-10 transition-transform duration-300">
+                <Link href="/" className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 group flex items-center justify-center">
+                    <div className="relative w-48 h-10 transition-transform duration-300">
                         <Image
                             src={scrolled ? "/images/logo-purple.png" : (theme === 'dark' ? "/images/logo-white.png" : "/images/logo-purple.png")}
                             alt="tsgabrielle logo"
                             fill
-                            className="object-contain"
+                            className="object-contain transition-opacity duration-300"
                             priority
+                            onError={(e) => {
+                                // Hide the failed image container and show the text fallback
+                                (e.target as any).style.display = 'none';
+                            }}
                         />
+                        {/* High-end text fallback if image is missing or loading */}
+                        <span className={`absolute inset-0 flex items-center justify-center text-[22px] font-black tracking-[-0.05em] uppercase pointer-events-none ${textColor} transition-opacity duration-300 whitespace-nowrap`}>
+                            tsgabrielle®
+                        </span>
                     </div>
                 </Link>
 

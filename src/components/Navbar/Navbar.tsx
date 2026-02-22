@@ -21,19 +21,21 @@ const Navbar = () => {
                                 <Image
                                     src="/images/logo-white.png"
                                     alt="tsgabrielle® white logo"
-                                    width={160}
-                                    height={40}
+                                    width={180}
+                                    height={45}
                                     className={styles.logoWhite}
                                     priority
                                 />
                                 <Image
                                     src="/images/logo-purple.png"
                                     alt="tsgabrielle® purple logo"
-                                    width={160}
-                                    height={40}
+                                    width={180}
+                                    height={45}
                                     className={styles.logoPurple}
                                     priority
                                 />
+                                {/* Premium text fallback */}
+                                <span className={styles.logoTextFallback}>tsgabrielle®</span>
                             </div>
                         </Link>
                     </div>
