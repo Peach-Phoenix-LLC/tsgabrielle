@@ -46,11 +46,17 @@ const ModernNavbar = ({ theme = 'dark' }: ModernNavbarProps) => {
 
                 {/* Logo (Centered) */}
                 <Link href="/" className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 group flex flex-col items-center justify-center">
-                    <div className="relative w-8 h-8 transition-transform duration-300 mb-1">
-                        <span className={`material-symbols-outlined text-3xl ${textColor}`}>diamond</span>
+                    <div className="relative w-[150px] h-[35px] mb-1">
+                        <Image
+                            src="/images/logo-white.png"
+                            alt="tsgabrielle logo"
+                            fill
+                            className="object-contain"
+                            priority
+                        />
                     </div>
                     <div className="flex flex-col items-center">
-                        <span className={`text-[10px] tracking-[0.1em] font-light ${textColor} whitespace-nowrap`}>tsgabrielle® USA • 2026</span>
+                        <span className={`text-[9px] tracking-[0.2em] font-light ${textColor} whitespace-nowrap uppercase opacity-80`}>tsgabrielle® USA • 2026</span>
                     </div>
                 </Link>
 

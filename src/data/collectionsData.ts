@@ -38,7 +38,7 @@ export const collections: Collection[] = [
     {
         title: 'Arizona 🌵',
         count: '11 pieces',
-        image: '/images/arizona-collection.png',
+        image: '/images/collection-arizona.jpg',
         description: 'Desert tones meet high-tech utility.',
         path: '/collections/arizona'
     },

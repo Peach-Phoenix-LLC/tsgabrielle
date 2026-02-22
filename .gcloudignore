@@ -11,8 +11,7 @@ supabase
 *.json
 !package.json
 !package-lock.json
-!triggers.json
-!run_details.json
-!sql_details_utf8.json
+!tsconfig.json
 !next.config.ts
 !Dockerfile
+!cloudbuild.yaml

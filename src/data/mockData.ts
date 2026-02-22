@@ -11,7 +11,7 @@ export const collectionsData = [
         id: "arizona",
         title: "Arizona",
         productCount: "11 products",
-        image: "https://lh3.googleusercontent.com/aida-public/AB6AXuDF_wa4oISPT9EBn6VO_LbKGeLtprLuTcmOBU1KLCBRth9iV14cMpNVST6P0twcxmL1BHTdF9xzzwwhsIaKpuTXEz3MSOBz3xyo8XUvAgd1q4rzbKcsYrfE-48_LJAmDQP7lrbtBuEDu8kcMI_MuzWxtMBZWL9ACSVQd7OikKwZiuMboPOGeDfpq1wl8H1qaXDsTE2f2WkDxeM4Xn4Pwki033S_H_RKX4jnDceMBEmb3oAoJxM5XhveO3ZQH2Guxysz6RAKe1CuCYTn",
+        image: "/images/collection-arizona.jpg",
         link: "/collections/arizona",
         badge: "ts"
     },
