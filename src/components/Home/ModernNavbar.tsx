@@ -31,37 +31,26 @@ const ModernNavbar = ({ theme = 'dark' }: ModernNavbarProps) => {
     // If the navbar is scrolled or explicitly dark, we use the white logo (since the scrolled bg is dark).
     // If it's over a light background (not yet implemented but supported), we use purple.
     const isDarkBackground = scrolled; // For now, let's say when scrolled it has a slight background
-    const textColor = scrolled ? 'text-primary' : (theme === 'dark' ? 'text-white' : 'text-text-dark');
-    const iconColor = scrolled ? 'text-primary' : (theme === 'dark' ? 'text-white' : 'text-text-dark');
+    const textColor = scrolled ? 'text-primary' : 'text-text-dark';
+    const iconColor = scrolled ? 'text-primary' : 'text-text-dark';
 
     return (
-        <header className={`fixed top-0 left-0 right-0 z-50 transition-all duration-500 ${scrolled ? 'bg-bg-light/80 backdrop-blur-md border-b border-primary/10 py-4 shadow-sm' : 'bg-transparent py-6'}`}>
+        <header className={`fixed top-0 left-0 right-0 z-50 transition-all duration-500 ${scrolled ? 'bg-white/80 backdrop-blur-md border-b border-primary/10 py-4 shadow-sm' : 'bg-transparent py-6'}`}>
             <div className="max-w-[1400px] mx-auto px-8 flex items-center justify-between">
                 {/* Desktop Nav Links (Left) */}
                 <nav className="hidden lg:flex items-center gap-12">
-                    <Link href="/shop" className={`transition-opacity hover:opacity-50 text-[14px] font-light ${textColor}`}>Shop</Link>
-                    <Link href="/collections" className={`transition-opacity hover:opacity-50 text-[14px] font-light ${textColor}`}>Collections</Link>
-                    <Link href="/about" className={`transition-opacity hover:opacity-50 text-[14px] font-light ${textColor}`}>Our story</Link>
+                    <Link href="/shop" className={`transition-opacity hover:opacity-50 text-[14px] font-thin ${textColor}`}>Shop</Link>
+                    <Link href="/collections" className={`transition-opacity hover:opacity-50 text-[14px] font-thin ${textColor}`}>Collections</Link>
+                    <Link href="/about" className={`transition-opacity hover:opacity-50 text-[14px] font-thin ${textColor}`}>Our story</Link>
                 </nav>
 
                 {/* Logo (Centered) */}
-                <Link href="/" className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 group flex items-center justify-center">
-                    <div className="relative w-48 h-10 transition-transform duration-300">
-                        <Image
-                            src={scrolled ? "/images/logo-purple.png" : (theme === 'dark' ? "/images/logo-white.png" : "/images/logo-purple.png")}
-                            alt="tsgabrielle logo"
-                            fill
-                            className="object-contain transition-opacity duration-300"
-                            priority
-                            onError={(e) => {
-                                // Hide the failed image container and show the text fallback
-                                (e.target as any).style.display = 'none';
-                            }}
-                        />
-                        {/* High-end text fallback if image is missing or loading */}
-                        <span className={`absolute inset-0 flex items-center justify-center text-[22px] font-black tracking-[-0.05em] uppercase pointer-events-none ${textColor} transition-opacity duration-300 whitespace-nowrap`}>
-                            tsgabrielle®
-                        </span>
+                <Link href="/" className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 group flex flex-col items-center justify-center">
+                    <div className="relative w-8 h-8 transition-transform duration-300 mb-1">
+                        <span className={`material-symbols-outlined text-3xl ${textColor}`}>diamond</span>
+                    </div>
+                    <div className="flex flex-col items-center">
+                        <span className={`text-[10px] tracking-[0.1em] font-light ${textColor} whitespace-nowrap`}>tsgabrielle® USA • 2026</span>
                     </div>
                 </Link>
 

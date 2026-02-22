@@ -27,11 +27,11 @@ export default function HoloCollections({ products }: HoloCollectionsProps) {
                     transition={{ duration: 0.8 }}
                     className="text-center mb-24"
                 >
-                    <h2 className="text-4xl md:text-5xl font-light mb-4 text-text-dark">
+                    <h2 className="text-4xl md:text-5xl font-thin mb-4 text-text-dark">
                         Curated collections
                     </h2>
                     <div className="w-16 h-px bg-primary mx-auto mb-6"></div>
-                    <p className="text-lg text-text-dark/50 font-light">
+                    <p className="text-lg text-text-dark/50 font-thin">
                         Discover our most beautiful selections by <span className="text-primary">tsgabrielle® usa</span>
                     </p>
                 </motion.div>
@@ -62,7 +62,7 @@ export default function HoloCollections({ products }: HoloCollectionsProps) {
                                     </div>
                                 </div>
 
-                                <h3 className="mt-8 text-lg font-light text-text-dark transition-colors duration-300 group-hover:text-primary">
+                                <h3 className="mt-8 text-lg font-thin text-text-dark transition-colors duration-300 group-hover:text-primary">
                                     {product.name}
                                 </h3>
                             </Link>
@@ -79,7 +79,7 @@ export default function HoloCollections({ products }: HoloCollectionsProps) {
                 >
                     <Link
                         href="/collections"
-                        className="group relative inline-flex items-center justify-center px-12 py-4 font-light text-sm border border-primary/50 hover:border-primary rounded-sm text-primary transition-all duration-300 hover:bg-primary/5"
+                        className="group relative inline-flex items-center justify-center px-12 py-4 font-thin text-sm border border-primary/50 hover:border-primary rounded-sm text-primary transition-all duration-300 hover:bg-primary/5"
                     >
                         <span className="relative z-10">View all collections</span>
                     </Link>
@@ -87,8 +87,8 @@ export default function HoloCollections({ products }: HoloCollectionsProps) {
 
             </div>
 
-            {/* The separator line */}
-            <div className="absolute top-0 w-full h-[1px] bg-primary/10 mx-auto"></div>
+            {/* Iridescent Separator */}
+            <div className="absolute top-0 w-full h-[1px] bg-gradient-to-r from-transparent via-primary/40 to-transparent"></div>
         </section >
     );
 }

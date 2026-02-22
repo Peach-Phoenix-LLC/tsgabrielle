@@ -27,6 +27,7 @@ app.get('/', (req, res) => {
             <h1>tsgabrielle® Website</h1>
             <p>Select a page to view:</p>
             <ul>
+                <li><a href="/tsgabrielle®_homepage/code.html"><b>Homepage (2026 Official Catalogue)</b></a></li>
                 <li><a href="/tsgabrielle®_the_brand_page/code.html">The Brand Page</a></li>
                 <li><a href="/tsgabrielle®_legal_and_sitemap_page/code.html">Legal Hub (Policies)</a></li>
                 <li><a href="/tsgabrielle®_privacy_policy/code.html">Privacy Policy</a></li>

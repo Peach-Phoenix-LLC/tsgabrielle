@@ -46,6 +46,3 @@ The store is organized around expressive, identity-forward collections that blen
 - **Homepage Hero:** Full-screen slideshow with 3 high-impact fashion photographs.
 - **Collections Grid:** Visual-heavy grid showing the diverse 2026 collections.
 - **Loyalty Program (The 'Peaches' Program):** Visible tiering (Bronze to Platinum) with distinct visual markers.
-
----
-*This document serves as the source of truth for the tsgabrielle® 2026 Official Catalogue deployment.*
