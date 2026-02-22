@@ -31,7 +31,7 @@ export const collections: Collection[] = [
     {
         title: 'Arizona 🌵',
         count: '11 pieces',
-        image: 'https://images.unsplash.com/photo-1469074062102-149f1ad63af7?auto=format&fit=crop&q=80&w=800',
+        image: '/images/arizona-collection.png',
         description: 'Desert tones meet high-tech utility.',
         path: '/collections/arizona'
     },

@@ -1,307 +1,203 @@
 <!DOCTYPE html>
-<html lang="en"><head>
-<meta charset="utf-8"/>
-<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
-<title>tsgabrielle® 2026 Official Catalogue Home</title>
-<link href="https://fonts.googleapis.com" rel="preconnect"/>
-<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
-<link href="https://fonts.googleapis.com/css2?family=Lato:wght@300&amp;display=swap" rel="stylesheet"/>
-<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
-<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
-<script>
-        tailwind.config = {
-            theme: {
-                extend: {
-                    colors: {
-                        "primary": "#a932bd",
-                        "background-light": "#ffffff",
-                        "charcoal": "#161217",
-                    },
-                    fontFamily: {
-                        "body": ["Lato", "sans-serif"],
-                    },
-                },
-            },
-        }
-    </script>
-<style type="text/tailwindcss">
-        @layer base {
+<html lang="en">
+
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>tsgabrielle® Arizona Collection - 2026 Catalogue</title>
+        <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+        <link href="https://fonts.googleapis.com/css2?family=Lato:wght@300&display=swap" rel="stylesheet">
+        <link
+            href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap"
+            rel="stylesheet">
+        <script>
+            tailwind.config = {
+                theme: {
+                    extend: {
+                        colors: {
+                            "primary": "#a932bd",
+                            "brand-terracotta": "#c07e60",
+                            "brand-mauve": "#8a7b8e",
+                            "charcoal": "#1a1a1a",
+                        },
+                        fontFamily: {
+                            "lato": ["Lato", "sans-serif"]
+                        },
+                        backgroundImage: {
+                            'glass': 'linear-gradient(135deg, rgba(255, 255, 255, 0.1), rgba(255, 255, 255, 0.05))',
+                        }
+                    }
+                }
+            }
+        </script>
+        <style type="text/tailwindcss">
+            @layer base {
             body {
-                @apply font-body font-light bg-white text-charcoal antialiased overflow-x-hidden;
+                @apply font-lato font-light bg-white text-charcoal antialiased;
             }
-            h1, h2, h3, h4, h5, h6, a, button, span, p, input {
-                @apply normal-case tracking-normal;
-            }
-        }
-        .holographic-separator {
-            height: 1px;
-            width: 100%;
-            background: linear-gradient(90deg, transparent, #a932bd, #00d2ff, #ff0099, #a932bd, transparent);
-            background-size: 200% 100%;
-            opacity: 0.4;
-        }
-        .holographic-btn {
-            position: relative;
-            transition: all 0.3s ease;
-        }
-        .holographic-btn:hover {
-            box-shadow: 0 0 15px rgba(169, 50, 189, 0.3);
-            background: linear-gradient(white, white) padding-box, 
-                        linear-gradient(90deg, #a932bd, #00d2ff, #ff0099) border-box;
-            border: 1px solid transparent;
         }
         .glass-header {
-            background: rgba(255, 255, 255, 0.95);
-            backdrop-filter: blur(10px);
-            border-bottom: 1px solid rgba(0,0,0,0.05);
+            @apply backdrop-blur-xl bg-white/10 border-b border-white/20;
         }
-        .hero-slide {
-            position: absolute;
-            inset: 0;
-            opacity: 0;
-            transition: opacity 1s ease-in-out;
+        .text-shimmer {
+            background: linear-gradient(90deg, #fff, #a932bd, #fff);
+            background-size: 200% auto;
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            animation: shimmer 5s linear infinite;
         }
-        .hero-slide.active {
-            opacity: 1;
+        @keyframes shimmer {
+            to { background-position: 200% center; }
         }
-        .card-hover:hover img {
-            transform: scale(1.05);
+        ::-webkit-scrollbar {
+            width: 4px;
+        }
+        ::-webkit-scrollbar-track {
+            background: #f1f1f1;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #a932bd;
         }
     </style>
-</head>
-<body>
-<div class="relative flex min-h-screen w-full flex-col">
-<header class="fixed top-0 left-0 right-0 z-50 glass-header">
-<div class="max-w-[1440px] mx-auto px-6 py-4 flex flex-col items-center">
-<div class="w-full flex items-center justify-between mb-4">
-<div class="flex-1 flex items-center gap-6">
-<span class="material-symbols-outlined text-primary text-3xl">diamond</span>
-<div class="flex flex-col">
-<span class="text-sm font-light">tsgabrielle® USA • 2026 Official Catalogue</span>
-<span class="text-[10px] text-gray-400">The French Trans Touch • Paris 🇫🇷 | Phoenix 🌵</span>
-</div>
-</div>
-<div class="flex items-center gap-6">
-<button class="hover:opacity-60 transition-opacity"><span class="material-symbols-outlined font-light">search</span></button>
-<button class="hover:opacity-60 transition-opacity relative">
-<span class="material-symbols-outlined font-light">shopping_bag</span>
-</button>
-<button class="hover:opacity-60 transition-opacity"><span class="material-symbols-outlined font-light">person</span></button>
-</div>
-</div>
-<nav class="flex gap-12">
-<a class="text-sm hover:text-primary transition-colors" href="#">Shop</a>
-<a class="text-sm hover:text-primary transition-colors" href="#">Collections</a>
-<a class="text-sm hover:text-primary transition-colors" href="#">About</a>
-<a class="text-sm hover:text-primary transition-colors" href="#">Journal</a>
-<a class="text-sm hover:text-primary transition-colors font-medium" href="#">Loyalty</a>
-</nav>
-</div>
-</header>
-<main class="grow">
-<section class="relative h-[90vh] w-full overflow-hidden bg-black mt-[110px]">
-<div class="absolute inset-0 z-0">
-<div class="hero-slide active bg-cover bg-center" style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuACTCjaRxPQnGB4rJnQOlIUMOSkK16FlF6fNwL0xohfFTxswI5L-H7O2j2hy_DI6OIUcbSJG9uw7CwW6n9cUt3JPa7W7STLZAG8YoW-lL2bLiZkxCE3coQ7fEn56vYdd_jxokBIo2B0vz8BfjSgzjt0ZBl1D4NU9hLMKlHjcm_Cz7j2a2qQ2B08fxaXFLRuTQA9y8vn39i1LEomCUqpaQ3qa6K46CWcabGD9PhyIfCr9bNOF5EtXzHimiuRBZi4_JGaseAbpSxYpw2U');"></div>
-<div class="absolute inset-0 bg-black/20 z-10"></div>
-</div>
-<div class="relative z-20 flex flex-col items-center justify-center h-full text-center text-white px-4">
-<h1 class="text-4xl md:text-6xl font-light mb-6">Welcome to the 2026 tsgabrielle® USA Collection</h1>
-<p class="text-xl md:text-2xl font-light max-w-2xl opacity-90 mb-10">Rooted in the vision of founder Gabrielle</p>
-<a class="holographic-btn bg-white text-charcoal px-12 py-4 rounded-full text-sm tracking-widest hover:shadow-xl transition-all" href="#">
-                    Discover the Vision
-                </a>
-</div>
-</section>
-<div class="holographic-separator"></div>
-<section class="py-24 px-6 bg-white">
-<div class="max-w-[1440px] mx-auto">
-<div class="mb-16 text-center">
-<h2 class="text-3xl font-light mb-2">2026 Collections</h2>
-<p class="text-gray-400 text-sm">Curated Ethereal Aesthetics</p>
-</div>
-<div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-10">
-<div class="group card-hover cursor-pointer">
-<div class="aspect-[3/4] overflow-hidden mb-6 bg-gray-50 border border-gray-100">
-<img alt="Peach Phoenix™" class="w-full h-full object-cover transition-transform duration-700" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAyk6DrzKc6A3mTFbkN4QfxGq86vUbsYmuOZANL4tM-_JxgPfgBhwg62KEppR4LOdvykhH7xJuqrYOES4KMiNukK2sxDtI4mLucSyM79jo3-cv05ag_grAqXgZqtimPeYsBJQlSp2QfQuxTmpqWjFBqql3_FS01RrmD4Dkr2L5ubfhEOTz3ExhhB5NO4-r8gk06BC1ZPUNAehKLFw37jMN4obFlWi8PIJn_-EfGATahBd1NTov6u1K3Sh6DtcUdy-y3QsUzpAhG8QNP"/>
-</div>
-<h3 class="text-lg font-light">Peach Phoenix™</h3>
-<p class="text-xs text-gray-500 mt-2 leading-relaxed">Rising from the desert sun with soft hues and resilient silhouettes.</p>
-<span class="text-[10px] text-primary mt-3 block font-medium">Flagship 2026 Release</span>
-</div>
-<div class="group card-hover cursor-pointer">
-<div class="aspect-[3/4] overflow-hidden mb-6 bg-gray-50 border border-gray-100">
-<img alt="Paris" class="w-full h-full object-cover transition-transform duration-700" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDQd69wL4LTKIXykzY7izioG4KUV4Yvb2-0HljDRIm0EIF28KsYuzgzSMtfF5ylVLxuxDjbmvlPxF1-iFkqF9sP_l-gumgdWDCQRDDXHlx1d_xqlIK2A7AcUyCVVfauJEKF4CQQMSQNniqvW5Q5qMYCBTkKOkJfAP2EbdRgaIjXufrwRILpWCstn7fzp0bFsEvCwXkJbLByx4KOpk7tK3ajjtzav1_FSQUGoUFMPB9NxE-Kl-mUQAJb5OXwofy2pzri3cAJftUcOErA"/>
-</div>
-<h3 class="text-lg font-light">Paris</h3>
-<p class="text-xs text-gray-500 mt-2 leading-relaxed">The essence of French sophistication meets avant-garde design.</p>
-<span class="text-[10px] text-primary mt-3 block font-medium">European Chic</span>
-</div>
-<div class="group card-hover cursor-pointer">
-<div class="aspect-[3/4] overflow-hidden mb-6 bg-gray-50 border border-gray-100">
-<img alt="Unicorn" class="w-full h-full object-cover transition-transform duration-700" src="https://lh3.googleusercontent.com/aida-public/AB6AXuA2I7rPpZEVqZEEbwW2gFbBRc9qpvmwnrqv4hH5e41K8OfvgwDyv7Mjkas6P83wogyQ1xlCJCwGNDWbORAKAaW1c9KhdWgMW1ToypYl1jtc0BO6pI3qQEVAsU7uJUnvi6P-Ph92vWzMqfTihLN9nJUEeWMT5FkA_XYga5Evso8jRNeqvg7eDdC-Jnd4VWi6xdbT3HvwgJiSV5oW1Usys3TgJB4JtdPoHOmOzdehTAodQ6TWHt21iuh-fChW-6lSHwCJWGp9Smst_Nk9"/>
-</div>
-<h3 class="text-lg font-light">Unicorn</h3>
-<p class="text-xs text-gray-500 mt-2 leading-relaxed">Iridescent fabrics and mythical textures for the dreamer.</p>
-<span class="text-[10px] text-primary mt-3 block font-medium">Holographic Textures</span>
-</div>
-<div class="group card-hover cursor-pointer">
-<div class="aspect-[3/4] overflow-hidden mb-6 bg-gray-50 border border-gray-100">
-<img alt="Arizona" class="w-full h-full object-cover transition-transform duration-700" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAdbas0uluWXnvBaS3rn-wlxuDrUxXzNkVGKmy0m4x6TIMtmA3bMZHkRsBkhJrE8Fqswyhe1l9t5RoP11FBTpoFZk9Vsoe4HYpQ_-v0P5cKUcyh5JKsrmbKuDC7LWdyaL3NderyFv5QL4MA073mVmeSke4B501wWgwkuCxim2Mc2NMu2yhsa9ok1NBQ3zDoa2iVGoOY9DF8jrrSxp-uCZUJ6vxcfHQyAai11Y5RNtINhDzlPMvaK3PjvkoSVQHbO5TQhIjA0_B3SpR5"/>
-</div>
-<h3 class="text-lg font-light">Arizona</h3>
-<p class="text-xs text-gray-500 mt-2 leading-relaxed">Earthy tones and architectural draping inspired by the Valley.</p>
-<span class="text-[10px] text-primary mt-3 block font-medium">Desert Modernism</span>
-</div>
-<div class="group card-hover cursor-pointer">
-<div class="aspect-[3/4] overflow-hidden mb-6 bg-gray-50 border border-gray-100">
-<img alt="Womanizer" class="w-full h-full object-cover transition-transform duration-700" src="https://lh3.googleusercontent.com/aida-public/AB6AXuACCReL7GggmrwWa_5acgUGZ0vjojV9oAPWtSz5Rt4o6ahol3luBpUHdUf-IaT3pX9z6d7qACLuvrk6NvyNg57mHmct0I3jLfLZFkYB3D1R1rCR6cYrO47eGz5bF7VQSRuzcVQ4ooxWztJlKyAnVtAXdQW77X1hGIoxNSUyhT5k32joGcPiMDV_DTc6zfnOkBbzwGwVp4NO-asWl3K8umTECBX2h-Uel1YyxM437lzC-xepJMOEwVidPNtvJkkt-4SPujDvq1aaCgHP"/>
-</div>
-<h3 class="text-lg font-light">Womanizer</h3>
-<p class="text-xs text-gray-500 mt-2 leading-relaxed">Bold power suits and redefined feminine tailoring.</p>
-<span class="text-[10px] text-primary mt-3 block font-medium">Empowered Style</span>
-</div>
-<div class="group card-hover cursor-pointer">
-<div class="aspect-[3/4] overflow-hidden mb-6 bg-gray-50 border border-gray-100">
-<img alt="TransLove &amp; TransFLOWer" class="w-full h-full object-cover transition-transform duration-700" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDI3XvHzbt_R_vhjAapgRkiDF1zq3vDQ2Awf8ymB9AnsPbzBnbp1R084N26RGKLKjPVSY7i1NsyZe31mjRKXTsWqMhsc7eKhl3AHZgK-fwsyP5BhYFIf4RMMVXHdO2fpCr0vBST8bCIgypBZyX-bP7c40Taw3idWjztMD7sJOd2VPdXrT73Izgp4bhDgDJpAN1FSMiHEqZwybgGi0h-EBhzt3Aua3LO-0SbMY8REvInlc6t498rEBXiEON9202kU52Gg1XGoUtbt89l"/>
-</div>
-<h3 class="text-lg font-light">TransLove &amp; TransFLOWer</h3>
-<p class="text-xs text-gray-500 mt-2 leading-relaxed">Fluid floral patterns celebrating identity and growth.</p>
-<span class="text-[10px] text-primary mt-3 block font-medium">Signature Motif</span>
-</div>
-<div class="group card-hover cursor-pointer">
-<div class="aspect-[3/4] overflow-hidden mb-6 bg-gray-50 border border-gray-100">
-<img alt="Flamant Rose" class="w-full h-full object-cover transition-transform duration-700" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAhxL3GBdpJjUJRPmFMx_apyJapKUHNsfJv5hMQTNONtBbZja4edpdtPMZRCEsavsNvCOgUzHiSpAz3mSMI43mWm3zWbdP4HG3cE-lBJzQcoLAH-9c4ZjnOR2d2616Uzwda51sWDBigXSILz2s8Rpdh6nUp-Xrs0drHSYnVFDZgJKEoDeojo5qWVq_3Z0yAn0QCu52xq3M2Sj_voEv3Uawd71Ogn4STH62QJ7x1YRygs9Hki-ft1ZhEPfIcQUNNzLLUuJiVRNLN49qq"/>
-</div>
-<h3 class="text-lg font-light">Flamant Rose</h3>
-<p class="text-xs text-gray-500 mt-2 leading-relaxed">Playful pink gradients and feather-light silk blends.</p>
-<span class="text-[10px] text-primary mt-3 block font-medium">Limited Edition</span>
-</div>
-<div class="group card-hover cursor-pointer">
-<div class="aspect-[3/4] overflow-hidden mb-6 bg-gray-50 border border-gray-100">
-<img alt="Édition Spatiale &amp; Crystal Skies" class="w-full h-full object-cover transition-transform duration-700" src="https://lh3.googleusercontent.com/aida-public/AB6AXuACTCjaRxPQnGB4rJnQOlIUMOSkK16FlF6fNwL0xohfFTxswI5L-H7O2j2hy_DI6OIUcbSJG9uw7CwW6n9cUt3JPa7W7STLZAG8YoW-lL2bLiZkxCE3coQ7fEn56vYdd_jxokBIo2B0vz8BfjSgzjt0ZBl1D4NU9hLMKlHjcm_Cz7j2a2qQ2B08fxaXFLRuTQA9y8vn39i1LEomCUqpaQ3qa6K46CWcabGD9PhyIfCr9bNOF5EtXzHimiuRBZi4_JGaseAbpSxYpw2U"/>
-</div>
-<h3 class="text-lg font-light">Édition Spatiale &amp; Crystal Skies</h3>
-<p class="text-xs text-gray-500 mt-2 leading-relaxed">Cosmic inspiration meets crystalline embroidery.</p>
-<span class="text-[10px] text-primary mt-3 block font-medium">Gala Wear</span>
-</div>
-</div>
-</div>
-</section>
-<div class="holographic-separator"></div>
-<section class="py-24 bg-gray-50">
-<div class="max-w-[1440px] mx-auto px-6">
-<h2 class="text-2xl font-light mb-12 text-center">Browse by Category</h2>
-<div class="grid grid-cols-2 md:grid-cols-5 gap-6">
-<div class="bg-white p-8 border border-gray-100 text-center hover:border-primary transition-colors cursor-pointer group">
-<h4 class="font-light group-hover:text-primary">For Her</h4>
-</div>
-<div class="bg-white p-8 border border-gray-100 text-center hover:border-primary transition-colors cursor-pointer group">
-<h4 class="font-light group-hover:text-primary">For Him</h4>
-</div>
-<div class="bg-white p-8 border border-gray-100 text-center hover:border-primary transition-colors cursor-pointer group">
-<h4 class="font-light group-hover:text-primary">Home &amp; Décor</h4>
-</div>
-<div class="bg-white p-8 border border-gray-100 text-center hover:border-primary transition-colors cursor-pointer group">
-<h4 class="font-light group-hover:text-primary">Accessories</h4>
-</div>
-<div class="bg-white p-8 border border-gray-100 text-center hover:border-primary transition-colors cursor-pointer group">
-<h4 class="font-light group-hover:text-primary">Hats</h4>
-</div>
-</div>
-</div>
-</section>
-<div class="holographic-separator"></div>
-<section class="py-24 px-6 bg-white">
-<div class="max-w-4xl mx-auto text-center">
-<h2 class="text-3xl font-light mb-6">'The Peaches' Loyalty Program</h2>
-<p class="text-gray-500 mb-16">Join our exclusive community and unlock tiered rewards curated for the modern muse.</p>
-<div class="grid grid-cols-2 lg:grid-cols-4 gap-8">
-<div class="p-8 border border-gray-100 rounded-2xl bg-gradient-to-b from-gray-50 to-white">
-<div class="w-12 h-12 bg-[#CD7F32]/10 rounded-full flex items-center justify-center mx-auto mb-4">
-<span class="material-symbols-outlined text-[#CD7F32]">workspace_premium</span>
-</div>
-<h4 class="font-medium mb-2">Bronze</h4>
-<p class="text-[10px] text-gray-400">Entry Level Rewards</p>
-</div>
-<div class="p-8 border border-gray-100 rounded-2xl bg-gradient-to-b from-gray-50 to-white">
-<div class="w-12 h-12 bg-gray-300/20 rounded-full flex items-center justify-center mx-auto mb-4">
-<span class="material-symbols-outlined text-gray-400">workspace_premium</span>
-</div>
-<h4 class="font-medium mb-2">Silver</h4>
-<p class="text-[10px] text-gray-400">Early Access Drops</p>
-</div>
-<div class="p-8 border border-gray-100 rounded-2xl bg-gradient-to-b from-gray-50 to-white">
-<div class="w-12 h-12 bg-yellow-400/10 rounded-full flex items-center justify-center mx-auto mb-4">
-<span class="material-symbols-outlined text-yellow-600">workspace_premium</span>
-</div>
-<h4 class="font-medium mb-2">Gold</h4>
-<p class="text-[10px] text-gray-400">Personal Styling</p>
-</div>
-<div class="p-8 border border-gray-100 rounded-2xl bg-gradient-to-b from-gray-50 to-white">
-<div class="w-12 h-12 bg-blue-100 rounded-full flex items-center justify-center mx-auto mb-4">
-<span class="material-symbols-outlined text-blue-400">workspace_premium</span>
-</div>
-<h4 class="font-medium mb-2">Platinum</h4>
-<p class="text-[10px] text-gray-400">VIP Event Access</p>
-</div>
-</div>
-</div>
-</section>
-</main>
-<footer class="bg-primary text-white pt-24 pb-12 px-6">
-<div class="max-w-[1440px] mx-auto">
-<div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-16 mb-20">
-<div class="space-y-8">
-<span class="material-symbols-outlined text-white" style="font-size: 36px;">diamond</span>
-<div class="space-y-4 text-sm font-light text-white/80">
-<p>1801 E Camelback Rd, Phoenix, AZ 85016, USA</p>
-<p>contact@tsgabrielle.us</p>
-</div>
-<div class="flex gap-6">
-<a class="hover:opacity-60 transition-opacity" href="#">
-<svg class="w-5 h-5 fill-current" viewBox="0 0 24 24"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.069-4.85.069-3.204 0-3.584-.012-4.849-.069-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z"></path></svg>
-</a>
-<a class="hover:opacity-60 transition-opacity" href="#">
-<svg class="w-5 h-5 fill-current" viewBox="0 0 24 24"><path d="M19.615 3.184c-3.604-.246-11.631-.245-15.23 0-3.897.266-4.356 2.62-4.385 8.816.029 6.185.484 8.549 4.385 8.816 3.6.245 11.626.246 15.23 0 3.897-.266 4.356-2.62 4.385-8.816-.029-6.185-.484-8.549-4.385-8.816zm-10.615 12.816v-8l8 3.993-8 4.007z"></path></svg>
-</a>
-</div>
-</div>
-<div>
-<h3 class="text-xs tracking-[0.2em] mb-8 opacity-60">Collections</h3>
-<ul class="space-y-4 text-sm font-light">
-<li><a class="hover:text-white/60 transition-colors" href="#">Peach Phoenix™</a></li>
-<li><a class="hover:text-white/60 transition-colors" href="#">Paris Collection</a></li>
-<li><a class="hover:text-white/60 transition-colors" href="#">TransLove</a></li>
-<li><a class="hover:text-white/60 transition-colors" href="#">Édition Spatiale</a></li>
-</ul>
-</div>
-<div>
-<h3 class="text-xs tracking-[0.2em] mb-8 opacity-60">Assistance</h3>
-<ul class="space-y-4 text-sm font-light">
-<li><a class="hover:text-white/60 transition-colors" href="#">Shipping &amp; Returns</a></li>
-<li><a class="hover:text-white/60 transition-colors" href="#">The Peaches Loyalty</a></li>
-<li><a class="hover:text-white/60 transition-colors" href="#">Size Guide</a></li>
-<li><a class="hover:text-white/60 transition-colors" href="#">Sustainability</a></li>
-</ul>
-</div>
-<div>
-<h3 class="text-xs tracking-[0.2em] mb-8 opacity-60">Catalogue</h3>
-<p class="text-sm font-light text-white/70 mb-6">Receive the 2026 digital catalogue.</p>
-<form class="flex border-b border-white/20 pb-2">
-<input class="bg-transparent border-none text-white text-sm font-light focus:ring-0 placeholder:text-white/40 grow" placeholder="Email address" type="email"/>
-<button class="text-xs tracking-widest hover:opacity-60 transition-opacity" type="button">Request</button>
-</form>
-</div>
-</div>
-<div class="pt-8 border-t border-white/10 flex flex-col md:flex-row justify-between items-center gap-6 text-[10px] tracking-widest opacity-60">
-<p>© 2026 tsgabrielle®. All rights reserved.</p>
-<div class="flex gap-8">
-<a href="#">Privacy Policy</a>
-<a href="#">Terms of Service</a>
-</div>
-</div>
-</div>
-</footer>
-</div>
+    </head>
 
-</body></html>
+    <body class="min-h-screen">
+        <!-- Eternal Glass Header -->
+        <header class="fixed top-0 left-0 right-0 z-50 glass-header px-8 py-4 flex items-center justify-between">
+            <div class="flex items-center gap-3 group cursor-pointer">
+                <div
+                    class="size-8 rounded-full bg-white flex items-center justify-center text-primary shadow-lg shadow-white/20">
+                    <span class="material-symbols-outlined text-xl">diamond</span>
+                </div>
+                <span class="text-xl tracking-tight text-white">tsgabrielle</span>
+            </div>
+
+            <nav class="hidden md:flex items-center gap-12">
+                <a href="#" class="text-sm text-white/80 hover:text-white transition-colors">Shop</a>
+                <a href="#" class="text-sm text-white/80 hover:text-white transition-colors font-medium">Collections</a>
+                <a href="#" class="text-sm text-white/80 hover:text-white transition-colors">About</a>
+                <a href="#" class="text-sm text-white/80 hover:text-white transition-colors">Journal</a>
+                <a href="#" class="text-sm text-white/80 hover:text-white transition-colors">Loyalty</a>
+            </nav>
+
+            <div class="flex items-center gap-6 text-white/80">
+                <span class="material-symbols-outlined cursor-pointer hover:text-white transition-colors">search</span>
+                <span class="material-symbols-outlined cursor-pointer hover:text-white transition-colors relative">
+                    shopping_bag
+                    <span class="absolute -top-1 -right-1 size-2 bg-primary rounded-full"></span>
+                </span>
+                <span class="material-symbols-outlined cursor-pointer hover:text-white transition-colors">person</span>
+            </div>
+        </header>
+
+        <main>
+            <!-- Arizona Hero Section -->
+            <section class="relative h-screen flex items-center justify-center overflow-hidden">
+                <!-- Arizona Hero Image (Monument Valley Dusk) -->
+                <img src="/images/arizona-collection.png" alt="Arizona Monument Valley at Dusk"
+                    class="absolute inset-0 w-full h-full object-cover scale-105">
+
+                <!-- Dark Overlay for Readability -->
+                <div class="absolute inset-0 bg-black/20"></div>
+
+                <!-- Content Container -->
+                <div class="relative z-10 text-center text-white px-6">
+                    <h2 class="text-7xl md:text-9xl mb-4 tracking-[0.2em] font-extralight text-shimmer">ARIZONA</h2>
+                    <p class="text-lg md:text-xl tracking-[0.5em] font-light opacity-80 mb-12">A DESERT DREAM • 2026</p>
+                    <button
+                        class="px-12 py-4 bg-white/10 backdrop-blur-md border border-white/30 text-white tracking-widest text-xs hover:bg-white hover:text-charcoal transition-all duration-700 uppercase">
+                        Explore the Drops
+                    </button>
+                </div>
+
+                <!-- Bottom Gradient -->
+                <div class="absolute bottom-0 left-0 right-0 h-32 bg-gradient-to-t from-white to-transparent"></div>
+            </section>
+
+            <!-- The Collection Narrative -->
+            <section class="max-w-4xl mx-auto px-6 py-32 text-center">
+                <span class="material-symbols-outlined text-brand-terracotta text-4xl mb-8">cactus</span>
+                <h3 class="text-3xl mb-12 tracking-wide font-light">The French Trans Touch in the Desert Sun</h3>
+                <p class="text-xl leading-relaxed text-charcoal/70 mb-16">
+                    A unique dialogue between the classical elegance of Paris and the vibrant energy of Phoenix.
+                    This connection defines our aesthetic: the meticulous craftsmanship of French couture paired with
+                    the raw,
+                    transformative spirit of the desert sun. It is a celebration of the trans experience through the
+                    lens of global sophistication.
+                </p>
+                <div class="h-px w-32 bg-primary/20 mx-auto"></div>
+            </section>
+
+            <!-- Visual Grid -->
+            <section class="grid grid-cols-1 md:grid-cols-2 gap-px bg-gray-100">
+                <div class="aspect-square bg-white relative overflow-hidden group">
+                    <img src="https://images.unsplash.com/photo-1469854523086-cc02fe5d8800?q=80&w=1441&auto=format&fit=crop"
+                        class="w-full h-full object-cover grayscale group-hover:grayscale-0 transition-all duration-1000">
+                    <div class="absolute inset-0 bg-primary/10 opacity-0 group-hover:opacity-100 transition-opacity">
+                    </div>
+                </div>
+                <div class="aspect-square bg-white flex flex-col items-center justify-center p-20 text-center">
+                    <h4 class="text-2xl mb-6 tracking-widest font-light text-brand-terracotta">TERRACOTTA DREAMS</h4>
+                    <p class="text-charcoal/60 leading-relaxed mb-8">
+                        Inspired by the clay of the Superstition Mountains, our Ready-to-Wear line embraces earthy
+                        palettes and twilight mauves.
+                    </p>
+                    <a href="#"
+                        class="text-xs border-b border-primary text-primary pb-2 hover:opacity-60 transition-opacity uppercase tracking-widest">Shop
+                        Ready-to-Wear</a>
+                </div>
+            </section>
+        </main>
+
+        <!-- Eternal Footer -->
+        <footer class="bg-charcoal text-white py-24 px-8 border-t border-white/5">
+            <div class="max-w-7xl mx-auto grid grid-cols-1 md:grid-cols-4 gap-16">
+                <div class="md:col-span-2">
+                    <div class="flex items-center gap-3 mb-8">
+                        <div class="size-6 text-primary">
+                            <span class="material-symbols-outlined text-lg">diamond</span>
+                        </div>
+                        <span class="text-lg tracking-tight">tsgabrielle</span>
+                    </div>
+                    <p class="text-white/40 max-w-sm text-sm leading-relaxed mb-8">
+                        High-end fashion for the modern identity. Paris heritage, Phoenix soul. Worldwide shipping for
+                        the global Maison.
+                    </p>
+                    <div class="flex gap-8 text-white/40">
+                        <a href="#"
+                            class="hover:text-primary transition-colors text-xs uppercase tracking-widest">Instagram</a>
+                        <a href="#"
+                            class="hover:text-primary transition-colors text-xs uppercase tracking-widest">TikTok</a>
+                        <a href="#"
+                            class="hover:text-primary transition-colors text-xs uppercase tracking-widest">Pinterest</a>
+                    </div>
+                </div>
+
+                <div>
+                    <h5 class="text-xs uppercase tracking-[0.3em] font-medium mb-8">Maison</h5>
+                    <ul class="space-y-4 text-sm text-white/40">
+                        <li><a href="#" class="hover:text-white transition-colors">The Brand</a></li>
+                        <li><a href="#" class="hover:text-white transition-colors">Stories</a></li>
+                        <li><a href="#" class="hover:text-white transition-colors">Loyalty</a></li>
+                        <li><a href="#" class="hover:text-white transition-colors">Sitemap</a></li>
+                    </ul>
+                </div>
+
+                <div>
+                    <h5 class="text-xs uppercase tracking-[0.3em] font-medium mb-8">Legal</h5>
+                    <ul class="space-y-4 text-sm text-white/40">
+                        <li><a href="#" class="hover:text-white transition-colors">Privacy</a></li>
+                        <li><a href="#" class="hover:text-white transition-colors">Terms</a></li>
+                        <li><a href="#" class="hover:text-white transition-colors">Returns</a></li>
+                        <li><a href="#" class="hover:text-white transition-colors">Accessibility</a></li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="max-w-7xl mx-auto mt-24 pt-8 border-t border-white/5 text-center">
+                <p class="text-[10px] text-white/20 uppercase tracking-[.5em]">© 2026 tsgabrielle® • Paris — Phoenix</p>
+            </div>
+        </footer>
+    </body>
+
+</html>

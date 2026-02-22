@@ -2,47 +2,23 @@
 **Project ID:** 14663654536230992593
 
 ## 1. Visual Theme & Atmosphere
-The design is clean, premium, and airy, embodying "The French Trans Touch™". It feels sophisticated yet rebellious, with a focus on high-fashion minimalism and expressive artistry. The atmosphere is open and luminous, avoiding heavy or dark themes unless for specific focus areas, with a "Digital Maison" aesthetic.
+The design is clean, premium, and airy, embodying "The French Trans Touch™". It feels sophisticated yet rebellious with a focus on high-fashion minimalism and expressive artistry. The atmosphere is open and luminous, with a "Digital Maison" aesthetic.
 
 ## 2. Color Palette & Roles
-- **Pure White (#ffffff):** The primary background color for all pages, providing a clean and high-end feel.
-- **Amethyst Glow (#bf12de):** The primary accent color used for branding, primary buttons, and interactive elements.
-- **Mirror Holographic (#bf12de to #00d4ff linear gradient):** Used for "discreet mirror holographic effects" on separators, subtle overlays, or hover states.
-- **Charcoal Text (#1a1a1a):** Primary text color for maximum legibility on white backgrounds.
-- **Soft Muted Gray (#f8f6f8):** Secondary background or surface color for subtle contrast.
+- **Pure White (#ffffff):** Primary background color.
+- **Amethyst Glow (#a932bd):** Primary brand accent.
+- **Charcoal Text (#1a1a1a):** Primary text.
+- **Arizona Terracotta (#c07e60):** Collection specific accent.
+- **Twilight Mauve (#8a7b8e):** Collection specific atmospheric accent.
 
-## 3. Brand Architecture & Catalogue (2026 Official)
-The store is organized around expressive, identity-forward collections that blend Parisian heritage with American Southwest energy.
-
-### Signature Collections & Aesthetic Directions:
-- **Peach Phoenix™**: Symbolizing rebirth. High-contrast, radiant, and empowering (Graphic Totes).
-- **Paris**: Timeless French minimalism. Red/Blue accents, architectural inspiration (Beanies, Glass cases).
-- **Unicorn**: Magical and ethereal. Iridescent finishes, pastels, and whimsy (Holographic stickers).
-- **Arizona**: A Desert Dream. Earthy palettes, terracotta, and twilight mauve (Saguaro motifs).
-- **Womanizer**: Bold elegance and feminine power. Deep reds and confident silhouettes.
-- **TransLove & TransFLOWer**: Celebrating the trans journey. Soft gradients, floral motifs, and empowering typography.
-- **Flamant Rose**: Pink Flamingo tropical luxury. Vibrant pinks and tropical chic.
-- **Édition Spatiale & Crystal Skies**: Celestial and atmospheric. Holographic details, airy blues, and crystalline patterns.
-- **Pride 25 & Good Vibes Only**: Celebratory and positive. High-spectrum colors and uplifting energy.
-
-### Product Categorization:
-- **For Her**: Sophisticated silhouettes and limited edition evening gowns.
-- **For Him**: Refined essentials (adidas® and Champion® collaborations).
-- **Home & Décor**: Sanctuaries of joy (Wine tumblers, panoramic stickers).
-- **Accessories & Hats**: The finishing touches (Crossbody bags, Trucker caps, Cuffed beanies).
+## 3. Signature Collection: Arizona 🌵
+A Desert Dream. A unique dialogue between the classical elegance of Paris and the vibrant energy of Phoenix. This connection defines the aesthetic: the meticulous craftsmanship of French couture paired with the raw, transformative spirit of the desert sun.
 
 ## 4. Typography Rules
-- **Font Family:** Lato Light (Weight 300) for all text to achieve a slim, elegant, and premium look. 
-- **Text Casing:** Standard casing (Sentence case or Title case). **Strictly avoid "ALL CAPS"** for body text and navigation.
-- **Weights:** Light (300) for body and secondary headings.
+- **Font Family:** Lato Light (Weight 300) for all text.
+- **Text Casing:** Standard casing (no all-caps for body/nav).
+- **Weights:** Light (300).
 
-## 5. Component Stylings
-* **Logo Branding:** Use only the logo image (symbol). **NO TEXT**.
-* **Buttons:** Gently rounded, with subtle holographic hover effects. Primary actions use Amethyst Glow.
-* **Navigation:** Clear categorization into "Shop", "Collections", "About", and "Loyalty".
-* **Separators:** Iridescent thin lines.
-
-## 6. Layout Principles
-- **Homepage Hero:** Full-screen slideshow with 3 high-impact fashion photographs.
-- **Collections Grid:** Visual-heavy grid showing the diverse 2026 collections.
-- **Loyalty Program (The 'Peaches' Program):** Visible tiering (Bronze to Platinum) with distinct visual markers.
+## 5. Eternal Elements
+- **Logo:** Peach icon symbol followed by "tsgabrielle".
+- **Header/Footer:** Glassmorphism blur effects with white/transparent variations.
