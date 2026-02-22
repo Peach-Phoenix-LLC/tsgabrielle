@@ -25,7 +25,7 @@
 .grain {
     position: absolute;
     inset: 0;
-    background-image: url("https://grainy-gradients.vercel.app/noise.svg");
+    background-image: url("/images/noise.svg");
     opacity: 0.15;
     z-index: 2;
     pointer-events: none;

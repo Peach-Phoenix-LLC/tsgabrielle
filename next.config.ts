@@ -14,7 +14,7 @@ const nextConfig: NextConfig = {
       },
       {
         protocol: 'https',
-        hostname: 'grainy-gradients.vercel.app',
+        hostname: 'files.cdn.printful.com',
       },
     ],
   },

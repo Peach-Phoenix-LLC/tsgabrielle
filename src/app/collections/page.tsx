@@ -10,7 +10,7 @@ export const metadata = {
 
 export default function CollectionsPage() {
     return (
-        <main className="min-h-screen bg-[#050406] text-white font-sans">
+        <main className="min-h-screen bg-white text-[#1a1a1a] font-sans">
             <ModernNavbar />
             <div className="pt-20">
                 <CollectionsGrid />

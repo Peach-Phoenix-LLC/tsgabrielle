@@ -26,7 +26,7 @@ const CollectionsGrid = () => {
     return (
         <section className={styles.section}>
             <div className={styles.container}>
-                <h2 className={styles.heading}>CURATED COLLECTIONS</h2>
+                <h2 className={styles.heading}>curated collections</h2>
                 <div className={styles.divider}></div>
 
                 {/* --- Search & Filters --- */}
@@ -48,7 +48,7 @@ const CollectionsGrid = () => {
                                 className={`${styles.pill} ${activeCategory === category ? styles.pillActive : ''}`}
                                 onClick={() => setActiveCategory(category)}
                             >
-                                {category}
+                                {category.toLowerCase()}
                             </button>
                         ))}
                     </div>

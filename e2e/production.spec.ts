@@ -2,7 +2,7 @@ import { test, expect } from '@playwright/test';
 
 test.describe('Production Smoke Tests', () => {
 
-    test.use({ baseURL: 'https://tsg-mauve.vercel.app' });
+    test.use({ baseURL: 'https://tsgabrielle.us' });
 
     test('User Flow: Homepage to Collection to Product to Cart', async ({ page }) => {
         // 1. Visit Homepage

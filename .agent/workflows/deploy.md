@@ -1,12 +1,12 @@
 ---
-description: How to deploy the tsgabrielle® Next.js storefront to Vercel production
+description: How to deploy the tsgabrielle® Next.js storefront to Google Cloud Run production
 ---
 
-# tsgabrielle® — Complete Deployment Guide 🚀
+# tsgabrielle® — Deployment Guide 🚀
 
-This workflow guides you from local code to live production at [tsg-mauve.vercel.app](https://tsg-mauve.vercel.app/).
+This workflow deploys from local code to live production at [tsgabrielle.us](https://tsgabrielle.us) via **Google Cloud Run**.
 
-**Stack:** Next.js 16 · Prisma 7 · Supabase · Vercel · Google OAuth · PayPal
+**Stack:** Next.js 16 · Prisma · Supabase · Google Cloud Run · Google OAuth · PayPal
 
 ---
 
@@ -46,11 +46,9 @@ Open [http://localhost:3000](http://localhost:3000) to verify collections, cart,
 
 ## Phase 2 — Environment Variables 🔑
 
-All secrets must be configured in **both** your local `.env` and the **Vercel Dashboard** before deploying.
+All secrets must be configured in your local `.env` and in the **Google Cloud Run** service environment variables.
 
-Navigate to: **[Vercel Dashboard → tsg project → Settings → Environment Variables](https://vercel.com/gabrielles-projects-451a3298/tsg/settings/environment-variables)**
-
-Add the following variables for **Production**, **Preview**, and **Development** environments:
+Navigate to: **[Google Cloud Console → Cloud Run → tsgabrielle-storefront → Edit & Deploy New Revision → Environment Variables](https://console.cloud.google.com/run)**
 
 | Variable | Where to get it |
 |---|---|
@@ -60,39 +58,37 @@ Add the following variables for **Production**, **Preview**, and **Development**
 | `SUPABASE_SERVICE_ROLE_KEY` | Supabase → Project → Settings → API → service_role key |
 | `GOOGLE_CLIENT_ID` | [Google Cloud Console](https://console.cloud.google.com/) → Credentials |
 | `GOOGLE_CLIENT_SECRET` | Google Cloud Console → Credentials |
-| `NEXTAUTH_URL` | Set to your production URL: `https://tsg-mauve.vercel.app` |
-| `NEXTAUTH_SECRET` | Any secure random string (32+ chars). Use: `openssl rand -base64 32` |
-| `ADMIN_EMAIL` | Your admin email: `yridoutt@gmail.com` |
+| `NEXTAUTH_URL` | Set to: `https://tsgabrielle.us` |
+| `NEXTAUTH_SECRET` | Any secure random string (32+ chars) |
+| `ADMIN_EMAIL` | `yridoutt@gmail.com` |
 
-> ⚠️ **CRITICAL**: `NEXTAUTH_URL` must be `https://tsg-mauve.vercel.app` in production, NOT `http://localhost:3000`.
+> ⚠️ **CRITICAL**: `NEXTAUTH_URL` must be `https://tsgabrielle.us` in production.
 
 ---
 
 ## Phase 3 — Google OAuth Production Setup 🔐
 
-Your Google OAuth was configured for `localhost`. You must add the production URL.
-
-1. Go to [Google Cloud Console](https://console.cloud.google.com/) → Your Project → APIs & Services → Credentials.
+1. Go to [Google Cloud Console](https://console.cloud.google.com/) → APIs & Services → Credentials.
 2. Click your OAuth 2.0 Client ID.
 3. Under **Authorized redirect URIs**, add:
 
    ```
-   https://tsg-mauve.vercel.app/api/auth/callback/google
+   https://tsgabrielle.us/api/auth/callback/google
    ```
 
 4. Under **Authorized JavaScript origins**, add:
 
    ```
-   https://tsg-mauve.vercel.app
+   https://tsgabrielle.us
    ```
 
 5. Click **Save**.
 
 ---
 
-## Phase 4 — Push to GitHub & Auto-Deploy 🐙
+## Phase 4 — Push to GitHub (triggers Cloud Build CI/CD) 🐙
 
-Vercel auto-deploys on every push to main. This is the standard flow:
+Cloud Build auto-deploys to Cloud Run on every push to main.
 
 ### Step 1: Stage your changes
 
@@ -103,51 +99,39 @@ git add -A
 ### Step 2: Commit with a descriptive message
 
 ```powershell
-git commit -m "feat: universal collection immersion — 14 drops live"
+git commit -m "feat: your change description"
 ```
 
-### Step 3: Push to GitHub (triggers auto-deploy)
+### Step 3: Push to GitHub (triggers Cloud Build → Cloud Run deploy)
 
 ```powershell
 git push origin main
 ```
 
-> ⚡ Vercel will automatically pick up the push and run: `npx prisma generate && next build`
+> ⚡ Cloud Build picks up the push, builds the Docker container, and deploys to Cloud Run automatically.
 
 ---
 
-## Phase 5 — Manual Deploy via Vercel CLI (Alternative) 🛠️
+## Phase 5 — Manual Deploy via gcloud CLI (Alternative) 🛠️
 
-If you prefer a manual deploy or need to push without GitHub:
+If you need to force a deploy manually:
 
-### Step 1: Run Vercel in a command prompt (not PowerShell — scripts are disabled)
-
-Open **Command Prompt (`cmd.exe`)** and navigate to your project:
-
-```cmd
-cd C:\Users\ChrisWork\Documents\tsg-us
+```powershell
+gcloud run deploy tsgabrielle-storefront --source . --region us-central1 --project tsgabrielle-storefront-357687079974
 ```
-
-### Step 2: Deploy to production
-
-```cmd
-npx vercel --prod
-```
-
-> 💡 You must use `cmd.exe` (not PowerShell) due to Windows execution policy restrictions.
 
 ---
 
 ## Phase 6 — Post-Deploy Verification 🧪
 
-After deployment completes (usually 2-3 minutes):
+After deployment completes (usually 3-5 minutes):
 
-1. **Visit the live site**: [https://tsg-mauve.vercel.app](https://tsg-mauve.vercel.app)
-2. **Check all 14 collection pages** load correctly (e.g., `/collections/peach-phoenix`, `/collections/womanizer`)
+1. **Visit the live site**: [https://tsgabrielle.us](https://tsgabrielle.us)
+2. **Check all collection pages** load correctly (e.g., `/collections/arizona`, `/collections/peach-phoenix`)
 3. **Test Google OAuth sign-in** — should redirect correctly and create a user session.
 4. **Test the cart** — add products, remove products, verify totals.
 5. **Test admin access** — log in as `yridoutt@gmail.com` and verify `/admin` is accessible.
-6. **Check the Vercel deployment logs** for any runtime errors: Vercel Dashboard → tsg → Deployments → View Logs.
+6. **Check Cloud Run logs**: [Google Cloud Console → Cloud Run → tsgabrielle-storefront → Logs](https://console.cloud.google.com/run)
 
 ---
 
@@ -157,6 +141,6 @@ After deployment completes (usually 2-3 minutes):
 |---|---|
 | Build fails with Prisma error | Run `npx prisma generate` locally first, then push |
 | Google Sign-In fails on production | Verify the redirect URI is in Google Cloud Console |
-| 500 error on collection pages | Check Supabase env vars are set in Vercel dashboard |
-| `NEXTAUTH_SECRET` error | Ensure it's set in Vercel environment variables |
-| `npx` not running in PowerShell | Use `cmd.exe` instead |
+| 500 error on collection pages | Check Supabase env vars are set in Cloud Run environment variables |
+| `NEXTAUTH_SECRET` error | Ensure it's set in Cloud Run environment variables |
+| Image not showing | Ensure the image is in `public/images/` and committed to git |

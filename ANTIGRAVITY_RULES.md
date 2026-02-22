@@ -23,7 +23,7 @@ Only the following technologies are approved. Do not introduce anything outside 
 
 | Layer                    | Technology                                                 |
 | ------------------------ | ---------------------------------------------------------- |
-| Hosting & Deployment     | Vercel                                                     |
+| Hosting & Deployment     | Google Cloud Run                                           |
 | Source Control           | [github.com/Peach-Phoenix-LLC/ts](https://github.com/Peach-Phoenix-LLC/ts) |
 | Database & Auth Backend  | Supabase                                                   |
 | Authentication           | Google OAuth via Supabase Auth                             |
@@ -42,7 +42,7 @@ Only the following technologies are approved. Do not introduce anything outside 
 
 ## 3. ENVIRONMENT VARIABLES
 
-All secrets must live in `.env.local` (local) and Vercel Environment Variables (production). Never hardcode secrets in code.
+All secrets must live in `.env.local` (local) and Google Cloud Run Environment Variables (production). Never hardcode secrets in code.
 
 ```env
 NEXT_PUBLIC_SUPABASE_URL
@@ -59,7 +59,7 @@ NEXT_PUBLIC_SITE_URL=https://tsgabrielle.us
 
 - `NEXT_PUBLIC_` prefix = safe for browser
 - All secrets (PayPal Secret, Supabase Service Role, Printful Key) = server-side only, never exposed to client
-- Always verify env vars are set in Vercel before deploying
+- Always verify env vars are set in Cloud Run before deploying
 
 ---
 
@@ -70,7 +70,7 @@ NEXT_PUBLIC_SITE_URL=https://tsgabrielle.us
 ```bash
 /components     → Reusable UI components (e.g. PaymentButtons.jsx)
 /pages          → Next.js pages (or /app for App Router)
-/api            → Vercel serverless functions
+/api            → Next.js API routes (served by Cloud Run)
 /lib            → Shared utilities (supabaseClient.js, etc.)
 /styles         → Global CSS
 ```
@@ -148,7 +148,7 @@ Before any deployment or major change, run through this checklist:
 
 ### ✅ Verify
 
-- [ ] All env vars present in Vercel dashboard
+- [ ] All env vars present in Google Cloud Run environment variables
 - [ ] Google OAuth redirect URIs include `https://tsgabrielle.us`
 - [ ] Supabase Auth redirect URLs include `https://tsgabrielle.us/**`
 - [ ] PayPal app has `https://tsgabrielle.us` as allowed return URL
@@ -165,7 +165,7 @@ Before any deployment or major change, run through this checklist:
 
 ### ✅ Analyze
 
-- [ ] Check Vercel build logs for errors or warnings
+- [ ] Check Cloud Run logs for errors or warnings
 - [ ] Check Supabase logs for failed queries
 - [ ] Check PayPal Developer dashboard for failed transactions
 - [ ] Check Printful dashboard for pending/failed orders

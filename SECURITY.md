@@ -18,7 +18,7 @@ Security is the base layer of the Maison. Every change must be validated against
 
 ## 4. Infrastructure & Deployment
 
-- **Vercel Edge Security**: Traffic is filtered through Vercel's global WAF.
+- **Google Cloud Run Security**: Traffic is served via Google Cloud Run with edge protection and HTTPS enforced.
 - **Rate Limiting**: Critical endpoints (Checkout, Login) implement tiered rate limiting.
 - **Dependency Sanitization**: Automated `npm audit` on every build to prevent supply chain attacks.
 
