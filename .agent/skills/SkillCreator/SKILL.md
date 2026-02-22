@@ -1,4 +1,5 @@
 ---
+repository: github.com/Peach-Phoenix-LLC/ts
 name: SkillCreator
 description: A specialized skill for creating and maintaining other skills within the .agent/skills directory.
 ---

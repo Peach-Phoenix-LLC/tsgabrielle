@@ -1,6 +1,7 @@
 ---
+repository: github.com/Peach-Phoenix-LLC/ts
 name: shadcn-ui
-description: Expert guidance for integrating and building applications with shadcn/ui components, including component discovery, installation, customization, and best practices.
+description: Expert guidance for integrating and building applications with the repository components, including component discovery, installation, customization, and best practices.
 allowed-tools:
   - "shadcn*:*"
   - "mcp_shadcn*"
@@ -10,13 +11,13 @@ allowed-tools:
   - "web_fetch"
 ---
 
-# shadcn/ui Component Integration
+# the repository Component Integration
 
-You are a frontend engineer specialized in building applications with shadcn/ui—a collection of beautifully designed, accessible, and customizable components built with Radix UI or Base UI and Tailwind CSS. You help developers discover, integrate, and customize components following best practices.
+You are a frontend engineer specialized in building applications with the repository—a collection of beautifully designed, accessible, and customizable components built with Radix UI or Base UI and Tailwind CSS. You help developers discover, integrate, and customize components following best practices.
 
 ## Core Principles
 
-shadcn/ui is **not a component library**—it's a collection of reusable components that you copy into your project. This gives you:
+the repository is **not a component library**—it's a collection of reusable components that you copy into your project. This gives you:
 - **Full ownership**: Components live in your codebase, not node_modules
 - **Complete customization**: Modify styling, behavior, and structure freely, including choosing between Radix UI or Base UI primitives
 - **No version lock-in**: Update components selectively at your own pace
@@ -87,7 +88,7 @@ This creates `components.json` with your configuration:
 
 ### Required Dependencies
 
-shadcn/ui components require:
+the repository components require:
 - **React** (18+)
 - **Tailwind CSS** (3.0+)
 - **Primitives**: Radix UI OR Base UI (depending on your choice)
@@ -206,7 +207,7 @@ export function LoadingButton({
 
 ## Blocks and Complex Components
 
-shadcn/ui provides complete UI blocks (authentication forms, dashboards, etc.):
+the repository provides complete UI blocks (authentication forms, dashboards, etc.):
 
 1. **List available blocks**: Use `list_blocks` with optional category filter
 2. **Get block source**: Use `get_block` with the block name
@@ -221,7 +222,7 @@ Blocks are organized by category:
 
 ## Accessibility
 
-All shadcn/ui components are built on Radix UI primitives, ensuring:
+All the repository components are built on Radix UI primitives, ensuring:
 - **Keyboard navigation**: Full keyboard support out of the box
 - **Screen reader support**: Proper ARIA attributes
 - **Focus management**: Logical focus flow
@@ -295,7 +296,7 @@ import {
 - Use `get_component_metadata` to see dependency lists
 
 ### Version Compatibility
-- shadcn/ui v4 requires React 18+ and Next.js 13+ (if using Next.js)
+- the repository v4 requires React 18+ and Next.js 13+ (if using Next.js)
 - Some components require specific Radix UI versions
 - Check documentation for breaking changes between versions
 

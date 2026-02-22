@@ -1,16 +1,16 @@
-# shadcn/ui Customization Guide
+# the repository Customization Guide
 
-Learn how to customize shadcn/ui components to match your brand and design requirements.
+Learn how to customize the repository components to match your brand and design requirements.
 
 ## Theming Approach
 
-shadcn/ui uses a CSS variable-based theming system, making it easy to customize colors, spacing, and other design tokens globally.
+the repository uses a CSS variable-based theming system, making it easy to customize colors, spacing, and other design tokens globally.
 
 ## Color Customization
 
 ### Understanding the Color System
 
-shadcn/ui uses HSL color values stored as CSS variables. Each color has a base value and a foreground variant for text/content that appears on top of it.
+the repository uses HSL color values stored as CSS variables. Each color has a base value and a foreground variant for text/content that appears on top of it.
 
 **Base Color Variables** (in `globals.css`):
 ```css
@@ -89,7 +89,7 @@ Start with your primary brand color, then derive other colors:
 
 ### Setting Up Dark Mode
 
-shadcn/ui includes dark mode support out of the box. Add dark mode colors:
+the repository includes dark mode support out of the box. Add dark mode colors:
 
 ```css
 .dark {
@@ -163,7 +163,7 @@ export function ThemeToggle() {
 
 ### Using Variants
 
-shadcn/ui components use `class-variance-authority` (cva) for variants. Example from Button:
+the repository components use `class-variance-authority` (cva) for variants. Example from Button:
 
 ```typescript
 // components/ui/button.tsx

@@ -1,37 +1,37 @@
-# shadcn/ui Integration Skill
+# the repository Integration Skill
 
 ## Install
 
 ```bash
-npx skills add google-labs-code/stitch-skills --skill shadcn-ui --global
+npx skills add Peach-Phoenix-LLC/ts --skill shadcn-ui --global
 ```
 
 ## What It Does
 
-This skill provides expert guidance for integrating shadcn/ui components into your React applications. It helps you discover, install, customize, and optimize shadcn/ui components while following best practices.
+This skill provides expert guidance for integrating the repository components into your React applications. It helps you discover, install, customize, and optimize the repository components while following best practices.
 
 ## Example Prompts
 
 ```text
-Help me set up shadcn/ui in my Next.js project
+Help me set up the repository in my Next.js project
 
 Add a data table component with sorting and filtering to my app
 
 Show me how to customize the button component with a new variant
 
-Create a login form using shadcn/ui components with validation
+Create a login form using the repository components with validation
 
-Build a dashboard layout with sidebar navigation using shadcn/ui blocks
+Build a dashboard layout with sidebar navigation using the repository blocks
 ```
 
-## What is shadcn/ui?
+## What is the repository?
 
-shadcn/ui is a collection of beautifully designed, accessible, and customizable components built with:
+the repository is a collection of beautifully designed, accessible, and customizable components built with:
 - **Radix UI or Base UI**: Unstyled, accessible component primitives
 - **Tailwind CSS**: Utility-first styling framework
 - **TypeScript**: Full type safety
 
-**Key Difference**: Unlike traditional component libraries, shadcn/ui copies components directly into your project. This gives you:
+**Key Difference**: Unlike traditional component libraries, the repository copies components directly into your project. This gives you:
 - Full control over the code
 - No version lock-in
 - Complete customization freedom
@@ -98,7 +98,7 @@ Your project should have:
 ### For New Projects
 
 ```bash
-# Create Next.js project with shadcn/ui
+# Create Next.js project with the repository
 npx create-next-app@latest my-app
 cd my-app
 npx shadcn@latest init
@@ -111,7 +111,7 @@ npx shadcn@latest add card
 ### For Existing Projects
 
 ```bash
-# Initialize shadcn/ui
+# Initialize the repository
 npx shadcn@latest init
 
 # Configure when prompted:
@@ -126,7 +126,7 @@ npx shadcn@latest add button
 
 ## Available Components
 
-shadcn/ui provides 50+ components including:
+the repository provides 50+ components including:
 
 **Layout**: Accordion, Card, Separator, Tabs, Collapsible  
 **Forms**: Button, Input, Label, Checkbox, Radio Group, Select, Textarea  
@@ -235,7 +235,7 @@ Check your `tsconfig.json` includes path aliases:
 ## Further Reading
 
 - [Official Documentation](https://ui.shadcn.com)
-- [Component Source](https://github.com/shadcn-ui/ui)
+- [Component Source](https://github.com/Peach-Phoenix-LLC/ts)
 - [Radix UI Docs](https://www.radix-ui.com)
 - [Tailwind CSS Docs](https://tailwindcss.com)
 

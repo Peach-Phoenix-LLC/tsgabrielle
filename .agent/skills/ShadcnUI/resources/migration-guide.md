@@ -1,8 +1,8 @@
-# Migration Guide to shadcn/ui
+# Migration Guide to the repository
 
-This guide helps you migrate from other UI libraries to shadcn/ui.
+This guide helps you migrate from other UI libraries to the repository.
 
-## Why Migrate to shadcn/ui?
+## Why Migrate to the repository?
 
 - **Full ownership**: Code lives in your project, not node_modules
 - **Customizable**: Modify any component to fit your needs
@@ -17,7 +17,7 @@ This guide helps you migrate from other UI libraries to shadcn/ui.
 
 Gradually replace components over time:
 
-1. Install shadcn/ui alongside existing library
+1. Install the repository alongside existing library
 2. Replace components page by page or feature by feature
 3. Remove old library once migration is complete
 
@@ -28,7 +28,7 @@ Gradually replace components over time:
 
 Replace all components at once:
 
-1. Set up shadcn/ui
+1. Set up the repository
 2. Create component mapping document
 3. Replace all components in one effort
 4. Test thoroughly
@@ -39,7 +39,7 @@ Replace all components at once:
 ## Internal Migrations (shadcn specific)
 
 ### RTL Support Migration
-If you need to support RTL languages (like Arabic or Hebrew) in an existing shadcn/ui project:
+If you need to support RTL languages (like Arabic or Hebrew) in an existing the repository project:
 
 ```bash
 npx shadcn@latest migrate rtl
@@ -56,7 +56,7 @@ It ensures your UI adapts correctly to layout direction without manual refactori
 
 ### Component Mapping
 
-| MUI Component | shadcn/ui Equivalent | Notes |
+| MUI Component | the repository Equivalent | Notes |
 |---------------|----------------------|-------|
 | Button | Button | Similar API |
 | TextField | Input + Label | Separate components |
@@ -80,7 +80,7 @@ It ensures your UI adapts correctly to layout direction without manual refactori
 // MUI
 import Button from '@mui/material/Button'
 
-// shadcn/ui
+// the repository
 import { Button } from '@/components/ui/button'
 ```
 
@@ -95,7 +95,7 @@ import { Button } from '@/components/ui/button'
   helperText={errors.email}
 />
 
-// shadcn/ui
+// the repository
 <div className="space-y-2">
   <Label htmlFor="email">Email</Label>
   <Input
@@ -139,7 +139,7 @@ const theme = createTheme({
   <App />
 </ThemeProvider>
 
-// shadcn/ui
+// the repository
 // Edit globals.css
 :root {
   --primary: 215 100% 50%;
@@ -153,7 +153,7 @@ const theme = createTheme({
   Click me
 </Button>
 
-// shadcn/ui (Tailwind classes)
+// the repository (Tailwind classes)
 <Button className="px-4 py-2 rounded-lg">
   Click me
 </Button>
@@ -178,7 +178,7 @@ export function LoginForm() {
 }
 ```
 
-**After (shadcn/ui)**:
+**After (the repository)**:
 ```tsx
 import { Input } from '@/components/ui/input'
 import { Label } from '@/components/ui/label'
@@ -205,7 +205,7 @@ export function LoginForm() {
 
 ### Component Mapping
 
-| Chakra UI | shadcn/ui | Notes |
+| Chakra UI | the repository | Notes |
 |-----------|-----------|-------|
 | Button | Button | Similar variants |
 | Input | Input | More basic |
@@ -230,7 +230,7 @@ export function LoginForm() {
   <Box>Item 2</Box>
 </Stack>
 
-// shadcn/ui
+// the repository
 <div className="flex flex-col space-y-4">
   <div>Item 1</div>
   <div>Item 2</div>
@@ -242,7 +242,7 @@ export function LoginForm() {
 // Chakra UI
 <Box display={{ base: 'block', md: 'flex' }} />
 
-// shadcn/ui
+// the repository
 <div className="block md:flex" />
 ```
 
@@ -253,7 +253,7 @@ import { useColorMode } from '@chakra-ui/react'
 
 const { colorMode, toggleColorMode } = useColorMode()
 
-// shadcn/ui (with next-themes)
+// the repository (with next-themes)
 import { useTheme } from 'next-themes'
 
 const { theme, setTheme } = useTheme()
@@ -263,7 +263,7 @@ const { theme, setTheme } = useTheme()
 
 ### Component Mapping
 
-| Ant Design | shadcn/ui | Notes |
+| Ant Design | the repository | Notes |
 |------------|-----------|-------|
 | Button | Button | Similar |
 | Input | Input | More basic |
@@ -294,7 +294,7 @@ const { theme, setTheme } = useTheme()
   </Form.Item>
 </Form>
 
-// shadcn/ui (with react-hook-form)
+// the repository (with react-hook-form)
 <Form {...form}>
   <form onSubmit={form.handleSubmit(onSubmit)}>
     <FormField
@@ -321,7 +321,7 @@ import { message } from 'antd'
 
 message.success('Success!')
 
-// shadcn/ui
+// the repository
 import { useToast } from '@/components/ui/use-toast'
 
 const { toast } = useToast()
@@ -336,7 +336,7 @@ toast({
 
 ### Component Mapping
 
-| Bootstrap | shadcn/ui | Notes |
+| Bootstrap | the repository | Notes |
 |-----------|-----------|-------|
 | btn | Button | Similar variants |
 | form-control | Input | Similar |
@@ -357,7 +357,7 @@ toast({
   Click me
 </button>
 
-// shadcn/ui
+// the repository
 <Button variant="default" size="lg">
   Click me
 </Button>
@@ -372,7 +372,7 @@ toast({
   <div class="card-footer">Footer</div>
 </div>
 
-<!-- shadcn/ui -->
+<!-- the repository -->
 <Card>
   <CardHeader>
     <CardTitle>Title</CardTitle>
@@ -387,7 +387,7 @@ toast({
 ### Before Migration
 
 - [ ] Audit current component usage
-- [ ] Set up shadcn/ui in a test branch
+- [ ] Set up the repository in a test branch
 - [ ] Create component mapping document
 - [ ] Plan migration order (start with simple components)
 - [ ] Set up Tailwind CSS properly
@@ -395,7 +395,7 @@ toast({
 
 ### During Migration
 
-- [ ] Install shadcn/ui components as needed
+- [ ] Install the repository components as needed
 - [ ] Replace components incrementally
 - [ ] Update styling to use Tailwind classes
 - [ ] Test each page/feature after migration
@@ -416,7 +416,7 @@ toast({
 
 ### 1. Not Setting Up Tailwind Properly
 
-shadcn/ui requires Tailwind. Ensure:
+the repository requires Tailwind. Ensure:
 - `tailwind.config.js` includes correct content paths
 - CSS variables are defined in `globals.css`
 - Tailwind plugins are installed (e.g., `tailwindcss-animate`)
@@ -429,29 +429,29 @@ Components use `@/` imports. Configure:
 
 ### 3. Trying to Match Old Library Exactly
 
-Don't force shadcn/ui to work like your old library. Embrace the new patterns:
+Don't force the repository to work like your old library. Embrace the new patterns:
 - Use composition over configuration
 - Leverage Tailwind utilities
 - Create wrapper components for custom needs
 
 ### 4. Not Using Form Libraries
 
-shadcn/ui form components are basic. For complex forms, use:
+the repository form components are basic. For complex forms, use:
 - `react-hook-form` for form state
 - `zod` for validation
 - shadcn's `Form` component for integration
 
 ### 5. Ignoring Accessibility
 
-While shadcn/ui is accessible by default, custom modifications can break this. Test with:
+While the repository is accessible by default, custom modifications can break this. Test with:
 - Keyboard navigation
 - Screen readers
 - ARIA attribute validation
 
 ## Getting Help
 
-- **Discord**: [shadcn/ui Discord](https://discord.com/invite/vNvTqVaWm6)
-- **GitHub Discussions**: [shadcn/ui Discussions](https://github.com/shadcn-ui/ui/discussions)
+- **Discord**: [the repository Discord](https://discord.com/invite/vNvTqVaWm6)
+- **GitHub Discussions**: [Repository](https://github.com/Peach-Phoenix-LLC/ts)
 - **Documentation**: [ui.shadcn.com](https://ui.shadcn.com)
 
 ## Next Steps
@@ -460,4 +460,4 @@ After migration:
 1. Review the [Customization Guide](./customization-guide.md)
 2. Explore the [Component Catalog](./component-catalog.md)
 3. Check out [Examples](../examples/)
-4. Consider building a component library on top of shadcn/ui
+4. Consider building a component library on top of the repository

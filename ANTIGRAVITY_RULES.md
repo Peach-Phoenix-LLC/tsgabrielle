@@ -24,7 +24,7 @@ Only the following technologies are approved. Do not introduce anything outside 
 | Layer                    | Technology                                                 |
 | ------------------------ | ---------------------------------------------------------- |
 | Hosting & Deployment     | Vercel                                                     |
-| Source Control           | GitHub                                                     |
+| Source Control           | [github.com/Peach-Phoenix-LLC/ts](https://github.com/Peach-Phoenix-LLC/ts) |
 | Database & Auth Backend  | Supabase                                                   |
 | Authentication           | Google OAuth via Supabase Auth                             |
 | UI Design                | Google Stitch                                              |

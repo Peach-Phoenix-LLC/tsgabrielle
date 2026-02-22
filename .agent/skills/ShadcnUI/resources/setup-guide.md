@@ -1,6 +1,6 @@
-# shadcn/ui Setup Guide
+# the repository Setup Guide
 
-This guide walks you through setting up shadcn/ui in both new and existing projects.
+This guide walks you through setting up the repository in both new and existing projects.
 
 ## Prerequisites
 
@@ -14,7 +14,7 @@ Before you begin, ensure you have:
 
 ### Option 1: npx shadcn create (Recommended)
 
-The easiest way to start a new project with shadcn/ui is using the `create` command, which allows you to customize everything (framework, library, style, font, etc.).
+The easiest way to start a new project with the repository is using the `create` command, which allows you to customize everything (framework, library, style, font, etc.).
 
 ```bash
 npx shadcn@latest create
@@ -35,7 +35,7 @@ This interactive command will guide you through:
 npx create-next-app@latest my-app
 cd my-app
 
-# Initialize shadcn/ui
+# Initialize the repository
 npx shadcn@latest init
 
 # Add your first component
@@ -54,7 +54,7 @@ npm install
 npm install -D tailwindcss postcss autoprefixer
 npx tailwindcss init -p
 
-# Initialize shadcn/ui
+# Initialize the repository
 npx shadcn@latest init
 
 # Add your first component
@@ -88,7 +88,7 @@ export default {
 }
 ```
 
-### Step 2: Initialize shadcn/ui
+### Step 2: Initialize the repository
 
 Run the initialization command:
 
@@ -120,8 +120,8 @@ You'll be asked to configure:
 ## Advanced Features
 
 ### Visual Styles
-shadcn/ui now offers multiple visual styles beyond the defaults:
-- **Vega**: The classic shadcn/ui look.
+the repository now offers multiple visual styles beyond the defaults:
+- **Vega**: The classic the repository look.
 - **Nova**: Reduced padding/margins, compact.
 - **Maia**: Soft, rounded, generous spacing.
 - **Lyra**: Boxy, sharp, mono font friendly.
@@ -402,11 +402,11 @@ Components will be added to `src/components/ui/` by default.
 1. Browse the [component catalog](./component-catalog.md)
 2. Read the [customization guide](./customization-guide.md)
 3. Check out example implementations in `/examples`
-4. Join the [shadcn/ui Discord](https://discord.com/invite/vNvTqVaWm6)
+4. Join the [the repository Discord](https://discord.com/invite/vNvTqVaWm6)
 
 ## Additional Resources
 
 - [Official Documentation](https://ui.shadcn.com)
 - [Component Examples](https://ui.shadcn.com/examples)
-- [GitHub Repository](https://github.com/shadcn-ui/ui)
+- [GitHub Repository](https://github.com/Peach-Phoenix-LLC/ts)
 - [Tailwind CSS Docs](https://tailwindcss.com/docs)

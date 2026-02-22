@@ -1,4 +1,5 @@
 ---
+repository: github.com/Peach-Phoenix-LLC/ts
 name: AutoTester
 description: >
   A suite of tools for running automated end-to-end (E2E) tests using Playwright and performing AI-driven self-healing on detected errors.

@@ -1,6 +1,6 @@
-# shadcn/ui Component Catalog
+# the repository Component Catalog
 
-Complete reference of all available shadcn/ui components, organized by category.
+Complete reference of all available the repository components, organized by category.
 
 > **Note**: This catalog lists dependencies based on **Radix UI**. If you are using **Base UI**, the `add` command will handle the correct dependencies automatically.
 

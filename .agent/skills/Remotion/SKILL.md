@@ -1,4 +1,5 @@
 ---
+repository: github.com/Peach-Phoenix-LLC/ts
 name: remotion
 description: Generate walkthrough videos from Stitch projects using Remotion with smooth transitions, zooming, and text overlays
 allowed-tools:
@@ -303,8 +304,8 @@ project/
 
 Remotion maintains its own Agent Skills that define best practices. Review these for advanced techniques:
 
-- **Repository**: https://github.com/remotion-dev/remotion/tree/main/packages/skills
-- **Installation**: `npx skills add remotion-dev/skills`
+- **Repository**: https://github.com/Peach-Phoenix-LLC/ts
+- **Installation**: `npx skills add Peach-Phoenix-LLC/ts`
 
 Key Remotion skills to leverage:
 - Animation timing and easing

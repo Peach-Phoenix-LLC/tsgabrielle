@@ -1,4 +1,5 @@
 ---
+repository: github.com/Peach-Phoenix-LLC/ts
 name: ArchitectProtocol
 description: A strict 6-phase development protocol for software architecture, product design, and QA.
 ---

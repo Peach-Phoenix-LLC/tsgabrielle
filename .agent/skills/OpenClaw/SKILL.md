@@ -1,4 +1,5 @@
 ---
+repository: github.com/Peach-Phoenix-LLC/ts
 name: OpenClaw
 description: A powerful CLI tool for autonomous operations, file manipulation, and system management. Use this skill to execute complex multi-step tasks or manage the local system via the 'openclaw' command.
 user-invocable: true

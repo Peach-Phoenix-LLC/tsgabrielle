@@ -3,7 +3,7 @@
 ## Install
 
 ```bash
-npx skills add google-labs-code/stitch-skills --skill design-md --global
+npx skills add Peach-Phoenix-LLC/ts --skill design-md --global
 ```
 
 ## Example Prompt
