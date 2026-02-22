@@ -63,13 +63,13 @@ const ModernFooter: React.FC<ModernFooterProps> = ({ darkMode = false }) => {
 
                 {/* 3. Navigation Links Row */}
                 <div className="flex flex-wrap justify-center items-center gap-6 sm:gap-8 text-[12px] font-light opacity-60">
-                    <Link href="/privacy" className="hover:text-primary transition-colors">Privacy policy</Link>
+                    <Link href="/privacy" className="hover:text-primary transition-colors uppercase tracking-widest">Privacy priority</Link>
                     <span className="opacity-20">•</span>
-                    <Link href="/terms" className="hover:text-primary transition-colors">Terms of service</Link>
+                    <Link href="/terms" className="hover:text-primary transition-colors uppercase tracking-widest">Usage terms</Link>
                     <span className="opacity-20">•</span>
-                    <Link href="/refund" className="hover:text-primary transition-colors">Refund policy</Link>
+                    <Link href="/refund-policy" className="hover:text-primary transition-colors uppercase tracking-widest">Refund policy</Link>
                     <span className="opacity-20">•</span>
-                    <Link href="/policies" className="hover:text-primary transition-colors">All policies</Link>
+                    <Link href="/policies" className="hover:text-primary transition-colors uppercase tracking-widest">Legal Atelier</Link>
                 </div>
 
                 {/* 4. Copyright Text */}
