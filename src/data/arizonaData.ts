@@ -5,7 +5,7 @@ export const ARIZONA_COLLECTION_DATA = {
         title: "ARIZONA 🌵",
         subtitle: "DESERT TECH • HIGH UTILITY",
         description: "Where the scorched earth meets high-tech utility. Breathable, reinforced fabrics designed for the extreme reach of the sun.",
-        mainImage: "https://images.unsplash.com/photo-1469074062102-149f1ad63af7?auto=format&fit=crop&q=80&w=1600",
+        mainImage: "/images/arizona-collection.png",
     },
     hotspots: [
         {
