@@ -10,14 +10,14 @@ export const collections: Collection[] = [
     {
         title: 'Peach Phoenix™',
         count: '12 pieces',
-        image: 'https://images.unsplash.com/photo-1523381210434-271e8be1f52b?auto=format&fit=crop&q=80&w=800',
+        image: '/images/collection-peach-phoenix.jpg',
         description: 'Rising from the embers in soft amethyst hues.',
         path: '/collections/peach-phoenix'
     },
     {
         title: 'Paris',
         count: '24 pieces',
-        image: 'https://images.unsplash.com/photo-1502602898657-3e91760cbb34?auto=format&fit=crop&q=80&w=800',
+        image: '/images/collection-paris.png',
         description: 'Chic, timeless elegance inspired by the streets of Paris.',
         path: '/collections/paris'
     },

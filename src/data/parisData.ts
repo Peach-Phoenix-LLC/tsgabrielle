@@ -5,7 +5,7 @@ export const PARIS_COLLECTION_DATA = {
         title: "PARIS",
         subtitle: "CHIC • Timeless • ELEGANCE",
         description: "Inspired by the cobblestone streets and the blue-gray roofs of the City of Light. A collection of timeless silhouettes and effortless flair.",
-        mainImage: "https://images.unsplash.com/photo-1502602898657-3e91760cbb34?auto=format&fit=crop&q=80&w=1600",
+        mainImage: "/images/collection-paris.png",
     },
     hotspots: [
         {

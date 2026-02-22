@@ -5,7 +5,7 @@ export const PHOENIX_COLLECTION_DATA = {
         title: "PEACH PHOENIX™",
         subtitle: "RISING FROM THE EMBERS",
         description: "A testament to resilience and the beauty of rebirth. Soft pastel hues meet sharp, reinforced silhouettes.",
-        mainImage: "https://images.unsplash.com/photo-1523381210434-271e8be1f52b?auto=format&fit=crop&q=80&w=1600",
+        mainImage: "/images/collection-peach-phoenix.jpg",
         videoUrl: null, // Placeholder for future video integration
     },
     hotspots: [
