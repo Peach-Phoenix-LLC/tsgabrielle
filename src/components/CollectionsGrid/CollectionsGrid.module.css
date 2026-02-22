@@ -60,6 +60,7 @@
 .searchInput:focus {
     border-color: var(--accent-primary);
     background: rgba(169, 50, 189, 0.05);
+    /* very subtle purple hint */
 }
 
 .searchIcon {
@@ -109,7 +110,6 @@
     grid-template-columns: repeat(2, 1fr);
     /* 2 columns mobile */
     gap: 5rem 3rem;
-    /* Large negative spacing */
     text-align: left;
 }
 
@@ -131,6 +131,7 @@
     aspect-ratio: 3/4;
     overflow: hidden;
     background: #000;
+    border-radius: 2px;
 }
 
 .innerImage {
@@ -160,6 +161,13 @@
     letter-spacing: 0.05em;
 }
 
+.cardFooter {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-top: 0.25rem;
+}
+
 .cardMeta {
     font-size: 0.75rem;
     color: var(--text-muted);
@@ -167,6 +175,26 @@
     letter-spacing: 0.12em;
 }
 
+.discoverBtn {
+    font-size: 0.7rem;
+    font-weight: 300;
+    color: var(--accent-primary);
+    letter-spacing: 0.1em;
+    background: transparent;
+    border: 1px solid var(--accent-primary);
+    border-radius: 4px;
+    padding: 0.2rem 0.6rem;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.card:hover .discoverBtn {
+    background: var(--accent-primary);
+    color: white;
+}
+
 @media (max-width: 768px) {
-    /* Rules inherited from grid above */
+    .discoverBtn {
+        padding: 0.3rem 0.6rem;
+    }
 }

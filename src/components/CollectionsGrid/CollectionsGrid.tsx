@@ -74,7 +74,10 @@ const CollectionsGrid = () => {
                                         </div>
                                     </div>
                                     <h3 className={styles.cardTitle}>{collection.title}</h3>
-                                    <p className={styles.cardMeta}>{collection.count}</p>
+                                    <div className={styles.cardFooter}>
+                                        <p className={styles.cardMeta}>{collection.count}</p>
+                                        <button className={styles.discoverBtn}>discover</button>
+                                    </div>
                                 </motion.div>
                             );
 
