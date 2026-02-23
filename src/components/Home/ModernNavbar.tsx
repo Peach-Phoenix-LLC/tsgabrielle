@@ -38,15 +38,15 @@ const ModernNavbar = ({ theme = 'dark' }: ModernNavbarProps) => {
         <header className={`fixed top-0 left-0 right-0 z-50 transition-all duration-500 ${scrolled ? 'bg-white/80 backdrop-blur-md border-b border-primary/10 py-4 shadow-sm' : 'bg-transparent py-6'}`}>
             <div className="max-w-[1400px] mx-auto px-8 flex items-center justify-between">
                 {/* Desktop Nav Links (Left) */}
-                <nav className="hidden lg:flex items-center gap-12">
-                    <Link href="/shop" className={`transition-opacity hover:opacity-50 text-[14px] font-thin ${textColor}`}>Shop</Link>
-                    <Link href="/collections" className={`transition-opacity hover:opacity-50 text-[14px] font-thin ${textColor}`}>Collections</Link>
-                    <Link href="/about" className={`transition-opacity hover:opacity-50 text-[14px] font-thin ${textColor}`}>Our story</Link>
+                <nav className="hidden lg:flex items-center gap-14">
+                    <Link href="/shop" className={`transition-opacity hover:opacity-50 text-[16px] tracking-wider font-light ${textColor}`}>Shop</Link>
+                    <Link href="/collections" className={`transition-opacity hover:opacity-50 text-[16px] tracking-wider font-light ${textColor}`}>Collections</Link>
+                    <Link href="/about" className={`transition-opacity hover:opacity-50 text-[16px] tracking-wider font-light ${textColor}`}>Our story</Link>
                 </nav>
 
                 {/* Logo (Centered) */}
                 <Link href="/" className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 group flex flex-col items-center justify-center">
-                    <div className="relative w-[150px] h-[35px] mb-1">
+                    <div className="relative w-[220px] h-[50px] mb-2">
                         <Image
                             src="/images/logo-white.png"
                             alt="tsgabrielle logo"
@@ -56,7 +56,7 @@ const ModernNavbar = ({ theme = 'dark' }: ModernNavbarProps) => {
                         />
                     </div>
                     <div className="flex flex-col items-center">
-                        <span className={`text-[9px] tracking-[0.2em] font-light ${textColor} whitespace-nowrap uppercase opacity-80`}>tsgabrielle® USA • 2026</span>
+                        <span className={`text-[11px] tracking-[0.3em] font-light ${textColor} whitespace-nowrap uppercase opacity-80`}>tsgabrielle® USA • 2026</span>
                     </div>
                 </Link>
 
@@ -82,7 +82,7 @@ const ModernNavbar = ({ theme = 'dark' }: ModernNavbarProps) => {
                             <span className="material-symbols-outlined text-[22px]">person</span>
                         </Link>
                     ) : (
-                        <button onClick={() => signIn('google')} className={`transition-opacity hover:opacity-50 text-[14px] font-light hidden lg:block ${textColor}`}>
+                        <button onClick={() => signIn('google')} className={`transition-opacity hover:opacity-50 text-[16px] tracking-wider font-light hidden lg:block ${textColor}`}>
                             Sign in
                         </button>
                     )}
