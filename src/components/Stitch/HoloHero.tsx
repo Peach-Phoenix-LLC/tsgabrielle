@@ -5,19 +5,24 @@ import Link from 'next/link';
 
 const slides = [
     {
-        image: "/images/hero-1.png",
+        image: "/images/slides/slide1.png",
         title: "Welcome to the 2026 tsgabrielle® USA Collection",
         description: "Rooted in the vision of founder Gabrielle."
     },
     {
-        image: "/images/hero-2.png",
+        image: "/images/slides/slide2.png",
         title: "The French Trans Touch",
         description: "Bridging Paris elegance with American Southwest energy."
     },
     {
-        image: "/images/hero-3.png",
+        image: "/images/slides/slide3.png",
         title: "Peach Phoenix™",
         description: "Symbolizing rebirth and boundless creativity."
+    },
+    {
+        image: "/images/slides/slide4.png",
+        title: "Iconic Design",
+        description: "Experience the refined elegance of our latest creations."
     }
 ];
 
