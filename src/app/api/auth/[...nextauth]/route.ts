@@ -14,8 +14,10 @@ export const authOptions: NextAuthOptions = {
             if (!user.email) return false;
 
             try {
-                const adminEmail = process.env.ADMIN_EMAIL?.trim();
-                const role = user.email === adminEmail ? 'ADMIN' : 'USER';
+                const adminEmails = process.env.ADMIN_EMAIL?.split(/[;,]/).map(e => e.trim()) || [];
+                const role = adminEmails.includes(user.email) ? 'ADMIN' : 'USER';
+
+                console.log(`[NextAuth] user.email: ${user.email}, adminEmails: ${adminEmails}, role: ${role}`);
 
                 const existingUser = await prisma.profile.findUnique({
                     where: { email: user.email },
