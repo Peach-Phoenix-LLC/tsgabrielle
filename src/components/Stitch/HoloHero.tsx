@@ -5,17 +5,17 @@ import Link from 'next/link';
 
 const slides = [
     {
-        image: "https://lh3.googleusercontent.com/aida-public/AB6AXuCn7d33aUR8mKHtpFidHn9nS5ApaGDapJ6dXVPRVyuKhuw9xgEbe51TUmGuQBvVOASjYf3FaGvH2J22yNN3PKLwxRkTJkJhJspQE7PlQc7KP6OD4o0v397Yb1ktF21xlJhwvbrjpHA9DHoQQOwKWAF01-TTXzJgcLPOD9XxNn3qWA-vNlJtibJFXNigcSQNscxeHq4JE5-_gs1QtVkWt7Ocixhaj9JkZxDe6PyU7VumiuuF3MIaULzZQVBSzLp6J6ER8hhdawFDs2X4",
+        image: "/images/hero-1.png",
         title: "Welcome to the 2026 tsgabrielle® USA Collection",
         description: "Rooted in the vision of founder Gabrielle."
     },
     {
-        image: "https://lh3.googleusercontent.com/aida-public/AB6AXuACTCjaRxPQnGB4rJnQOlIUMOSkK16FlF6fNwL0xohfFTxswI5L-H7O2j2hy_DI6OIUcbSJG9uw7CwW6n9cUt3JPa7W7STLZAG8YoW-lL2bLiZkxCE3coQ7fEn56vYdd_jxokBIo2B0vz8BfjSgzjt0ZBl1D4NU9hLMKlHjcm_Cz7j2a2qQ2B08fxaXFLRuTQA9y8vn39i1LEomCUqpaQ3qa6K46CWcabGD9PhyIfCr9bNOF5EtXzHimiuRBZi4_JGaseAbpSxYpw2U",
+        image: "/images/hero-2.png",
         title: "The French Trans Touch",
         description: "Bridging Paris elegance with American Southwest energy."
     },
     {
-        image: "https://lh3.googleusercontent.com/aida-public/AB6AXuAhxL3GBdpJjUJRPmFMx_apyJapKUHNsfJv5hMQTNONtBbZja4edpdtPMZRCEsavsNvCOgUzHiSpAz3mSMI43mWm3zWbdP4HG3cE-lBJzQcoLAH-9c4ZjnOR2d2616Uzwda51sWDBigXSILz2s8Rpdh6nUp-Xrs0drHSYnVFDZgJKEoDeojo5qWVq_3Z0yAn0QCu52xq3M2Sj_voEv3Uawd71Ogn4STH62QJ7x1YRygs9Hki-ft1ZhEPfIcQUNNzLLUuJiVRNLN49qq",
+        image: "/images/hero-3.png",
         title: "Peach Phoenix™",
         description: "Symbolizing rebirth and boundless creativity."
     }
