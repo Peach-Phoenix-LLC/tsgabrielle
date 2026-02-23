@@ -4,17 +4,20 @@ import { motion } from 'framer-motion';
 import { useCartStore } from '@/lib/store';
 import { createPayPalOrderAction, capturePayPalOrderAction } from '@/app/actions/paypal';
 import { PayPalScriptProvider, PayPalButtons } from '@paypal/react-paypal-js';
+import { useSession } from 'next-auth/react';
 import { useGrowthTracking } from '@/components/Analytics/GrowthTracker';
 
 export default function CheckoutForm() {
     const { items, clearCart } = useCartStore();
     const { trackEvent } = useGrowthTracking();
+    const { data: session } = useSession();
     const [isSubmitting, setIsSubmitting] = useState(false);
     const [error, setError] = useState<string | null>(null);
     const [success, setSuccess] = useState(false);
     const [orderId, setOrderId] = useState<string | null>(null);
     const [mounted, setMounted] = useState(false);
-    const [userId, setUserId] = useState<string | null>(null);
+
+    const userId = (session?.user as any)?.id || null;
 
     useEffect(() => {
         setMounted(true);
@@ -25,16 +28,7 @@ export default function CheckoutForm() {
                 currency: 'USD'
             });
         }
-
-        // Fetch current user session to attach to order
-        import('@/lib/supabase').then(({ supabase }) => {
-            supabase.auth.getSession().then(({ data: { session } }) => {
-                if (session && session.user) {
-                    setUserId(session.user.id);
-                }
-            });
-        });
-    }, []);
+    }, [items, trackEvent]);
 
     const handleCreateOrder = async () => {
         if (items.length === 0) {
