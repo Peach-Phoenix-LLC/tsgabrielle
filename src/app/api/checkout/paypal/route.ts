@@ -16,7 +16,7 @@ export async function POST(req: NextRequest) {
             );
         }
 
-        // Logic to create order in Supabase and get PayPal order ID
+        // Logic to create order in the database and get PayPal order ID
         // For now, returning a mock success
         const paypalOrderId = 'MOCK_PAYPAL_' + Date.now();
 

@@ -416,7 +416,7 @@ export default function AdminDashboard() {
                         <div className={styles.panel}>
                             <div className={styles.panelHeader}><h3>All Products <span className={styles.count}>{products.length}</span></h3></div>
                             {loadingProducts ? (
-                                <div className={styles.tableLoading}>Loading from Supabase...</div>
+                                <div className={styles.tableLoading}>Loading from Cloud SQL...</div>
                             ) : (
                                 <table className={styles.table}>
                                     <thead>
@@ -480,7 +480,7 @@ export default function AdminDashboard() {
                 {activeTab === 'analytics' && (
                     <div className={styles.tabContent}>
                         <header className={styles.pageHeader}>
-                            <div className={styles.pageTitle}><h1>Analytics</h1><p>Performance insights from Supabase.</p></div>
+                            <div className={styles.pageTitle}><h1>Analytics</h1><p>Performance insights from Cloud SQL.</p></div>
                         </header>
                         <div className={styles.dashboardLayout}>
                             <div className={styles.panel}>
@@ -505,7 +505,7 @@ export default function AdminDashboard() {
                         <header className={styles.pageHeader}>
                             <div className={styles.pageTitle}>
                                 <h1>{NAV_ITEMS.find(n => n.id === activeTab)?.label}</h1>
-                                <p>Coming soon — live data synced from Supabase.</p>
+                                <p>Coming soon — live data synced from the database.</p>
                             </div>
                         </header>
                         <div className={styles.panel}>

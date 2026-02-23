@@ -14,7 +14,7 @@ export const dynamic = 'force-dynamic';
 
 export default async function Home() {
   try {
-    // Fetch live products from Supabase via Prisma
+    // Fetch live products from Cloud SQL via Prisma
     const products = await prisma.product.findMany({
       take: 4, // Fetch top 4 core collections
       orderBy: { createdAt: 'asc' },
