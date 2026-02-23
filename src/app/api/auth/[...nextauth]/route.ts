@@ -14,10 +14,11 @@ export const authOptions: NextAuthOptions = {
             if (!user.email) return false;
 
             try {
-                const adminEmails = process.env.ADMIN_EMAIL?.split(/[;,]/).map(e => e.trim()) || [];
-                const role = adminEmails.includes(user.email) ? 'ADMIN' : 'USER';
+                const adminEmails = (process.env.ADMIN_EMAIL || '').split(/[;,]/).map(e => e.trim().toLowerCase()).filter(Boolean);
+                const userEmail = user.email?.toLowerCase();
+                const role = (userEmail && adminEmails.includes(userEmail)) ? 'ADMIN' : 'USER' as const;
 
-                console.log(`[NextAuth] user.email: ${user.email}, adminEmails: ${adminEmails}, role: ${role}`);
+                console.log(`[NextAuth] user.email: ${userEmail}, adminEmails: ${adminEmails}, role: ${role}`);
 
                 const existingUser = await prisma.profile.findUnique({
                     where: { email: user.email },
@@ -38,7 +39,6 @@ export const authOptions: NextAuthOptions = {
                     });
                 }
             } catch (err) {
-                // If DB write fails, still allow sign-in (user just won't have DB record yet)
                 console.error('[NextAuth] signIn DB error:', err);
             }
 

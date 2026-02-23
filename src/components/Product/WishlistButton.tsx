@@ -1,8 +1,9 @@
 'use client';
 
 import React, { useState, useEffect } from 'react';
+
+import { useSession } from 'next-auth/react';
 import { toggleWishlistItemAction, isItemInWishlistAction } from '@/app/actions/wishlist';
-import { supabase } from '@/lib/supabase';
 import { useRouter } from 'next/navigation';
 
 interface WishlistButtonProps {
@@ -12,37 +13,32 @@ interface WishlistButtonProps {
 const WishlistButton: React.FC<WishlistButtonProps> = ({ productId }) => {
     const [isWishlisted, setIsWishlisted] = useState(false);
     const [isLoading, setIsLoading] = useState(false);
-    const [userId, setUserId] = useState<string | null>(null);
+    const { data: session, status } = useSession();
     const router = useRouter();
 
     useEffect(() => {
-        const checkStatus = async () => {
-            const { data: { session } } = await supabase.auth.getSession();
-            if (session?.user) {
-                setUserId(session.user.id);
-                const status = await isItemInWishlistAction(session.user.id, productId);
+        if (status === 'authenticated' && session?.user) {
+            const checkStatus = async () => {
+                const userId = (session.user as any).id;
+                const status = await isItemInWishlistAction(userId, productId);
                 setIsWishlisted(status);
-            }
-        };
-        checkStatus();
-    }, [productId]);
+            };
+            checkStatus();
+        }
+    }, [productId, session, status]);
 
     const handleToggle = async (e: React.MouseEvent) => {
         e.preventDefault();
 
-        if (!userId) {
-            // Re-check session in case it changed
-            const { data: { session } } = await supabase.auth.getSession();
-            if (!session) {
-                router.push('/login');
-                return;
-            }
-            setUserId(session.user.id);
+        if (status !== 'authenticated' || !session?.user) {
+            router.push('/login');
+            return;
         }
 
+        const userId = (session.user as any).id;
         setIsLoading(true);
         try {
-            const result = await toggleWishlistItemAction(userId!, productId);
+            const result = await toggleWishlistItemAction(userId, productId);
             if (result.success) {
                 setIsWishlisted(result.action === 'added');
             }
@@ -58,8 +54,8 @@ const WishlistButton: React.FC<WishlistButtonProps> = ({ productId }) => {
             onClick={handleToggle}
             disabled={isLoading}
             className={`w-full h-14 font-bold text-[11px] tracking-[0.3em] uppercase transition-all flex items-center justify-center gap-3 rounded-sm border ${isWishlisted
-                    ? 'bg-white text-black border-white'
-                    : 'bg-transparent text-white border-white/20 hover:border-white hover:bg-white/5'
+                ? 'bg-white text-black border-white'
+                : 'bg-transparent text-white border-white/20 hover:border-white hover:bg-white/5'
                 } ${isLoading ? 'opacity-50 cursor-not-allowed' : ''}`}
         >
             <span className={`material-symbols-outlined text-lg ${isWishlisted ? 'fill-1' : 'font-light'}`}>

@@ -2,20 +2,12 @@
 
 import React from 'react';
 import Link from 'next/link';
-import { supabase } from '@/lib/supabase';
+import { signIn } from 'next-auth/react';
 import './login.css';
 
 export default function LoginPage() {
-  const handleGoogleLogin = async () => {
-    const { error } = await supabase.auth.signInWithOAuth({
-      provider: 'google',
-      options: {
-        redirectTo: `${window.location.origin}/auth/callback`,
-      },
-    });
-    if (error) {
-      console.error(error);
-    }
+  const handleGoogleLogin = () => {
+    signIn('google', { callbackUrl: '/' });
   };
 
   return (

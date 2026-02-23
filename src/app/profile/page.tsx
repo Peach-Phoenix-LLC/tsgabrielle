@@ -3,14 +3,13 @@
 import React, { useEffect, useState } from 'react';
 import { useRouter } from 'next/navigation';
 import Link from 'next/link';
-import { supabase } from '@/lib/supabase';
-import { User } from '@supabase/supabase-js';
+import { useSession, signOut } from 'next-auth/react';
 import { getUserOrdersAction } from '@/app/actions/user';
 import { getWishlistItemsAction, toggleWishlistItemAction } from '@/app/actions/wishlist';
 import './profile.css';
 
 export default function ProfilePage() {
-    const [user, setUser] = useState<User | null>(null);
+    const { data: session, status } = useSession();
     const [orders, setOrders] = useState<any[]>([]);
     const [wishlist, setWishlist] = useState<any[]>([]);
     const [loading, setLoading] = useState(true);
@@ -18,45 +17,39 @@ export default function ProfilePage() {
     const router = useRouter();
 
     useEffect(() => {
-        const fetchSession = async () => {
-            const { data: { session } } = await supabase.auth.getSession();
+        if (status === 'unauthenticated') {
+            router.push('/login');
+            return;
+        }
 
-            if (!session) {
-                router.push('/login');
-                return;
-            }
-
-            setUser(session.user);
-
-            // Fetch actual order history from DB
-            const actionResult: { success: boolean, orders?: any[], error?: string } = await getUserOrdersAction(session.user.id);
-            if (actionResult.success && actionResult.orders) {
-                setOrders(actionResult.orders);
-            }
-
-            // Fetch wishlist
-            const wishlistResult = await getWishlistItemsAction(session.user.id);
-            if (wishlistResult.success && wishlistResult.items) {
-                setWishlist(wishlistResult.items);
-            }
-
-            setLoading(false);
-        };
-
-        fetchSession();
-
-        const { data: { subscription } } = supabase.auth.onAuthStateChange(
-            (event, session) => {
-                if (event === 'SIGNED_OUT' || !session) {
-                    router.push('/login');
+        if (status === 'authenticated' && session.user) {
+            const fetchData = async () => {
+                const userId = (session.user as any).id;
+                if (!userId) {
+                    setLoading(false);
+                    return;
                 }
-            }
-        );
 
-        return () => subscription.unsubscribe();
-    }, [router]);
+                // Fetch actual order history from DB
+                const actionResult = await getUserOrdersAction(userId);
+                if (actionResult.success && actionResult.orders) {
+                    setOrders(actionResult.orders);
+                }
 
-    if (loading) {
+                // Fetch wishlist
+                const wishlistResult = await getWishlistItemsAction(userId);
+                if (wishlistResult.success && wishlistResult.items) {
+                    setWishlist(wishlistResult.items);
+                }
+
+                setLoading(false);
+            };
+
+            fetchData();
+        }
+    }, [status, session, router]);
+
+    if (status === 'loading' || loading) {
         return (
             <div className="min-h-screen bg-[#050406] flex items-center justify-center text-white">
                 <div className="w-8 h-8 border-4 border-[#a932bd] border-t-transparent flex rounded-full animate-spin"></div>
@@ -65,12 +58,13 @@ export default function ProfilePage() {
     }
 
     const handleSignOut = async () => {
-        await supabase.auth.signOut();
+        await signOut({ callbackUrl: '/' });
     };
 
     const handleRemoveFromWishlist = async (productId: string) => {
-        if (!user) return;
-        const result = await toggleWishlistItemAction(user.id, productId);
+        if (!session?.user) return;
+        const userId = (session.user as any).id;
+        const result = await toggleWishlistItemAction(userId, productId);
         if (result.success) {
             setWishlist(prev => prev.filter(item => item.product_id !== productId));
         }
@@ -89,7 +83,7 @@ export default function ProfilePage() {
                                         <div className="w-16 h-16 mx-auto mb-4 bg-white/10 rounded-full flex items-center justify-center overflow-hidden">
                                             <span className="material-symbols-outlined text-3xl font-light text-white/50">person</span>
                                         </div>
-                                        <p className="text-xs font-bold uppercase tracking-widest text-white truncate px-2">{user?.email}</p>
+                                        <p className="text-xs font-bold uppercase tracking-widest text-white truncate px-2">{session?.user?.email}</p>
                                         <p className="text-[9px] text-[#a932bd] uppercase tracking-widest mt-2 font-bold">Gold Member</p>
                                     </div>
 

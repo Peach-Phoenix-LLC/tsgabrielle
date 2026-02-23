@@ -48,102 +48,50 @@ const mockProducts: Product[] = [
 ];
 
 import { useCart } from '@/context/CartContext';
-import { supabase } from '@/lib/supabase';
+useEffect(() => {
+    fetchProducts();
+}, []);
 
-const ProductGrid = () => {
-    const [products, setProducts] = useState<Product[]>([]);
-    const [loading, setLoading] = useState(true);
-    const [error, setError] = useState<string | null>(null);
-    const { addToCart } = useCart();
+if (loading) return (
+    <section className={styles.section}>
+        <div className={styles.container}>
+            <p style={{ textAlign: 'center', color: '#888' }}>Curating the collection...</p>
+        </div>
+    </section>
+);
 
-    const fetchProducts = async () => {
-        try {
-            const response = await fetch('/api/products');
-            if (!response.ok) throw new Error('Failed to fetch products');
-            const data = await response.json();
+if (error) return (
+    <section className={styles.section}>
+        <div className={styles.container}>
+            <p style={{ textAlign: 'center', color: '#ff4d4d' }}>{error}</p>
+        </div>
+    </section>
+);
 
-            if (data && typeof data === 'object' && 'error' in data) {
-                throw new Error(data.error);
-            }
-
-            setProducts(Array.isArray(data) ? data : []);
-        } catch (err) {
-            setError(err instanceof Error ? err.message : 'An error occurred');
-        } finally {
-            setLoading(false);
-        }
-    };
-
-    useEffect(() => {
-        fetchProducts();
-
-        // Real-time Evolution (Level 6)
-        const channel = supabase
-            .channel('inventory-changes')
-            .on(
-                'postgres_changes',
-                {
-                    event: '*',
-                    schema: 'public',
-                    table: 'ProductVariant'
-                },
-                (payload) => {
-                    console.log('📡 Real-time inventory change:', payload);
-                    // Re-fetch products to ensure full state consistency
-                    fetchProducts();
-                }
-            )
-            .subscribe((status) => {
-                if (status === 'SUBSCRIBED') {
-                    console.log('✅ Real-time subscription active');
-                }
-            });
-
-        return () => {
-            supabase.removeChannel(channel);
-        };
-    }, []);
-
-    if (loading) return (
-        <section className={styles.section}>
-            <div className={styles.container}>
-                <p style={{ textAlign: 'center', color: '#888' }}>Curating the collection...</p>
-            </div>
-        </section>
-    );
-
-    if (error) return (
-        <section className={styles.section}>
-            <div className={styles.container}>
-                <p style={{ textAlign: 'center', color: '#ff4d4d' }}>{error}</p>
-            </div>
-        </section>
-    );
-
-    return (
-        <section className={styles.section}>
-            <div className={styles.container}>
-                <div className={`${styles.grid} entrance-stagger`}>
-                    {products.map((product) => (
-                        <div key={product.id} className={`${styles.card} holographic-card`}>
-                            <div className={styles.imageContainer}>
-                                <div className={styles.badge}>NEW ERA</div>
-                                <img src={product.imageUrl || '/images/placeholder.jpg'} alt={product.name} />
-                            </div>
-                            <div className={styles.content}>
-                                <p className={styles.price}>${product.price.toFixed(2)}</p>
-                                <h3 className={styles.title}>{product.name}</h3>
-                                <button className={styles.btn} onClick={() => addToCart(product)}>
-                                    <span className="material-symbols-outlined" style={{ fontSize: '18px' }}>shopping_bag</span>
-                                    Add to Bag
-                                </button>
-                            </div>
+return (
+    <section className={styles.section}>
+        <div className={styles.container}>
+            <div className={`${styles.grid} entrance-stagger`}>
+                {products.map((product) => (
+                    <div key={product.id} className={`${styles.card} holographic-card`}>
+                        <div className={styles.imageContainer}>
+                            <div className={styles.badge}>NEW ERA</div>
+                            <img src={product.imageUrl || '/images/placeholder.jpg'} alt={product.name} />
                         </div>
-                    ))}
-                </div>
+                        <div className={styles.content}>
+                            <p className={styles.price}>${product.price.toFixed(2)}</p>
+                            <h3 className={styles.title}>{product.name}</h3>
+                            <button className={styles.btn} onClick={() => addToCart(product)}>
+                                <span className="material-symbols-outlined" style={{ fontSize: '18px' }}>shopping_bag</span>
+                                Add to Bag
+                            </button>
+                        </div>
+                    </div>
+                ))}
             </div>
-        </section>
-    );
+        </div>
+    </section>
+);
 };
 
 export default ProductGrid;
