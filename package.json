@@ -13,7 +13,6 @@
     "@paypal/react-paypal-js": "^8.9.2",
     "@prisma/adapter-pg": "^6.4.1",
     "@prisma/client": "^6.4.1",
-    "@supabase/supabase-js": "^2.97.0",
     "@tailwindcss/postcss": "^4.2.0",
     "@types/canvas-confetti": "^1.9.0",
     "@types/pg": "^8.16.0",
@@ -36,7 +35,6 @@
     "eslint": "^9",
     "eslint-config-next": "16.1.6",
     "postcss": "^8.5.6",
-    "supabase": "^2.76.12",
     "tailwindcss": "^4.2.0",
     "ts-node": "^10.9.2",
     "typescript": "^5"
