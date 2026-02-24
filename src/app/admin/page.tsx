@@ -3,8 +3,15 @@
 import React, { useState, useEffect } from 'react';
 import { useSession } from 'next-auth/react';
 import { useRouter } from 'next/navigation';
-import styles from './Admin.module.css';
+import AdminSidebar from '@/components/Admin/AdminSidebar';
+import AdminHeader from '@/components/Admin/AdminHeader';
+import KpiCard from '@/components/Admin/KpiCard';
+import OrdersTable from '@/components/Admin/OrdersTable';
+import ProductsTable from '@/components/Admin/ProductsTable';
+import CustomersTable from '@/components/Admin/CustomersTable';
+import CustomerProfile from '@/components/Admin/CustomerProfile';
 
+// --- TYPES ---
 interface ProductVariant {
     sku: string;
     color?: string;
@@ -21,142 +28,54 @@ interface Product {
     variants: ProductVariant[];
 }
 
-const NAV_ITEMS = [
-    { id: 'dashboard', label: 'Dashboard', icon: '⊞' },
-    { id: 'orders', label: 'Orders', icon: '🛍' },
-    { id: 'products', label: 'Products', icon: '👗' },
-    { id: 'collections', label: 'Collections', icon: '📁' },
-    { id: 'customers', label: 'Customers', icon: '👤' },
-    { id: 'analytics', label: 'Analytics', icon: '📊' },
-];
-
-const STATUS_BADGE: Record<string, string> = {
-    Processing: styles.badgeProcessing,
-    Shipped: styles.badgeShipped,
-    Delivered: styles.badgeDelivered,
-    Pending: styles.badgePending,
-};
-
 export default function AdminDashboard() {
     const { data: session, status } = useSession();
     const router = useRouter();
     const [activeTab, setActiveTab] = useState('dashboard');
-    const [products, setProducts] = useState<Product[]>([]);
-    const [loadingProducts, setLoadingProducts] = useState(false);
     const [searchQuery, setSearchQuery] = useState('');
 
+    // Data States
+    const [products, setProducts] = useState<Product[]>([]);
     const [orders, setOrders] = useState<any[]>([]);
-    const [stats, setStats] = useState<any>(null);
     const [customers, setCustomers] = useState<any[]>([]);
+    const [stats, setStats] = useState<any>(null);
+    const [loading, setLoading] = useState(true);
 
-    // --- NEW STATES FOR CRUD ---
-    const [isProductModalOpen, setIsProductModalOpen] = useState(false);
-    const [editingProduct, setEditingProduct] = useState<Product | null>(null);
-    const [productForm, setProductForm] = useState<Partial<Product>>({
-        name: '',
-        category: '',
-        price: 0,
-        variants: []
-    });
+    // Detail Views
+    const [selectedCustomerId, setSelectedCustomerId] = useState<string | null>(null);
 
-    const [updatingStatusId, setUpdatingStatusId] = useState<string | null>(null);
-
+    // --- FETCH DATA ---
     const fetchData = async () => {
-        if (activeTab === 'dashboard') {
-            fetch('/api/analytics')
-                .then(r => r.json())
-                .then(data => setStats(data))
-                .catch(err => console.error(err));
-        }
-        if (activeTab === 'products') {
-            setLoadingProducts(true);
-            fetch('/api/products')
-                .then(r => r.json())
-                .then(data => { setProducts(data); setLoadingProducts(false); })
-                .catch(() => setLoadingProducts(false));
-        }
-        if (activeTab === 'orders') {
-            fetch('/api/orders')
-                .then(r => r.json())
-                .then(data => setOrders(data))
-                .catch(err => console.error(err));
-        }
-        if (activeTab === 'customers') {
-            fetch('/api/customers')
-                .then(r => r.json())
-                .then(data => setCustomers(data))
-                .catch(err => console.error(err));
+        setLoading(true);
+        try {
+            const [analyticsRes, productsRes, ordersRes, customersRes] = await Promise.all([
+                fetch('/api/analytics').then(r => r.json()),
+                fetch('/api/products').then(r => r.json()),
+                fetch('/api/orders').then(r => r.json()),
+                fetch('/api/customers').then(r => r.json()),
+            ]);
+
+            setStats(analyticsRes);
+            setProducts(productsRes);
+            setOrders(ordersRes);
+            setCustomers(customersRes);
+        } catch (err) {
+            console.error("Fetch error:", err);
+        } finally {
+            setLoading(false);
         }
     };
 
     useEffect(() => {
         fetchData();
-    }, [activeTab]);
+    }, []);
 
-    const handleSaveProduct = async (e: React.FormEvent) => {
-        e.preventDefault();
-        const method = editingProduct ? 'PATCH' : 'POST';
-        const url = editingProduct ? `/api/products/${editingProduct.id}` : '/api/products';
-
-        try {
-            const res = await fetch(url, {
-                method,
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify(productForm)
-            });
-            if (res.ok) {
-                setIsProductModalOpen(false);
-                setEditingProduct(null);
-                fetchData();
-            }
-        } catch (err) {
-            console.error("Save error:", err);
-        }
-    };
-
-    const handleDeleteProduct = async (id: string) => {
-        if (!confirm("Are you sure you want to delete this product?")) return;
-        try {
-            const res = await fetch(`/api/products/${id}`, { method: 'DELETE' });
-            if (res.ok) fetchData();
-        } catch (err) {
-            console.error("Delete error:", err);
-        }
-    };
-
-    const handleStatusUpdate = async (orderId: string, newStatus: string) => {
-        try {
-            setUpdatingStatusId(orderId);
-            const res = await fetch(`/api/orders/${orderId}`, {
-                method: 'PATCH',
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({ status: newStatus })
-            });
-            if (res.ok) fetchData();
-        } catch (err) {
-            console.error("Status update error:", err);
-        } finally {
-            setUpdatingStatusId(null);
-        }
-    };
-
-    const openEditModal = (product: Product) => {
-        setEditingProduct(product);
-        setProductForm(product);
-        setIsProductModalOpen(true);
-    };
-
-    const openCreateModal = () => {
-        setEditingProduct(null);
-        setProductForm({ name: '', category: 'Dress', price: 0, variants: [{ sku: '', stock: 0 }] });
-        setIsProductModalOpen(true);
-    };
-
+    // --- AUTH CHECK ---
     if (status === 'loading') {
         return (
-            <div className={styles.loadingScreen}>
-                <div className={styles.loadingSpinner} />
-                <p>Verifying credentials...</p>
+            <div className="flex flex-col items-center justify-center h-screen bg-[#f7f6f8] gap-4">
+                <div className="size-12 border-4 border-[#a932bd]/10 border-t-[#a932bd] rounded-full animate-spin" />
+                <p className="text-[#a932bd] font-bold uppercase tracking-widest text-xs">Accessing Vault...</p>
             </div>
         );
     }
@@ -166,461 +85,196 @@ export default function AdminDashboard() {
         return null;
     }
 
-    const userName = session.user?.name ?? 'Admin';
-    const userInitials = userName.split(' ').map((n: string) => n[0]).join('').slice(0, 2).toUpperCase();
+    // --- HELPERS ---
+    const getTabTitle = () => {
+        const tabs: Record<string, { title: string; desc: string }> = {
+            dashboard: { title: 'Business Overview', desc: "Welcome back, here's what's happening today." },
+            orders: { title: 'Order Management', desc: 'Track and manage your luxury shipments.' },
+            products: { title: 'Product Inventory', desc: 'Manage your high-end fashion catalog.' },
+            collections: { title: 'Collections', desc: 'Curate your seasonal fashion lines.' },
+            customers: { title: 'Customer Base', desc: 'Manage and analyze your elite clientele.' },
+            analytics: { title: 'Performance Insights', desc: 'Data-driven results for your brand.' },
+        };
+        return tabs[activeTab] || { title: activeTab, desc: '' };
+    };
 
+    // --- RENDERERS ---
     return (
-        <div className={styles.shell}>
+        <div className="flex h-screen w-full bg-[#f7f6f8] text-slate-900 overflow-hidden font-sans antialiased">
+            <AdminSidebar activeTab={activeTab} setActiveTab={(tab) => {
+                setActiveTab(tab);
+                setSelectedCustomerId(null);
+            }} />
 
-            {/* ── SIDEBAR ─────────────────────────── */}
-            <aside className={styles.sidebar}>
-                {/* Logo */}
-                <div className={styles.sidebarLogo}>
-                    <div className={styles.logoIcon}>◆</div>
-                    <span className={styles.logoText}>tsgabrielle<sup>®</sup></span>
-                </div>
+            <main className="flex-1 overflow-y-auto relative z-10 flex flex-col">
+                {/* Background Decor */}
+                <div className="absolute top-[-10%] right-[-10%] w-[600px] h-[600px] bg-[#a932bd]/5 rounded-full blur-[120px] -z-10 pointer-events-none"></div>
+                <div className="absolute bottom-[-10%] left-[-10%] w-[400px] h-[400px] bg-blue-500/5 rounded-full blur-[100px] -z-10 pointer-events-none"></div>
 
-                {/* Nav */}
-                <nav className={styles.sidebarNav}>
-                    {NAV_ITEMS.map(item => (
-                        <button
-                            key={item.id}
-                            className={`${styles.navItem} ${activeTab === item.id ? styles.navItemActive : ''}`}
-                            onClick={() => setActiveTab(item.id)}
-                        >
-                            <span className={styles.navIcon}>{item.icon}</span>
-                            <span className={styles.navLabel}>{item.label}</span>
-                        </button>
-                    ))}
-                </nav>
+                <div className="p-8 lg:p-12 max-w-[1600px] mx-auto w-full flex flex-col gap-8">
+                    <AdminHeader
+                        title={getTabTitle().title}
+                        description={getTabTitle().desc}
+                        searchQuery={searchQuery}
+                        setSearchQuery={setSearchQuery}
+                    />
 
-                {/* User */}
-                <div className={styles.sidebarUser}>
-                    <div className={styles.userAvatar}>
-                        {session.user?.image
-                            ? <img src={session.user.image} alt="" />
-                            : <span>{userInitials}</span>
-                        }
-                        <span className={styles.onlineDot} />
-                    </div>
-                    <div className={styles.userInfo}>
-                        <span className={styles.userName}>{userName.split(' ')[0]} {userName.split(' ')[1]?.[0]}.</span>
-                        <span className={styles.userRole}>Admin</span>
-                    </div>
-                </div>
-
-                {/* Maintenance Mode Toggle */}
-                <div className={styles.maintenanceToggle}>
-                    <label className={styles.toggleLabel}>
-                        <input
-                            type="checkbox"
-                            onChange={(e) => {
-                                fetch('/api/settings', {
-                                    method: 'POST',
-                                    headers: { 'Content-Type': 'application/json' },
-                                    body: JSON.stringify({ enabled: e.target.checked })
-                                });
-                            }}
-                        />
-                        <span className={styles.toggleText}>Maintenance Mode</span>
-                    </label>
-                </div>
-            </aside>
-
-            {/* ── MAIN CONTENT ─────────────────────── */}
-            <div className={styles.mainArea}>
-
-                {/* ── DASHBOARD ────────────────────── */}
-                {activeTab === 'dashboard' && (
-                    <>
-                        {/* Top header */}
-                        <header className={styles.pageHeader}>
-                            <div className={styles.pageTitle}>
-                                <h1>Business Overview</h1>
-                                <p>Welcome back, here&apos;s what&apos;s happening today.</p>
-                            </div>
-                            <div className={styles.headerRight}>
-                                <div className={styles.searchBox}>
-                                    <span className={styles.searchIcon}>🔍</span>
-                                    <input
-                                        type="text"
-                                        placeholder="Search..."
-                                        value={searchQuery}
-                                        onChange={e => setSearchQuery(e.target.value)}
-                                        className={styles.searchInput}
+                    {/* Dashboard Tab */}
+                    {activeTab === 'dashboard' && (
+                        <div className="flex flex-col lg:flex-row gap-8">
+                            <div className="flex-1 flex flex-col gap-8">
+                                <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+                                    <KpiCard
+                                        label="Total Sales"
+                                        value={`$${stats?.totalSales?.toLocaleString() || '0'}`}
+                                        delta={`+${stats?.growth || 0}%`}
+                                        icon="payments"
+                                        variant="purple"
+                                    />
+                                    <KpiCard
+                                        label="Elite Customers"
+                                        value={stats?.totalCustomers?.toString() || '0'}
+                                        delta="Live"
+                                        icon="person_add"
+                                        variant="blue"
+                                    />
+                                    <KpiCard
+                                        label="Pending Orders"
+                                        value={stats?.totalOrders?.toString() || '0'}
+                                        delta="Active"
+                                        icon="local_shipping"
+                                        variant="green"
                                     />
                                 </div>
-                                <button className={styles.notifBtn}>🔔<span className={styles.notifDot} /></button>
-                            </div>
-                        </header>
 
-                        <div className={styles.dashboardLayout}>
-                            <div className={styles.dashboardMain}>
-
-                                {/* KPI Cards */}
-                                <div className={styles.kpiRow}>
-                                    <div className={styles.kpiCard}>
-                                        <div className={styles.kpiTopRow}>
-                                            <div className={`${styles.kpiIconBox} ${styles.kpiIconPurple}`}>💳</div>
-                                            <span className={styles.kpiDelta}>+{stats?.growth || 0}%</span>
-                                        </div>
-                                        <div className={styles.kpiLabel}>Total Sales</div>
-                                        <div className={`${styles.kpiValue} ${styles.kpiValuePurple}`}>${stats?.totalSales?.toLocaleString() || '0'}</div>
-                                    </div>
-                                    <div className={styles.kpiCard}>
-                                        <div className={styles.kpiTopRow}>
-                                            <div className={`${styles.kpiIconBox} ${styles.kpiIconBlue}`}>👥</div>
-                                            <span className={styles.kpiDelta}>Live</span>
-                                        </div>
-                                        <div className={styles.kpiLabel}>Total Customers</div>
-                                        <div className={styles.kpiValue}>{stats?.totalCustomers || '0'}</div>
-                                    </div>
-                                    <div className={styles.kpiCard}>
-                                        <div className={styles.kpiTopRow}>
-                                            <div className={`${styles.kpiIconBox} ${styles.kpiIconGreen}`}>📦</div>
-                                            <span className={styles.kpiDelta}>Live</span>
-                                        </div>
-                                        <div className={styles.kpiLabel}>Total Orders</div>
-                                        <div className={styles.kpiValue}>{stats?.totalOrders || '0'}</div>
-                                    </div>
-                                </div>
-
-                                {/* Recent Orders */}
-                                <div className={styles.panel}>
-                                    <div className={styles.panelHeader}>
-                                        <h3>Recent Orders</h3>
-                                        <button className={styles.viewAllBtn} onClick={() => setActiveTab('orders')}>View All</button>
-                                    </div>
-                                    <table className={styles.table}>
-                                        <thead>
-                                            <tr>
-                                                <th>ORDER ID</th>
-                                                <th>CUSTOMER</th>
-                                                <th>PRODUCT</th>
-                                                <th>DATE</th>
-                                                <th>TOTAL</th>
-                                                <th>STATUS</th>
-                                                <th></th>
-                                            </tr>
-                                        </thead>
-                                        <tbody>
-                                            {orders.slice(0, 5).map(order => (
-                                                <tr key={order.id} className={updatingStatusId === order.id ? styles.updating : ''}>
-                                                    <td className={styles.orderId}>#{order.id.slice(-6).toUpperCase()}</td>
-                                                    <td>
-                                                        <div className={styles.customerCell}>
-                                                            <span className={styles.miniAvatar}>{(order.firstName?.[0] || order.guestEmail?.[0] || '?').toUpperCase()}</span>
-                                                            {order.firstName ? `${order.firstName} ${order.lastName || ''}` : (order.guestEmail || 'Guest')}
-                                                        </div>
-                                                    </td>
-                                                    <td>{order.mainProductName}</td>
-                                                    <td className={styles.dateCell}>{new Date(order.createdAt).toLocaleDateString()}</td>
-                                                    <td className={styles.totalCell}>${order.total.toFixed(2)}</td>
-                                                    <td>
-                                                        <select
-                                                            className={`${styles.badge} ${STATUS_BADGE[order.status] ?? ''}`}
-                                                            value={order.status}
-                                                            onChange={(e) => handleStatusUpdate(order.id, e.target.value)}
-                                                            disabled={updatingStatusId === order.id}
-                                                        >
-                                                            <option value="PENDING">Pending</option>
-                                                            <option value="PAID">Paid</option>
-                                                            <option value="SHIPPED">Shipped</option>
-                                                            <option value="DELIVERED">Delivered</option>
-                                                            <option value="CANCELLED">Cancelled</option>
-                                                        </select>
-                                                    </td>
-                                                    <td><button className={styles.menuBtn}>⋮</button></td>
-                                                </tr>
-                                            ))}
-                                        </tbody>
-                                    </table>
-                                </div>
+                                <OrdersTable
+                                    orders={orders.slice(0, 5).map(o => ({
+                                        id: o.id,
+                                        customer: { name: o.firstName ? `${o.firstName} ${o.lastName || ''}` : (o.guestEmail || 'Guest') },
+                                        product: o.mainProductName,
+                                        date: new Date(o.createdAt).toLocaleDateString(),
+                                        total: `$${o.total.toFixed(2)}`,
+                                        status: o.status === 'PENDING' ? 'Pending' : o.status === 'PAID' ? 'Processing' : o.status === 'SHIPPED' ? 'Shipped' : 'Delivered'
+                                    }))}
+                                    onViewAll={() => setActiveTab('orders')}
+                                />
                             </div>
 
-                            {/* ── RIGHT PANEL ──────────────────── */}
-                            <aside className={styles.rightPanel}>
-                                {/* Quick Actions */}
-                                <div className={styles.quickActions}>
-                                    <h4>Quick Actions</h4>
-                                    <button className={styles.addProductBtn} onClick={() => setActiveTab('products')}>
-                                        <span>+</span> Add New Product
-                                    </button>
-                                    <button className={styles.exportBtn}>
-                                        <span>↓</span> Export Report
-                                    </button>
+                            <aside className="w-full lg:w-80 flex flex-col gap-6">
+                                <div className="bg-white/80 backdrop-blur-xl border border-white rounded-3xl p-6 shadow-2xl shadow-purple-500/5">
+                                    <h3 className="text-sm font-black uppercase tracking-widest text-slate-800 mb-4">Quick Actions</h3>
+                                    <div className="flex flex-col gap-3">
+                                        <button
+                                            onClick={() => setActiveTab('products')}
+                                            className="w-full py-4 bg-[#a932bd] text-white rounded-2xl font-black uppercase tracking-widest text-[10px] shadow-xl shadow-purple-500/20 hover:scale-[1.02] active:scale-[0.98] transition-all"
+                                        >
+                                            Add New Product
+                                        </button>
+                                        <button className="w-full py-4 bg-white border border-slate-200 text-slate-400 rounded-2xl font-black uppercase tracking-widest text-[10px] hover:border-[#a932bd] hover:text-[#a932bd] transition-all">
+                                            Export Financials
+                                        </button>
+                                    </div>
                                 </div>
 
-                                {/* Trending */}
-                                <div className={styles.trendingCard}>
-                                    <div className={styles.trendingHeader}>
-                                        <span className={styles.trendingLabel}>TRENDING NOW</span>
-                                        <span className={styles.trendingArrow}>↗</span>
-                                    </div>
-                                    <div className={styles.trendingImg}>
-                                        <div className={styles.trendingOverlay}>
-                                            <p className={styles.trendingTitle}>Summer Collection &apos;24</p>
-                                            <p className={styles.trendingSub}>245 Sold this week</p>
-                                        </div>
+                                <div className="relative group bg-slate-900 rounded-3xl overflow-hidden shadow-2xl aspect-[4/5]">
+                                    <img
+                                        src="/images/collections/peach-phoenix.png"
+                                        alt="Trending Collection"
+                                        className="w-full h-full object-cover opacity-60 group-hover:scale-110 transition-transform duration-700"
+                                    />
+                                    <div className="absolute inset-0 bg-gradient-to-t from-black via-black/20 to-transparent p-6 flex flex-col justify-end">
+                                        <span className="text-[10px] font-black uppercase tracking-[0.2em] text-[#a932bd] mb-2">Trending Now</span>
+                                        <h4 className="text-white text-xl font-bold mb-1">Peach Phoenix™</h4>
+                                        <p className="text-white/60 text-xs">245 Units Sold This Week</p>
                                     </div>
                                 </div>
                             </aside>
                         </div>
-                    </>
-                )}
+                    )}
 
-                {/* ── ORDERS TAB ─────────────────────── */}
-                {activeTab === 'orders' && (
-                    <div className={styles.tabContent}>
-                        <header className={styles.pageHeader}>
-                            <div className={styles.pageTitle}><h1>Orders</h1><p>Manage all customer orders.</p></div>
-                        </header>
-                        <div className={styles.panel}>
-                            <div className={styles.panelHeader}><h3>All Orders</h3></div>
-                            <table className={styles.table}>
-                                <thead>
-                                    <tr>
-                                        <th>ORDER ID</th><th>CUSTOMER</th><th>TOTAL</th>
-                                        <th>DATE</th><th>STATUS</th><th></th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    {orders.map((order: any) => (
-                                        <tr key={order.id}>
-                                            <td className={styles.orderId}>#{order.id.slice(-6).toUpperCase()}</td>
-                                            <td>
-                                                <div className={styles.customerCell}>
-                                                    <span className={styles.miniAvatar}>{(order.firstName?.[0] || order.guestEmail?.[0] || '?').toUpperCase()}</span>
-                                                    {order.firstName ? `${order.firstName} ${order.lastName}` : (order.guestEmail || 'Guest')}
-                                                </div>
-                                            </td>
-                                            <td className={styles.totalCell}>${order.total.toFixed(2)}</td>
-                                            <td className={styles.dateCell}>{new Date(order.createdAt).toLocaleDateString()}</td>
-                                            <td><span className={`${styles.badge} ${STATUS_BADGE[order.status] ?? ''}`}>{order.status}</span></td>
-                                            <td><button className={styles.menuBtn}>⋮</button></td>
-                                        </tr>
-                                    ))}
-                                </tbody>
-                            </table>
+                    {/* Products Tab */}
+                    {activeTab === 'products' && (
+                        <div className="flex flex-col gap-6">
+                            <div className="flex justify-between items-center">
+                                <h3 className="text-xl font-black text-slate-900 tracking-tight">Active Inventory</h3>
+                                <div className="flex gap-3">
+                                    <button className="px-6 py-3 bg-[#a932bd] text-white rounded-full font-black uppercase tracking-widest text-[10px] shadow-lg shadow-purple-500/20 hover:translate-y-[-2px] transition-all">
+                                        + New Piece
+                                    </button>
+                                </div>
+                            </div>
+                            <ProductsTable
+                                products={products.map(p => {
+                                    const totalStock = p.variants.reduce((a, v) => a + v.stock, 0);
+                                    return {
+                                        id: p.id,
+                                        image: p.imageUrl || '/images/placeholder-product.png',
+                                        name: p.name,
+                                        collection: 'Main Collection',
+                                        sku: p.variants[0]?.sku || 'N/A',
+                                        category: p.category,
+                                        price: `$${p.price.toFixed(2)}`,
+                                        stock: totalStock,
+                                        status: totalStock > 20 ? 'In Stock' : totalStock > 0 ? 'Low Stock' : 'Out of Stock'
+                                    };
+                                })}
+                                onEdit={(id) => console.log('Edit', id)}
+                                onDelete={(id) => console.log('Delete', id)}
+                            />
                         </div>
-                    </div>
-                )}
+                    )}
 
-                {/* ── PRODUCTS TAB ─────────────────────── */}
-                {activeTab === 'products' && (
-                    <div className={styles.tabContent}>
-                        <header className={styles.pageHeader}>
-                            <div className={styles.pageTitle}><h1>Products</h1><p>Manage your product catalog.</p></div>
-                            <button className={styles.addProductBtn} onClick={openCreateModal}>+ Add New Product</button>
-                        </header>
-                        <div className={styles.panel}>
-                            <div className={styles.panelHeader}><h3>All Products <span className={styles.count}>{products.length}</span></h3></div>
-                            {loadingProducts ? (
-                                <div className={styles.tableLoading}>Loading from Cloud SQL...</div>
+                    {/* Customers Tab */}
+                    {activeTab === 'customers' && (
+                        <div className="flex flex-col gap-6">
+                            {!selectedCustomerId ? (
+                                <>
+                                    <div className="flex justify-between items-center">
+                                        <h3 className="text-xl font-black text-slate-900 tracking-tight">Elite Members</h3>
+                                    </div>
+                                    <CustomersTable
+                                        customers={customers.map(c => ({
+                                            id: c.id,
+                                            name: c.name,
+                                            email: c.email,
+                                            lastActive: new Date(c.lastOrder).toLocaleDateString(),
+                                            tier: c.ltv > 5000 ? 'Platinum' : c.ltv > 2000 ? 'Gold' : 'Silver'
+                                        }))}
+                                        onViewProfile={(id) => setSelectedCustomerId(id)}
+                                    />
+                                </>
                             ) : (
-                                <table className={styles.table}>
-                                    <thead>
-                                        <tr><th>PRODUCT</th><th>CATEGORY</th><th>PRICE</th><th>STOCK</th><th>VARIANTS</th><th></th></tr>
-                                    </thead>
-                                    <tbody>
-                                        {products.map(p => {
-                                            const totalStock = p.variants.reduce((a, v) => a + v.stock, 0);
-                                            return (
-                                                <tr key={p.id}>
-                                                    <td className={styles.productName}>{p.name}</td>
-                                                    <td><span className={styles.categoryTag}>{p.category}</span></td>
-                                                    <td>${p.price.toFixed(2)}</td>
-                                                    <td><span className={totalStock < 30 ? styles.stockLow : styles.stockOk}>{totalStock}</span></td>
-                                                    <td>{p.variants.length}</td>
-                                                    <td>
-                                                        <button className={styles.editBtn} onClick={() => openEditModal(p)}>Edit</button>
-                                                        <button className={styles.deleteBtnSecondary} onClick={() => handleDeleteProduct(p.id)}>Delete</button>
-                                                    </td>
-                                                </tr>
-                                            );
-                                        })}
-                                    </tbody>
-                                </table>
+                                <CustomerProfile
+                                    customer={{
+                                        id: selectedCustomerId,
+                                        name: 'Dominique Chen',
+                                        email: 'dominique@paris.luxury',
+                                        avatar: 'https://lh3.googleusercontent.com/aida-public/AB6AXuDT9vy-FMmgpcTQoIuMPxR-IUhY_Luk0_jDP-ieCyHh3svX0pw4oaGSCiOlzMTADN3OjpKfwg-K9vIAveqk1UdLjjIO6sPjvR5bueLuh5V_7QAcN1p48HljkvJwD-AuNDtm8DlDZXiaYf2UlnVpEeFT7eWO7I_Tn_gfAXmjq50Rgt_haVCYzWYX994mgo9UlkBeBK6QMxPciQnJ1Ry-Umzv6No9zzKdR06xhuWRgGVfkQ9qUwtAx1zfw5gsSgomc-E3UJMwtnFf-4-0',
+                                        tier: 'ELITE',
+                                        ltv: '$124,500.00',
+                                        aov: '$8,420.00',
+                                        orders: 142,
+                                        joinedDate: 'Jan 12, 2022',
+                                        bio: 'High-net-worth fashion enthusiast focused on limited edition silk gowns and bespoke accessories.'
+                                    }}
+                                    onBack={() => setSelectedCustomerId(null)}
+                                />
                             )}
                         </div>
-                    </div>
-                )}
+                    )}
 
-                {activeTab === 'customers' && (
-                    <div className={styles.tabContent}>
-                        <header className={styles.pageHeader}>
-                            <div className={styles.pageTitle}><h1>Customers</h1><p>Manage your user base.</p></div>
-                        </header>
-                        <div className={styles.panel}>
-                            <div className={styles.panelHeader}><h3>All Customers <span className={styles.count}>{customers.length}</span></h3></div>
-                            <table className={styles.table}>
-                                <thead>
-                                    <tr><th>NAME</th><th>EMAIL</th><th>LAST ACTIVE</th><th>ACTIONS</th></tr>
-                                </thead>
-                                <tbody>
-                                    {customers.map(c => (
-                                        <tr key={c.id}>
-                                            <td>
-                                                <div className={styles.customerCell}>
-                                                    <span className={styles.miniAvatar}>{c.name[0]}</span>
-                                                    {c.name}
-                                                </div>
-                                            </td>
-                                            <td>{c.email}</td>
-                                            <td className={styles.dateCell}>{new Date(c.lastOrder).toLocaleDateString()}</td>
-                                            <td><button className={styles.editBtn}>View Profile</button></td>
-                                        </tr>
-                                    ))}
-                                </tbody>
-                            </table>
-                        </div>
-                    </div>
-                )}
-
-                {activeTab === 'analytics' && (
-                    <div className={styles.tabContent}>
-                        <header className={styles.pageHeader}>
-                            <div className={styles.pageTitle}><h1>Analytics</h1><p>Performance insights from Cloud SQL.</p></div>
-                        </header>
-                        <div className={styles.dashboardLayout}>
-                            <div className={styles.panel}>
-                                <div className={styles.panelHeader}><h3>Sales Performance</h3></div>
-                                <div className={styles.kpiRow}>
-                                    <div className={styles.kpiCard}>
-                                        <div className={styles.kpiLabel}>Recent Sales (30d)</div>
-                                        <div className={styles.kpiValue}>${stats?.recentSales?.toLocaleString() || '0'}</div>
-                                    </div>
-                                    <div className={styles.kpiCard}>
-                                        <div className={styles.kpiLabel}>Avg. Order Value</div>
-                                        <div className={styles.kpiValue}>${stats?.totalOrders ? (stats.totalSales / stats.totalOrders).toFixed(2) : '0'}</div>
-                                    </div>
-                                </div>
+                    {/* Coming Soon Tabs */}
+                    {['collections', 'orders', 'analytics'].includes(activeTab) && activeTab !== 'dashboard' && (
+                        <div className="flex flex-col items-center justify-center py-40 gap-6">
+                            <span className="material-symbols-outlined text-[100px] text-[#a932bd]/20">construction</span>
+                            <div className="text-center">
+                                <h3 className="text-2xl font-black text-slate-900 uppercase tracking-widest">Vault Detail in Production</h3>
+                                <p className="text-slate-500 mt-2">The high-fidelty data sync for this module is currently being finalized.</p>
                             </div>
                         </div>
-                    </div>
-                )}
-
-                {['collections'].includes(activeTab) && (
-                    <div className={styles.tabContent}>
-                        <header className={styles.pageHeader}>
-                            <div className={styles.pageTitle}>
-                                <h1>{NAV_ITEMS.find(n => n.id === activeTab)?.label}</h1>
-                                <p>Coming soon — live data synced from the database.</p>
-                            </div>
-                        </header>
-                        <div className={styles.panel}>
-                            <div className={styles.emptyState}>
-                                <span>{NAV_ITEMS.find(n => n.id === activeTab)?.icon}</span>
-                                <p>This section is ready for data.</p>
-                            </div>
-                        </div>
-                    </div>
-                )}
-            </div>
-
-            {/* ── PRODUCT MODAL ───────────────────────── */}
-            {isProductModalOpen && (
-                <div className={styles.modalOverlay}>
-                    <div className={styles.modalContent}>
-                        <header className={styles.modalHeader}>
-                            <h2>{editingProduct ? 'Edit Product' : 'Add New Product'}</h2>
-                            <button className={styles.closeBtn} onClick={() => setIsProductModalOpen(false)}>×</button>
-                        </header>
-                        <form onSubmit={handleSaveProduct} className={styles.modalBody}>
-                            <div className={styles.formGrid}>
-                                <div className={styles.formGroup}>
-                                    <label>Product Name</label>
-                                    <input
-                                        className={styles.input}
-                                        value={productForm.name}
-                                        onChange={e => setProductForm({ ...productForm, name: e.target.value })}
-                                        required
-                                    />
-                                </div>
-                                <div className={styles.formGroup}>
-                                    <label>Category</label>
-                                    <select
-                                        className={styles.select}
-                                        value={productForm.category}
-                                        onChange={e => setProductForm({ ...productForm, category: e.target.value })}
-                                    >
-                                        <option value="Dress">Dress</option>
-                                        <option value="Accessories">Accessories</option>
-                                        <option value="Footwear">Footwear</option>
-                                        <option value="Outerwear">Outerwear</option>
-                                    </select>
-                                </div>
-                                <div className={styles.formGroup}>
-                                    <label>Price ($)</label>
-                                    <input
-                                        type="number"
-                                        className={styles.input}
-                                        value={productForm.price}
-                                        onChange={e => setProductForm({ ...productForm, price: parseFloat(e.target.value) })}
-                                        required
-                                    />
-                                </div>
-                                <div className={styles.formGroup}>
-                                    <label>Base Image URL</label>
-                                    <input
-                                        className={styles.input}
-                                        value={productForm.imageUrl}
-                                        onChange={e => setProductForm({ ...productForm, imageUrl: e.target.value })}
-                                    />
-                                </div>
-                                <div className={`${styles.formGroup} ${styles.formGroupFull}`}>
-                                    <label>Variants (SKU - Stock)</label>
-                                    <div className={styles.variantSection}>
-                                        {productForm.variants?.map((v, i) => (
-                                            <div key={i} className={styles.variantRow}>
-                                                <input
-                                                    placeholder="SKU"
-                                                    className={styles.input}
-                                                    value={v.sku}
-                                                    onChange={e => {
-                                                        const newVar = [...(productForm.variants || [])];
-                                                        newVar[i].sku = e.target.value;
-                                                        setProductForm({ ...productForm, variants: newVar });
-                                                    }}
-                                                />
-                                                <input
-                                                    placeholder="Stock"
-                                                    type="number"
-                                                    className={styles.input}
-                                                    value={v.stock}
-                                                    onChange={e => {
-                                                        const newVar = [...(productForm.variants || [])];
-                                                        newVar[i].stock = parseInt(e.target.value);
-                                                        setProductForm({ ...productForm, variants: newVar });
-                                                    }}
-                                                />
-                                                <button
-                                                    type="button"
-                                                    className={styles.removeVariantBtn}
-                                                    onClick={() => {
-                                                        const newVar = productForm.variants?.filter((_, index) => index !== i);
-                                                        setProductForm({ ...productForm, variants: newVar });
-                                                    }}
-                                                >×</button>
-                                            </div>
-                                        ))}
-                                        <button
-                                            type="button"
-                                            className={styles.addVariantBtn}
-                                            onClick={() => setProductForm({ ...productForm, variants: [...(productForm.variants || []), { sku: '', stock: 0 }] })}
-                                        >+ Add Variant</button>
-                                    </div>
-                                </div>
-                            </div>
-                            <div className={styles.modalFooter}>
-                                <button type="button" className={styles.cancelBtn} onClick={() => setIsProductModalOpen(false)}>Cancel</button>
-                                <button type="submit" className={styles.saveBtn}>Save Product</button>
-                            </div>
-                        </form>
-                    </div>
+                    )}
                 </div>
-            )}
+            </main>
         </div>
-
     );
 }
