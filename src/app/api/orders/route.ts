@@ -1,6 +1,6 @@
 import { NextResponse } from 'next/server';
 import { getServerSession } from 'next-auth/next';
-import { authOptions } from '@/app/api/auth/[...nextauth]/route';
+import { authOptions } from '@/lib/auth';
 import { prisma } from '@/lib/prisma';
 
 export async function GET(request: Request) {
@@ -42,8 +42,8 @@ export async function GET(request: Request) {
                 // For the "Product" column in the table
                 mainProductId: leadingItem?.product?.id,
                 mainProductName: itemCount > 1
-                    ? `${leadingItem?.product?.name} +${itemCount - 1} more`
-                    : leadingItem?.product?.name || 'Multiple Items'
+                    ? `${leadingItem?.product?.title} +${itemCount - 1} more`
+                    : leadingItem?.product?.title || 'Multiple Items'
             };
         });
 

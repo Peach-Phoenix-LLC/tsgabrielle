@@ -14,18 +14,20 @@ export const dynamic = 'force-dynamic';
 
 export default async function Home() {
   try {
-    // Fetch live products from Cloud SQL via Prisma
+    // Fetch live products
     const products = await prisma.product.findMany({
-      take: 4, // Fetch top 4 core collections
-      orderBy: { createdAt: 'asc' },
+      where: { status: 'active' },
+      take: 4,
+      orderBy: { created_at: 'asc' },
     });
 
-    console.log(`Page: Fetched ${products?.length || 0} products`);
-
-    // Serialize Decimal to satisfy Next.js Server-to-Client boundaries
-    const serializedProducts = products.map((product: any) => ({
-      ...product,
-      price: Number(product.price)
+    // Map to the structure expected by HoloCollections
+    const mappedProducts = products.map((p: any) => ({
+      id: p.peach_number.toString(),
+      name: p.title,
+      image_url: p.media_primary_url,
+      seo_description: p.short_description,
+      category: p.catalogue_category
     }));
 
     return (
@@ -36,7 +38,7 @@ export default async function Home() {
           <HoloHero />
           <HoloCategories />
           <HoloPhilosophy />
-          <HoloCollections products={serializedProducts as any} />
+          <HoloCollections products={mappedProducts as any} />
           <SkillsSection />
           <Reviews />
         </PageAnimations>

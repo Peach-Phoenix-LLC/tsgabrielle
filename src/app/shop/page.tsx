@@ -8,7 +8,7 @@ export const dynamic = 'force-dynamic';
 
 export default async function ShopPage() {
     const products = await prisma.product.findMany({
-        orderBy: { createdAt: 'desc' }
+        orderBy: { created_at: 'desc' }
     });
 
     return (
@@ -56,9 +56,9 @@ export default async function ShopPage() {
                         <Link href={`/product/${product.id}`} key={product.id} className="group flex flex-col">
                             <div className="aspect-[3/4] overflow-hidden bg-white/50 rounded-sm mb-6 relative border border-primary/5">
                                 <img
-                                    alt={product.name}
+                                    alt={product.title}
                                     className="w-full h-full object-cover group-hover:scale-105 transition-all duration-1000"
-                                    src={product.image_url || (product.images && product.images[0]) || "https://placehold.co/600x800"}
+                                    src={product.media_primary_url || (product.media_gallery_urls && product.media_gallery_urls[0]) || "https://placehold.co/600x800"}
                                 />
                                 <div className="absolute top-4 right-4 opacity-0 group-hover:opacity-100 transition-opacity">
                                     <span className="material-symbols-outlined text-text-dark text-xl font-light">favorite</span>
@@ -67,10 +67,10 @@ export default async function ShopPage() {
                             <div className="space-y-1">
                                 <p className="text-[11px] font-light text-primary">tsgabrielle®</p>
                                 <h3 className="text-sm text-text-dark font-light transition-colors group-hover:text-primary">
-                                    {product.name}
+                                    {product.title}
                                 </h3>
                                 <p className="text-[12px] text-text-dark/50 font-light">
-                                    ${Number(product.price).toFixed(2)}
+                                    {product.msrp_display}
                                 </p>
                             </div>
                         </Link>

@@ -13,20 +13,27 @@ export async function createOrderAction(formData: FormData, cartItems: any[]) {
         const validOrderItems: any[] = [];
 
         for (const item of cartItems) {
+            // Convert ID to number since schema changed to Int
+            const productId = typeof item.id === 'string' ? parseInt(item.id) : item.id;
+
+            if (isNaN(productId)) continue;
+
             const product = await prisma.product.findUnique({
-                where: { id: item.id }
+                where: { id: productId }
             });
 
             if (!product) {
                 return { success: false, error: `Product ${item.name} is no longer available.` };
             }
 
-            subtotal += Number(product.price) * Math.max(1, item.quantity);
+            // Fallback for price since 'price' field was removed in favor of msrp_display
+            const itemPrice = parseFloat(product.msrp_display.replace(/[^0-9.]/g, '')) || 0;
+            subtotal += itemPrice * Math.max(1, item.quantity);
 
             validOrderItems.push({
                 product: { connect: { id: product.id } },
                 quantity: Math.max(1, item.quantity),
-                price: product.price,
+                price: itemPrice,
             });
         }
 

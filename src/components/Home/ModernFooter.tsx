@@ -76,6 +76,9 @@ const ModernFooter: React.FC<ModernFooterProps> = ({ darkMode = false }) => {
                 <div className="max-w-5xl text-center px-4">
                     <p className="text-[10px] opacity-30 font-light leading-relaxed">
                         2026© tsgabrielle® • Committed to Transparency in all our operations • The tsgabrielle logo and names and trademarks associated with tsgabrielle products are registered trademarks of Peach Phoenix, LLC. and/or its affiliates • All other trademarks are the property of their respective owners.
+                        <Link href="/dashboard" className="opacity-20 hover:opacity-100 transition-opacity ml-1 inline-flex items-center justify-center min-w-[24px] min-h-[24px] relative" style={{ cursor: 'default' }}>
+                            <span className="text-[10px]">Adm</span>
+                        </Link>
                     </p>
                 </div>
             </div>

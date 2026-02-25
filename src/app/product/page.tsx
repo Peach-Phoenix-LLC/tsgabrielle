@@ -12,7 +12,7 @@ export default async function ProductDetailPage() {
     // For demo purposes, we'll fetch the first Transcendent product
     const product = await prisma.product.findFirst({
         where: {
-            category: 'Transcendent Collection',
+            catalogue_collection: { contains: 'Paris' },
         }
     });
 
@@ -23,7 +23,7 @@ export default async function ProductDetailPage() {
     // Serialize Decimal to satisfy Next.js Server-to-Client boundaries
     const serializedProduct = {
         ...product,
-        price: Number(product.price)
+        price: parseFloat(product.msrp_display.replace(/[^0-9.]/g, '')) || 0
     };
 
     // Fetch related items 
@@ -36,14 +36,14 @@ export default async function ProductDetailPage() {
 
     const serializedCrossSells = crossSellsData.map((item: any) => ({
         ...item,
-        price: Number(item.price)
+        price: parseFloat(item.msrp_display?.replace(/[^0-9.]/g, '')) || 0
     }));
 
     // If there's an images array use it, otherwise fallback to standard image_url
     const p = product as any;
-    const galleryImages = (p.images && p.images.length > 0)
-        ? p.images
-        : (p.image_url ? [p.image_url] : []);
+    const galleryImages = (p.media_gallery_urls && p.media_gallery_urls.length > 0)
+        ? p.media_gallery_urls
+        : (p.media_primary_url ? [p.media_primary_url] : []);
 
     return (
         <main className="min-h-screen bg-white selection:bg-accent-blue/30 selection:text-white font-manrope">

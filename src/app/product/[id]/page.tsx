@@ -12,14 +12,13 @@ export const dynamic = 'force-dynamic';
 
 export default async function ProductDetailPage({ params }: { params: Promise<{ id: string }> }) {
     const { id } = await params;
-    // Simple UUID regex check to prevent Prisma from blowing up on malformed IDs
-    const uuidRegex = /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i;
-    if (!uuidRegex.test(id)) {
+    const productId = parseInt(id);
+    if (isNaN(productId)) {
         notFound();
     }
 
     const product = await prisma.product.findUnique({
-        where: { id }
+        where: { id: productId }
     });
 
     if (!product) {
@@ -34,9 +33,9 @@ export default async function ProductDetailPage({ params }: { params: Promise<{ 
     });
 
     const p = product as any;
-    const galleryImages = (p.images && p.images.length > 0)
-        ? p.images
-        : (p.image_url ? [p.image_url] : [
+    const galleryImages = (p.media_gallery_urls && p.media_gallery_urls.length > 0)
+        ? p.media_gallery_urls
+        : (p.media_primary_url ? [p.media_primary_url] : [
             "https://lh3.googleusercontent.com/aida-public/AB6AXuAlcy-ObziwhUk21hAeBp7qwb4LDDHzBTgAV1TJYFocUudHKPBpDTQadWGtZfSk0dvi5XBYQCefBLH3GJHoOTReNiKvzmbcacs25pfaQwWAtt9SGDPw3bRYLcJ2g_Fxx-y5TeAL168rQbgiiyLiHUTIUOKKNSBCCmLb6l9y4-lR9rnOCm1mRor8QJHOBA0kephN5zEVn7fLg_EZSQKcMMSlsA_atVC_BPkWTH6ySitjvBQP1eD1uSrcfx7i7LQrcP_Rr4ib2mYaDoDS"
         ]);
 
@@ -51,7 +50,7 @@ export default async function ProductDetailPage({ params }: { params: Promise<{ 
                         {galleryImages.map((img: string, i: number) => (
                             <div key={i} className={`overflow-hidden bg-white border border-primary/10 rounded-sm ${i > 1 ? 'aspect-square' : 'aspect-[3/4]'}`}>
                                 <img
-                                    alt={`${product.name} View ${i + 1}`}
+                                    alt={`${product.title} View ${i + 1}`}
                                     className="w-full h-full object-cover transition-all duration-1000 group-hover:scale-105"
                                     src={img}
                                 />
@@ -66,22 +65,18 @@ export default async function ProductDetailPage({ params }: { params: Promise<{ 
                                 <nav className="flex items-center gap-2 text-[12px] font-light text-text-dark/50">
                                     <Link className="hover:text-primary transition-colors" href="/">Home</Link>
                                     <span className="opacity-30">/</span>
-                                    <Link className="hover:text-primary transition-colors" href="/shop">{product.category}</Link>
+                                    <Link className="hover:text-primary transition-colors" href="/shop">{product.catalogue_category}</Link>
                                     <span className="opacity-30">/</span>
-                                    <span className="text-text-dark truncate max-w-[120px]">{product.name}</span>
+                                    <span className="text-text-dark truncate max-w-[120px]">{product.title}</span>
                                 </nav>
                                 <div>
                                     <p className="text-[12px] font-light text-primary mb-2">Exclusive</p>
-                                    <h1 className="text-4xl font-light tracking-tight text-text-dark leading-tight">{product.name}</h1>
+                                    <h1 className="text-4xl font-light tracking-tight text-text-dark leading-tight">{product.title}</h1>
                                     <div className="flex items-center gap-4 mt-6">
-                                        <p className="text-xl font-light text-text-dark opacity-80">${Number(product.price).toFixed(2)}</p>
+                                        <p className="text-xl font-light text-text-dark opacity-80">{product.msrp_display}</p>
                                         <div className="h-4 w-px bg-primary/10"></div>
                                         <p className="text-[11px] font-light text-primary">
-                                            {product.stock && product.stock > 0 && product.stock <= 5
-                                                ? `Only ${product.stock} remaining`
-                                                : product.stock && product.stock > 5 && product.stock <= 15
-                                                    ? "Limited edition"
-                                                    : "Curated piece"}
+                                            Curated piece
                                         </p>
                                     </div>
                                 </div>
@@ -114,12 +109,12 @@ export default async function ProductDetailPage({ params }: { params: Promise<{ 
 
                             <div className="flex flex-col gap-4">
                                 <AddToCartButton product={{
-                                    id: product.id,
-                                    name: product.name,
-                                    price: Number(product.price),
+                                    id: product.id.toString(),
+                                    name: product.title,
+                                    price: parseFloat(product.msrp_display.replace(/[^0-9.]/g, '')) || 0,
                                     image: galleryImages[0] || ""
                                 }} />
-                                <WishlistButton productId={product.id} />
+                                <WishlistButton productId={product.id.toString()} />
 
                                 <div className="grid grid-cols-3 gap-1 pt-4 border-t border-primary/5">
                                     <div className="flex flex-col items-center gap-1">
@@ -144,27 +139,13 @@ export default async function ProductDetailPage({ params }: { params: Promise<{ 
                                         <span className="material-symbols-outlined text-sm font-light text-text-dark group-open:rotate-180 transition-transform">expand_more</span>
                                     </summary>
                                     <div className="mt-6 text-[14px] leading-relaxed text-text-dark/60 space-y-4 font-light">
-                                        <p>{product.description}</p>
+                                        <p>{product.short_description}</p>
                                         <ul className="space-y-2 border-l border-primary/30 pl-4">
-                                            {product.details?.map((detail: string, i: number) => (
-                                                <li key={i}>{detail}</li>
-                                            ))}
                                             {product.composition && <li>Composition: {product.composition}</li>}
                                         </ul>
                                     </div>
                                 </details>
 
-                                {product.sustainability && (
-                                    <details className="group py-5 border-b border-primary/10">
-                                        <summary className="flex items-center justify-between cursor-pointer list-none outline-none text-[13px] font-light text-text-dark">
-                                            Sustainability
-                                            <span className="material-symbols-outlined text-sm font-light text-text-dark group-open:rotate-180 transition-transform">expand_more</span>
-                                        </summary>
-                                        <div className="mt-6 text-[14px] leading-relaxed text-text-dark/60 font-light">
-                                            <p>{product.sustainability}</p>
-                                        </div>
-                                    </details>
-                                )}
 
                                 <details className="group py-5 border-b border-primary/10">
                                     <summary className="flex items-center justify-between cursor-pointer list-none outline-none text-[13px] font-light text-text-dark">
@@ -208,8 +189,8 @@ export default async function ProductDetailPage({ params }: { params: Promise<{ 
                                             )}
                                         </div>
                                         <p className="text-[11px] font-light text-primary">tsgabrielle®</p>
-                                        <h3 className="text-[13px] text-text-dark font-light mt-2 tracking-wide truncate group-hover:text-primary transition-colors">{item.name}</h3>
-                                        <p className="text-[12px] text-text-dark/50 font-light mt-2">${Number(item.price).toFixed(2)}</p>
+                                        <h3 className="text-[13px] text-text-dark font-light mt-2 tracking-wide truncate group-hover:text-primary transition-colors">{item.title}</h3>
+                                        <p className="text-[12px] text-text-dark/50 font-light mt-2">{item.msrp_display}</p>
                                     </Link>
                                 );
                             })}

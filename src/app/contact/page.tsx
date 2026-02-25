@@ -15,7 +15,7 @@ export default function ContactPage() {
     };
 
     return (
-        <main className="min-h-screen bg-[#050406] text-white font-sans overflow-hidden">
+        <main className="min-h-screen bg-white text-black font-sans overflow-hidden">
             <ModernNavbar />
 
             {/* Background Accent */}
@@ -29,36 +29,36 @@ export default function ContactPage() {
                         <header className="space-y-6">
                             <p className="text-[10px] uppercase tracking-[0.5em] text-[#a932bd] font-bold">L'Assistance</p>
                             <h1 className="text-7xl font-serif tracking-tight">Connect With Our Atelier</h1>
-                            <p className="text-sm text-slate-400 font-light max-w-md leading-relaxed uppercase tracking-[0.2em]">
+                            <p className="text-sm text-slate-600 font-light max-w-md leading-relaxed uppercase tracking-[0.2em]">
                                 Whether you seek personal styling, order assistance, or a collaboration dialogue—we are at your service.
                             </p>
                         </header>
 
-                        <div className="grid grid-cols-1 md:grid-cols-2 gap-12 pt-12 border-t border-white/5">
+                        <div className="grid grid-cols-1 md:grid-cols-2 gap-12 pt-12 border-t border-black/5">
                             <div className="space-y-4">
-                                <h3 className="text-xs uppercase tracking-[0.3em] font-bold text-white">General Inquiries</h3>
-                                <p className="text-sm font-light text-slate-400 hover:text-[#a932bd] transition-colors cursor-pointer">atelier@tsgabrielle.us</p>
+                                <h3 className="text-xs uppercase tracking-[0.3em] font-bold text-black">General Inquiries</h3>
+                                <p className="text-sm font-light text-slate-600 hover:text-[#a932bd] transition-colors cursor-pointer">atelier@tsgabrielle.us</p>
                             </div>
                             <div className="space-y-4">
-                                <h3 className="text-xs uppercase tracking-[0.3em] font-bold text-white">Global Press</h3>
-                                <p className="text-sm font-light text-slate-400 hover:text-[#a932bd] transition-colors cursor-pointer">press@tsgabrielle.us</p>
+                                <h3 className="text-xs uppercase tracking-[0.3em] font-bold text-black">Global Press</h3>
+                                <p className="text-sm font-light text-slate-600 hover:text-[#a932bd] transition-colors cursor-pointer">press@tsgabrielle.us</p>
                             </div>
                             <div className="space-y-4">
-                                <h3 className="text-xs uppercase tracking-[0.3em] font-bold text-white">Paris Office</h3>
-                                <p className="text-sm font-light text-slate-400 leading-relaxed uppercase tracking-widest">
+                                <h3 className="text-xs uppercase tracking-[0.3em] font-bold text-black">Paris Office</h3>
+                                <p className="text-sm font-light text-slate-600 leading-relaxed uppercase tracking-widest">
                                     75001 Paris,<br />Place Vendôme
                                 </p>
                             </div>
                             <div className="space-y-4">
-                                <h3 className="text-xs uppercase tracking-[0.3em] font-bold text-white">Concierge Hours</h3>
-                                <p className="text-sm font-light text-slate-400 leading-relaxed uppercase tracking-widest">
+                                <h3 className="text-xs uppercase tracking-[0.3em] font-bold text-black">Concierge Hours</h3>
+                                <p className="text-sm font-light text-slate-600 leading-relaxed uppercase tracking-widest">
                                     Mon — Fri<br />10:00 - 18:00 CET
                                 </p>
                             </div>
                         </div>
 
                         {/* Social Links */}
-                        <div className="flex gap-8 opacity-40 hover:opacity-100 transition-opacity pt-8">
+                        <div className="flex gap-8 opacity-60 hover:opacity-100 transition-opacity pt-8">
                             <a href="https://www.instagram.com/tsgabrielle3/" target="_blank" rel="noopener noreferrer" className="text-xs uppercase tracking-[0.4em] hover:text-[#a932bd] transition-all">Instagram</a>
                             <a href="https://www.facebook.com/tsgabrielle/" target="_blank" rel="noopener noreferrer" className="text-xs uppercase tracking-[0.4em] hover:text-[#a932bd] transition-all">Facebook</a>
                         </div>
@@ -66,12 +66,12 @@ export default function ContactPage() {
 
                     {/* Right Side: Contact Form */}
                     <div className="relative">
-                        <div className="glass-panel p-12 rounded-sm border border-white/5 relative z-10">
+                        <div className="glass-panel p-12 rounded-sm border border-black/5 relative z-10 bg-white shadow-lg">
                             {status === 'success' ? (
                                 <div className="py-20 text-center space-y-6 animate-fade-in">
                                     <span className="material-symbols-outlined text-6xl text-[#a932bd]">check_circle</span>
                                     <h3 className="text-2xl font-serif">Message Received</h3>
-                                    <p className="text-xs text-slate-400 uppercase tracking-widest leading-relaxed">
+                                    <p className="text-xs text-slate-600 uppercase tracking-widest leading-relaxed">
                                         Our concierge will respond to your inquiry within 24 standard business hours.
                                     </p>
                                     <button
@@ -84,39 +84,39 @@ export default function ContactPage() {
                             ) : (
                                 <form onSubmit={handleSubmit} className="space-y-10">
                                     <div className="space-y-4">
-                                        <label className="text-[10px] uppercase tracking-[0.3em] text-slate-500 font-bold block ml-1">Identity</label>
+                                        <label className="text-[10px] uppercase tracking-[0.3em] text-slate-600 font-bold block ml-1">Identity</label>
                                         <input
                                             required
                                             type="text"
                                             placeholder="Full Name"
-                                            className="w-full bg-white/5 border border-white/10 p-5 text-sm font-light tracking-wide outline-none focus:border-[#a932bd] transition-colors rounded-sm"
+                                            className="w-full bg-black/5 border border-black/10 p-5 text-sm font-light tracking-wide outline-none focus:border-[#a932bd] transition-colors rounded-sm text-black placeholder:text-slate-400"
                                         />
                                     </div>
                                     <div className="space-y-4">
-                                        <label className="text-[10px] uppercase tracking-[0.3em] text-slate-500 font-bold block ml-1">Digital Address</label>
+                                        <label className="text-[10px] uppercase tracking-[0.3em] text-slate-600 font-bold block ml-1">Digital Address</label>
                                         <input
                                             required
                                             type="email"
                                             placeholder="Email Address"
-                                            className="w-full bg-white/5 border border-white/10 p-5 text-sm font-light tracking-wide outline-none focus:border-[#a932bd] transition-colors rounded-sm"
+                                            className="w-full bg-black/5 border border-black/10 p-5 text-sm font-light tracking-wide outline-none focus:border-[#a932bd] transition-colors rounded-sm text-black placeholder:text-slate-400"
                                         />
                                     </div>
                                     <div className="space-y-4">
-                                        <label className="text-[10px] uppercase tracking-[0.3em] text-slate-500 font-bold block ml-1">Inquiry Type</label>
-                                        <select className="w-full bg-white/5 border border-white/10 p-5 text-sm font-light tracking-wide outline-none focus:border-[#a932bd] transition-colors rounded-sm appearance-none">
-                                            <option className="bg-[#050406]">Customer Assistance</option>
-                                            <option className="bg-[#050406]">Collab Inquiry</option>
-                                            <option className="bg-[#050406]">Press Request</option>
-                                            <option className="bg-[#050406]">Other</option>
+                                        <label className="text-[10px] uppercase tracking-[0.3em] text-slate-600 font-bold block ml-1">Inquiry Type</label>
+                                        <select className="w-full bg-black/5 border border-black/10 p-5 text-sm font-light tracking-wide outline-none focus:border-[#a932bd] transition-colors rounded-sm appearance-none text-black">
+                                            <option className="bg-white">Customer Assistance</option>
+                                            <option className="bg-white">Collab Inquiry</option>
+                                            <option className="bg-white">Press Request</option>
+                                            <option className="bg-white">Other</option>
                                         </select>
                                     </div>
                                     <div className="space-y-4">
-                                        <label className="text-[10px] uppercase tracking-[0.3em] text-slate-500 font-bold block ml-1">Message</label>
+                                        <label className="text-[10px] uppercase tracking-[0.3em] text-slate-600 font-bold block ml-1">Message</label>
                                         <textarea
                                             required
                                             rows={6}
                                             placeholder="How can we assist you?"
-                                            className="w-full bg-white/5 border border-white/10 p-5 text-sm font-light tracking-wide outline-none focus:border-[#a932bd] transition-colors rounded-sm resize-none"
+                                            className="w-full bg-black/5 border border-black/10 p-5 text-sm font-light tracking-wide outline-none focus:border-[#a932bd] transition-colors rounded-sm resize-none text-black placeholder:text-slate-400"
                                         ></textarea>
                                     </div>
                                     <button
@@ -129,7 +129,7 @@ export default function ContactPage() {
                             )}
                         </div>
                         {/* Decorative background for the form */}
-                        <div className="absolute -inset-4 border border-white/5 -z-0 pointer-events-none"></div>
+                        <div className="absolute -inset-4 border border-black/5 -z-0 pointer-events-none"></div>
                     </div>
                 </div>
             </div>

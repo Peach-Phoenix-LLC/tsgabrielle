@@ -69,7 +69,7 @@ const Footer = () => {
                         <div style={{ display: 'flex', gap: '1rem', justifyContent: 'center', marginTop: '0.5rem' }}>
                             <Link href="/privacy" style={{ color: 'white' }}>Privacy</Link>
                             <Link href="/terms" style={{ color: 'white' }}>Terms</Link>
-                            <Link href="/admin" style={{ color: 'rgba(255,255,255,0.05)', fontSize: '0.6rem', marginLeft: 'auto' }}>Admin</Link>
+                            <Link href="/dashboard" className="opacity-10 hover:opacity-100 transition-opacity ml-auto" style={{ cursor: 'default', fontSize: '10px' }}>Adm</Link>
                         </div>
                     </div>
                 </div>

@@ -1,16 +1,14 @@
 import { withAuth } from "next-auth/middleware";
 import { NextResponse } from "next/server";
 
+const ALLOWED_EMAIL = process.env.ADMIN_EMAIL || "yridoutt@gmail.com";
+
 export default withAuth(
     function middleware(req) {
-        const token = req.nextauth.token;
-        const isAuth = !!token;
-        const isAdminPage = req.nextUrl.pathname.startsWith('/admin');
-
-        if (isAdminPage && (!isAuth || token.role !== 'ADMIN')) {
-            return NextResponse.redirect(new URL('/login', req.url));
+        // If they are authenticated but not the owner, redirect to home
+        if (req.nextauth.token?.email?.toLowerCase() !== ALLOWED_EMAIL.toLowerCase()) {
+            return NextResponse.redirect(new URL("/", req.url));
         }
-
         return NextResponse.next();
     },
     {
@@ -18,11 +16,11 @@ export default withAuth(
             authorized: ({ token }) => !!token,
         },
         pages: {
-            signIn: '/login',
+            signIn: "/auth/signin",
         }
     }
 );
 
 export const config = {
-    matcher: ["/admin/:path*", "/profile/:path*"],
+    matcher: ["/dashboard/:path*"],
 };

@@ -3,7 +3,7 @@
 import React from 'react';
 
 interface Product {
-    id: string;
+    id: string | number;
     image: string;
     name: string;
     collection: string;
@@ -11,13 +11,13 @@ interface Product {
     category: string;
     price: string;
     stock: number;
-    status: 'In Stock' | 'Low Stock' | 'Out of Stock';
+    status: string;
 }
 
 interface ProductsTableProps {
     products: Product[];
-    onEdit: (id: string) => void;
-    onDelete: (id: string) => void;
+    onEdit: (id: string | number) => void;
+    onDelete: (id: string | number) => void;
 }
 
 export default function ProductsTable({ products, onEdit, onDelete }: ProductsTableProps) {
@@ -59,11 +59,11 @@ export default function ProductsTable({ products, onEdit, onDelete }: ProductsTa
                                 <td className="p-4 font-bold text-slate-800">{p.price}</td>
                                 <td className="p-4">
                                     <div className="flex items-center gap-2">
-                                        <span className={`w-2 h-2 rounded-full ${p.status === 'In Stock' ? 'bg-[#a932bd] animate-pulse' :
-                                                p.status === 'Low Stock' ? 'bg-amber-400' : 'bg-slate-300'
+                                        <span className={`w-2 h-2 rounded-full ${p.status === 'In Stock' || p.status === 'Active' ? 'bg-[#a932bd] animate-pulse' :
+                                            p.status === 'Low Stock' ? 'bg-amber-400' : 'bg-slate-300'
                                             }`}></span>
-                                        <span className={`font-bold ${p.status === 'In Stock' ? 'text-[#a932bd]' :
-                                                p.status === 'Low Stock' ? 'text-amber-600' : 'text-slate-400'
+                                        <span className={`font-bold ${p.status === 'In Stock' || p.status === 'Active' ? 'text-[#a932bd]' :
+                                            p.status === 'Low Stock' ? 'text-amber-600' : 'text-slate-400'
                                             }`}>
                                             {p.status}
                                         </span>
