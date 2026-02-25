@@ -4,12 +4,17 @@ import ProductSpecs from './ProductSpecs';
 import { useCartStore } from '@/lib/store';
 
 export interface ProductType {
-    id: string;
-    name: string;
-    description: string;
-    price: number | any; // Decimal from Prisma
-    category: string;
-    image_url: string | null;
+    id: string | number;
+    title?: string;
+    name?: string; // Fallback
+    short_description?: string;
+    description?: string; // Fallback
+    price: number | any;
+    msrp_display?: string;
+    catalogue_category?: string;
+    category?: string; // Fallback
+    media_primary_url?: string | null;
+    image_url?: string | null; // Fallback
 }
 
 export default function ProductInfo({ product }: { product: ProductType }) {
@@ -19,12 +24,19 @@ export default function ProductInfo({ product }: { product: ProductType }) {
     const [quantity, setQuantity] = useState(1);
     const [isAdded, setIsAdded] = useState(false);
 
+    // Normalize data
+    const title = product.title || product.name || 'Unknown Product';
+    const description = product.short_description || product.description || '';
+    const category = product.catalogue_category || product.category || 'Atelier';
+    const imageUrl = product.media_primary_url || product.image_url || '';
+    const displayPrice = product.msrp_display || (product.price ? `$${Number(product.price).toFixed(2)}` : '');
+
     const handleAddToBag = () => {
         addItem({
-            id: product.id,
-            name: product.name,
-            price: Number(product.price),
-            image: product.image_url || '',
+            id: product.id.toString(),
+            name: title,
+            price: Number(product.price) || 0,
+            image: imageUrl,
             quantity: quantity,
             size: selectedSize,
             color: selectedColor
@@ -33,6 +45,7 @@ export default function ProductInfo({ product }: { product: ProductType }) {
         setIsAdded(true);
         setTimeout(() => setIsAdded(false), 2000);
     };
+
     return (
         <div className="flex flex-col h-full md:pl-8 lg:pl-12 pt-8 md:pt-0">
 
@@ -41,21 +54,21 @@ export default function ProductInfo({ product }: { product: ProductType }) {
                 <div className="flex items-center gap-2 text-xs font-semibold uppercase tracking-widest text-gray-500 mb-4">
                     <span>tsgabrielle®</span>
                     <span className="w-1 h-1 rounded-full bg-gray-300"></span>
-                    <span className="text-accent-blue">{product.category}</span>
+                    <span className="text-accent-blue">{category}</span>
                 </div>
 
                 <h1 className="text-4xl md:text-5xl font-black text-gray-900 leading-tight mb-4 tracking-tight">
-                    {product.name}
+                    {title}
                 </h1>
 
                 <div className="flex items-baseline gap-4">
-                    <p className="text-3xl font-medium text-gray-900">${Number(product.price).toFixed(2)}</p>
+                    <p className="text-3xl font-medium text-gray-900">{displayPrice}</p>
                 </div>
             </div>
 
             {/* Description */}
             <p className="text-gray-600 font-light leading-relaxed mb-10 text-lg">
-                {product.description}
+                {description}
             </p>
 
             {/* Selectors */}

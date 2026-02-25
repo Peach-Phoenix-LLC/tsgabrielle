@@ -18,7 +18,7 @@ export async function toggleWishlistItemAction(userId: string, productId: string
             where: {
                 user_id_product_id: {
                     user_id: userId,
-                    product_id: productId,
+                    product_id: parseInt(productId),
                 },
             },
         });
@@ -36,7 +36,7 @@ export async function toggleWishlistItemAction(userId: string, productId: string
             await prisma.wishlistItem.create({
                 data: {
                     user_id: userId,
-                    product_id: productId,
+                    product_id: parseInt(productId),
                 },
             });
             revalidatePath(`/product/${productId}`);
@@ -84,7 +84,7 @@ export async function isItemInWishlistAction(userId: string, productId: string) 
             where: {
                 user_id_product_id: {
                     user_id: userId,
-                    product_id: productId,
+                    product_id: parseInt(productId),
                 },
             },
         });
