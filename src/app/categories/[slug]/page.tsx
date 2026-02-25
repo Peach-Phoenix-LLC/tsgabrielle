@@ -4,6 +4,8 @@ import { getProductsByCategory, toPublicProduct } from "@/lib/products";
 import CollectionTemplate from "@/components/Collection/CollectionTemplate";
 import { prisma } from "@/lib/prisma";
 
+export const dynamic = 'force-dynamic';
+
 interface PageProps {
     params: Promise<{ slug: string }>;
 }

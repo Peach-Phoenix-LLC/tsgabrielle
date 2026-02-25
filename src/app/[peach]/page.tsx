@@ -11,6 +11,7 @@ import { SectionLogistics } from "@/components/Product/sections/SectionLogistics
 import { SectionCompliance } from "@/components/Product/sections/SectionCompliance";
 import { prisma } from "@/lib/prisma";
 
+export const dynamic = 'force-dynamic';
 export const revalidate = 3600; // ISR - revalidate every hour
 
 interface PageProps {

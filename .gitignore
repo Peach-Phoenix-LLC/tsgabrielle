@@ -44,3 +44,28 @@ next-env.d.ts
 
 .vercel
 .env*.local
+
+# Playwright
+/playwright-report
+/test-results
+/test-results-chromium
+
+# Logs
+*.log
+app_logs.json
+logs.json
+logs2.json
+*.txt
+
+# Binary traces
+*.zip
+*.png
+*.jpg
+*.jpeg
+*.gif
+*.svg
+
+# Stitch
+.agent/
+.gemini/
+stitch_tsgabrielle_home_page/
