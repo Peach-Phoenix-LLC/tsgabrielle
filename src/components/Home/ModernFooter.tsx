@@ -26,9 +26,9 @@ const ModernFooter: React.FC<ModernFooterProps> = ({ darkMode = false }) => {
     const iconOpacity = 'opacity-80';
 
     return (
-        <footer className={`${bgColor} ${textColor} flex flex-col w-full`}>
-            {/* Background Transition Image */}
-            <div className="w-full -mb-1">
+        <footer className={`${textColor} flex flex-col w-full`}>
+            {/* Background Transition Image - Now with white background to transition from white section */}
+            <div className="w-full bg-white -mb-[2px]">
                 <Image
                     src="/images/tsgabrielle-footer.png"
                     alt="Transition to footer"
@@ -39,59 +39,61 @@ const ModernFooter: React.FC<ModernFooterProps> = ({ darkMode = false }) => {
                 />
             </div>
 
-            <div className="max-w-7xl mx-auto px-8 pt-12 pb-12 flex flex-col items-center gap-12 w-full">
-                {/* 1. Logo */}
-                <Link href="/">
-                    <div className="relative w-48 h-12">
-                        <Image
-                            src={logoSrc}
-                            alt="tsgabrielle logo"
-                            fill
-                            className="object-contain"
-                        />
-                    </div>
-                </Link>
+            <div className={`${bgColor} flex flex-col items-center w-full`}>
+                <div className="max-w-7xl mx-auto px-8 pt-12 pb-12 flex flex-col items-center gap-12 w-full">
+                    {/* 1. Logo */}
+                    <Link href="/">
+                        <div className="relative w-48 h-12">
+                            <Image
+                                src={logoSrc}
+                                alt="tsgabrielle logo"
+                                fill
+                                className="object-contain"
+                            />
+                        </div>
+                    </Link>
 
-                {/* 2. Social Media Icons Row */}
-                <div className="flex items-center gap-10">
-                    {socials.map((social) => (
-                        <a
-                            key={social.name}
-                            href={social.url}
-                            target="_blank"
-                            rel="noopener noreferrer"
-                            className="group transition-all duration-300 flex items-center justify-center p-2 rounded-full hover:bg-white/10"
-                            aria-label={social.name}
-                        >
-                            <svg
-                                className={`w-5 h-5 ${iconFill} ${iconOpacity} group-hover:opacity-100 transition-all duration-300`}
-                                viewBox="0 0 24 24"
+                    {/* 2. Social Media Icons Row */}
+                    <div className="flex items-center gap-10">
+                        {socials.map((social) => (
+                            <a
+                                key={social.name}
+                                href={social.url}
+                                target="_blank"
+                                rel="noopener noreferrer"
+                                className="group transition-all duration-300 flex items-center justify-center p-2 rounded-full hover:bg-white/10"
+                                aria-label={social.name}
                             >
-                                <path d={social.path} />
-                            </svg>
-                        </a>
-                    ))}
-                </div>
+                                <svg
+                                    className={`w-5 h-5 ${iconFill} ${iconOpacity} group-hover:opacity-100 transition-all duration-300`}
+                                    viewBox="0 0 24 24"
+                                >
+                                    <path d={social.path} />
+                                </svg>
+                            </a>
+                        ))}
+                    </div>
 
-                {/* 3. Navigation Links Row */}
-                <div className="flex flex-wrap justify-center items-center gap-6 sm:gap-8 text-[12px] font-light opacity-80">
-                    <Link href="/privacy" className="hover:opacity-100 transition-opacity uppercase tracking-widest">Privacy priority</Link>
-                    <span className="opacity-40">•</span>
-                    <Link href="/terms" className="hover:opacity-100 transition-opacity uppercase tracking-widest">Usage terms</Link>
-                    <span className="opacity-40">•</span>
-                    <Link href="/refund-policy" className="hover:opacity-100 transition-opacity uppercase tracking-widest">Refund policy</Link>
-                    <span className="opacity-40">•</span>
-                    <Link href="/policies" className="hover:opacity-100 transition-opacity uppercase tracking-widest">Legal Atelier</Link>
-                </div>
+                    {/* 3. Navigation Links Row */}
+                    <div className="flex flex-wrap justify-center items-center gap-6 sm:gap-8 text-[12px] font-light opacity-80">
+                        <Link href="/privacy" className="hover:opacity-100 transition-opacity uppercase tracking-widest">Privacy priority</Link>
+                        <span className="opacity-40">•</span>
+                        <Link href="/terms" className="hover:opacity-100 transition-opacity uppercase tracking-widest">Usage terms</Link>
+                        <span className="opacity-40">•</span>
+                        <Link href="/refund-policy" className="hover:opacity-100 transition-opacity uppercase tracking-widest">Refund policy</Link>
+                        <span className="opacity-40">•</span>
+                        <Link href="/policies" className="hover:opacity-100 transition-opacity uppercase tracking-widest">Legal Atelier</Link>
+                    </div>
 
-                {/* 4. Copyright Text */}
-                <div className="max-w-5xl text-center px-4">
-                    <p className="text-[10px] opacity-60 font-light leading-relaxed">
-                        2026© tsgabrielle® • Committed to Transparency in all our operations • The tsgabrielle logo and names and trademarks associated with tsgabrielle products are registered trademarks of Peach Phoenix, LLC. and/or its affiliates • All other trademarks are the property of their respective owners.
-                        <Link href="/dashboard" className="opacity-20 hover:opacity-100 transition-opacity ml-1 inline-flex items-center justify-center min-w-[24px] min-h-[24px] relative" style={{ cursor: 'default' }}>
-                            <span className="text-[10px]">Adm</span>
-                        </Link>
-                    </p>
+                    {/* 4. Copyright Text */}
+                    <div className="max-w-5xl text-center px-4">
+                        <p className="text-[10px] opacity-60 font-light leading-relaxed">
+                            2026© tsgabrielle® • Committed to Transparency in all our operations • The tsgabrielle logo and names and trademarks associated with tsgabrielle products are registered trademarks of Peach Phoenix, LLC. and/or its affiliates • All other trademarks are the property of their respective owners.
+                            <Link href="/dashboard" className="opacity-20 hover:opacity-100 transition-opacity ml-1 inline-flex items-center justify-center min-w-[24px] min-h-[24px] relative" style={{ cursor: 'default' }}>
+                                <span className="text-[10px]">Adm</span>
+                            </Link>
+                        </p>
+                    </div>
                 </div>
             </div>
         </footer>

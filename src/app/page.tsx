@@ -35,7 +35,7 @@ export default async function Home() {
           <HoloCategories />
           <HoloPhilosophy />
           <HoloCollections products={mappedCollections as any} />
-          <div className="h-64 bg-white" />
+
         </PageAnimations>
 
         <ModernFooter />
