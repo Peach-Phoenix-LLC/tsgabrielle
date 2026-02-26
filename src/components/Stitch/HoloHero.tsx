@@ -73,17 +73,10 @@ export default function HoloHero() {
                     initial={{ y: 30, opacity: 0 }}
                     animate={{ y: 0, opacity: 1 }}
                     transition={{ duration: 1, ease: "easeOut" }}
-                    className="bg-white/20 backdrop-blur-md p-12 rounded-sm border border-white/30"
                 >
-                    <h1 className="text-4xl md:text-6xl lg:text-7xl font-thin text-charcoal mb-6 drop-shadow-sm leading-tight max-w-4xl">
-                        {slides[current].title}
-                    </h1>
-                    <p className="text-charcoal/80 text-lg md:text-xl font-thin mb-10 max-w-2xl mx-auto">
-                        {slides[current].description}
-                    </p>
                     <Link
                         href="/shop"
-                        className="inline-flex items-center justify-center px-10 py-4 font-thin text-sm border border-primary text-primary hover:bg-primary hover:text-white transition-all duration-500 rounded-sm"
+                        className="inline-flex items-center justify-center px-10 py-4 font-thin text-sm border border-primary text-primary hover:bg-primary hover:text-white transition-all duration-500 rounded-sm bg-white/10 backdrop-blur-md"
                     >
                         Explore collection
                     </Link>

@@ -45,8 +45,8 @@ const ModernNavbar = ({ theme = 'dark' }: ModernNavbarProps) => {
                 </nav>
 
                 {/* Logo (Centered) */}
-                <Link href="/" className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-[calc(50%-5px)] group flex flex-col items-center justify-center">
-                    <div className="relative w-[220px] h-[50px] mb-2">
+                <Link href="/" className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-[calc(50%-15px)] group flex flex-col items-center justify-center">
+                    <div className="relative w-[220px] h-[50px]">
                         <Image
                             src="/images/logo-white.png"
                             alt="tsgabrielle logo"
@@ -54,9 +54,6 @@ const ModernNavbar = ({ theme = 'dark' }: ModernNavbarProps) => {
                             className="object-contain"
                             priority
                         />
-                    </div>
-                    <div className="flex flex-col items-center">
-                        <span className={`text-[11px] tracking-[0.3em] font-light ${textColor} whitespace-nowrap uppercase opacity-80`}>tsgabrielle® USA • 2026</span>
                     </div>
                 </Link>
 
