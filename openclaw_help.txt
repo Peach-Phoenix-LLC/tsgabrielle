@@ -1,5 +1,5 @@
-﻿
-≡ƒª₧ OpenClaw 2026.2.17 (4134875) ΓÇö If you're lost, run doctor; if you're brave, run prod; if you're wise, run tests.
+
+≡ƒª₧ OpenClaw 2026.2.17 (4134875) ΓÇö Because the right answer is usually a script.
 
 Usage: openclaw [options] [command]
 

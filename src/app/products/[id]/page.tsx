@@ -174,7 +174,7 @@ export default async function ProductDetailPage({ params }: { params: Promise<{ 
                             {crossSellsData.map((item: any) => {
                                 const crossImage = item.media_primary_url || ((item.media_gallery_urls && item.media_gallery_urls.length > 0) ? item.media_gallery_urls[0] : '');
                                 return (
-                                    <Link href={`/product/${item.id}`} key={item.id} className="group cursor-pointer">
+                                    <Link href={`/products/${item.id}`} key={item.id} className="group cursor-pointer">
                                         <div className="aspect-[3/4] overflow-hidden mb-6 bg-white border border-primary/10 rounded-sm">
                                             {crossImage ? (
                                                 <img

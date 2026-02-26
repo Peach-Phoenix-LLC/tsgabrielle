@@ -48,7 +48,7 @@ export default function HoloCollections({ products }: HoloCollectionsProps) {
                             viewport={{ once: true, margin: "-50px" }}
                             transition={{ duration: 0.6, delay: index * 0.15 }}
                         >
-                            <Link href={`/product/${product.id}`} className="flex flex-col items-center group cursor-pointer">
+                            <Link href={`/products/${product.id}`} className="flex flex-col items-center group cursor-pointer">
                                 {/* Border Container */}
                                 <div className="relative p-1 rounded-full border border-primary/10 w-60 h-60 md:w-64 md:h-64 transition-all duration-500 group-hover:border-primary/40 group-hover:-translate-y-1">
                                     {/* Image Circle */}

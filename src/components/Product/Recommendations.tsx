@@ -35,7 +35,7 @@ const Recommendations = () => {
                     {recommendations.map((item) => (
                         <Link
                             key={item.id}
-                            href={`/product/${item.id}`}
+                            href={`/products/${item.id}`}
                             className="min-w-[200px] md:min-w-[280px] group snap-start"
                         >
                             <div className="aspect-[3/4] rounded-2xl overflow-hidden bg-slate-100 relative mb-4">
