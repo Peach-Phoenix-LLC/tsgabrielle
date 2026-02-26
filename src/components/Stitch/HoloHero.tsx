@@ -1,9 +1,15 @@
 "use client";
 import React, { useState, useEffect } from 'react';
-import { motion, AnimatePresence } from 'framer-motion';
+import { motion, AnimatePresence, useScroll, useTransform } from 'framer-motion';
 import Link from 'next/link';
 
-const slides = [
+interface Slide {
+    image: string;
+    title: string;
+    description: string;
+}
+
+const slides: Slide[] = [
     {
         image: "/images/slides/slide1.png",
         title: "Welcome to the 2026 tsgabrielle® USA Collection",
@@ -28,6 +34,10 @@ const slides = [
 
 export default function HoloHero() {
     const [current, setCurrent] = useState(0);
+    const { scrollY } = useScroll();
+
+    // Parallax: As we scroll down (0 to 1000px), move background image slightly (0 to 150px)
+    const y = useTransform(scrollY, [0, 1000], [0, 150]);
 
     useEffect(() => {
         const timer = setInterval(() => {
@@ -47,9 +57,10 @@ export default function HoloHero() {
                     transition={{ duration: 1 }}
                     className="absolute inset-0"
                 >
-                    <img
+                    <motion.img
+                        style={{ y }}
                         alt={slides[current].title}
-                        className="w-full h-full object-cover brightness-[0.9] contrast-[1.05]"
+                        className="absolute inset-0 w-full h-[120%] -top-[10%] object-cover brightness-[0.9] contrast-[1.05]"
                         src={slides[current].image}
                     />
                     <div className="absolute inset-0 bg-white/10"></div>
