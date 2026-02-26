@@ -108,6 +108,17 @@ export default function PagesSection() {
                                 <label className="text-[9px] uppercase tracking-widest text-[#1a1a1a]/40 ml-1">Page Body (HTML/Markdown)</label>
                                 <textarea required rows={12} value={editingItem.body} onChange={(e) => setEditingItem({ ...editingItem, body: e.target.value })} className="w-full bg-neutral-50 border border-black/10 rounded-xl px-4 py-3 text-xs font-mono resize-none outline-none focus:border-[#a932bd]" />
                             </div>
+                            <div className="bg-neutral-50 border border-black/5 p-4 rounded-xl space-y-4">
+                                <h4 className="text-[9px] uppercase tracking-widest font-bold text-[#1a1a1a]">SEO Settings</h4>
+                                <div className="space-y-2">
+                                    <label className="text-[9px] uppercase tracking-widest text-[#1a1a1a]/40 ml-1">SEO Title</label>
+                                    <input type="text" value={editingItem.seo_title || ''} onChange={(e) => setEditingItem({ ...editingItem, seo_title: e.target.value })} className="w-full bg-white border border-black/10 rounded-xl px-4 py-3 text-sm focus:border-[#a932bd] outline-none text-[#1a1a1a]" />
+                                </div>
+                                <div className="space-y-2">
+                                    <label className="text-[9px] uppercase tracking-widest text-[#1a1a1a]/40 ml-1">SEO Description</label>
+                                    <textarea rows={2} value={editingItem.seo_desc || ''} onChange={(e) => setEditingItem({ ...editingItem, seo_desc: e.target.value })} className="w-full bg-white border border-black/10 rounded-xl px-4 py-3 text-xs resize-none focus:border-[#a932bd] outline-none text-[#1a1a1a]" />
+                                </div>
+                            </div>
                             <div className="flex items-center gap-4 py-4 px-6 bg-neutral-50 rounded-xl border border-black/5">
                                 <input type="checkbox" checked={editingItem.is_visible} onChange={(e) => setEditingItem({ ...editingItem, is_visible: e.target.checked })} className="accent-[#a932bd]" />
                                 <label className="text-[10px] uppercase tracking-widest font-bold text-[#1a1a1a]">Visible on Website</label>

@@ -16,7 +16,9 @@ export default function ThemeDesignSection({ data, onSave, saving }: { data: any
             border_radius: "4px",
             card_style: "glass",
             button_style: "pill",
-            dark_mode: false
+            dark_mode: false,
+            heading_font: 'Inter',
+            body_font: 'Roboto'
         }
     });
 
@@ -92,6 +94,27 @@ export default function ThemeDesignSection({ data, onSave, saving }: { data: any
                                         {s}
                                     </button>
                                 ))}
+                            </div>
+                        </div>
+
+                        <div className="grid grid-cols-2 gap-4">
+                            <div className="space-y-4">
+                                <label className="text-[10px] uppercase tracking-widest text-[#1a1a1a]/40 underline underline-offset-4 decoration-black/5">Heading Font</label>
+                                <select value={formData.styles.heading_font} onChange={(e) => handleStyleChange('heading_font', e.target.value)} className="w-full bg-white border border-black/10 rounded-xl px-4 py-3 text-xs outline-none focus:border-[#a932bd] appearance-none text-[#1a1a1a]">
+                                    <option value="Inter">Inter</option>
+                                    <option value="Roboto">Roboto</option>
+                                    <option value="Outfit">Outfit</option>
+                                    <option value="Playfair Display">Playfair Display</option>
+                                </select>
+                            </div>
+                            <div className="space-y-4">
+                                <label className="text-[10px] uppercase tracking-widest text-[#1a1a1a]/40 underline underline-offset-4 decoration-black/5">Body Font</label>
+                                <select value={formData.styles.body_font} onChange={(e) => handleStyleChange('body_font', e.target.value)} className="w-full bg-white border border-black/10 rounded-xl px-4 py-3 text-xs outline-none focus:border-[#a932bd] appearance-none text-[#1a1a1a]">
+                                    <option value="Inter">Inter</option>
+                                    <option value="Roboto">Roboto</option>
+                                    <option value="Outfit">Outfit</option>
+                                    <option value="Lato">Lato</option>
+                                </select>
                             </div>
                         </div>
 

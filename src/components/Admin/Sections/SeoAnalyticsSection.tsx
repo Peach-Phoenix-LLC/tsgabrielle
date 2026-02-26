@@ -53,9 +53,19 @@ export default function SeoAnalyticsSection({ data, onSave, saving }: { data: an
 
                     <div className="p-8 bg-neutral-50 border border-black/10 rounded-2xl space-y-6 shadow-sm ring-1 ring-black/5">
                         <h3 className="text-xs uppercase tracking-widest font-bold text-[#1a1a1a]">Identity Graph</h3>
-                        <div className="space-y-2">
-                            <label className="text-[10px] uppercase tracking-widest text-[#1a1a1a]/40">Global OG Image URL</label>
-                            <input type="text" value={formData.og_image_url} onChange={(e) => handleChange('og_image_url', e.target.value)} className="w-full bg-white border border-black/10 rounded-xl px-4 py-3 text-xs text-[#1a1a1a] outline-none focus:border-[#a932bd]" />
+                        <div className="space-y-4">
+                            <div className="space-y-2">
+                                <label className="text-[10px] uppercase tracking-widest text-[#1a1a1a]/40">Google Search Console Tag</label>
+                                <input type="text" value={formData.gsc_verification} onChange={(e) => handleChange('gsc_verification', e.target.value)} className="w-full bg-white border border-black/10 rounded-xl px-4 py-3 text-xs text-[#1a1a1a] outline-none focus:border-[#a932bd]" />
+                            </div>
+                            <div className="space-y-2">
+                                <label className="text-[10px] uppercase tracking-widest text-[#1a1a1a]/40">Canonical Base URL</label>
+                                <input type="text" value={formData.canonical_base} onChange={(e) => handleChange('canonical_base', e.target.value)} className="w-full bg-white border border-black/10 rounded-xl px-4 py-3 text-xs text-[#1a1a1a] outline-none focus:border-[#a932bd]" />
+                            </div>
+                            <div className="space-y-2">
+                                <label className="text-[10px] uppercase tracking-widest text-[#1a1a1a]/40">Global OG Image URL</label>
+                                <input type="text" value={formData.og_image_url} onChange={(e) => handleChange('og_image_url', e.target.value)} className="w-full bg-white border border-black/10 rounded-xl px-4 py-3 text-xs text-[#1a1a1a] outline-none focus:border-[#a932bd]" />
+                            </div>
                         </div>
                     </div>
                 </div>

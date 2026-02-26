@@ -58,7 +58,7 @@ export default function CollectionsSection() {
                     <p className="text-[#1a1a1a]/40 font-serif italic mt-2">Manage thematic groupings and seasonal releases.</p>
                 </div>
                 <button
-                    onClick={() => setEditingItem({ name: '', slug: '', description: '', badge: '', is_active: true, is_featured: false })}
+                    onClick={() => setEditingItem({ name: '', slug: '', description: '', badge: '', image_url: '', start_date: '', end_date: '', sort_order: 0, seo_title: '', seo_desc: '', is_active: true, is_featured: false })}
                     className="px-10 py-3 bg-[#1a1a1a] text-white text-[10px] uppercase font-bold tracking-widest rounded-full hover:bg-neutral-800 shadow-sm"
                 >
                     Add Collection
@@ -112,21 +112,54 @@ export default function CollectionsSection() {
                                     <input required type="text" value={editingItem.slug} onChange={(e) => setEditingItem({ ...editingItem, slug: e.target.value })} className="w-full bg-neutral-50 border border-black/10 rounded-xl px-4 py-3 text-sm font-mono outline-none focus:border-[#a932bd] text-[#1a1a1a]" />
                                 </div>
                             </div>
+                            <div className="space-y-2">
+                                <label className="text-[9px] uppercase tracking-widest text-[#1a1a1a]/40 ml-1">Description</label>
+                                <textarea rows={2} value={editingItem.description || ''} onChange={(e) => setEditingItem({ ...editingItem, description: e.target.value })} className="w-full bg-neutral-50 border border-black/10 rounded-xl px-4 py-3 text-xs outline-none focus:border-[#a932bd] text-[#1a1a1a] resize-none" />
+                            </div>
                             <div className="grid grid-cols-2 gap-4">
                                 <div className="space-y-2">
                                     <label className="text-[9px] uppercase tracking-widest text-[#1a1a1a]/40 ml-1">Badge (optional)</label>
                                     <input type="text" value={editingItem.badge || ''} onChange={(e) => setEditingItem({ ...editingItem, badge: e.target.value })} placeholder="e.g. LIMITED" className="w-full bg-neutral-50 border border-black/10 rounded-xl px-4 py-3 text-sm outline-none focus:border-[#a932bd] text-[#1a1a1a] placeholder:opacity-30" />
                                 </div>
                                 <div className="space-y-2">
-                                    <label className="text-[9px] uppercase tracking-widest text-[#1a1a1a]/40 ml-1">Status</label>
-                                    <div className="flex gap-4">
-                                        <button type="button" onClick={() => setEditingItem({ ...editingItem, is_active: !editingItem.is_active })} className={`flex-grow py-3 rounded-xl border text-[9px] uppercase tracking-widest transition-all ${editingItem.is_active ? 'bg-blue-100 border-blue-200 text-blue-700' : 'bg-neutral-50 border-black/5 text-[#1a1a1a]/40'}`}>
-                                            {editingItem.is_active ? 'Active' : 'Archived'}
-                                        </button>
-                                        <button type="button" onClick={() => setEditingItem({ ...editingItem, is_featured: !editingItem.is_featured })} className={`flex-grow py-3 rounded-xl border text-[9px] uppercase tracking-widest transition-all ${editingItem.is_featured ? 'bg-amber-100 border-amber-200 text-amber-700 font-bold' : 'bg-neutral-50 border-black/5 text-[#1a1a1a]/40'}`}>
-                                            Featured
-                                        </button>
-                                    </div>
+                                    <label className="text-[9px] uppercase tracking-widest text-[#1a1a1a]/40 ml-1">Sort Order</label>
+                                    <input type="number" value={editingItem.sort_order || 0} onChange={(e) => setEditingItem({ ...editingItem, sort_order: parseInt(e.target.value) })} className="w-full bg-neutral-50 border border-black/10 rounded-xl px-4 py-3 text-sm outline-none focus:border-[#a932bd] text-[#1a1a1a]" />
+                                </div>
+                            </div>
+                            <div className="grid grid-cols-2 gap-4">
+                                <div className="space-y-2">
+                                    <label className="text-[9px] uppercase tracking-widest text-[#1a1a1a]/40 ml-1">Start Date</label>
+                                    <input type="date" value={editingItem.start_date || ''} onChange={(e) => setEditingItem({ ...editingItem, start_date: e.target.value })} className="w-full bg-neutral-50 border border-black/10 rounded-xl px-4 py-3 text-xs outline-none focus:border-[#a932bd] text-[#1a1a1a]" />
+                                </div>
+                                <div className="space-y-2">
+                                    <label className="text-[9px] uppercase tracking-widest text-[#1a1a1a]/40 ml-1">End Date</label>
+                                    <input type="date" value={editingItem.end_date || ''} onChange={(e) => setEditingItem({ ...editingItem, end_date: e.target.value })} className="w-full bg-neutral-50 border border-black/10 rounded-xl px-4 py-3 text-xs outline-none focus:border-[#a932bd] text-[#1a1a1a]" />
+                                </div>
+                            </div>
+                            <div className="space-y-2">
+                                <label className="text-[9px] uppercase tracking-widest text-[#1a1a1a]/40 ml-1">Image URL</label>
+                                <input type="text" value={editingItem.image_url || ''} onChange={(e) => setEditingItem({ ...editingItem, image_url: e.target.value })} className="w-full bg-neutral-50 border border-black/10 rounded-xl px-4 py-3 text-sm outline-none focus:border-[#a932bd] text-[#1a1a1a]" />
+                            </div>
+                            <div className="bg-neutral-50 border border-black/5 p-4 rounded-xl space-y-4">
+                                <h4 className="text-[9px] uppercase tracking-widest font-bold text-[#1a1a1a]">SEO Settings</h4>
+                                <div className="space-y-2">
+                                    <label className="text-[9px] uppercase tracking-widest text-[#1a1a1a]/40 ml-1">SEO Title</label>
+                                    <input type="text" value={editingItem.seo_title || ''} onChange={(e) => setEditingItem({ ...editingItem, seo_title: e.target.value })} className="w-full bg-white border border-black/10 rounded-xl px-4 py-3 text-sm focus:border-[#a932bd] outline-none text-[#1a1a1a]" />
+                                </div>
+                                <div className="space-y-2">
+                                    <label className="text-[9px] uppercase tracking-widest text-[#1a1a1a]/40 ml-1">SEO Description</label>
+                                    <textarea rows={2} value={editingItem.seo_desc || ''} onChange={(e) => setEditingItem({ ...editingItem, seo_desc: e.target.value })} className="w-full bg-white border border-black/10 rounded-xl px-4 py-3 text-xs resize-none focus:border-[#a932bd] outline-none text-[#1a1a1a]" />
+                                </div>
+                            </div>
+                            <div className="space-y-2">
+                                <label className="text-[9px] uppercase tracking-widest text-[#1a1a1a]/40 ml-1">Status</label>
+                                <div className="flex gap-4">
+                                    <button type="button" onClick={() => setEditingItem({ ...editingItem, is_active: !editingItem.is_active })} className={`flex-grow py-3 rounded-xl border text-[9px] uppercase tracking-widest transition-all ${editingItem.is_active ? 'bg-blue-100 border-blue-200 text-blue-700' : 'bg-neutral-50 border-black/5 text-[#1a1a1a]/40'}`}>
+                                        {editingItem.is_active ? 'Active' : 'Archived'}
+                                    </button>
+                                    <button type="button" onClick={() => setEditingItem({ ...editingItem, is_featured: !editingItem.is_featured })} className={`flex-grow py-3 rounded-xl border text-[9px] uppercase tracking-widest transition-all ${editingItem.is_featured ? 'bg-amber-100 border-amber-200 text-amber-700 font-bold' : 'bg-neutral-50 border-black/5 text-[#1a1a1a]/40'}`}>
+                                        Featured
+                                    </button>
                                 </div>
                             </div>
                             <div className="flex gap-4 pt-4">

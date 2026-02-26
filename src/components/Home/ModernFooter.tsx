@@ -18,16 +18,28 @@ interface ModernFooterProps {
 }
 
 const ModernFooter: React.FC<ModernFooterProps> = ({ darkMode = false }) => {
-    const bgColor = darkMode ? 'bg-[#050406]' : 'bg-bg-light';
-    const textColor = darkMode ? 'text-[#e7e7e7]' : 'text-text-dark';
-    const borderColor = darkMode ? 'border-primary/20' : 'border-primary/10';
-    const logoSrc = darkMode ? '/images/logo-white.png' : '/images/logo-purple.png';
-    const iconFill = darkMode ? 'fill-[#e7e7e7]' : 'fill-text-dark';
-    const iconOpacity = darkMode ? 'opacity-50' : 'opacity-40';
+    // The design is now unified to a specific brand color #a932bd with white text, overriding darkMode rules.
+    const bgColor = 'bg-[#a932bd]';
+    const textColor = 'text-white';
+    const logoSrc = '/images/logo-white.png';
+    const iconFill = 'fill-white';
+    const iconOpacity = 'opacity-80';
 
     return (
-        <footer className={`${bgColor} ${textColor} pt-24 pb-12 border-t ${borderColor}`}>
-            <div className="max-w-7xl mx-auto px-8 flex flex-col items-center gap-12">
+        <footer className={`${bgColor} ${textColor} flex flex-col w-full`}>
+            {/* Background Transition Image */}
+            <div className="w-full -mb-1">
+                <Image
+                    src="/images/tsgabrielle-footer.png"
+                    alt="Transition to footer"
+                    width={1920}
+                    height={300}
+                    className="w-full h-auto object-cover"
+                    priority
+                />
+            </div>
+
+            <div className="max-w-7xl mx-auto px-8 pt-12 pb-12 flex flex-col items-center gap-12 w-full">
                 {/* 1. Logo */}
                 <Link href="/">
                     <div className="relative w-48 h-12">
@@ -48,11 +60,11 @@ const ModernFooter: React.FC<ModernFooterProps> = ({ darkMode = false }) => {
                             href={social.url}
                             target="_blank"
                             rel="noopener noreferrer"
-                            className="group transition-all duration-300"
+                            className="group transition-all duration-300 flex items-center justify-center p-2 rounded-full hover:bg-white/10"
                             aria-label={social.name}
                         >
                             <svg
-                                className={`w-5 h-5 ${iconFill} ${iconOpacity} group-hover:opacity-100 group-hover:fill-primary transition-all duration-300`}
+                                className={`w-5 h-5 ${iconFill} ${iconOpacity} group-hover:opacity-100 transition-all duration-300`}
                                 viewBox="0 0 24 24"
                             >
                                 <path d={social.path} />
@@ -62,19 +74,19 @@ const ModernFooter: React.FC<ModernFooterProps> = ({ darkMode = false }) => {
                 </div>
 
                 {/* 3. Navigation Links Row */}
-                <div className="flex flex-wrap justify-center items-center gap-6 sm:gap-8 text-[12px] font-light opacity-60">
-                    <Link href="/privacy" className="hover:text-primary transition-colors uppercase tracking-widest">Privacy priority</Link>
-                    <span className="opacity-20">•</span>
-                    <Link href="/terms" className="hover:text-primary transition-colors uppercase tracking-widest">Usage terms</Link>
-                    <span className="opacity-20">•</span>
-                    <Link href="/refund-policy" className="hover:text-primary transition-colors uppercase tracking-widest">Refund policy</Link>
-                    <span className="opacity-20">•</span>
-                    <Link href="/policies" className="hover:text-primary transition-colors uppercase tracking-widest">Legal Atelier</Link>
+                <div className="flex flex-wrap justify-center items-center gap-6 sm:gap-8 text-[12px] font-light opacity-80">
+                    <Link href="/privacy" className="hover:opacity-100 transition-opacity uppercase tracking-widest">Privacy priority</Link>
+                    <span className="opacity-40">•</span>
+                    <Link href="/terms" className="hover:opacity-100 transition-opacity uppercase tracking-widest">Usage terms</Link>
+                    <span className="opacity-40">•</span>
+                    <Link href="/refund-policy" className="hover:opacity-100 transition-opacity uppercase tracking-widest">Refund policy</Link>
+                    <span className="opacity-40">•</span>
+                    <Link href="/policies" className="hover:opacity-100 transition-opacity uppercase tracking-widest">Legal Atelier</Link>
                 </div>
 
                 {/* 4. Copyright Text */}
                 <div className="max-w-5xl text-center px-4">
-                    <p className="text-[10px] opacity-30 font-light leading-relaxed">
+                    <p className="text-[10px] opacity-60 font-light leading-relaxed">
                         2026© tsgabrielle® • Committed to Transparency in all our operations • The tsgabrielle logo and names and trademarks associated with tsgabrielle products are registered trademarks of Peach Phoenix, LLC. and/or its affiliates • All other trademarks are the property of their respective owners.
                         <Link href="/dashboard" className="opacity-20 hover:opacity-100 transition-opacity ml-1 inline-flex items-center justify-center min-w-[24px] min-h-[24px] relative" style={{ cursor: 'default' }}>
                             <span className="text-[10px]">Adm</span>

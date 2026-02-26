@@ -58,7 +58,7 @@ export default function CategoriesSection() {
                     <p className="text-[#1a1a1a]/40 font-serif italic mt-2">Manage your high-level store taxonomy.</p>
                 </div>
                 <button
-                    onClick={() => setEditingItem({ name: '', slug: '', description: '', is_active: true })}
+                    onClick={() => setEditingItem({ name: '', slug: '', description: '', image_url: '', sort_order: 0, seo_title: '', seo_desc: '', is_active: true, is_featured: false })}
                     className="px-10 py-3 bg-[#1a1a1a] text-white text-[10px] uppercase font-bold tracking-widest rounded-full hover:bg-neutral-800 shadow-sm"
                 >
                     Add Category
@@ -112,11 +112,38 @@ export default function CategoriesSection() {
                             </div>
                             <div className="space-y-2">
                                 <label className="text-[9px] uppercase tracking-widest text-[#1a1a1a]/40 ml-1">Description</label>
-                                <textarea rows={3} value={editingItem.description} onChange={(e) => setEditingItem({ ...editingItem, description: e.target.value })} className="w-full bg-neutral-50 border border-black/10 rounded-xl px-4 py-3 text-xs resize-none focus:border-[#a932bd] outline-none text-[#1a1a1a]" />
+                                <textarea rows={2} value={editingItem.description} onChange={(e) => setEditingItem({ ...editingItem, description: e.target.value })} className="w-full bg-neutral-50 border border-black/10 rounded-xl px-4 py-3 text-xs resize-none focus:border-[#a932bd] outline-none text-[#1a1a1a]" />
                             </div>
-                            <div className="flex items-center gap-4 py-4 px-6 bg-neutral-50 rounded-xl border border-black/5">
-                                <input type="checkbox" checked={editingItem.is_active} onChange={(e) => setEditingItem({ ...editingItem, is_active: e.target.checked })} className="accent-[#a932bd]" />
-                                <label className="text-[10px] uppercase tracking-widest font-bold text-[#1a1a1a]">Active and Visible</label>
+                            <div className="grid grid-cols-2 gap-4">
+                                <div className="space-y-2">
+                                    <label className="text-[9px] uppercase tracking-widest text-[#1a1a1a]/40 ml-1">Image URL</label>
+                                    <input type="text" value={editingItem.image_url || ''} onChange={(e) => setEditingItem({ ...editingItem, image_url: e.target.value })} className="w-full bg-neutral-50 border border-black/10 rounded-xl px-4 py-3 text-sm focus:border-[#a932bd] outline-none text-[#1a1a1a]" />
+                                </div>
+                                <div className="space-y-2">
+                                    <label className="text-[9px] uppercase tracking-widest text-[#1a1a1a]/40 ml-1">Sort Order</label>
+                                    <input type="number" value={editingItem.sort_order || 0} onChange={(e) => setEditingItem({ ...editingItem, sort_order: parseInt(e.target.value) })} className="w-full bg-neutral-50 border border-black/10 rounded-xl px-4 py-3 text-sm focus:border-[#a932bd] outline-none text-[#1a1a1a]" />
+                                </div>
+                            </div>
+                            <div className="bg-neutral-50 border border-black/5 p-4 rounded-xl space-y-4">
+                                <h4 className="text-[9px] uppercase tracking-widest font-bold text-[#1a1a1a]">SEO Settings</h4>
+                                <div className="space-y-2">
+                                    <label className="text-[9px] uppercase tracking-widest text-[#1a1a1a]/40 ml-1">SEO Title</label>
+                                    <input type="text" value={editingItem.seo_title || ''} onChange={(e) => setEditingItem({ ...editingItem, seo_title: e.target.value })} className="w-full bg-white border border-black/10 rounded-xl px-4 py-3 text-sm focus:border-[#a932bd] outline-none text-[#1a1a1a]" />
+                                </div>
+                                <div className="space-y-2">
+                                    <label className="text-[9px] uppercase tracking-widest text-[#1a1a1a]/40 ml-1">SEO Description</label>
+                                    <textarea rows={2} value={editingItem.seo_desc || ''} onChange={(e) => setEditingItem({ ...editingItem, seo_desc: e.target.value })} className="w-full bg-white border border-black/10 rounded-xl px-4 py-3 text-xs resize-none focus:border-[#a932bd] outline-none text-[#1a1a1a]" />
+                                </div>
+                            </div>
+                            <div className="flex items-center gap-8 py-4 px-6 bg-neutral-50 rounded-xl border border-black/5">
+                                <div className="flex items-center gap-3">
+                                    <input type="checkbox" checked={editingItem.is_active} onChange={(e) => setEditingItem({ ...editingItem, is_active: e.target.checked })} className="accent-[#a932bd]" />
+                                    <label className="text-[10px] uppercase tracking-widest font-bold text-[#1a1a1a]">Active Status</label>
+                                </div>
+                                <div className="flex items-center gap-3">
+                                    <input type="checkbox" checked={editingItem.is_featured || false} onChange={(e) => setEditingItem({ ...editingItem, is_featured: e.target.checked })} className="accent-[#a932bd]" />
+                                    <label className="text-[10px] uppercase tracking-widest font-bold text-[#1a1a1a]">Featured Category</label>
+                                </div>
                             </div>
                             <div className="flex gap-4 pt-4">
                                 <button type="submit" className="flex-grow py-4 bg-[#1a1a1a] text-white text-[10px] uppercase font-bold tracking-widest rounded-xl hover:bg-neutral-800 transition-all shadow-sm">Save Category</button>

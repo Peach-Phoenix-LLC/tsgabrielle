@@ -59,9 +59,22 @@ export default function CheckoutSection({ data, onSave, saving }: { data: any, o
 
                 <div className="space-y-8">
                     <div className="bg-neutral-50 border border-black/10 p-8 rounded-2xl space-y-6 shadow-sm ring-1 ring-black/5">
+                        <div className="space-y-4">
+                            <label className="text-[10px] uppercase tracking-widest text-[#1a1a1a]/40">Financial thresholds</label>
+                            <div className="grid grid-cols-2 gap-4">
+                                <div className="space-y-2">
+                                    <label className="text-[10px] uppercase tracking-widest text-[#1a1a1a]/40">Min Order ($)</label>
+                                    <input type="number" value={formData.min_order_value} onChange={(e) => handleChange('min_order_value', parseInt(e.target.value))} className="w-full bg-white border border-black/10 rounded-xl px-4 py-3 text-sm focus:outline-none focus:border-[#a932bd] text-[#1a1a1a]" />
+                                </div>
+                                <div className="space-y-2">
+                                    <label className="text-[10px] uppercase tracking-widest text-[#1a1a1a]/40">Free Shipping Min ($)</label>
+                                    <input type="number" value={formData.free_shipping_threshold} onChange={(e) => handleChange('free_shipping_threshold', parseInt(e.target.value))} className="w-full bg-white border border-black/10 rounded-xl px-4 py-3 text-sm focus:outline-none focus:border-[#a932bd] text-[#1a1a1a]" />
+                                </div>
+                            </div>
+                        </div>
                         <div className="space-y-2">
-                            <label className="text-[10px] uppercase tracking-widest text-[#1a1a1a]/40">Free Shipping Threshold ($)</label>
-                            <input type="number" value={formData.free_shipping_threshold} onChange={(e) => handleChange('free_shipping_threshold', parseInt(e.target.value))} className="w-full bg-white border border-black/10 rounded-xl px-4 py-3 text-sm focus:outline-none focus:border-[#a932bd] text-[#1a1a1a]" />
+                            <label className="text-[10px] uppercase tracking-widest text-[#1a1a1a]/40">Tax Rate (%)</label>
+                            <input type="number" step="0.1" value={formData.tax_rate} onChange={(e) => handleChange('tax_rate', parseFloat(e.target.value))} className="w-full bg-white border border-black/10 rounded-xl px-4 py-3 text-sm focus:outline-none focus:border-[#a932bd] text-[#1a1a1a]" />
                         </div>
                         <div className="space-y-2">
                             <label className="text-[10px] uppercase tracking-widest text-[#1a1a1a]/40">Order Prefix</label>

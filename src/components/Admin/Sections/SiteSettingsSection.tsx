@@ -58,6 +58,15 @@ export default function SiteSettingsSection({ data, onSave, saving }: { data: an
                         />
                     </div>
                     <div className="space-y-2">
+                        <label className="text-[10px] uppercase tracking-widest text-[#1a1a1a]/40 ml-1">Brand Logo URL</label>
+                        <input
+                            type="text"
+                            value={formData.logo_url}
+                            onChange={(e) => handleChange('logo_url', e.target.value)}
+                            className="w-full bg-neutral-50 border border-black/10 rounded-xl px-6 py-4 focus:outline-none focus:border-[#a932bd] transition-colors text-[#1a1a1a]"
+                        />
+                    </div>
+                    <div className="space-y-2">
                         <label className="text-[10px] uppercase tracking-widest text-[#1a1a1a]/40 ml-1">Contact Email</label>
                         <input
                             type="email"
@@ -69,13 +78,37 @@ export default function SiteSettingsSection({ data, onSave, saving }: { data: an
                 </div>
 
                 <div className="space-y-8">
-                    <div className="grid grid-cols-2 gap-4">
+                    <div className="space-y-4">
+                        <h4 className="text-[10px] uppercase tracking-widest font-bold text-[#1a1a1a] mb-2">SEO Defaults</h4>
+                        <div className="space-y-2">
+                            <label className="text-[10px] uppercase tracking-widest text-[#1a1a1a]/40 ml-1">Default Title</label>
+                            <input
+                                type="text"
+                                value={formData.seo_defaults.title}
+                                onChange={(e) => handleChange('seo_defaults', { ...formData.seo_defaults, title: e.target.value })}
+                                className="w-full bg-neutral-50 border border-black/10 rounded-xl px-6 py-4 focus:outline-none focus:border-[#a932bd] transition-colors text-[#1a1a1a]"
+                            />
+                        </div>
+                        <div className="space-y-2">
+                            <label className="text-[10px] uppercase tracking-widest text-[#1a1a1a]/40 ml-1">Default Description</label>
+                            <textarea
+                                value={formData.seo_defaults.desc}
+                                onChange={(e) => handleChange('seo_defaults', { ...formData.seo_defaults, desc: e.target.value })}
+                                className="w-full bg-neutral-50 border border-black/10 rounded-xl px-6 py-4 focus:outline-none focus:border-[#a932bd] resize-none transition-colors text-[#1a1a1a]"
+                                rows={3}
+                            />
+                        </div>
+                    </div>
+                </div>
+
+                <div className="space-y-8">
+                    <div className="grid grid-cols-3 gap-4">
                         <div className="space-y-2">
                             <label className="text-[10px] uppercase tracking-widest text-[#1a1a1a]/40 ml-1">Currency</label>
                             <select
                                 value={formData.currency}
                                 onChange={(e) => handleChange('currency', e.target.value)}
-                                className="w-full bg-neutral-50 border border-black/10 rounded-xl px-6 py-4 focus:outline-none focus:border-[#a932bd] transition-colors appearance-none text-[#1a1a1a]"
+                                className="w-full bg-neutral-50 border border-black/10 rounded-xl px-4 py-4 focus:outline-none focus:border-[#a932bd] transition-colors appearance-none text-[#1a1a1a]"
                             >
                                 <option value="USD">USD</option>
                                 <option value="EUR">EUR</option>
@@ -87,10 +120,23 @@ export default function SiteSettingsSection({ data, onSave, saving }: { data: an
                             <select
                                 value={formData.language}
                                 onChange={(e) => handleChange('language', e.target.value)}
-                                className="w-full bg-neutral-50 border border-black/10 rounded-xl px-6 py-4 focus:outline-none focus:border-[#a932bd] transition-colors appearance-none text-[#1a1a1a]"
+                                className="w-full bg-neutral-50 border border-black/10 rounded-xl px-4 py-4 focus:outline-none focus:border-[#a932bd] transition-colors appearance-none text-[#1a1a1a]"
                             >
                                 <option value="en">English</option>
                                 <option value="fr">French</option>
+                            </select>
+                        </div>
+                        <div className="space-y-2">
+                            <label className="text-[10px] uppercase tracking-widest text-[#1a1a1a]/40 ml-1">Timezone</label>
+                            <select
+                                value={formData.timezone}
+                                onChange={(e) => handleChange('timezone', e.target.value)}
+                                className="w-full bg-neutral-50 border border-black/10 rounded-xl px-4 py-4 focus:outline-none focus:border-[#a932bd] transition-colors appearance-none text-[#1a1a1a]"
+                            >
+                                <option value="UTC">UTC</option>
+                                <option value="EST">EST</option>
+                                <option value="PST">PST</option>
+                                <option value="CET">CET</option>
                             </select>
                         </div>
                     </div>

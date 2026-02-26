@@ -11,6 +11,7 @@ export const metadata: Metadata = {
 import { Lato, Playfair_Display } from 'next/font/google';
 import { MaintenanceCheck } from "@/components/MaintenanceCheck";
 import GrowthTracker from "@/components/Analytics/GrowthTracker";
+import GlobalBreadcrumbs from "@/components/GlobalBreadcrumbs";
 
 const lato = Lato({
   subsets: ['latin'],
@@ -40,6 +41,7 @@ export default function RootLayout({
         <AuthProvider>
           <CartProvider>
             <MaintenanceCheck>
+              <GlobalBreadcrumbs />
               {children}
             </MaintenanceCheck>
           </CartProvider>

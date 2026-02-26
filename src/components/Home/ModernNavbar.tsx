@@ -45,7 +45,7 @@ const ModernNavbar = ({ theme = 'dark' }: ModernNavbarProps) => {
                 </nav>
 
                 {/* Logo (Centered) */}
-                <Link href="/" className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 group flex flex-col items-center justify-center">
+                <Link href="/" className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-[calc(50%-5px)] group flex flex-col items-center justify-center">
                     <div className="relative w-[220px] h-[50px] mb-2">
                         <Image
                             src="/images/logo-white.png"
