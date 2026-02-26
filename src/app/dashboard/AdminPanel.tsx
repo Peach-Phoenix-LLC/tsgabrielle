@@ -18,9 +18,11 @@ import ThemeDesignSection from '@/components/Admin/Sections/ThemeDesignSection';
 import CheckoutSection from '@/components/Admin/Sections/CheckoutSection';
 import SeoAnalyticsSection from '@/components/Admin/Sections/SeoAnalyticsSection';
 import NotificationsSection from '@/components/Admin/Sections/NotificationsSection';
+import ConnectionsSection from '@/components/Admin/Sections/ConnectionsSection';
 
 const SECTIONS = [
     { id: 'dashboard', label: 'Dashboard', icon: 'dashboard' },
+    { id: 'connections', label: 'Connections', icon: 'hub' },
     { id: 'settings', label: 'Site Settings', icon: 'settings' },
     { id: 'hero', label: 'Hero Banner', icon: 'view_headline' },
     { id: 'about', label: 'About Page', icon: 'person' },
@@ -96,6 +98,7 @@ export default function AdminPanel() {
     const renderSection = () => {
         switch (activeSection) {
             case 'dashboard': return <DashboardSection stats={config?.stats} />;
+            case 'connections': return <ConnectionsSection />;
             case 'settings': return <SiteSettingsSection data={config?.site_settings} onSave={(d: any) => handleSave('site_settings', d)} saving={saving} />;
             case 'hero': return <HeroBannerSection data={config?.hero_banner} onSave={(d: any) => handleSave('hero_banner', d)} saving={saving} />;
             case 'about': return <AboutPageSection data={config?.about_page} onSave={(d: any) => handleSave('about_page', d)} saving={saving} />;
@@ -127,8 +130,8 @@ export default function AdminPanel() {
                             key={section.id}
                             onClick={() => setActiveSection(section.id)}
                             className={`w-full flex items-center gap-4 px-6 py-4 rounded-xl transition-all ${activeSection === section.id
-                                    ? 'bg-white shadow-sm ring-1 ring-black/5 text-[#a932bd] font-medium'
-                                    : 'text-[#1a1a1a]/40 hover:text-[#1a1a1a]/70 hover:bg-black/5'
+                                ? 'bg-white shadow-sm ring-1 ring-black/5 text-[#a932bd] font-medium'
+                                : 'text-[#1a1a1a]/40 hover:text-[#1a1a1a]/70 hover:bg-black/5'
                                 }`}
                         >
                             <span className="material-symbols-outlined text-lg">{section.icon}</span>

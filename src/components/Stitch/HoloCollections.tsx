@@ -39,38 +39,45 @@ export default function HoloCollections({ products }: HoloCollectionsProps) {
                     </p>
                 </motion.div>
 
-                <div className="grid grid-cols-1 md:grid-cols-3 gap-y-20 gap-x-12">
+                <div className="grid grid-cols-1 md:grid-cols-3 gap-y-24 gap-x-12">
                     {products.map((collection, index) => (
                         <motion.div
                             key={collection.id}
                             initial={{ y: 50, opacity: 0 }}
                             whileInView={{ y: 0, opacity: 1 }}
                             viewport={{ once: true, margin: "-50px" }}
-                            transition={{ duration: 0.6, delay: index * 0.15 }}
+                            transition={{ duration: 0.6, delay: index * 0.1 }}
                         >
-                            <Link href={`/collections/${collection.id}`} className="flex flex-col group cursor-pointer">
-                                <div className="relative aspect-[3/4] overflow-hidden rounded-sm bg-neutral-100">
-                                    {(collection.media_primary_url || collection.image_url) ? (
-                                        <img
-                                            alt={collection.title || collection.name}
-                                            className="w-full h-full object-cover transition-transform duration-1000 group-hover:scale-105"
-                                            src={collection.media_primary_url || collection.image_url || ''}
-                                        />
-                                    ) : (
-                                        <div className="w-full h-full flex items-center justify-center text-gray-300">No image</div>
-                                    )}
+                            <Link href={`/collections/${collection.id}`} className="flex flex-col items-center group cursor-pointer">
+                                {/* Circular Container */}
+                                <div className="relative w-64 h-64 md:w-80 md:h-80 rounded-full border border-primary/10 p-2 transition-all duration-700 group-hover:border-primary/40 group-hover:-translate-y-2 shadow-sm bg-white">
+                                    <div className="w-full h-full rounded-full overflow-hidden relative z-10">
+                                        {(collection.media_primary_url || collection.image_url) ? (
+                                            <img
+                                                alt={collection.title || collection.name}
+                                                className="w-full h-full object-cover transition-transform duration-1000 group-hover:scale-110"
+                                                src={collection.media_primary_url || collection.image_url || ''}
+                                            />
+                                        ) : (
+                                            <div className="w-full h-full flex items-center justify-center text-gray-300">No image</div>
+                                        )}
 
-                                    {/* Discover Button at bottom of image */}
-                                    <div className="absolute inset-x-0 bottom-0 p-6">
-                                        <div className="w-full py-3 px-6 bg-white/80 backdrop-blur-md text-primary text-[10px] uppercase tracking-[0.3em] font-medium text-center border border-primary/10 hover:bg-primary hover:text-white hover:border-transparent transition-all duration-300">
-                                            Discover
+                                        {/* Discover Button overlay */}
+                                        <div className="absolute inset-0 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-all duration-500 z-20">
+                                            <div className="px-8 py-3 bg-white/90 backdrop-blur-md text-primary text-[10px] uppercase tracking-[0.3em] font-medium border border-primary/20 rounded-full shadow-lg">
+                                                Discover
+                                            </div>
                                         </div>
                                     </div>
+
+                                    {/* Subtle outer glow on hover */}
+                                    <div className="absolute inset-0 rounded-full bg-primary/5 opacity-0 group-hover:opacity-100 transition-opacity duration-700 blur-xl"></div>
                                 </div>
 
-                                <h3 className="mt-8 text-xl font-thin text-text-dark tracking-wide text-center">
+                                <h3 className="mt-10 text-xl font-thin text-text-dark tracking-widest text-center uppercase group-hover:text-primary transition-colors">
                                     {collection.title || collection.name}
                                 </h3>
+                                <div className="mt-2 w-0 group-hover:w-12 h-px bg-primary transition-all duration-500"></div>
                             </Link>
                         </motion.div>
                     ))}

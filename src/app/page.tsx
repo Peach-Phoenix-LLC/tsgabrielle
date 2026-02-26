@@ -18,6 +18,12 @@ export default async function Home() {
       orderBy: { sort_order: 'asc' },
     });
 
+    // Fetch live categories
+    const categories = await prisma.category.findMany({
+      where: { is_active: true },
+      orderBy: { sort_order: 'asc' },
+    });
+
     // Map to the structure expected by HoloCollections
     const mappedCollections = collections.map((c: any) => ({
       id: c.slug,
@@ -32,7 +38,7 @@ export default async function Home() {
 
         <PageAnimations>
           <HoloHero />
-          <HoloCategories />
+          <HoloCategories categories={categories as any} />
           <HoloPhilosophy />
           <HoloCollections products={mappedCollections as any} />
 

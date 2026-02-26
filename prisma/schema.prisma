@@ -247,6 +247,7 @@ model CMSPage {
   seo_desc   String?
   created_at DateTime @default(now())
   updated_at DateTime @updatedAt
+  layout     String   @default("standard")
 
   @@map("cms_pages")
 }

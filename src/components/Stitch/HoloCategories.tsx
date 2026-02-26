@@ -1,58 +1,87 @@
+"use client";
+
 import React from 'react';
+import Link from 'next/link';
+import Image from 'next/image';
 
-export default function HoloCategories() {
+interface Category {
+    id: number;
+    name: string;
+    slug: string;
+    image_url: string;
+    description: string | null;
+}
+
+interface HoloCategoriesProps {
+    categories?: Category[];
+}
+
+export default function HoloCategories({ categories = [] }: HoloCategoriesProps) {
+    // If no categories from prop, we could show nothing or have internal defaults
+    if (!categories || categories.length === 0) return null;
+
     return (
-        <section className="py-24 bg-white">
-            <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-                <div className="text-center mb-16">
-                    <h2 className="text-4xl md:text-5xl font-thin mb-4 text-text-dark">
-                        Shop by category
+        <section className="py-32 bg-white overflow-hidden">
+            <div className="max-w-7xl mx-auto px-8">
+                <div className="text-center mb-24 relative">
+                    <span className="text-[10px] uppercase tracking-[0.6em] text-primary/40 font-bold mb-4 block">Explore the Maison</span>
+                    <h2 className="text-5xl md:text-7xl font-extralight tracking-tighter text-text-dark">
+                        Shop by Category
                     </h2>
-                    <div className="w-16 h-px bg-primary mx-auto mb-6"></div>
+                    <div className="w-24 h-px bg-primary/20 mx-auto mt-8"></div>
                 </div>
-                <div className="grid grid-cols-1 md:grid-cols-3 gap-12 text-center">
 
-                    {/* Category 1 */}
-                    <div className="flex flex-col items-center p-6 group cursor-pointer transition-transform duration-300">
-                        <div className="mb-6 relative">
-                            <span className="material-symbols-outlined text-6xl text-primary font-thin relative z-10">diamond</span>
+                <div className="grid grid-cols-1 md:grid-cols-3 gap-16">
+                    {categories.map((category, idx) => (
+                        <div
+                            key={category.id}
+                            className={`group relative perspective-1000 animate-in fade-in slide-in-from-bottom-8 duration-700`}
+                            style={{ transitionDelay: `${idx * 150}ms` }}
+                        >
+                            <Link href={`/categories/${category.slug}`} className="block">
+                                <div className="relative aspect-[3/4] overflow-hidden rounded-[2rem] shadow-2xl transition-all duration-700 group-hover:shadow-[0_40px_80px_-20px_rgba(169,50,189,0.3)] ring-1 ring-black/5">
+                                    {/* Image Container */}
+                                    <div className="absolute inset-0 transition-transform duration-1000 group-hover:scale-110">
+                                        <Image
+                                            src={category.image_url || '/images/placeholder.png'}
+                                            alt={category.name}
+                                            fill
+                                            className="object-cover"
+                                        />
+                                    </div>
+
+                                    {/* Glassmorphism Overlay */}
+                                    <div className="absolute inset-0 bg-gradient-to-b from-transparent via-black/5 to-black/40 opacity-60 transition-opacity duration-700 group-hover:opacity-80"></div>
+
+                                    {/* Discovery Button */}
+                                    <div className="absolute inset-x-0 bottom-0 p-8 transform transition-all duration-500 translate-y-2 group-hover:translate-y-0">
+                                        <div className="w-full py-4 px-6 bg-white/90 backdrop-blur-md border border-white/20 rounded-2xl shadow-xl flex items-center justify-center gap-3 transition-colors hover:bg-white">
+                                            <span className="text-[10px] uppercase tracking-[0.4em] font-bold text-text-dark">Discovery</span>
+                                            <span className="material-symbols-outlined text-sm text-primary transition-transform duration-300 group-hover:translate-x-1">arrow_forward</span>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                {/* Title below card */}
+                                <div className="mt-8 text-center space-y-1">
+                                    <h3 className="text-2xl font-extralight tracking-tight text-text-dark transition-colors group-hover:text-primary">
+                                        {category.name}
+                                    </h3>
+                                    <p className="text-[10px] uppercase tracking-widest text-text-dark/40 font-bold opacity-0 transition-all duration-500 transform translate-y-2 group-hover:opacity-100 group-hover:translate-y-0">
+                                        {category.description || 'View Collection'}
+                                    </p>
+                                </div>
+                            </Link>
                         </div>
-                        <h3 className="text-2xl font-thin text-text-dark mb-4">
-                            Luxury quality
-                        </h3>
-                        <p className="text-text-dark/50 font-thin leading-relaxed max-w-xs mx-auto">
-                            We source the finest materials to ensure every piece embodies the premium standard of tsgabrielle®.
-                        </p>
-                    </div>
-
-                    {/* Category 2 */}
-                    <div className="flex flex-col items-center p-6 group cursor-pointer transition-transform duration-300">
-                        <div className="mb-6 relative">
-                            <span className="material-symbols-outlined text-6xl text-primary font-thin relative z-10">auto_awesome</span>
-                        </div>
-                        <h3 className="text-2xl font-thin text-text-dark mb-4">
-                            Unique style
-                        </h3>
-                        <p className="text-text-dark/50 font-thin leading-relaxed max-w-xs mx-auto">
-                            Our designs are curated to celebrate individuality with that special French Trans Touch.
-                        </p>
-                    </div>
-
-                    {/* Category 3 */}
-                    <div className="flex flex-col items-center p-6 group cursor-pointer transition-transform duration-300">
-                        <div className="mb-6 relative">
-                            <span className="material-symbols-outlined text-6xl text-primary font-thin relative z-10">local_shipping</span>
-                        </div>
-                        <h3 className="text-2xl font-thin text-text-dark mb-4">
-                            Global delivery
-                        </h3>
-                        <p className="text-text-dark/50 font-thin leading-relaxed max-w-xs mx-auto">
-                            From Paris to the world, we ensure your fashion arrives safely and swiftly at your doorstep.
-                        </p>
-                    </div>
-
+                    ))}
                 </div>
             </div>
+
+            <style jsx>{`
+                .perspective-1000 {
+                    perspective: 1000px;
+                }
+            `}</style>
         </section>
     );
 }
