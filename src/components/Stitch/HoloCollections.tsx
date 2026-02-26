@@ -60,9 +60,9 @@ export default function HoloCollections({ products }: HoloCollectionsProps) {
                                         <div className="w-full h-full flex items-center justify-center text-gray-300">No image</div>
                                     )}
 
-                                    {/* Discover Button overlay at bottom of image */}
-                                    <div className="absolute inset-x-0 bottom-0 p-8 translate-y-2 opacity-0 group-hover:translate-y-0 group-hover:opacity-100 transition-all duration-500">
-                                        <div className="w-full py-4 px-6 bg-white/90 backdrop-blur-md text-primary text-[10px] uppercase tracking-[0.3em] font-medium text-center border border-primary/20 hover:bg-primary hover:text-white transition-colors">
+                                    {/* Discover Button at bottom of image */}
+                                    <div className="absolute inset-x-0 bottom-0 p-6">
+                                        <div className="w-full py-3 px-6 bg-white/80 backdrop-blur-md text-primary text-[10px] uppercase tracking-[0.3em] font-medium text-center border border-primary/10 hover:bg-primary hover:text-white hover:border-transparent transition-all duration-300">
                                             Discover
                                         </div>
                                     </div>
