@@ -224,3 +224,67 @@ model WishlistItem {
   @@unique([user_id, product_id])
   @@map("wishlist_items")
 }
+model StoreConfig {
+  id              Int      @id @default(1)
+  site_settings   Json?    // site name, tagline, logo, contact, etc.
+  hero_banner     Json?    // headline, subtitle, buttons, background
+  about_page      Json?    // mission, vision, team members
+  navigation      Json?    // announcement bar, links, behavior
+  footer          Json?    // links, social, newsletter
+  theme_design    Json?    // color pickers, fonts, styles
+  checkout_logic  Json?    // rules, taxes, shipping thresholds
+  seo_analytics   Json?    // trackers, pixels, meta
+  notifications   Json?    // email templates, alerts
+  updated_at      DateTime @updatedAt
+
+  @@map("store_configs")
+}
+
+model Category {
+  id           Int      @id @default(autoincrement())
+  name         String
+  slug         String   @unique
+  description  String?  @db.Text
+  image_url    String?
+  sort_order   Int      @default(0)
+  seo_title    String?
+  seo_desc     String?
+  is_active    Boolean  @default(true)
+  is_featured  Boolean  @default(false)
+  created_at   DateTime @default(now())
+  updated_at   DateTime @updatedAt
+
+  @@map("categories")
+}
+
+model Collection {
+  id           Int      @id @default(autoincrement())
+  name         String
+  slug         String   @unique
+  description  String?  @db.Text
+  image_url    String?
+  badge        String?
+  start_date   DateTime?
+  end_date     DateTime?
+  sort_order   Int      @default(0)
+  is_active    Boolean  @default(true)
+  is_featured  Boolean  @default(false)
+  created_at   DateTime @default(now())
+  updated_at   DateTime @updatedAt
+
+  @@map("collections")
+}
+
+model CMSPage {
+  id           Int      @id @default(autoincrement())
+  title        String
+  slug         String   @unique
+  body         String   @db.Text
+  is_visible   Boolean  @default(true)
+  seo_title    String?
+  seo_desc     String?
+  created_at   DateTime @default(now())
+  updated_at   DateTime @updatedAt
+
+  @@map("cms_pages")
+}

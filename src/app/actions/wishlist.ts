@@ -23,12 +23,16 @@ export async function toggleWishlistItemAction(userId: string, productId: string
             },
         });
 
+        // Fetch product for correct path revalidation
+        const product = await prisma.product.findUnique({ where: { id: parseInt(productId) } });
+        const peach = product?.peach_number || productId;
+
         if (existing) {
             // Remove it
             await prisma.wishlistItem.delete({
                 where: { id: existing.id },
             });
-            revalidatePath(`/products/${productId}`);
+            revalidatePath(`/products/${peach}`);
             revalidatePath('/profile');
             return { success: true, action: 'removed' };
         } else {
@@ -39,7 +43,7 @@ export async function toggleWishlistItemAction(userId: string, productId: string
                     product_id: parseInt(productId),
                 },
             });
-            revalidatePath(`/products/${productId}`);
+            revalidatePath(`/products/${peach}`);
             revalidatePath('/profile');
             return { success: true, action: 'added' };
         }

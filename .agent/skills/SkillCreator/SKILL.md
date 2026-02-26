@@ -1,27 +1,40 @@
 ---
 repository: github.com/Peach-Phoenix-LLC/ts
 name: SkillCreator
-description: A specialized skill for creating and maintaining other skills within the .agent/skills directory.
+description: A specialized skill for creating, improving, and benchmarking new skills within the .agent/skills directory.
 ---
+
+> [!IMPORTANT]
+> **STRICT ADHERENCE RULE**: When creating or improving skills, they must strictly follow the existing tsgabrielle® brand rules. Never suggest or implement features that break established design patterns (e.g., no all-caps, no Stripe, no new logos).
 
 # Skill Creator
 
-This skill is designed to streamline the creation of new skills for the Antigravity agent. It ensures adherence to the standard folder structure and YAML frontmatter requirements.
+The master skill for evolving the Antigravity agent's own capabilities. It handles the complete lifecycle of a skill from conception to benchmarking, always within the Maison's strict brand constraints.
 
-## Folder Structure
+## Purpose
 
-Every skill must live in `.agent/skills/<SkillName>/` and contain:
+To ensure the agent can autonomously expand its toolkit with high-quality, standardized, and well-documented skills that never violate project rules.
 
-- `SKILL.md`: The primary instructions and metadata.
-- `resources/`: (Optional) Templates, scripts, or assets.
-- `scripts/`: (Optional) Supporting scripts or tools.
+## Core Instructions
 
-## Instructions for Creating a New Skill
+- **Standardization**: Every skill must follow the `SKILL.md` template with YAML metadata.
+- **Brand Integrity**: Ensure any generated code or design instructions use **only** existing brand assets (Amethyst Glow, Lato Light, etc.).
+- **Benchmarking**: Create test cases that validate both functional performance and brand compliance.
+- **Documentation**: Write clear, actionable instructions that another agent can follow perfectly without inventing new concepts.
 
-1. **Naming**: Use PascalCase for the skill directory name (e.g., `CodeQuality`).
-2. **Metadata**: The `SKILL.md` must start with YAML frontmatter containing `name` and `description`.
-3. **Sections**: Include sections for Purpose, Core Instructions, and Usage Examples.
-4. **Validation**: Ensure no external dependencies are required that aren't available in the current environment.
+## The Skill Lifecycle
+
+1. **Ideation**: Define the gap in capabilities.
+2. **Drafting**: Create the folder and initial `SKILL.md`.
+3. **Refining**: Add examples and edge-case instructions.
+4. **Validation**: Run a trial task using the new skill.
+5. **Finalization**: Commit to the repository.
+
+## When to Use
+
+- When the user requests a new specific capability.
+- When an existing skill is found to be incomplete or breaking brand rules.
+- When organizing a large collection of agent tools.
 
 ## Resources
 

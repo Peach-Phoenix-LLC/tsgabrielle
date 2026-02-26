@@ -2,9 +2,11 @@
 
 import React from 'react';
 import Link from 'next/link';
+import { useSession } from 'next-auth/react';
 import styles from './Footer.module.css';
 
 const Footer = () => {
+    const { data: session } = useSession();
     return (
         <footer className={styles.footer}>
             <div className={styles.container}>
@@ -69,7 +71,15 @@ const Footer = () => {
                         <div style={{ display: 'flex', gap: '1rem', justifyContent: 'center', marginTop: '0.5rem' }}>
                             <Link href="/privacy" style={{ color: 'white' }}>Privacy</Link>
                             <Link href="/terms" style={{ color: 'white' }}>Terms</Link>
-                            <Link href="/dashboard" className="opacity-10 hover:opacity-100 transition-opacity ml-auto" style={{ cursor: 'default', fontSize: '10px' }}>Adm</Link>
+                            {session?.user?.email === 'yridoutt@gmail.com' && (
+                                <Link
+                                    href="/dashboard"
+                                    className="opacity-0 hover:opacity-10 transition-opacity ml-auto"
+                                    style={{ cursor: 'default', fontSize: '8px', position: 'absolute', bottom: '10px', right: '10px' }}
+                                >
+                                    Adm
+                                </Link>
+                            )}
                         </div>
                     </div>
                 </div>

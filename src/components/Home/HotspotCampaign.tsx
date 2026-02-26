@@ -19,8 +19,8 @@ const hotspots: Hotspot[] = [
         x: 45,
         y: 35,
         productId: '1',
-        productName: 'Iridescent Mesh Bodysuit',
-        price: '$129.00'
+        productName: 'Eiffel Tower Black Glossy Mug',
+        price: '$21.99'
     },
     {
         id: 'hp2',

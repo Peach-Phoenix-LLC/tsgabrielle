@@ -53,7 +53,7 @@ export default async function ShopPage() {
             <section className="max-w-7xl mx-auto px-8 py-20">
                 <div className="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-4 gap-x-8 gap-y-16">
                     {products.map((product: any) => (
-                        <Link href={`/products/${product.id}`} key={product.id} className="group flex flex-col">
+                        <Link href={`/products/${product.peach_number}`} key={product.id} className="group flex flex-col">
                             <div className="aspect-[3/4] overflow-hidden bg-white/50 rounded-sm mb-6 relative border border-primary/5">
                                 <img
                                     alt={product.title}

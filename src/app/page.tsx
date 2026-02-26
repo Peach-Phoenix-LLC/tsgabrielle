@@ -1,12 +1,10 @@
 import React from 'react';
 import ModernNavbar from '@/components/Home/ModernNavbar';
-import Reviews from '@/components/Home/Reviews';
 import ModernFooter from '@/components/Home/ModernFooter';
 import HoloHero from '@/components/Stitch/HoloHero';
 import HoloCategories from '@/components/Stitch/HoloCategories';
 import HoloPhilosophy from '@/components/Stitch/HoloPhilosophy';
 import HoloCollections from '@/components/Stitch/HoloCollections';
-import SkillsSection from '@/components/Home/SkillsSection';
 import { prisma } from '@/lib/prisma';
 import PageAnimations from './PageAnimations'; // We will create this wrapper for client-side animations
 
@@ -39,8 +37,7 @@ export default async function Home() {
           <HoloCategories />
           <HoloPhilosophy />
           <HoloCollections products={mappedProducts as any} />
-          <SkillsSection />
-          <Reviews />
+          <div className="h-64 bg-white" />
         </PageAnimations>
 
         <ModernFooter />

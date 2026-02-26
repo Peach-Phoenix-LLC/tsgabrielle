@@ -10,7 +10,7 @@ export const metadata = {
 
 export default function PrivacyPage() {
     return (
-        <main className="min-h-screen bg-[#050406] text-white font-sans">
+        <main className="min-h-screen bg-white text-black font-sans">
             <ModernNavbar />
 
             <header className="pt-48 pb-20 border-b border-white/5">
