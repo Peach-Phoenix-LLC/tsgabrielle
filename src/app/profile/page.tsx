@@ -213,7 +213,7 @@ export default function ProfilePage() {
                                     wishlist.map((item: any) => (
                                         <div key={item.id} className="glass-panel rounded-sm p-8 transition-all hover:border-white/20">
                                             <div className="flex flex-col xl:flex-row xl:items-center gap-8">
-                                                <Link href={`/product/${item.product.id}`} className="w-28 h-36 flex-shrink-0 bg-white/5 overflow-hidden rounded relative flex items-center justify-center">
+                                                <Link href={`/products/${item.product.id}`} className="w-28 h-36 flex-shrink-0 bg-white/5 overflow-hidden rounded relative flex items-center justify-center">
                                                     <img
                                                         alt={item.product?.name || "Product"}
                                                         className="w-full h-full object-cover opacity-80 group-hover:scale-105 transition-transform"
@@ -227,7 +227,7 @@ export default function ProfilePage() {
                                                 </div>
                                                 <div className="flex items-center justify-between xl:flex-col xl:items-end xl:space-y-4 pt-6 xl:pt-0 border-t xl:border-none border-white/10 w-full xl:w-auto">
                                                     <Link
-                                                        href={`/product/${item.product.id}`}
+                                                        href={`/products/${item.product.id}`}
                                                         className="px-8 py-3 bg-[#a932bd] text-white text-[10px] font-bold uppercase tracking-[0.2em] hover:brightness-110 transition-all rounded-sm text-center"
                                                     >
                                                         View Product
