@@ -17,11 +17,15 @@ interface GalleryProps {
     slides: Slide[];
 }
 
-export default function Gallery({ slides }: GalleryProps) {
+export default function Gallery({ slides = [] }: GalleryProps) {
     const [index, setIndex] = useState(0);
     const [progress, setProgress] = useState(0);
 
+    const hasSlides = slides && slides.length > 0;
+
     useEffect(() => {
+        if (!hasSlides) return;
+
         const timer = setInterval(() => {
             setIndex((prev) => (prev + 1) % slides.length);
         }, 8000);
@@ -29,7 +33,7 @@ export default function Gallery({ slides }: GalleryProps) {
         const progressTimer = setInterval(() => {
             setProgress((prev) => {
                 if (prev >= 100) return 0;
-                return prev + (100 / 800); // Rough approximation for 100ms ticks
+                return prev + (100 / 800);
             });
         }, 100);
 
@@ -37,11 +41,19 @@ export default function Gallery({ slides }: GalleryProps) {
             clearInterval(timer);
             clearInterval(progressTimer);
         };
-    }, [slides.length, index]);
+    }, [hasSlides, slides.length, index]);
 
     useEffect(() => {
         setProgress(0);
     }, [index]);
+
+    if (!hasSlides) {
+        return (
+            <div className="relative h-screen min-h-[700px] w-full bg-black flex items-center justify-center">
+                <p className="text-white/20 uppercase tracking-[0.5em] text-[10px]">No visuals Available</p>
+            </div>
+        );
+    }
 
     const activeSlide = slides[index];
 
