@@ -1,6 +1,24 @@
+:root {
+    --ivory: #faf9f6;
+    --gold: #c5a059;
+    --ts-purple: #a932bd;
+}
+
+.bg-ivory {
+    background-color: var(--ivory);
+}
+
+.text-gold {
+    color: var(--gold);
+}
+
+.border-gold {
+    border-color: var(--gold);
+}
+
 .custom-gallery-scroll {
     scrollbar-width: thin;
-    scrollbar-color: #a932bd #222;
+    scrollbar-color: var(--ts-purple) #eee;
 }
 
 .custom-gallery-scroll::-webkit-scrollbar {
@@ -12,29 +30,42 @@
 }
 
 .custom-gallery-scroll::-webkit-scrollbar-thumb {
-    background: #a932bd;
+    background: var(--ts-purple);
 }
 
-details>summary {
-    list-style: none;
+/* Holographic Ribbon */
+.holographic-ribbon {
+    position: relative;
+    padding: 6px 16px;
+    background: linear-gradient(135deg, #a932bd, #ff55ff, #00d2ff, #a932bd);
+    background-size: 300% 300%;
+    animation: holo-slide 10s ease-in-out infinite;
+    color: white;
+    font-size: 10px;
+    font-weight: 800;
+    text-transform: uppercase;
+    letter-spacing: 0.2em;
+    clip-path: polygon(0% 0%, 100% 0%, 90% 100%, 0% 100%);
 }
 
-details>summary::-webkit-details-marker {
+@keyframes holo-slide {
+    0% { background-position: 0% 50%; }
+    50% { background-position: 100% 50%; }
+    100% { background-position: 0% 50%; }
+}
+
+.gift-text-fill {
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+    background-size: cover;
+    background-position: center;
+}
+
+.no-scrollbar::-webkit-scrollbar {
     display: none;
 }
-
-.glass-card {
-    background: rgba(255, 255, 255, 0.03);
-    backdrop-filter: blur(24px);
-    -webkit-backdrop-filter: blur(24px);
-    border: 1px solid rgba(255, 255, 255, 0.05);
-}
-
-.hover-glow {
-    transition: all 0.3s ease;
-}
-
-.hover-glow:hover {
-    box-shadow: 0 0 15px rgba(169, 50, 189, 0.4);
-    border-color: rgba(169, 50, 189, 0.6);
+.no-scrollbar {
+    -ms-overflow-style: none;
+    scrollbar-width: none;
 }
