@@ -8,25 +8,12 @@ datasource db {
   directUrl = env("DIRECT_URL")
 }
 
-enum Role {
-  USER
-  ADMIN
-}
-
-enum OrderStatus {
-  PENDING
-  PAID
-  SHIPPED
-  DELIVERED
-  CANCELLED
-}
-
 model Profile {
-  id        String   @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  id        String         @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
   full_name String?
-  email     String   @unique
-  role      Role     @default(USER)
-  createdAt DateTime @default(now()) @map("created_at")
+  email     String         @unique
+  role      Role           @default(USER)
+  createdAt DateTime       @default(now()) @map("created_at")
   orders    Order[]
   wishlist  WishlistItem[]
 
@@ -41,93 +28,67 @@ model GlobalSetting {
 }
 
 model Product {
-  id                    Int       @id @default(autoincrement())
-  peach_number          Int       @unique   // The Peach Number = public URL handle
-  title                 String
-  subtitle              String              // e.g. "Collection Paris"
-  tagline               String
-  brand                 String    @default("tsgabrielle®")
-  short_description     String    @db.Text
-  long_description      String    @db.Text
-
-  // Section 1 — Global Identifiers
-  base_sku              String    @unique
-  base_mpn              String    @unique
-  base_gtin             String?
-
-  // Section 2 — Categorization
-  product_type          String
-  catalogue_category    String
-  catalogue_collection  String
-  google_category_id    String
-  google_category_name  String
-
-  // Section 3 — Google Shopping (PRIVATE — used internally only)
-  gs_condition          String    @default("New")
-  gs_availability       String    @default("In Stock")
-  gs_gender             String?
-  gs_age_group          String?
-  gs_size_system        String?
-
-  // Section 7 — SEO (PRIVATE — used for metadata, never rendered in UI)
-  seo_meta_title        String
-  seo_meta_description  String
-  seo_tags              String[]  // Array of 50 keywords
-
-  // Section 9 — Logistics
-  hs_code_primary       String
-  hs_code_alt           String?
-  shipping_tier         String
-  lead_time             String
-  warehouse_zone        String
-  country_of_origin     String
-
-  // Section 10 — Sustainability
-  certifications        String[]
-  traceability          String
-  ethical_audit         String
-  carbon_footprint      String
-
-  // Section 12 — Commercial
-  msrp_display          String              // e.g. "$18.99 – $21.99"
-  map_policy            String?
-  wholesale_price       String?
-  seasonality_code      String?
-  landed_cost_est       String?
-
-  // Section 13 — Omnichannel (PRIVATE — internal use only)
-  url_amazon            String?
-  url_etsy              String?
-  url_tiktok            String?
-
-  // Section 14 — Technical Specs
-  composition           String
-  finish                String
-  care_instructions     String
-
-  // Section 15 — Compliance
-  prop65_status         String
-  trademark_notes       String
-  safety_testing        String
-  warranty_info         String
-  contact_info          String
-
-  // Media
-  media_primary_url     String?
-  media_gallery_urls    String[]
-
-  // Status
-  status                String    @default("active")   // active | draft | archived
-  created_at            DateTime  @default(now())
-  updated_at            DateTime  @updatedAt
-
-  // Relations
-  variants              ProductVariant[]
-  pillars               ProductPillar[]
-  gallery_slides        GallerySlide[]
-  metafields            ProductMetafield[]
-  order_items           OrderItem[]
-  wishlist_items        WishlistItem[]
+  id                   Int                @id @default(autoincrement())
+  peach_number         Int                @unique
+  title                String
+  subtitle             String
+  tagline              String
+  brand                String             @default("tsgabrielle®")
+  short_description    String
+  long_description     String
+  base_sku             String             @unique
+  base_mpn             String             @unique
+  base_gtin            String?
+  product_type         String
+  catalogue_category   String
+  catalogue_collection String
+  google_category_id   String
+  google_category_name String
+  gs_condition         String             @default("New")
+  gs_availability      String             @default("In Stock")
+  gs_gender            String?
+  gs_age_group         String?
+  gs_size_system       String?
+  seo_meta_title       String
+  seo_meta_description String
+  seo_tags             String[]
+  hs_code_primary      String
+  hs_code_alt          String?
+  shipping_tier        String
+  lead_time            String
+  warehouse_zone       String
+  country_of_origin    String
+  certifications       String[]
+  traceability         String
+  ethical_audit        String
+  carbon_footprint     String
+  msrp_display         String
+  map_policy           String?
+  wholesale_price      String?
+  seasonality_code     String?
+  landed_cost_est      String?
+  url_amazon           String?
+  url_etsy             String?
+  url_tiktok           String?
+  composition          String
+  finish               String
+  care_instructions    String
+  prop65_status        String
+  trademark_notes      String
+  safety_testing       String
+  warranty_info        String
+  contact_info         String
+  media_primary_url    String?
+  media_gallery_urls   String[]
+  status               String             @default("active")
+  created_at           DateTime           @default(now())
+  updated_at           DateTime           @updatedAt
+  gallery_slides       GallerySlide[]
+  order_items          OrderItem[]
+  metafields           ProductMetafield[]
+  pillars              ProductPillar[]
+  variants             ProductVariant[]
+  wishlist_items       WishlistItem[]
 
   @@map("products")
 }
@@ -135,8 +96,7 @@ model Product {
 model ProductVariant {
   id           Int     @id @default(autoincrement())
   product_id   Int
-  product      Product @relation(fields: [product_id], references: [id])
-  size_label   String              // "11 oz / 325 ml"
+  size_label   String
   color        String
   variant_sku  String  @unique
   variant_mpn  String  @unique
@@ -147,6 +107,7 @@ model ProductVariant {
   msrp         String
   inventory    String  @default("In Stock")
   sort_order   Int     @default(0)
+  product      Product @relation(fields: [product_id], references: [id])
 
   @@map("product_variants")
 }
@@ -154,10 +115,10 @@ model ProductVariant {
 model ProductPillar {
   id         Int     @id @default(autoincrement())
   product_id Int
-  product    Product @relation(fields: [product_id], references: [id])
   sort_order Int
   title      String
-  body       String  @db.Text
+  body       String
+  product    Product @relation(fields: [product_id], references: [id])
 
   @@map("product_pillars")
 }
@@ -165,14 +126,14 @@ model ProductPillar {
 model GallerySlide {
   id           Int     @id @default(autoincrement())
   product_id   Int
-  product      Product @relation(fields: [product_id], references: [id])
   sort_order   Int
-  label        String              // "Campaign — Morning Ritual"
-  caption      String              // Large display text
+  label        String
+  caption      String
   sub_caption  String
-  accent_color String              // Hex accent for that slide
-  image_url    String?             // Real product image — null = use CSS fallback
-  bg_gradient  String?             // CSS gradient fallback when no image
+  accent_color String
+  image_url    String?
+  bg_gradient  String?
+  product      Product @relation(fields: [product_id], references: [id])
 
   @@map("gallery_slides")
 }
@@ -180,10 +141,10 @@ model GallerySlide {
 model ProductMetafield {
   id         Int     @id @default(autoincrement())
   product_id Int
-  product    Product @relation(fields: [product_id], references: [id])
-  key        String              // "material", "finish", "pattern"...
+  key        String
   value      String
   is_public  Boolean @default(true)
+  product    Product @relation(fields: [product_id], references: [id])
 
   @@map("product_metafields")
 }
@@ -195,8 +156,8 @@ model Order {
   status          OrderStatus @default(PENDING)
   paypal_order_id String?     @unique
   created_at      DateTime    @default(now())
-  profile         Profile?    @relation(fields: [user_id], references: [id])
   items           OrderItem[]
+  profile         Profile?    @relation(fields: [user_id], references: [id])
 
   @@map("orders")
 }
@@ -218,73 +179,87 @@ model WishlistItem {
   user_id    String   @db.Uuid
   product_id Int
   created_at DateTime @default(now())
-  profile    Profile  @relation(fields: [user_id], references: [id])
   product    Product  @relation(fields: [product_id], references: [id])
+  profile    Profile  @relation(fields: [user_id], references: [id])
 
   @@unique([user_id, product_id])
   @@map("wishlist_items")
 }
+
 model StoreConfig {
-  id              Int      @id @default(1)
-  site_settings   Json?    // site name, tagline, logo, contact, etc.
-  hero_banner     Json?    // headline, subtitle, buttons, background
-  about_page      Json?    // mission, vision, team members
-  navigation      Json?    // announcement bar, links, behavior
-  footer          Json?    // links, social, newsletter
-  theme_design    Json?    // color pickers, fonts, styles
-  checkout_logic  Json?    // rules, taxes, shipping thresholds
-  seo_analytics   Json?    // trackers, pixels, meta
-  notifications   Json?    // email templates, alerts
-  updated_at      DateTime @updatedAt
+  id             Int      @id @default(1)
+  site_settings  Json?
+  hero_banner    Json?
+  about_page     Json?
+  navigation     Json?
+  footer         Json?
+  theme_design   Json?
+  checkout_logic Json?
+  seo_analytics  Json?
+  notifications  Json?
+  updated_at     DateTime @updatedAt
 
   @@map("store_configs")
 }
 
 model Category {
-  id           Int      @id @default(autoincrement())
-  name         String
-  slug         String   @unique
-  description  String?  @db.Text
-  image_url    String?
-  sort_order   Int      @default(0)
-  seo_title    String?
-  seo_desc     String?
-  is_active    Boolean  @default(true)
-  is_featured  Boolean  @default(false)
-  created_at   DateTime @default(now())
-  updated_at   DateTime @updatedAt
+  id          Int      @id @default(autoincrement())
+  name        String
+  slug        String   @unique
+  description String?
+  image_url   String?
+  sort_order  Int      @default(0)
+  seo_title   String?
+  seo_desc    String?
+  is_active   Boolean  @default(true)
+  is_featured Boolean  @default(false)
+  created_at  DateTime @default(now())
+  updated_at  DateTime @updatedAt
 
   @@map("categories")
 }
 
 model Collection {
-  id           Int      @id @default(autoincrement())
-  name         String
-  slug         String   @unique
-  description  String?  @db.Text
-  image_url    String?
-  badge        String?
-  start_date   DateTime?
-  end_date     DateTime?
-  sort_order   Int      @default(0)
-  is_active    Boolean  @default(true)
-  is_featured  Boolean  @default(false)
-  created_at   DateTime @default(now())
-  updated_at   DateTime @updatedAt
+  id          Int       @id @default(autoincrement())
+  name        String
+  slug        String    @unique
+  description String?
+  image_url   String?
+  badge       String?
+  start_date  DateTime?
+  end_date    DateTime?
+  sort_order  Int       @default(0)
+  is_active   Boolean   @default(true)
+  is_featured Boolean   @default(false)
+  created_at  DateTime  @default(now())
+  updated_at  DateTime  @updatedAt
 
   @@map("collections")
 }
 
 model CMSPage {
-  id           Int      @id @default(autoincrement())
-  title        String
-  slug         String   @unique
-  body         String   @db.Text
-  is_visible   Boolean  @default(true)
-  seo_title    String?
-  seo_desc     String?
-  created_at   DateTime @default(now())
-  updated_at   DateTime @updatedAt
+  id         Int      @id @default(autoincrement())
+  title      String
+  slug       String   @unique
+  body       String
+  is_visible Boolean  @default(true)
+  seo_title  String?
+  seo_desc   String?
+  created_at DateTime @default(now())
+  updated_at DateTime @updatedAt
 
   @@map("cms_pages")
+}
+
+enum Role {
+  USER
+  ADMIN
+}
+
+enum OrderStatus {
+  PENDING
+  PAID
+  SHIPPED
+  DELIVERED
+  CANCELLED
 }

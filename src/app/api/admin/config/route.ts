@@ -22,8 +22,32 @@ export async function GET() {
         const config = await prisma.storeConfig.findUnique({
             where: { id: 1 },
         });
-        return NextResponse.json(config || {});
+
+        // Fetch live stats
+        const orderCount = await prisma.order.count();
+        const totalRevenue = await prisma.order.aggregate({
+            _sum: { total_amount: true }
+        });
+        const productCount = await prisma.product.count({
+            where: { status: 'active' }
+        });
+
+        const revenueValue = Number(totalRevenue._sum.total_amount || 0);
+        const aov = orderCount > 0 ? (revenueValue / orderCount).toFixed(2) : "0.00";
+
+        const stats = {
+            revenue: `$${revenueValue.toLocaleString()}`,
+            orders: orderCount.toString(),
+            aov: `$${aov}`,
+            products: productCount.toString()
+        };
+
+        return NextResponse.json({
+            ...(config || {}),
+            stats
+        });
     } catch (error) {
+        console.error("Config fetch error:", error);
         return NextResponse.json({ error: "Failed to fetch config" }, { status: 500 });
     }
 }

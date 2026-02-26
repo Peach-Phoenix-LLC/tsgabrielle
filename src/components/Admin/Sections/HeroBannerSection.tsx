@@ -77,20 +77,40 @@ export default function HeroBannerSection({ data, onSave, saving }: { data: any,
                         <div className="grid grid-cols-2 gap-4">
                             <div className="space-y-2">
                                 <label className="text-[10px] uppercase tracking-widest text-[#1a1a1a]/40 ml-1">CTA 1 Label</label>
-                                <input type="text" value={formData.cta1_text} onChange={(e) => handleChange('cta1_text', e.target.value)} className="w-full bg-neutral-50 border border-black/10 rounded-xl px-6 py-4 text-xs text-[#1a1a1a]" />
+                                <input type="text" value={formData.cta1_text} onChange={(e) => handleChange('cta1_text', e.target.value)} className="w-full bg-neutral-50 border border-black/10 rounded-xl px-6 py-4 text-xs text-[#1a1a1a] outline-none focus:border-[#a932bd]" />
                             </div>
                             <div className="space-y-2">
                                 <label className="text-[10px] uppercase tracking-widest text-[#1a1a1a]/40 ml-1">CTA 1 URL</label>
-                                <input type="text" value={formData.cta1_url} onChange={(e) => handleChange('cta1_url', e.target.value)} className="w-full bg-neutral-50 border border-black/10 rounded-xl px-6 py-4 text-xs text-[#1a1a1a]" />
+                                <input type="text" value={formData.cta1_url} onChange={(e) => handleChange('cta1_url', e.target.value)} className="w-full bg-neutral-50 border border-black/10 rounded-xl px-6 py-4 text-xs text-[#1a1a1a] outline-none focus:border-[#a932bd]" />
                             </div>
                         </div>
-                        <div className="space-y-2">
-                            <label className="text-[10px] uppercase tracking-widest text-[#1a1a1a]/40 ml-1">Background Image URL</label>
-                            <input type="text" value={formData.background_url} onChange={(e) => handleChange('background_url', e.target.value)} className="w-full bg-neutral-50 border border-black/10 rounded-xl px-6 py-4 text-xs text-[#1a1a1a]" />
+                        <div className="grid grid-cols-2 gap-4">
+                            <div className="space-y-2">
+                                <label className="text-[10px] uppercase tracking-widest text-[#1a1a1a]/40 ml-1">CTA 2 Label</label>
+                                <input type="text" value={formData.cta2_text} onChange={(e) => handleChange('cta2_text', e.target.value)} className="w-full bg-neutral-50 border border-black/10 rounded-xl px-6 py-4 text-xs text-[#1a1a1a] outline-none focus:border-[#a932bd]" />
+                            </div>
+                            <div className="space-y-2">
+                                <label className="text-[10px] uppercase tracking-widest text-[#1a1a1a]/40 ml-1">CTA 2 URL</label>
+                                <input type="text" value={formData.cta2_url} onChange={(e) => handleChange('cta2_url', e.target.value)} className="w-full bg-neutral-50 border border-black/10 rounded-xl px-6 py-4 text-xs text-[#1a1a1a] outline-none focus:border-[#a932bd]" />
+                            </div>
+                        </div>
+                        <div className="grid grid-cols-2 gap-4">
+                            <div className="space-y-2">
+                                <label className="text-[10px] uppercase tracking-widest text-[#1a1a1a]/40 ml-1">Background Type</label>
+                                <select value={formData.background_type} onChange={(e) => handleChange('background_type', e.target.value)} className="w-full bg-neutral-50 border border-black/10 rounded-xl px-4 py-4 text-xs text-[#1a1a1a] outline-none appearance-none focus:border-[#a932bd]">
+                                    <option value="image">Image</option>
+                                    <option value="video">Video</option>
+                                    <option value="color">Solid Color</option>
+                                </select>
+                            </div>
+                            <div className="space-y-2">
+                                <label className="text-[10px] uppercase tracking-widest text-[#1a1a1a]/40 ml-1">Background URL/Value</label>
+                                <input type="text" value={formData.background_url} onChange={(e) => handleChange('background_url', e.target.value)} className="w-full bg-neutral-50 border border-black/10 rounded-xl px-6 py-4 text-xs text-[#1a1a1a] outline-none focus:border-[#a932bd]" />
+                            </div>
                         </div>
                     </div>
 
-                    <div className="bg-neutral-50 border border-black/5 p-8 rounded-2xl shadow-sm space-y-8">
+                    <div className="bg-neutral-50 border border-black/5 p-8 rounded-2xl shadow-sm space-y-8 ring-1 ring-black/5">
                         <div className="flex justify-between items-center text-[#1a1a1a]">
                             <span className="text-[10px] uppercase tracking-widest opacity-40">Overlay Opacity</span>
                             <span className="text-[10px] font-bold">{(formData.overlay_opacity * 100).toFixed(0)}%</span>
@@ -101,6 +121,17 @@ export default function HeroBannerSection({ data, onSave, saving }: { data: any,
                             onChange={(e) => handleChange('overlay_opacity', parseFloat(e.target.value))}
                             className="w-full accent-[#a932bd]"
                         />
+
+                        <div className="flex justify-between items-center">
+                            <span className="text-[10px] uppercase tracking-widest opacity-40 text-[#1a1a1a]">Fullscreen</span>
+                            <button
+                                onClick={() => handleChange('fullscreen', !formData.fullscreen)}
+                                className={`w-10 h-5 rounded-full transition-all relative ${formData.fullscreen ? 'bg-[#a932bd]' : 'bg-black/10'}`}
+                            >
+                                <div className={`absolute top-1 size-3 bg-white rounded-full transition-all shadow-sm ${formData.fullscreen ? 'left-6' : 'left-1'}`} />
+                            </button>
+                        </div>
+
                         <div className="flex justify-between items-center">
                             <span className="text-[10px] uppercase tracking-widest opacity-40 text-[#1a1a1a]">Alignment</span>
                             <div className="flex gap-2">
@@ -108,7 +139,7 @@ export default function HeroBannerSection({ data, onSave, saving }: { data: any,
                                     <button
                                         key={align}
                                         onClick={() => handleChange('layout_alignment', align)}
-                                        className={`px-3 py-1 text-[9px] uppercase tracking-widest rounded-full border transition-all ${formData.layout_alignment === align ? 'bg-[#1a1a1a] text-white border-[#1a1a1a]' : 'border-black/10 opacity-40 text-[#1a1a1a]'}`}
+                                        className={`px-3 py-1 text-[9px] uppercase tracking-widest rounded-full border transition-all ${formData.layout_alignment === align ? 'bg-[#1a1a1a] text-white border-[#1a1a1a] shadow-sm' : 'border-black/10 opacity-40 text-[#1a1a1a] hover:opacity-100'}`}
                                     >
                                         {align}
                                     </button>

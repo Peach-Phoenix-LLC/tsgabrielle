@@ -32,7 +32,7 @@ export async function toggleWishlistItemAction(userId: string, productId: string
             await prisma.wishlistItem.delete({
                 where: { id: existing.id },
             });
-            revalidatePath(`/products/${peach}`);
+            revalidatePath(`/${peach}`);
             revalidatePath('/profile');
             return { success: true, action: 'removed' };
         } else {
@@ -43,7 +43,7 @@ export async function toggleWishlistItemAction(userId: string, productId: string
                     product_id: parseInt(productId),
                 },
             });
-            revalidatePath(`/products/${peach}`);
+            revalidatePath(`/${peach}`);
             revalidatePath('/profile');
             return { success: true, action: 'added' };
         }

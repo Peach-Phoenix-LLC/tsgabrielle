@@ -177,7 +177,7 @@ export default function ProductDetailClient({ product, crossSells }: ProductDeta
                                     whileInView={{ opacity: 1, y: 0 }}
                                     transition={{ delay: idx * 0.1 }}
                                 >
-                                    <Link href={`/products/${item.peach_number}`} className="group space-y-6">
+                                    <Link href={`/${item.peach_number}`} className="group space-y-6">
                                         <div className="aspect-[3/4] overflow-hidden rounded-sm relative bg-zinc-50 border border-zinc-100">
                                             <img
                                                 src={item.media_primary_url || item.media_gallery_urls?.[0]}

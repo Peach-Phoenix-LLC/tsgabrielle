@@ -18,6 +18,15 @@ const nextConfig: NextConfig = {
       },
     ],
   },
+  async redirects() {
+    return [
+      {
+        source: '/products/:id',
+        destination: '/:id',
+        permanent: true,
+      },
+    ];
+  },
 };
 
 

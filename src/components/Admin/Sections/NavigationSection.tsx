@@ -86,15 +86,36 @@ export default function NavigationSection({ data, onSave, saving }: { data: any,
                                 <label className="text-[10px] uppercase tracking-widest text-[#1a1a1a]/40">Background Hex</label>
                                 <div className="flex gap-2">
                                     <input type="color" value={formData.announcement.bg_color} onChange={(e) => handleChange('announcement.bg_color', e.target.value)} className="bg-transparent border-none rounded-sm size-8 cursor-pointer ring-1 ring-black/10" />
-                                    <input type="text" value={formData.announcement.bg_color} onChange={(e) => handleChange('announcement.bg_color', e.target.value)} className="bg-white border border-black/10 rounded-lg px-2 text-[10px] flex-grow font-mono" />
+                                    <input type="text" value={formData.announcement.bg_color} onChange={(e) => handleChange('announcement.bg_color', e.target.value)} className="bg-white border border-black/10 rounded-lg px-2 text-[10px] flex-grow font-mono outline-none" />
                                 </div>
                             </div>
                             <div className="space-y-2">
                                 <label className="text-[10px] uppercase tracking-widest text-[#1a1a1a]/40">Text Hex</label>
                                 <div className="flex gap-2">
                                     <input type="color" value={formData.announcement.text_color} onChange={(e) => handleChange('announcement.text_color', e.target.value)} className="bg-transparent border-none rounded-sm size-8 cursor-pointer ring-1 ring-black/10" />
-                                    <input type="text" value={formData.announcement.text_color} onChange={(e) => handleChange('announcement.text_color', e.target.value)} className="bg-white border border-black/10 rounded-lg px-2 text-[10px] flex-grow font-mono" />
+                                    <input type="text" value={formData.announcement.text_color} onChange={(e) => handleChange('announcement.text_color', e.target.value)} className="bg-white border border-black/10 rounded-lg px-2 text-[10px] flex-grow font-mono outline-none" />
                                 </div>
+                            </div>
+                        </div>
+
+                        <div className="pt-6 border-t border-black/5 grid grid-cols-2 gap-4">
+                            <div className="flex justify-between items-center p-4 bg-white border border-black/5 rounded-xl">
+                                <span className="text-[10px] uppercase tracking-widest font-bold opacity-60">Sticky Header</span>
+                                <button
+                                    onClick={() => handleChange('header.is_sticky', !formData.header.is_sticky)}
+                                    className={`w-9 h-4 rounded-full transition-all relative ${formData.header.is_sticky ? 'bg-[#a932bd]' : 'bg-black/10'}`}
+                                >
+                                    <div className={`absolute top-0.5 size-3 bg-white rounded-full transition-all shadow-sm ${formData.header.is_sticky ? 'left-5' : 'left-0.5'}`} />
+                                </button>
+                            </div>
+                            <div className="flex justify-between items-center p-4 bg-white border border-black/5 rounded-xl">
+                                <span className="text-[10px] uppercase tracking-widest font-bold opacity-60">Transparent</span>
+                                <button
+                                    onClick={() => handleChange('header.is_transparent', !formData.header.is_transparent)}
+                                    className={`w-9 h-4 rounded-full transition-all relative ${formData.header.is_transparent ? 'bg-[#a932bd]' : 'bg-black/10'}`}
+                                >
+                                    <div className={`absolute top-0.5 size-3 bg-white rounded-full transition-all shadow-sm ${formData.header.is_transparent ? 'left-5' : 'left-0.5'}`} />
+                                </button>
                             </div>
                         </div>
                     </div>

@@ -12,20 +12,18 @@ export const dynamic = 'force-dynamic';
 
 export default async function Home() {
   try {
-    // Fetch live products
-    const products = await prisma.product.findMany({
-      where: { status: 'active' },
-      take: 4,
-      orderBy: { created_at: 'asc' },
+    // Fetch live collections
+    const collections = await prisma.collection.findMany({
+      where: { is_active: true },
+      orderBy: { sort_order: 'asc' },
     });
 
     // Map to the structure expected by HoloCollections
-    const mappedProducts = products.map((p: any) => ({
-      id: p.peach_number.toString(),
-      name: p.title,
-      image_url: p.media_primary_url,
-      seo_description: p.short_description,
-      category: p.catalogue_category
+    const mappedCollections = collections.map((c: any) => ({
+      id: c.slug,
+      name: c.name,
+      image_url: c.image_url,
+      category: 'Collection'
     }));
 
     return (
@@ -36,7 +34,7 @@ export default async function Home() {
           <HoloHero />
           <HoloCategories />
           <HoloPhilosophy />
-          <HoloCollections products={mappedProducts as any} />
+          <HoloCollections products={mappedCollections as any} />
           <div className="h-64 bg-white" />
         </PageAnimations>
 

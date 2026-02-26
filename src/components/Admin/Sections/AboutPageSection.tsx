@@ -57,8 +57,18 @@ export default function AboutPageSection({ data, onSave, saving }: { data: any, 
                         <input type="text" value={formData.title} onChange={(e) => handleChange('title', e.target.value)} className="w-full bg-neutral-50 border border-black/10 rounded-xl px-6 py-4 focus:border-[#a932bd] outline-none" />
                     </div>
                     <div className="space-y-2">
-                        <label className="text-[10px] uppercase tracking-widest text-[#1a1a1a]/40 ml-1">The Mission</label>
-                        <textarea rows={4} value={formData.mission} onChange={(e) => handleChange('mission', e.target.value)} className="w-full bg-neutral-50 border border-black/10 rounded-xl px-6 py-4 resize-none focus:border-[#a932bd] outline-none" />
+                        <label className="text-[10px] uppercase tracking-widest text-[#1a1a1a]/40 ml-1">About Body Text</label>
+                        <textarea rows={4} value={formData.body} onChange={(e) => handleChange('body', e.target.value)} className="w-full bg-neutral-50 border border-black/10 rounded-xl px-6 py-4 resize-none focus:border-[#a932bd] outline-none" />
+                    </div>
+                    <div className="grid grid-cols-2 gap-4">
+                        <div className="space-y-2">
+                            <label className="text-[10px] uppercase tracking-widest text-[#1a1a1a]/40 ml-1">The Mission</label>
+                            <textarea rows={3} value={formData.mission} onChange={(e) => handleChange('mission', e.target.value)} className="w-full bg-neutral-50 border border-black/10 rounded-xl px-6 py-4 resize-none focus:border-[#a932bd] outline-none" />
+                        </div>
+                        <div className="space-y-2">
+                            <label className="text-[10px] uppercase tracking-widest text-[#1a1a1a]/40 ml-1">The Vision</label>
+                            <textarea rows={3} value={formData.vision} onChange={(e) => handleChange('vision', e.target.value)} className="w-full bg-neutral-50 border border-black/10 rounded-xl px-6 py-4 resize-none focus:border-[#a932bd] outline-none" />
+                        </div>
                     </div>
                     <div className="space-y-2">
                         <label className="text-[10px] uppercase tracking-widest text-[#1a1a1a]/40 ml-1">Founder's Quote</label>

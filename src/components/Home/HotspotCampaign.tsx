@@ -76,7 +76,7 @@ const HotspotCampaign = () => {
                                         <h3 className="text-base font-serif text-primary mb-1">{spot.productName}</h3>
                                         <p className="text-[11px] font-light text-primary/60 tracking-wider mb-6">{spot.price}</p>
                                         <Link
-                                            href={`/products/${spot.productId}`}
+                                            href={`/${spot.productId}`}
                                             className="luxury-link text-[10px] uppercase tracking-[0.2em] font-medium text-primary inline-flex items-center group/btn"
                                         >
                                             View Details
