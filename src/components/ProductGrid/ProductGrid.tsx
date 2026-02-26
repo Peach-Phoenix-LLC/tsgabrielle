@@ -4,12 +4,17 @@ import React, { useEffect, useState } from 'react';
 import styles from './ProductGrid.module.css';
 
 interface Product {
-    id: string;
-    name: string;
-    description: string;
+    id: string | number;
+    name?: string;
+    title?: string;
+    description?: string;
+    short_description?: string;
     price: number;
-    category: string;
+    msrp_display?: string;
+    category?: string;
+    catalogue_category?: string;
     imageUrl?: string;
+    media_primary_url?: string;
 }
 
 const mockProducts: Product[] = [
@@ -96,22 +101,28 @@ const ProductGrid = () => {
         <section className={styles.section}>
             <div className={styles.container}>
                 <div className={`${styles.grid} entrance-stagger`}>
-                    {products.map((product) => (
-                        <div key={product.id} className={`${styles.card} holographic-card`}>
-                            <div className={styles.imageContainer}>
-                                <div className={styles.badge}>NEW ERA</div>
-                                <img src={product.imageUrl || '/images/placeholder.jpg'} alt={product.name} />
+                    {products.map((product) => {
+                        const title = product.title || product.name || 'Untitled';
+                        const displayPrice = product.msrp_display || `$${(Number(product.price) || 0).toFixed(2)}`;
+                        const image = product.media_primary_url || product.imageUrl || '/images/placeholder.jpg';
+
+                        return (
+                            <div key={product.id} className={`${styles.card} holographic-card`}>
+                                <div className={styles.imageContainer}>
+                                    <div className={styles.badge}>NEW ERA</div>
+                                    <img src={image} alt={title} />
+                                </div>
+                                <div className={styles.content}>
+                                    <p className={styles.price}>{displayPrice}</p>
+                                    <h3 className={styles.title}>{title}</h3>
+                                    <button className={styles.btn} onClick={() => addToCart(product)}>
+                                        <span className="material-symbols-outlined" style={{ fontSize: '18px' }}>shopping_bag</span>
+                                        Add to Bag
+                                    </button>
+                                </div>
                             </div>
-                            <div className={styles.content}>
-                                <p className={styles.price}>${product.price.toFixed(2)}</p>
-                                <h3 className={styles.title}>{product.name}</h3>
-                                <button className={styles.btn} onClick={() => addToCart(product)}>
-                                    <span className="material-symbols-outlined" style={{ fontSize: '18px' }}>shopping_bag</span>
-                                    Add to Bag
-                                </button>
-                            </div>
-                        </div>
-                    ))}
+                        );
+                    })}
                 </div>
             </div>
         </section>

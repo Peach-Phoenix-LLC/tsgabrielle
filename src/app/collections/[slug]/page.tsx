@@ -20,21 +20,27 @@ export async function generateMetadata({ params }: PageProps) {
 }
 
 export async function generateStaticParams() {
-    const products = await prisma.product.findMany({
-        where: { status: "active" },
-        select: { catalogue_collection: true }
-    });
+    try {
+        if (!process.env.DATABASE_URL) return [];
+        const products = await prisma.product.findMany({
+            where: { status: "active" },
+            select: { catalogue_collection: true }
+        });
 
-    const slugs = new Set<string>();
-    products.forEach(p => {
-        if (p.catalogue_collection) {
-            // Normalize slug: lowercase and hyphenated
-            const slug = p.catalogue_collection.toLowerCase().replace(/ /g, '-').replace('collection-', '');
-            slugs.add(slug);
-        }
-    });
+        const slugs = new Set<string>();
+        products.forEach(p => {
+            if (p.catalogue_collection) {
+                // Normalize slug: lowercase and hyphenated
+                const slug = p.catalogue_collection.toLowerCase().replace(/ /g, '-').replace('collection-', '');
+                slugs.add(slug);
+            }
+        });
 
-    return Array.from(slugs).map(slug => ({ slug }));
+        return Array.from(slugs).map(slug => ({ slug }));
+    } catch (e) {
+        console.warn("Static generation failed:", e);
+        return [];
+    }
 }
 
 export default async function CollectionPage({ params }: PageProps) {

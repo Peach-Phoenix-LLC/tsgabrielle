@@ -4,10 +4,13 @@ import Link from 'next/link';
 import { motion } from 'framer-motion';
 
 export interface CollectionProduct {
-    id: string;
-    name: string;
-    image_url: string | null;
-    seo_description: string | null;
+    id: string | number;
+    name?: string;
+    title?: string;
+    image_url?: string | null;
+    media_primary_url?: string | null;
+    seo_description?: string | null;
+    short_description?: string | null;
     category: string;
 }
 
@@ -50,11 +53,11 @@ export default function HoloCollections({ products }: HoloCollectionsProps) {
                                 <div className="relative p-1 rounded-full border border-primary/10 w-60 h-60 md:w-64 md:h-64 transition-all duration-500 group-hover:border-primary/40 group-hover:-translate-y-1">
                                     {/* Image Circle */}
                                     <div className="w-full h-full bg-white relative z-10 rounded-full overflow-hidden">
-                                        {product.image_url ? (
+                                        {(product.media_primary_url || product.image_url) ? (
                                             <img
-                                                alt={product.name}
+                                                alt={product.title || product.name}
                                                 className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110"
-                                                src={product.image_url}
+                                                src={product.media_primary_url || product.image_url || ''}
                                             />
                                         ) : (
                                             <div className="w-full h-full bg-gray-100 flex items-center justify-center text-gray-300">No image</div>
@@ -63,7 +66,7 @@ export default function HoloCollections({ products }: HoloCollectionsProps) {
                                 </div>
 
                                 <h3 className="mt-8 text-lg font-thin text-text-dark transition-colors duration-300 group-hover:text-primary">
-                                    {product.name}
+                                    {product.title || product.name}
                                 </h3>
                             </Link>
                         </motion.div>

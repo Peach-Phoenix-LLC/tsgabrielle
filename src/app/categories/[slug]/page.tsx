@@ -20,19 +20,25 @@ export async function generateMetadata({ params }: PageProps) {
 }
 
 export async function generateStaticParams() {
-    const products = await prisma.product.findMany({
-        where: { status: "active" },
-        select: { catalogue_category: true }
-    });
+    try {
+        if (!process.env.DATABASE_URL) return [];
+        const products = await prisma.product.findMany({
+            where: { status: "active" },
+            select: { catalogue_category: true }
+        });
 
-    const slugs = new Set<string>();
-    products.forEach(p => {
-        if (p.catalogue_category) {
-            slugs.add(p.catalogue_category.toLowerCase());
-        }
-    });
+        const slugs = new Set<string>();
+        products.forEach(p => {
+            if (p.catalogue_category) {
+                slugs.add(p.catalogue_category.toLowerCase());
+            }
+        });
 
-    return Array.from(slugs).map(slug => ({ slug }));
+        return Array.from(slugs).map(slug => ({ slug }));
+    } catch (e) {
+        console.warn("Static generation failed:", e);
+        return [];
+    }
 }
 
 export default async function CategoryPage({ params }: PageProps) {

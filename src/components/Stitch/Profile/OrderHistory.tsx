@@ -11,9 +11,12 @@ interface OrderHistoryProps {
             quantity: number;
             price: any;
             product: {
-                name: string;
-                category: string;
+                name?: string;
+                title?: string;
+                category?: string;
+                catalogue_category?: string;
                 imageUrl?: string | null;
+                media_primary_url?: string | null;
             }
         }>
     }>;
@@ -57,8 +60,8 @@ export default function OrderHistory({ orders }: OrderHistoryProps) {
 
                             {/* Image */}
                             <div className="w-full lg:w-32 h-32 lg:h-40 bg-gray-100 rounded-xl overflow-hidden flex-shrink-0">
-                                {leadingItem?.product?.imageUrl ? (
-                                    <img src={leadingItem.product.imageUrl} alt={leadingItem.product.name} className="w-full h-full object-cover mix-blend-multiply" />
+                                {(leadingItem?.product?.media_primary_url || leadingItem?.product?.imageUrl) ? (
+                                    <img src={leadingItem.product.media_primary_url || leadingItem.product.imageUrl || ''} alt={leadingItem.product.title || leadingItem.product.name} className="w-full h-full object-cover mix-blend-multiply" />
                                 ) : (
                                     <div className="w-full h-full flex items-center justify-center bg-gray-200">
                                         <span className="material-symbols-outlined text-gray-400">image</span>
@@ -71,10 +74,10 @@ export default function OrderHistory({ orders }: OrderHistoryProps) {
                                 <div className="flex flex-col md:flex-row md:items-start justify-between gap-2 mb-2">
                                     <div>
                                         <h3 className="text-lg font-bold text-gray-900">
-                                            {leadingItem?.product?.name || 'Assorted Items'}
+                                            {leadingItem?.product?.title || leadingItem?.product?.name || 'Assorted Items'}
                                         </h3>
                                         <p className="text-gray-500 text-sm mt-1">
-                                            {itemCount > 1 ? `+ ${itemCount - 1} other item(s)` : leadingItem?.product?.category || 'General'}
+                                            {itemCount > 1 ? `+ ${itemCount - 1} other item(s)` : (leadingItem?.product?.catalogue_category || leadingItem?.product?.category || 'General')}
                                         </p>
                                     </div>
                                     <div className="text-left md:text-right">

@@ -41,14 +41,20 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
 }
 
 export async function generateStaticParams() {
-    const products = await prisma.product.findMany({
-        where: { status: "active" },
-        select: { peach_number: true }
-    });
+    try {
+        if (!process.env.DATABASE_URL) return [];
+        const products = await prisma.product.findMany({
+            where: { status: "active" },
+            select: { peach_number: true }
+        });
 
-    return products.map((p) => ({
-        peach: p.peach_number.toString(),
-    }));
+        return products.map((p) => ({
+            peach: p.peach_number.toString(),
+        }));
+    } catch (e) {
+        console.warn("Static generation for products failed:", e);
+        return [];
+    }
 }
 
 export default async function ProductPage({ params }: PageProps) {
