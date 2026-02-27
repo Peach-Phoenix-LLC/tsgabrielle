@@ -55,13 +55,13 @@ const ShareModal = ({ isOpen, onClose, product }: { isOpen: boolean, onClose: ()
                     initial={{ scale: 0.9, y: 20 }}
                     animate={{ scale: 1, y: 0 }}
                     exit={{ scale: 0.9, y: 20 }}
-                    className="bg-zinc-900 border border-white/10 p-8 rounded-2xl w-full max-w-md relative"
+                    className="bg-white border border-black/5 p-8 rounded-2xl w-full max-w-md relative shadow-2xl"
                     onClick={e => e.stopPropagation()}
                 >
-                    <button onClick={onClose} className="absolute top-4 right-4 text-white/40 hover:text-white transition-colors">
+                    <button onClick={onClose} className="absolute top-4 right-4 text-black/40 hover:text-[#a932bd] transition-colors">
                         <X size={20} />
                     </button>
-                    <h3 className="text-xl font-light tracking-widest uppercase mb-6 text-white">Share Product</h3>
+                    <h3 className="text-xl font-light tracking-widest uppercase mb-6 text-[#1a1a1a]">Share Product</h3>
                     <div className="grid grid-cols-4 gap-4 mb-8">
                         {[
                             { icon: Facebook, label: 'Facebook', color: '#1877F2' },
@@ -70,20 +70,20 @@ const ShareModal = ({ isOpen, onClose, product }: { isOpen: boolean, onClose: ()
                             { icon: MessageCircle, label: 'WhatsApp', color: '#25D366' },
                         ].map((net) => (
                             <button key={net.label} className="flex flex-col items-center gap-2 group">
-                                <div className="w-12 h-12 rounded-full border border-white/10 flex items-center justify-center group-hover:bg-white/5 transition-all">
-                                    <net.icon size={20} className="text-white/60 group-hover:text-white" />
+                                <div className="w-12 h-12 rounded-full border border-black/5 flex items-center justify-center group-hover:bg-black/5 transition-all">
+                                    <net.icon size={20} className="text-[#1a1a1a]/40 group-hover:text-[#a932bd]" />
                                 </div>
-                                <span className="text-[10px] text-white/40 uppercase tracking-tighter">{net.label}</span>
+                                <span className="text-[10px] text-[#1a1a1a]/40 uppercase tracking-tighter">{net.label}</span>
                             </button>
                         ))}
                     </div>
                     <div className="space-y-2">
-                        <span className="text-[10px] text-white/40 uppercase tracking-widest">Copy Connection Link</span>
-                        <div className="flex bg-black/40 rounded-lg border border-white/10 p-1">
+                        <span className="text-[10px] text-[#1a1a1a]/40 uppercase tracking-widest">Copy Connection Link</span>
+                        <div className="flex bg-neutral-50 rounded-lg border border-black/5 p-1">
                             <input
                                 readOnly
                                 value={shareUrl}
-                                className="flex-1 bg-transparent border-none text-xs text-white/60 px-3 outline-none"
+                                className="flex-1 bg-transparent border-none text-xs text-[#1a1a1a]/60 px-3 outline-none"
                             />
                             <button
                                 onClick={handleCopy}
@@ -117,12 +117,12 @@ export const ProductCard = ({ product }: { product: PublicProduct }) => {
 
     return (
         <div
-            className="group relative flex flex-col bg-zinc-900/40 border border-white/5 rounded-2xl overflow-hidden transition-all duration-700 hover:shadow-[0_20px_40px_-15px_rgba(0,0,0,0.5)] hover:-translate-y-2"
+            className="group relative flex flex-col bg-white border border-black/5 rounded-2xl overflow-hidden transition-all duration-700 hover:shadow-[0_40px_80px_-20px_rgba(0,0,0,0.1)] hover:-translate-y-2"
             onMouseEnter={() => setIsHovered(true)}
             onMouseLeave={() => setIsHovered(false)}
         >
             {/* Image Container */}
-            <div className="relative aspect-[4/5] overflow-hidden bg-zinc-950">
+            <div className="relative aspect-[4/5] overflow-hidden bg-neutral-50">
                 <AnimatePresence mode="wait">
                     <motion.img
                         key={isHovered ? 'hover' : 'main'}
@@ -176,12 +176,12 @@ export const ProductCard = ({ product }: { product: PublicProduct }) => {
             <div className="p-6 space-y-4">
                 <div className="space-y-1">
                     <p className="text-[10px] text-[#a932bd] font-medium uppercase tracking-[0.3em]">{product.subtitle || 'tsgabrielle®'}</p>
-                    <h3 className="text-lg font-light tracking-tight text-white group-hover:text-[#a932bd] transition-colors">{product.title}</h3>
+                    <h3 className="text-lg font-light tracking-tight text-[#1a1a1a] group-hover:text-[#a932bd] transition-colors">{product.title}</h3>
                 </div>
 
                 <div className="flex items-end justify-between">
                     <div className="space-y-3">
-                        <p className="text-xl font-light text-white">{product.msrp_display}</p>
+                        <p className="text-xl font-light text-[#1a1a1a]">{product.msrp_display}</p>
 
                         {/* Swatches (Visual only for list view) */}
                         {product.variants.length > 1 && (
@@ -189,11 +189,11 @@ export const ProductCard = ({ product }: { product: PublicProduct }) => {
                                 {product.variants.slice(0, 4).map((v, idx) => (
                                     <div
                                         key={idx}
-                                        className={`w-4 h-4 rounded-full border border-white/20`}
+                                        className={`w-4 h-4 rounded-full border border-black/10`}
                                         style={{ backgroundColor: v.color === 'Default' ? '#ffffff' : v.color }}
                                     />
                                 ))}
-                                {product.variants.length > 4 && <span className="text-[9px] text-white/40">+{product.variants.length - 4}</span>}
+                                {product.variants.length > 4 && <span className="text-[9px] text-[#1a1a1a]/40">+{product.variants.length - 4}</span>}
                             </div>
                         )}
                     </div>
@@ -202,8 +202,8 @@ export const ProductCard = ({ product }: { product: PublicProduct }) => {
                         disabled={isSoldOut}
                         onClick={handleBuy}
                         className={`relative h-12 px-6 rounded-xl overflow-hidden text-[10px] font-bold uppercase tracking-widest transition-all duration-500 ${isSoldOut ? 'bg-zinc-800 text-zinc-500 cursor-not-allowed border border-white/5' :
-                                buyState === 'success' ? 'bg-green-500 text-white' :
-                                    'bg-gradient-to-r from-[#a932bd] to-[#8a299b] text-white hover:scale-105 active:scale-95 shadow-[0_10px_20px_-10px_rgba(169,50,189,0.5)]'
+                            buyState === 'success' ? 'bg-green-500 text-white' :
+                                'bg-gradient-to-r from-[#a932bd] to-[#8a299b] text-white hover:scale-105 active:scale-95 shadow-[0_10px_20px_-10px_rgba(169,50,189,0.5)]'
                             }`}
                     >
                         <AnimatePresence mode="wait">

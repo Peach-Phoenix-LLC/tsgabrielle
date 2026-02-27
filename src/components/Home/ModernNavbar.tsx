@@ -7,16 +7,24 @@ import { useSession, signIn } from 'next-auth/react';
 import { useCartStore } from '@/lib/store';
 
 interface ModernNavbarProps {
-    theme?: 'light' | 'dark';
+    config?: any;
+    siteSettings?: any;
 }
 
-const ModernNavbar = ({ theme = 'dark' }: ModernNavbarProps) => {
+const ModernNavbar = ({ config = {}, siteSettings = {} }: ModernNavbarProps) => {
     const { data: session, status } = useSession();
     const [scrolled, setScrolled] = useState(false);
     const [mounted, setMounted] = useState(false);
     const { items } = useCartStore();
 
     const itemCount = items.reduce((total, item) => total + item.quantity, 0);
+
+    const announcementBar = config.announcement_bar || {};
+    const navLinks = config.links || [
+        { label: 'Shop', url: '/shop' },
+        { label: 'Collections', url: '/collections' },
+        { label: 'Our story', url: '/about' }
+    ];
 
     useEffect(() => {
         setMounted(true);
@@ -27,31 +35,50 @@ const ModernNavbar = ({ theme = 'dark' }: ModernNavbarProps) => {
         return () => window.removeEventListener('scroll', handleScroll);
     }, []);
 
-    // Determine which logo to use. 
-    // If the navbar is scrolled or explicitly dark, we use the white logo (since the scrolled bg is dark).
-    // If it's over a light background (not yet implemented but supported), we use purple.
-    const isDarkBackground = scrolled; // For now, let's say when scrolled it has a slight background
+    const sticky = config.sticky !== false;
+    const transparent = config.transparent !== false;
+
+    const navClass = `fixed top-0 left-0 right-0 z-50 transition-all duration-500 ${scrolled
+            ? 'bg-white/80 backdrop-blur-md border-b border-primary/10 py-4 shadow-sm'
+            : transparent ? 'bg-transparent py-6' : 'bg-white py-4 shadow-sm'
+        }`;
+
+    // Logo logic: use logo from site settings if available, else default
+    const logoUrl = siteSettings.logo_url || "/images/logo-white.png";
+
+    // When absolute white background (scrolled), we might need a dark logo version if the user provided one,
+    // but the system doesn't have "dark_logo_url" yet. Let's assume the primary logo works or add a check.
     const textColor = scrolled ? 'text-primary' : 'text-text-dark';
     const iconColor = scrolled ? 'text-primary' : 'text-text-dark';
 
     return (
-        <header className={`fixed top-0 left-0 right-0 z-50 transition-all duration-500 ${scrolled ? 'bg-white/80 backdrop-blur-md border-b border-primary/10 py-4 shadow-sm' : 'bg-transparent py-6'}`}>
+        <header className={navClass}>
+            {announcementBar.enabled && (
+                <div
+                    className="w-full py-2 text-center text-[10px] uppercase tracking-[0.3em] font-bold"
+                    style={{ backgroundColor: announcementBar.bg_color || '#a932bd', color: announcementBar.text_color || '#ffffff' }}
+                >
+                    {announcementBar.text}
+                </div>
+            )}
             <div className="max-w-[1400px] mx-auto px-8 flex items-center justify-between">
                 {/* Desktop Nav Links (Left) */}
                 <nav className="hidden lg:flex items-center gap-14">
-                    <Link href="/shop" className={`transition-opacity hover:opacity-50 text-[16px] tracking-wider font-light ${textColor}`}>Shop</Link>
-                    <Link href="/collections" className={`transition-opacity hover:opacity-50 text-[16px] tracking-wider font-light ${textColor}`}>Collections</Link>
-                    <Link href="/about" className={`transition-opacity hover:opacity-50 text-[16px] tracking-wider font-light ${textColor}`}>Our story</Link>
+                    {navLinks.map((link: any, idx: number) => (
+                        <Link key={idx} href={link.url} className={`transition-opacity hover:opacity-50 text-[14px] uppercase tracking-widest font-light ${textColor}`}>
+                            {link.label}
+                        </Link>
+                    ))}
                 </nav>
 
                 {/* Logo (Centered) */}
-                <Link href="/" className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-[calc(50%-15px)] group flex flex-col items-center justify-center">
-                    <div className="relative w-[220px] h-[50px]">
+                <Link href="/" className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 group flex flex-col items-center justify-center pt-2">
+                    <div className="relative w-[180px] h-[40px]">
                         <Image
-                            src="/images/logo-white.png"
-                            alt="tsgabrielle logo"
+                            src={logoUrl}
+                            alt={siteSettings.brand_name || "tsgabrielle logo"}
                             fill
-                            className="object-contain"
+                            className={`object-contain transition-all duration-500 ${scrolled ? 'brightness-0 contrast-100' : ''}`}
                             priority
                         />
                     </div>
@@ -71,7 +98,6 @@ const ModernNavbar = ({ theme = 'dark' }: ModernNavbarProps) => {
                         )}
                     </Link>
 
-                    {/* Auth Status */}
                     {status === 'loading' ? (
                         <div className={`w-6 h-6 rounded-full border border-current border-t-transparent animate-spin ${iconColor}`} />
                     ) : session ? (
@@ -79,12 +105,11 @@ const ModernNavbar = ({ theme = 'dark' }: ModernNavbarProps) => {
                             <span className="material-symbols-outlined text-[22px]">person</span>
                         </Link>
                     ) : (
-                        <button onClick={() => signIn('google')} className={`transition-opacity hover:opacity-50 text-[16px] tracking-wider font-light hidden lg:block ${textColor}`}>
-                            Sign in
+                        <button onClick={() => signIn('google')} className={`transition-opacity hover:opacity-50 text-[12px] uppercase tracking-widest font-light hidden lg:block ${textColor}`}>
+                            Account
                         </button>
                     )}
 
-                    {/* Mobile Menu Trigger */}
                     <button className={`lg:hidden p-2 ${iconColor}`}>
                         <span className="material-symbols-outlined">menu</span>
                     </button>

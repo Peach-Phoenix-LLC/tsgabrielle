@@ -102,6 +102,7 @@ export default function ThemeDesignSection({ data, onSave, saving }: { data: any
                                 <label className="text-[10px] uppercase tracking-widest text-[#1a1a1a]/40 underline underline-offset-4 decoration-black/5">Heading Font</label>
                                 <select value={formData.styles.heading_font} onChange={(e) => handleStyleChange('heading_font', e.target.value)} className="w-full bg-white border border-black/10 rounded-xl px-4 py-3 text-xs outline-none focus:border-[#a932bd] appearance-none text-[#1a1a1a]">
                                     <option value="Inter">Inter</option>
+                                    <option value="Lato Light">Lato Light</option>
                                     <option value="Roboto">Roboto</option>
                                     <option value="Outfit">Outfit</option>
                                     <option value="Playfair Display">Playfair Display</option>

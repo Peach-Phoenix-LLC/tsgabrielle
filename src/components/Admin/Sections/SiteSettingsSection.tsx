@@ -1,6 +1,7 @@
 "use client";
 
 import React, { useState, useEffect } from 'react';
+import ImagePicker from '../ImagePicker';
 
 export default function SiteSettingsSection({ data, onSave, saving }: { data: any, onSave: any, saving: boolean }) {
     const [formData, setFormData] = useState(data || {
@@ -58,21 +59,20 @@ export default function SiteSettingsSection({ data, onSave, saving }: { data: an
                         />
                     </div>
                     <div className="space-y-2">
-                        <label className="text-[10px] uppercase tracking-widest text-[#1a1a1a]/40 ml-1">Brand Logo URL</label>
-                        <input
-                            type="text"
-                            value={formData.logo_url}
-                            onChange={(e) => handleChange('logo_url', e.target.value)}
-                            className="w-full bg-neutral-50 border border-black/10 rounded-xl px-6 py-4 focus:outline-none focus:border-[#a932bd] transition-colors text-[#1a1a1a]"
-                        />
-                    </div>
-                    <div className="space-y-2">
                         <label className="text-[10px] uppercase tracking-widest text-[#1a1a1a]/40 ml-1">Contact Email</label>
                         <input
                             type="email"
                             value={formData.contact_email}
                             onChange={(e) => handleChange('contact_email', e.target.value)}
                             className="w-full bg-neutral-50 border border-black/10 rounded-xl px-6 py-4 focus:outline-none focus:border-[#a932bd] transition-colors text-[#1a1a1a]"
+                        />
+                    </div>
+
+                    <div className="pt-4">
+                        <ImagePicker
+                            label="Brand Identity Logo"
+                            value={formData.logo_url || ''}
+                            onChange={(url) => handleChange('logo_url', url)}
                         />
                     </div>
                 </div>

@@ -79,7 +79,9 @@ model Product {
   warranty_info        String
   contact_info         String
   media_primary_url    String?
+  media_primary_alt    String?
   media_gallery_urls   String[]
+  media_gallery_alts   String[]
   status               String             @default("active")
   created_at           DateTime           @default(now())
   updated_at           DateTime           @updatedAt
@@ -132,6 +134,7 @@ model GallerySlide {
   sub_caption  String
   accent_color String
   image_url    String?
+  image_alt    String?
   bg_gradient  String?
   product      Product @relation(fields: [product_id], references: [id])
 
@@ -208,6 +211,7 @@ model Category {
   slug        String   @unique
   description String?
   image_url   String?
+  image_alt   String?
   sort_order  Int      @default(0)
   seo_title   String?
   seo_desc    String?
@@ -225,6 +229,7 @@ model Collection {
   slug        String    @unique
   description String?
   image_url   String?
+  image_alt   String?
   badge       String?
   start_date  DateTime?
   end_date    DateTime?

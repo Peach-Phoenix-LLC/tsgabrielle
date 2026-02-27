@@ -8,11 +8,11 @@ interface Tab {
 }
 
 const TABS: Tab[] = [
-    { id: 'product', label: 'Product Page' },
-    { id: 'identifiers', label: 'Identifiers & Variants' },
-    { id: 'specs', label: 'Specs & Care' },
-    { id: 'logistics', label: 'Logistics' },
-    { id: 'legal', label: 'Compliance & Legal' },
+    { id: 'product', label: 'Artisan Narrative' },
+    { id: 'identifiers', label: 'Technical DNA' },
+    { id: 'specs', label: 'Specs & Atelier Care' },
+    { id: 'logistics', label: 'Maison Logistics' },
+    { id: 'legal', label: 'Legal & Compliance' },
 ];
 
 export const TabNav = () => {
@@ -27,7 +27,7 @@ export const TabNav = () => {
                     }
                 });
             },
-            { threshold: 0.5, rootMargin: '-100px 0px -50% 0px' }
+            { threshold: 0.5, rootMargin: '-150px 0px -50% 0px' }
         );
 
         TABS.forEach((tab) => {
@@ -41,7 +41,7 @@ export const TabNav = () => {
     const scrollTo = (id: string) => {
         const el = document.getElementById(id);
         if (el) {
-            const offset = 120; // Accounts for BrandBar + TabNav height
+            const offset = 140;
             const bodyRect = document.body.getBoundingClientRect().top;
             const elementRect = el.getBoundingClientRect().top;
             const elementPosition = elementRect - bodyRect;
@@ -55,16 +55,16 @@ export const TabNav = () => {
     };
 
     return (
-        <nav className="bg-black border-b border-white/10 sticky top-24 z-30">
+        <nav className="bg-white/95 backdrop-blur-md border-b border-black/5 sticky top-[112px] z-30">
             <div className="max-w-7xl mx-auto px-6 overflow-x-auto no-scrollbar">
-                <div className="flex h-16 items-center gap-12 min-w-max">
+                <div className="flex h-14 items-center gap-12 min-w-max">
                     {TABS.map((tab) => (
                         <button
                             key={tab.id}
                             onClick={() => scrollTo(tab.id)}
-                            className={`text-[10px] uppercase tracking-[0.3em] font-bold h-full border-b-2 transition-all duration-300 ${activeTab === tab.id
-                                    ? 'border-[#a932bd] text-white'
-                                    : 'border-transparent text-white/40 hover:text-white/60'
+                            className={`text-[9px] uppercase tracking-[0.4em] font-bold h-full border-b-2 transition-all duration-500 ${activeTab === tab.id
+                                ? 'border-[#a932bd] text-[#1a1a1a]'
+                                : 'border-transparent text-[#1a1a1a]/30 hover:text-black'
                                 }`}
                         >
                             {tab.label}

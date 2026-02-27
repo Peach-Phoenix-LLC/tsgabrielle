@@ -1,0 +1,208 @@
+"use client";
+
+import React, { useState, useEffect } from 'react';
+import ProductsTable from '../ProductsTable';
+import ImagePicker from '../ImagePicker';
+
+export default function ProductsSection() {
+    const [items, setItems] = useState<any[]>([]);
+    const [loading, setLoading] = useState(true);
+    const [editingItem, setEditingItem] = useState<any>(null);
+
+    const fetchData = async () => {
+        setLoading(true);
+        try {
+            const res = await fetch('/api/admin/crud?type=products');
+            const data = await res.json();
+            setItems(data);
+        } catch (error) {
+            console.error("Fetch items failed", error);
+        } finally {
+            setLoading(false);
+        }
+    };
+
+    useEffect(() => { fetchData(); }, []);
+
+    const handleSave = async (e: React.FormEvent) => {
+        e.preventDefault();
+        const action = editingItem.id ? 'update' : 'create';
+
+        // Prepare data - remove relational/read-only fields
+        const dataToSave = { ...editingItem };
+        const id = dataToSave.id;
+        delete dataToSave.id;
+        delete dataToSave.created_at;
+        delete dataToSave.updated_at;
+        delete dataToSave.gallery_slides;
+        delete dataToSave.order_items;
+        delete dataToSave.metafields;
+        delete dataToSave.pillars;
+        delete dataToSave.variants;
+        delete dataToSave.wishlist_items;
+
+        const body: any = { type: 'products', action, data: dataToSave };
+        if (id) body.id = id;
+
+        const res = await fetch('/api/admin/crud', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify(body),
+        });
+
+        if (res.ok) {
+            setEditingItem(null);
+            fetchData();
+        } else {
+            const err = await res.json();
+            alert(`Error: ${err.error || 'Operation failed'}`);
+        }
+    };
+
+    const handleDelete = async (id: number) => {
+        if (!confirm('Are you sure you want to delete this product?')) return;
+        await fetch('/api/admin/crud', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ type: 'products', action: 'delete', id }),
+        });
+        fetchData();
+    };
+
+    const initNewProduct = () => {
+        setEditingItem({
+            name: '',
+            slug: '',
+            peach_number: '',
+            base_price: 0,
+            sale_price: null,
+            collection_name: '',
+            category_name: '',
+            short_description: '',
+            material_composition: '',
+            media_primary_url: '',
+            media_primary_alt: '',
+            media_gallery_urls: [],
+            media_gallery_alts: [],
+            status: 'active'
+        });
+    };
+
+    return (
+        <div className="space-y-12 bg-white">
+            <div className="flex justify-between items-end">
+                <div>
+                    <h2 className="text-3xl font-light tracking-tight text-[#1a1a1a]">Celestial Inventory</h2>
+                    <p className="text-[#1a1a1a]/40 font-serif italic mt-2">Manage the physical manifestations of the brand.</p>
+                </div>
+                <button
+                    onClick={initNewProduct}
+                    className="px-10 py-3 bg-[#1a1a1a] text-white text-[10px] uppercase font-bold tracking-widest rounded-full hover:bg-neutral-800 shadow-sm"
+                >
+                    Create Product
+                </button>
+            </div>
+
+            {loading ? (
+                <div className="py-20 flex justify-center">
+                    <div className="size-8 border-2 border-black/5 border-t-[#a932bd] rounded-full animate-spin" />
+                </div>
+            ) : (
+                <ProductsTable
+                    products={items.map(i => ({
+                        ...i,
+                        image: i.media_primary_url || '/images/placeholder.png',
+                        price: `${i.base_price}`,
+                        stock: 100, // Mocked for table
+                        collection: i.collection_name,
+                        category: i.category_name,
+                        sku: i.peach_number || i.slug
+                    }))}
+                    onEdit={(id) => setEditingItem(items.find(i => i.id === id))}
+                    onDelete={handleDelete}
+                />
+            )}
+
+            {editingItem && (
+                <div className="fixed inset-0 bg-white/60 backdrop-blur-md z-50 flex items-center justify-center p-6">
+                    <div className="bg-white border border-black/10 w-full max-w-4xl rounded-3xl p-10 space-y-10 shadow-2xl ring-1 ring-black/5 overflow-y-auto max-h-[90vh]">
+                        <div className="flex justify-between items-center">
+                            <h3 className="text-xl font-light uppercase tracking-widest text-[#1a1a1a]">{editingItem.id ? 'Edit' : 'New'} Product</h3>
+                            <button onClick={() => setEditingItem(null)} className="text-[10px] uppercase opacity-40 hover:opacity-100">Close</button>
+                        </div>
+
+                        <form onSubmit={handleSave} className="space-y-12">
+                            <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+                                <div className="space-y-6">
+                                    <div className="space-y-2">
+                                        <label className="text-[9px] uppercase tracking-widest text-[#1a1a1a]/40 ml-1">Product Name</label>
+                                        <input required type="text" value={editingItem.name} onChange={(e) => setEditingItem({ ...editingItem, name: e.target.value })} className="w-full bg-neutral-50 border border-black/10 rounded-xl px-4 py-3 text-sm focus:border-[#a932bd] outline-none text-[#1a1a1a]" />
+                                    </div>
+                                    <div className="grid grid-cols-2 gap-4">
+                                        <div className="space-y-2">
+                                            <label className="text-[9px] uppercase tracking-widest text-[#1a1a1a]/40 ml-1">Slug</label>
+                                            <input required type="text" value={editingItem.slug} onChange={(e) => setEditingItem({ ...editingItem, slug: e.target.value })} className="w-full bg-neutral-50 border border-black/10 rounded-xl px-4 py-3 text-sm font-mono focus:border-[#a932bd] outline-none text-[#1a1a1a]" />
+                                        </div>
+                                        <div className="space-y-2">
+                                            <label className="text-[9px] uppercase tracking-widest text-[#1a1a1a]/40 ml-1">Peach Number</label>
+                                            <input required type="text" value={editingItem.peach_number} onChange={(e) => setEditingItem({ ...editingItem, peach_number: e.target.value })} className="w-full bg-neutral-50 border border-black/10 rounded-xl px-4 py-3 text-sm font-mono focus:border-[#a932bd] outline-none text-[#1a1a1a]" />
+                                        </div>
+                                    </div>
+
+                                    <div className="grid grid-cols-2 gap-4">
+                                        <div className="space-y-2">
+                                            <label className="text-[9px] uppercase tracking-widest text-[#1a1a1a]/40 ml-1">Collection</label>
+                                            <input type="text" value={editingItem.collection_name} onChange={(e) => setEditingItem({ ...editingItem, collection_name: e.target.value })} className="w-full bg-neutral-50 border border-black/10 rounded-xl px-4 py-3 text-sm focus:border-[#a932bd] outline-none text-[#1a1a1a]" />
+                                        </div>
+                                        <div className="space-y-2">
+                                            <label className="text-[9px] uppercase tracking-widest text-[#1a1a1a]/40 ml-1">Category</label>
+                                            <input type="text" value={editingItem.category_name} onChange={(e) => setEditingItem({ ...editingItem, category_name: e.target.value })} className="w-full bg-neutral-50 border border-black/10 rounded-xl px-4 py-3 text-sm focus:border-[#a932bd] outline-none text-[#1a1a1a]" />
+                                        </div>
+                                    </div>
+
+                                    <div className="grid grid-cols-2 gap-4">
+                                        <div className="space-y-2">
+                                            <label className="text-[9px] uppercase tracking-widest text-[#1a1a1a]/40 ml-1">Base Price ($)</label>
+                                            <input type="number" step="0.01" value={editingItem.base_price} onChange={(e) => setEditingItem({ ...editingItem, base_price: parseFloat(e.target.value) })} className="w-full bg-neutral-50 border border-black/10 rounded-xl px-4 py-3 text-sm focus:border-[#a932bd] outline-none text-[#1a1a1a]" />
+                                        </div>
+                                        <div className="space-y-2">
+                                            <label className="text-[9px] uppercase tracking-widest text-[#1a1a1a]/40 ml-1">Sale Price ($)</label>
+                                            <input type="number" step="0.01" value={editingItem.sale_price || ''} onChange={(e) => setEditingItem({ ...editingItem, sale_price: e.target.value ? parseFloat(e.target.value) : null })} className="w-full bg-neutral-50 border border-black/10 rounded-xl px-4 py-3 text-sm focus:border-[#a932bd] outline-none text-[#1a1a1a]" />
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div className="space-y-6">
+                                    <div className="space-y-2">
+                                        <label className="text-[9px] uppercase tracking-widest text-[#1a1a1a]/40 ml-1">Description</label>
+                                        <textarea rows={4} value={editingItem.short_description} onChange={(e) => setEditingItem({ ...editingItem, short_description: e.target.value })} className="w-full bg-neutral-50 border border-black/10 rounded-xl px-4 py-3 text-xs resize-none focus:border-[#a932bd] outline-none text-[#1a1a1a]" />
+                                    </div>
+                                    <div className="space-y-2">
+                                        <label className="text-[9px] uppercase tracking-widest text-[#1a1a1a]/40 ml-1">Material Composition</label>
+                                        <input type="text" value={editingItem.material_composition} onChange={(e) => setEditingItem({ ...editingItem, material_composition: e.target.value })} className="w-full bg-neutral-50 border border-black/10 rounded-xl px-4 py-3 text-sm focus:border-[#a932bd] outline-none text-[#1a1a1a]" />
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div className="space-y-8">
+                                <h4 className="text-[10px] uppercase tracking-[0.2em] font-normal text-[#1a1a1a]">Primary Visual Architecture</h4>
+                                <ImagePicker
+                                    label="Master Image"
+                                    value={editingItem.media_primary_url || ''}
+                                    altValue={editingItem.media_primary_alt || ''}
+                                    onChange={(url) => setEditingItem({ ...editingItem, media_primary_url: url })}
+                                    onAltChange={(alt) => setEditingItem({ ...editingItem, media_primary_alt: alt })}
+                                />
+                            </div>
+
+                            <div className="flex gap-4 pt-10">
+                                <button type="submit" className="flex-grow py-5 bg-[#1a1a1a] text-white text-[10px] uppercase font-bold tracking-widest rounded-2xl hover:bg-neutral-800 transition-all shadow-xl shadow-purple-500/10">Synchronize Product</button>
+                                <button type="button" onClick={() => setEditingItem(null)} className="px-12 py-5 border border-black/10 text-[10px] uppercase font-bold tracking-widest rounded-2xl hover:bg-neutral-50 transition-all">Discard</button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            )}
+        </div>
+    );
+}

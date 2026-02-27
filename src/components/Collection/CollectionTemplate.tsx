@@ -102,30 +102,30 @@ export default function CollectionTemplate({ slug, type, story, products }: Coll
     }, [products, searchQuery, selectedCategory, sortBy]);
 
     return (
-        <main className="min-h-screen bg-black text-white selection:bg-[#a932bd] selection:text-white overflow-x-hidden">
+        <main className="min-h-screen bg-white text-[#1a1a1a] selection:bg-[#a932bd] selection:text-white overflow-x-hidden pt-32">
             {/* --- Sticky Navbar --- */}
-            <nav className={`fixed top-0 left-0 right-0 z-[100] transition-all duration-500 ${scrolled ? 'bg-black/60 backdrop-blur-2xl border-b border-white/10 py-4' : 'bg-transparent py-8'
+            <nav className={`fixed top-0 left-0 right-0 z-[100] transition-all duration-500 ${scrolled ? 'bg-white/80 backdrop-blur-2xl border-b border-black/5 py-4' : 'bg-transparent py-8'
                 }`}>
                 <div className="max-w-7xl mx-auto px-6 flex items-center justify-between">
                     <Link href="/" className="group flex items-center gap-3">
                         <div className="w-10 h-10 bg-[#a932bd] rounded-full flex items-center justify-center overflow-hidden transition-transform group-hover:rotate-[360deg] duration-1000">
-                            <img src="https://tsgabriell.us/images/logo.png" className="w-6 h-6 invert" alt="Logo" />
+                            <img src="https://tsgabriell.us/images/logo.png" className="w-6 h-6 invert whitespace-nowrap" alt="Logo" />
                         </div>
-                        <span className="text-xl font-light tracking-[0.4em] uppercase">tsgabrielle®</span>
+                        <span className="text-xl font-light tracking-[0.4em] uppercase text-[#1a1a1a]">tsgabrielle®</span>
                     </Link>
 
                     <div className="hidden md:flex items-center gap-12">
                         {['Collections', 'Shop', 'Atelier'].map((item) => (
-                            <Link key={item} href={`/${item.toLowerCase()}`} className="text-[10px] uppercase tracking-[0.4em] text-white/60 hover:text-white transition-colors relative group">
+                            <Link key={item} href={`/${item.toLowerCase()}`} className="text-[10px] uppercase tracking-[0.4em] text-[#1a1a1a]/60 hover:text-[#a932bd] transition-colors relative group">
                                 {item}
                                 <span className="absolute -bottom-2 left-0 w-0 h-[1px] bg-[#a932bd] transition-all group-hover:w-full" />
                             </Link>
                         ))}
                     </div>
 
-                    <div className="flex items-center gap-8">
-                        <button className="text-white/60 hover:text-white transition-colors"><Search size={20} /></button>
-                        <button className="relative text-white/60 hover:text-white transition-colors">
+                    <div className="flex items-center gap-8 text-[#1a1a1a]">
+                        <button className="text-[#1a1a1a]/60 hover:text-[#a932bd] transition-colors"><Search size={20} /></button>
+                        <button className="relative text-[#1a1a1a]/60 hover:text-[#a932bd] transition-colors">
                             <ShoppingBag size={20} />
                         </button>
                     </div>
@@ -134,15 +134,15 @@ export default function CollectionTemplate({ slug, type, story, products }: Coll
 
             {/* --- Section: Hero (Full Screen) --- */}
             <section className="relative h-screen w-full flex items-center justify-center overflow-hidden">
-                <div className="absolute inset-0 z-0">
+                <div className="absolute inset-0 z-0 bg-white">
                     <Image
                         src={story.hero.image}
                         alt={story.hero.titleMain}
                         fill
-                        className="object-cover brightness-50 scale-105"
+                        className="object-cover brightness-95 scale-105"
                         priority
                     />
-                    <div className="absolute inset-0 bg-gradient-to-b from-black/60 via-transparent to-black" />
+                    <div className="absolute inset-0 bg-gradient-to-b from-white/60 via-transparent to-white" />
                 </div>
 
                 {/* Animated Decorative Rings */}
@@ -150,12 +150,12 @@ export default function CollectionTemplate({ slug, type, story, products }: Coll
                     <motion.div
                         animate={{ rotate: 360 }}
                         transition={{ duration: 60, repeat: Infinity, ease: "linear" }}
-                        className="absolute w-[800px] h-[800px] border border-white/5 rounded-full"
+                        className="absolute w-[800px] h-[800px] border border-black/5 rounded-full"
                     />
                     <motion.div
                         animate={{ rotate: -360 }}
                         transition={{ duration: 40, repeat: Infinity, ease: "linear" }}
-                        className="absolute w-[600px] h-[600px] border border-[#a932bd]/10 rounded-full"
+                        className="absolute w-[600px] h-[600px] border border-[#a932bd]/5 rounded-full"
                     />
                 </div>
 
@@ -179,11 +179,11 @@ export default function CollectionTemplate({ slug, type, story, products }: Coll
                         transition={{ delay: 0.8, duration: 1 }}
                         className="flex flex-col md:flex-row items-center justify-center gap-6"
                     >
-                        <Link href="#collection" className="group relative px-12 py-5 bg-[#a932bd] text-white text-[10px] font-bold uppercase tracking-[0.4em] rounded-full overflow-hidden transition-transform hover:scale-105 inline-block">
+                        <Link href="#collection" className="group relative px-12 py-5 bg-[#a932bd] text-white text-[10px] font-bold uppercase tracking-[0.4em] rounded-full overflow-hidden transition-transform hover:scale-105 inline-block shadow-lg shadow-purple-500/20">
                             <span className="relative z-10">Shop the Edit</span>
                             <div className="absolute inset-0 bg-white/20 translate-y-full group-hover:translate-y-0 transition-transform duration-500" />
                         </Link>
-                        <Link href="/about" className="px-12 py-5 border border-white/20 text-white text-[10px] font-bold uppercase tracking-[0.4em] rounded-full hover:bg-white/10 transition-colors">
+                        <Link href="/about" className="px-12 py-5 border border-black/10 text-[#1a1a1a] text-[10px] font-bold uppercase tracking-[0.4em] rounded-full hover:bg-black/5 transition-colors">
                             The Narrative
                         </Link>
                     </motion.div>
@@ -191,8 +191,8 @@ export default function CollectionTemplate({ slug, type, story, products }: Coll
 
                 {/* Scroll Indicator */}
                 <Link href="#collection" className="absolute bottom-12 left-1/2 -translate-x-1/2 z-20 flex flex-col items-center gap-4 group">
-                    <span className="text-[9px] uppercase tracking-[0.4em] text-white/40 group-hover:text-white transition-colors">Scroll to curated</span>
-                    <div className="w-[1px] h-20 bg-gradient-to-b from-white/40 to-transparent relative overflow-hidden">
+                    <span className="text-[9px] uppercase tracking-[0.4em] text-[#1a1a1a]/40 group-hover:text-[#a932bd] transition-colors">Scroll to curated</span>
+                    <div className="w-[1px] h-20 bg-gradient-to-b from-black/20 to-transparent relative overflow-hidden">
                         <motion.div
                             animate={{ y: [0, 80] }}
                             transition={{ duration: 2, repeat: Infinity, ease: "easeInOut" }}
@@ -203,11 +203,11 @@ export default function CollectionTemplate({ slug, type, story, products }: Coll
             </section>
 
             {/* --- Section: Title filled by GIF --- */}
-            <section className="py-20 flex items-center justify-center bg-black overflow-hidden">
+            <section className="py-20 flex items-center justify-center bg-white overflow-hidden">
                 <div className="relative group">
                     <h2 className="text-[15vw] font-black tracking-tighter leading-none select-none text-transparent"
                         style={{
-                            WebkitTextStroke: '1px rgba(255,255,255,0.1)',
+                            WebkitTextStroke: '1px rgba(0,0,0,0.05)',
                             backgroundImage: `url("${story.gifTitle.gifUrl}")`,
                             backgroundSize: 'cover',
                             backgroundPosition: 'center',
@@ -231,15 +231,15 @@ export default function CollectionTemplate({ slug, type, story, products }: Coll
                         <h2 className="text-5xl md:text-7xl font-light leading-tight tracking-tight">
                             {story.narrative.heading} <span className="italic">{story.narrative.italicWord}</span> {story.narrative.headingSuffix}
                         </h2>
-                        <p className="text-xl text-white/40 font-light leading-relaxed max-w-xl">
+                        <p className="text-xl text-[#1a1a1a]/40 font-light leading-relaxed max-w-xl">
                             {story.narrative.content}
                         </p>
                         <div className="pt-8">
                             <div className="flex items-center gap-6">
-                                <div className="w-12 h-12 rounded-full border border-white/10 flex items-center justify-center text-[#a932bd]">
+                                <div className="w-12 h-12 rounded-full border border-black/5 flex items-center justify-center text-[#a932bd] bg-white shadow-sm">
                                     <Send size={20} />
                                 </div>
-                                <p className="text-xs uppercase tracking-[0.3em] font-medium">Shipped Globally</p>
+                                <p className="text-xs uppercase tracking-[0.3em] font-medium text-[#1a1a1a]/60">Shipped Globally</p>
                             </div>
                         </div>
                     </div>
@@ -275,9 +275,9 @@ export default function CollectionTemplate({ slug, type, story, products }: Coll
                     fill
                     className="object-cover"
                 />
-                <div className="absolute inset-0 bg-black/40" />
+                <div className="absolute inset-0 bg-white/40" />
                 <div className="relative z-10 text-center max-w-2xl px-6">
-                    <p className="text-4xl md:text-5xl font-light italic text-white/90 tracking-tight leading-snug">
+                    <p className="text-4xl md:text-5xl font-light italic text-[#1a1a1a]/90 tracking-tight leading-snug">
                         {story.quote.text}
                     </p>
                     <p className="mt-8 text-[10px] uppercase tracking-[0.8em] font-bold text-[#a932bd]">— {story.quote.author}</p>
@@ -285,17 +285,17 @@ export default function CollectionTemplate({ slug, type, story, products }: Coll
             </section>
 
             {/* --- Sorting & Filtering Bar (Sticky) --- */}
-            <div id="collection" className="sticky top-[80px] z-[90] bg-black/60 backdrop-blur-2xl border-y border-white/5 py-6">
+            <div id="collection" className="sticky top-[80px] z-[90] bg-white/80 backdrop-blur-2xl border-y border-black/5 py-6">
                 <div className="max-w-7xl mx-auto px-6 space-y-6">
                     <div className="flex flex-col lg:flex-row lg:items-center justify-between gap-6">
                         {/* Search & Categories */}
                         <div className="flex flex-col md:flex-row md:items-center gap-6 flex-1">
                             <div className="relative group max-w-sm w-full">
-                                <Search className="absolute left-4 top-1/2 -translate-y-1/2 text-white/40 group-focus-within:text-[#a932bd] transition-colors" size={20} />
+                                <Search className="absolute left-4 top-1/2 -translate-y-1/2 text-[#1a1a1a]/40 group-focus-within:text-[#a932bd] transition-colors" size={20} />
                                 <input
                                     type="text"
                                     placeholder="Search pieces..."
-                                    className="w-full bg-white/5 border border-white/10 rounded-full py-3.5 pl-12 pr-6 text-sm outline-none focus:border-[#a932bd]/50 focus:ring-1 focus:ring-[#a932bd]/50 transition-all placeholder:text-white/20"
+                                    className="w-full bg-black/5 border border-black/5 rounded-full py-3.5 pl-12 pr-6 text-sm outline-none focus:border-[#a932bd]/30 focus:ring-1 focus:ring-[#a932bd]/30 transition-all placeholder:text-[#1a1a1a]/20 text-[#1a1a1a]"
                                     value={searchQuery}
                                     onChange={(e) => setSearchQuery(e.target.value)}
                                 />
@@ -305,7 +305,7 @@ export default function CollectionTemplate({ slug, type, story, products }: Coll
                                     <button
                                         key={cat}
                                         onClick={() => setSelectedCategory(cat)}
-                                        className={`px-6 py-3 rounded-full text-[10px] uppercase tracking-widest font-bold whitespace-nowrap transition-all ${selectedCategory === cat ? 'bg-[#a932bd] text-white' : 'bg-white/5 text-white/40 hover:text-white border border-white/10'
+                                        className={`px-6 py-3 rounded-full text-[10px] uppercase tracking-widest font-bold whitespace-nowrap transition-all ${selectedCategory === cat ? 'bg-[#a932bd] text-white shadow-lg shadow-purple-500/20' : 'bg-black/5 text-[#1a1a1a]/40 hover:text-[#1a1a1a] border border-black/5'
                                             }`}
                                     >
                                         {cat}
@@ -318,13 +318,13 @@ export default function CollectionTemplate({ slug, type, story, products }: Coll
                         <div className="flex items-center gap-4">
                             <div className="relative group">
                                 <select
-                                    className="appearance-none bg-zinc-900 border border-white/10 rounded-xl py-3.5 pl-5 pr-12 text-[10px] uppercase tracking-widest font-bold outline-none cursor-pointer focus:border-[#a932bd] transition-colors"
+                                    className="appearance-none bg-white border border-black/10 rounded-xl py-3.5 pl-5 pr-12 text-[10px] uppercase tracking-widest font-bold outline-none cursor-pointer focus:border-[#a932bd] transition-colors text-[#1a1a1a]"
                                     value={sortBy}
                                     onChange={(e) => setSortBy(e.target.value)}
                                 >
                                     {SORT_OPTIONS.map(opt => <option key={opt.value} value={opt.value}>{opt.label}</option>)}
                                 </select>
-                                <ChevronDown className="absolute right-4 top-1/2 -translate-y-1/2 text-white/40 pointer-events-none" size={16} />
+                                <ChevronDown className="absolute right-4 top-1/2 -translate-y-1/2 text-[#1a1a1a]/40 pointer-events-none" size={16} />
                             </div>
                         </div>
                     </div>
@@ -332,7 +332,7 @@ export default function CollectionTemplate({ slug, type, story, products }: Coll
             </div>
 
             {/* --- Product Grid --- */}
-            <section className="py-20 px-6 bg-black">
+            <section className="py-20 px-6 bg-white">
                 <div className="max-w-7xl mx-auto">
                     <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-10">
                         {filteredProducts.map((product, idx) => (
@@ -350,26 +350,26 @@ export default function CollectionTemplate({ slug, type, story, products }: Coll
 
                     {filteredProducts.length === 0 && (
                         <div className="py-40 text-center">
-                            <h3 className="text-3xl font-light text-white/20 italic">No pieces found in the current edit.</h3>
+                            <h3 className="text-3xl font-light text-[#1a1a1a]/20 italic">No pieces found in the current edit.</h3>
                         </div>
                     )}
                 </div>
             </section>
 
             {/* --- Footer Footer --- */}
-            <footer className="py-40 bg-zinc-950 border-t border-white/5 text-center">
+            <footer className="py-40 bg-neutral-50 border-t border-black/5 text-center">
                 <div className="max-w-4xl mx-auto px-6 space-y-12">
                     <div className="flex items-center justify-center gap-4">
-                        <div className="w-8 h-[1px] bg-white/20" />
-                        <span className="text-[10px] uppercase tracking-[1em] text-white/40">The End of the Promenade</span>
-                        <div className="w-8 h-[1px] bg-white/20" />
+                        <div className="w-8 h-[1px] bg-black/10" />
+                        <span className="text-[10px] uppercase tracking-[1em] text-[#1a1a1a]/40">The End of the Promenade</span>
+                        <div className="w-8 h-[1px] bg-black/10" />
                     </div>
                     <div className="space-y-4">
-                        <h2 className="text-4xl font-light italic">Stay in the Light.</h2>
-                        <p className="text-white/40 text-sm font-light tracking-widest uppercase">Paris • Phoenix • Worldwide</p>
+                        <h2 className="text-4xl font-light italic text-[#1a1a1a]">Stay in the Light.</h2>
+                        <p className="text-[#1a1a1a]/40 text-sm font-light tracking-widest uppercase">Paris • Phoenix • Worldwide</p>
                     </div>
                     <div className="pt-20">
-                        <p className="text-[10px] text-white/20 uppercase tracking-[0.5em]">&copy; 2026 tsgabrielle® All Rights Reserved</p>
+                        <p className="text-[10px] text-[#1a1a1a]/20 uppercase tracking-[0.5em]">&copy; 2026 tsgabrielle® All Rights Reserved</p>
                     </div>
                 </div>
             </footer>

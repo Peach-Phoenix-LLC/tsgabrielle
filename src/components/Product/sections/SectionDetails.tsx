@@ -10,10 +10,10 @@ interface SectionDetailsProps {
 
 export const SectionDetails: React.FC<SectionDetailsProps> = ({ composition, finish, care, metafields }) => {
     return (
-        <section id="specs" className="py-24 max-w-7xl mx-auto px-6 border-t border-white/5">
+        <section id="specs" className="py-32 max-w-7xl mx-auto px-6 border-t border-black/5 bg-white">
             <SectionHeader title="Specifications & Care" subtitle="Technical composition and maintenance" />
 
-            <div className="grid grid-cols-1 lg:grid-cols-2 gap-20">
+            <div className="grid grid-cols-1 lg:grid-cols-2 gap-24">
                 <div>
                     <Card title="Material Science">
                         <Row label="Primary Composition" value={composition} />
@@ -21,22 +21,22 @@ export const SectionDetails: React.FC<SectionDetailsProps> = ({ composition, fin
                         <Row label="Durability Index" value="High-Impact Culinary Grade" isLast />
                     </Card>
 
-                    <div className="mt-12 space-y-8">
+                    <div className="mt-16 space-y-10">
                         {metafields.map((mf, i) => (
-                            <div key={i} className="flex gap-4">
-                                <span className="size-2 rounded-full bg-[#a932bd] mt-1.5" />
+                            <div key={i} className="flex gap-6">
+                                <span className="size-1.5 rounded-full bg-[#a932bd] mt-2 shadow-lg shadow-[#a932bd]/50" />
                                 <div>
-                                    <p className="text-[10px] uppercase tracking-[0.2em] font-bold text-white/40 mb-1">{mf.key}</p>
-                                    <p className="text-white/80 font-light">{mf.value}</p>
+                                    <p className="text-[9px] uppercase tracking-[0.4em] font-bold text-[#1a1a1a]/40 mb-2">{mf.key}</p>
+                                    <p className="text-[#1a1a1a] font-light tracking-widest text-sm uppercase">{mf.value}</p>
                                 </div>
                             </div>
                         ))}
                     </div>
                 </div>
 
-                <div className="bg-white/2 rounded-3xl p-12 border border-white/10">
-                    <h3 className="text-2xl font-light text-white mb-8">Maintenance Protocol</h3>
-                    <div className="text-white/60 font-serif italic text-lg leading-loose mb-12">
+                <div className="bg-neutral-50 rounded-[2.5rem] p-12 border border-black/5 shadow-sm">
+                    <h3 className="text-3xl font-extralight text-[#1a1a1a] tracking-tighter mb-10">Maintenance Protocol</h3>
+                    <div className="text-[#1a1a1a]/60 font-serif italic text-xl leading-relaxed mb-16 whitespace-pre-line">
                         {care}
                     </div>
 
@@ -47,11 +47,11 @@ export const SectionDetails: React.FC<SectionDetailsProps> = ({ composition, fin
                             { icon: 'eco', label: 'Lead-Free', status: 'Verified' },
                             { icon: 'health_and_safety', label: 'Food Grade', status: 'Compliance A+' },
                         ].map((item, i) => (
-                            <div key={i} className="flex items-center gap-4 p-4 rounded-xl bg-white/5">
-                                <span className="material-symbols-outlined text-[#a932bd] font-light">{item.icon}</span>
+                            <div key={i} className="flex items-center gap-5 p-6 rounded-2xl bg-white border border-black/5 shadow-sm group hover:scale-105 transition-all duration-500">
+                                <span className="material-symbols-outlined text-[#a932bd] text-2xl font-extralight group-hover:rotate-12 transition-transform">{item.icon}</span>
                                 <div>
-                                    <p className="text-[9px] uppercase tracking-widest text-white/30">{item.label}</p>
-                                    <p className="text-[11px] font-bold text-white/70">{item.status}</p>
+                                    <p className="text-[8px] uppercase tracking-[0.3em] font-bold text-[#1a1a1a]/20 mb-1">{item.label}</p>
+                                    <p className="text-[10px] font-bold text-[#1a1a1a]/70 uppercase tracking-widest">{item.status}</p>
                                 </div>
                             </div>
                         ))}

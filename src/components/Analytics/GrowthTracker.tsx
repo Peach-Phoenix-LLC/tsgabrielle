@@ -17,8 +17,15 @@ export function useGrowthTracking() {
         // For tsgabrielle® Strategic Intelligence, we log to the console for internal auditing
         console.log(`%c[GROWTH ANALYTICS] Event: ${event}`, 'color: #a932bd; font-weight: bold; border-left: 4px solid #a932bd; padding-left: 8px;', params);
 
-        // Potential future: Push to server-side logging endpoint
-        // fetch('/api/analytics/log', { method: 'POST', body: JSON.stringify({ event, params, ts: Date.now() }) });
+        // GA4 Integration
+        if (typeof window !== 'undefined' && (window as any).gtag) {
+            (window as any).gtag('event', event, {
+                item_id: params.item_id,
+                item_name: params.item_name,
+                value: params.value,
+                currency: params.currency || 'USD'
+            });
+        }
     };
 
     return { trackEvent };
