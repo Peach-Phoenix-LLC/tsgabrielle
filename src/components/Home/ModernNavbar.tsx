@@ -39,8 +39,8 @@ const ModernNavbar = ({ config = {}, siteSettings = {} }: ModernNavbarProps) => 
     const transparent = config.transparent !== false;
 
     const navClass = `fixed top-0 left-0 right-0 z-50 transition-all duration-500 ${scrolled
-            ? 'bg-white/80 backdrop-blur-md border-b border-primary/10 py-4 shadow-sm'
-            : transparent ? 'bg-transparent py-6' : 'bg-white py-4 shadow-sm'
+        ? 'bg-white/80 backdrop-blur-md border-b border-primary/10 py-4 shadow-sm'
+        : transparent ? 'bg-transparent py-6' : 'bg-white py-4 shadow-sm'
         }`;
 
     // Logo logic: use logo from site settings if available, else default
@@ -101,9 +101,15 @@ const ModernNavbar = ({ config = {}, siteSettings = {} }: ModernNavbarProps) => 
                     {status === 'loading' ? (
                         <div className={`w-6 h-6 rounded-full border border-current border-t-transparent animate-spin ${iconColor}`} />
                     ) : session ? (
-                        <Link href="/profile" className={`p-2 transition-opacity hover:opacity-50 flex items-center justify-center ${iconColor}`}>
-                            <span className="material-symbols-outlined text-[22px]">person</span>
-                        </Link>
+                        <div className="flex items-center gap-6">
+                            <Link href="/dashboard/peaches" className={`flex items-center gap-2 transition-opacity hover:opacity-50 ${iconColor}`}>
+                                <span className="text-[14px]">🍑</span>
+                                <span className="text-[11px] font-medium tracking-tight">{(session?.user as any)?.peaches || 0}</span>
+                            </Link>
+                            <Link href="/profile" className={`p-2 transition-opacity hover:opacity-50 flex items-center justify-center ${iconColor}`}>
+                                <span className="material-symbols-outlined text-[22px]">person</span>
+                            </Link>
+                        </div>
                     ) : (
                         <button onClick={() => signIn('google')} className={`transition-opacity hover:opacity-50 text-[12px] uppercase tracking-widest font-light hidden lg:block ${textColor}`}>
                             Account

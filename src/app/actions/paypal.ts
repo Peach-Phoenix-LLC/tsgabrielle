@@ -1,6 +1,10 @@
 "use server";
 
+import { trackKlaviyoEvent, syncKlaviyoProfile } from "@/lib/klaviyo";
 import { prisma } from "@/lib/prisma";
+import { awardOrderPeaches, addPeaches } from "@/lib/peaches";
+import { createPrintfulOrder } from "@/lib/printful";
+import { trackPurchaseServer } from "@/lib/ga4-data";
 
 // Helper to generate PayPal API access token
 async function generateAccessToken() {
@@ -25,7 +29,7 @@ async function generateAccessToken() {
     return data.access_token;
 }
 
-export async function createPayPalOrderAction(cartItems: any[], formUserId?: string | null) {
+export async function createPayPalOrderAction(cartItems: any[], formUserId?: string | null, shippingData?: any, peachesToRedeem: number = 0) {
     try {
         if (!cartItems || cartItems.length === 0) {
             return { success: false, error: "Cart is empty" };
@@ -58,8 +62,11 @@ export async function createPayPalOrderAction(cartItems: any[], formUserId?: str
 
         const shipping = subtotal > 0 ? 35.00 : 0;
         const tax = Number((subtotal * 0.08875).toFixed(2));
-        const totalAmount = subtotal + shipping + tax;
-        const totalAmountFormatted = totalAmount.toFixed(2);
+
+        // Peaches discount: 100 Peaches = $1
+        const peachDiscount = Math.floor(peachesToRedeem / 100);
+        const finalTotal = Math.max(0, subtotal + shipping + tax - peachDiscount);
+        const totalAmountFormatted = finalTotal.toFixed(2);
 
         // 2. Resolve User ID
         let userId = formUserId;
@@ -68,8 +75,16 @@ export async function createPayPalOrderAction(cartItems: any[], formUserId?: str
         const newOrder = await prisma.order.create({
             data: {
                 user_id: userId,
-                total_amount: totalAmount,
+                total_amount: finalTotal,
+                peaches_applied: peachesToRedeem,
                 status: "PENDING",
+                customer_name: shippingData?.customer_name,
+                customer_email: shippingData?.customer_email,
+                shipping_address1: shippingData?.shipping_address1,
+                shipping_city: shippingData?.shipping_city,
+                shipping_state: shippingData?.shipping_state,
+                shipping_zip: shippingData?.shipping_zip,
+                shipping_country: shippingData?.shipping_country,
                 items: {
                     create: validOrderItems
                 }
@@ -118,7 +133,7 @@ export async function createPayPalOrderAction(cartItems: any[], formUserId?: str
     }
 }
 
-export async function capturePayPalOrderAction(paypalOrderId: string, prismaOrderId: string) {
+export async function capturePayPalOrderAction(paypalOrderId: string, prismaOrderId: string, clientId: string = 'server_side') {
     try {
         const accessToken = await generateAccessToken();
         const url = `${process.env.NEXT_PUBLIC_PAYPAL_API_URL || 'https://api-m.sandbox.paypal.com'}/v2/checkout/orders/${paypalOrderId}/capture`;
@@ -134,24 +149,125 @@ export async function capturePayPalOrderAction(paypalOrderId: string, prismaOrde
         const data = await response.json();
 
         if (!response.ok) {
-            // Check for specific PayPal errors (e.g., funding instrument declined)
             console.error("PayPal Capture Error:", data);
-
-            // Mark the order as FAILED or CANCELED depending on logic, here we set to CANCELLED logic
             await prisma.order.update({
                 where: { id: prismaOrderId },
                 data: { status: "CANCELLED" }
             });
-
             return { success: false, error: data.message || "Payment authorization failed." };
         }
 
-        // Payment captured successfully! Mark order as PAID.
         if (data.status === "COMPLETED") {
-            await prisma.order.update({
+            const payerEmail = data.payer?.email_address;
+            const payerName = `${data.payer?.name?.given_name || ''} ${data.payer?.name?.surname || ''}`.trim();
+
+            const order = await prisma.order.findUnique({
                 where: { id: prismaOrderId },
-                data: { status: "PAID" }
+                include: {
+                    items: {
+                        include: {
+                            product: {
+                                include: {
+                                    variants: true
+                                }
+                            }
+                        }
+                    }
+                }
             });
+
+            if (!order) throw new Error("Order not found");
+
+            // Calculate peaches to earn: 1 Peach per $1
+            const peachesEarned = Math.floor(Number(order.total_amount));
+
+            // Update local order
+            const updatedOrder = await prisma.order.update({
+                where: { id: prismaOrderId },
+                data: {
+                    status: "PAID",
+                    customer_email: payerEmail || order.customer_email,
+                    customer_name: payerName || order.customer_name,
+                    peaches_earned: peachesEarned
+                }
+            });
+
+            // Handle Peaches Earnings and Redemptions
+            if (order.user_id) {
+                // Award earned peaches
+                await awardOrderPeaches(order.user_id, order.id, Number(order.total_amount));
+
+                // If peaches were applied, deduct them from balance
+                if (order.peaches_applied > 0) {
+                    await addPeaches(
+                        order.user_id,
+                        -order.peaches_applied,
+                        'REDEEMED',
+                        `Discount on Order #${order.id}`
+                    );
+                }
+            }
+
+            // Trigger Printful Order
+            let printfulId: number | undefined;
+            try {
+                const psOrder = await createPrintfulOrder({
+                    external_id: order.id,
+                    recipient: {
+                        name: updatedOrder.customer_name || 'Customer',
+                        address1: order.shipping_address1 || '',
+                        city: order.shipping_city || '',
+                        state_code: order.shipping_state || '',
+                        country_code: order.shipping_country || 'US',
+                        zip: order.shipping_zip || '',
+                        email: updatedOrder.customer_email || ''
+                    },
+                    items: order.items.map(item => ({
+                        sync_variant_id: item.product.variants[0]?.printful_variant_id || undefined,
+                        variant_id: item.product.variants[0]?.printful_variant_id || undefined,
+                        quantity: item.quantity,
+                        name: item.product.title
+                    })).filter(i => i.variant_id || i.sync_variant_id)
+                });
+                printfulId = psOrder.id;
+
+                await prisma.order.update({
+                    where: { id: prismaOrderId },
+                    data: { printful_id: printfulId }
+                });
+            } catch (err) {
+                console.error("Printful Fulfillment Failed:", err);
+                // We still mark as PAID, but we might need a manual retry or alert
+            }
+
+            if (payerEmail) {
+                await syncKlaviyoProfile(payerEmail, {
+                    first_name: data.payer?.name?.given_name,
+                    last_name: data.payer?.name?.surname
+                });
+
+                await trackKlaviyoEvent("Order Placed", payerEmail, {
+                    orderId: prismaOrderId,
+                    printful_id: printfulId,
+                    total: Number(updatedOrder.total_amount),
+                    peaches_earned: peachesEarned,
+                    peaches_applied: order.peaches_applied
+                }, Number(updatedOrder.total_amount));
+
+                // Track in GA4
+                await trackPurchaseServer(
+                    prismaOrderId,
+                    Number(updatedOrder.total_amount),
+                    order.items.map(i => ({
+                        product_id: i.product.id,
+                        product_name: i.product.title,
+                        quantity: i.quantity,
+                        price: i.price
+                    })),
+                    clientId
+                );
+            }
+
             return { success: true, orderId: prismaOrderId };
         } else {
             return { success: false, error: "Payment was not completed successfully." };

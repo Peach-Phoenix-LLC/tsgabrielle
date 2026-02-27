@@ -43,7 +43,13 @@ export async function GET(request: Request) {
                 mainProductId: leadingItem?.product?.id,
                 mainProductName: itemCount > 1
                     ? `${leadingItem?.product?.title} +${itemCount - 1} more`
-                    : leadingItem?.product?.title || 'Multiple Items'
+                    : leadingItem?.product?.title || 'Multiple Items',
+
+                // Fulfillment details
+                printfulId: o.printful_id,
+                trackingNumber: o.tracking_number,
+                trackingUrl: o.tracking_url,
+                carrier: o.carrier
             };
         });
 

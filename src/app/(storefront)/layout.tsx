@@ -2,6 +2,8 @@ import { prisma } from "@/lib/prisma";
 import ModernNavbar from "@/components/Home/ModernNavbar";
 import ModernFooter from "@/components/Home/ModernFooter";
 
+export const dynamic = 'force-dynamic';
+
 export default async function StorefrontLayout({
     children,
 }: {

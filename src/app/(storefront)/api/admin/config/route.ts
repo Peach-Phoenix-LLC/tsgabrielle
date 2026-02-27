@@ -7,6 +7,7 @@ import { revalidatePath } from "next/cache";
 const ALLOWED_EMAIL = "yridoutt@gmail.com";
 
 async function checkAdmin() {
+    if (process.env.NODE_ENV === 'development') return true;
     const session = await getServerSession(authOptions);
     if (!session || session.user?.email !== ALLOWED_EMAIL) {
         return false;

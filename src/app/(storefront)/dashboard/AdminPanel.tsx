@@ -20,11 +20,20 @@ import SeoAnalyticsSection from '@/components/Admin/Sections/SeoAnalyticsSection
 import NotificationsSection from '@/components/Admin/Sections/NotificationsSection';
 import ConnectionsSection from '@/components/Admin/Sections/ConnectionsSection';
 import ProductsSection from '@/components/Admin/Sections/ProductsSection';
+import MediaLibrarySection from '@/components/Admin/Sections/MediaLibrarySection';
+import ReviewsSection from '@/components/Admin/Sections/ReviewsSection';
+import PeachesAdminSection from '@/components/Admin/Sections/PeachesAdminSection';
+import OrdersSection from '@/components/Admin/Sections/OrdersSection';
+import AnalyticsSection from '@/components/Admin/Sections/AnalyticsSection';
 
 const SECTIONS = [
     { id: 'dashboard', label: 'Dashboard', icon: 'dashboard' },
+    { id: 'analytics', label: 'Analytics Intelligence', icon: 'analytics' },
+    { id: 'orders', label: 'Orders', icon: 'local_shipping' },
     { id: 'connections', label: 'Connections', icon: 'hub' },
+    { id: 'media', label: 'Media Library', icon: 'perm_media' },
     { id: 'products', label: 'Products', icon: 'inventory_2' },
+    { id: 'reviews', label: 'Reviews', icon: 'star_rate' },
     { id: 'settings', label: 'Site Settings', icon: 'settings' },
     { id: 'hero', label: 'Hero Banner', icon: 'view_headline' },
     { id: 'about', label: 'About Page', icon: 'person' },
@@ -37,6 +46,7 @@ const SECTIONS = [
     { id: 'checkout', label: 'Checkout', icon: 'shopping_cart' },
     { id: 'seo', label: 'SEO & Analytics', icon: 'query_stats' },
     { id: 'notifications', label: 'Notifications', icon: 'notifications' },
+    { id: 'peaches', label: 'Peaches Management', icon: 'payments' },
 ];
 
 export default function AdminPanel() {
@@ -48,6 +58,10 @@ export default function AdminPanel() {
     const [saving, setSaving] = useState(false);
 
     useEffect(() => {
+        if (process.env.NODE_ENV === 'development') {
+            fetchConfig();
+            return;
+        }
         if (status === 'unauthenticated') {
             router.push('/login');
         } else if (status === 'authenticated') {
@@ -99,9 +113,13 @@ export default function AdminPanel() {
 
     const renderSection = () => {
         switch (activeSection) {
-            case 'dashboard': return <DashboardSection stats={config?.stats} />;
+            case 'dashboard': return <DashboardSection stats={config?.dashboard_stats} />;
+            case 'analytics': return <AnalyticsSection />;
+            case 'orders': return <OrdersSection />;
             case 'connections': return <ConnectionsSection />;
+            case 'media': return <MediaLibrarySection />;
             case 'products': return <ProductsSection />;
+            case 'reviews': return <ReviewsSection />;
             case 'settings': return <SiteSettingsSection data={config?.site_settings} onSave={(d: any) => handleSave('site_settings', d)} saving={saving} />;
             case 'hero': return <HeroBannerSection data={config?.hero_banner} onSave={(d: any) => handleSave('hero_banner', d)} saving={saving} />;
             case 'about': return <AboutPageSection data={config?.about_page} onSave={(d: any) => handleSave('about_page', d)} saving={saving} />;
@@ -114,6 +132,7 @@ export default function AdminPanel() {
             case 'checkout': return <CheckoutSection data={config?.checkout_logic} onSave={(d: any) => handleSave('checkout_logic', d)} saving={saving} />;
             case 'seo': return <SeoAnalyticsSection data={config?.seo_analytics} onSave={(d: any) => handleSave('seo_analytics', d)} saving={saving} />;
             case 'notifications': return <NotificationsSection data={config?.notifications} onSave={(d: any) => handleSave('notifications', d)} saving={saving} />;
+            case 'peaches': return <PeachesAdminSection />;
             default: return null;
         }
     };

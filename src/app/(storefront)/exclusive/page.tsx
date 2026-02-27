@@ -7,8 +7,7 @@ import ModernFooter from '@/components/Home/ModernFooter';
 
 export default function ExclusivePage() {
     return (
-        <main className="min-h-screen bg-bg-dark text-white selection:bg-primary/30">
-            <ModernNavbar />
+        <main className="min-h-screen bg-white text-black selection:bg-primary/30 pt-20">
 
             <div className="relative pt-32 pb-20 px-8 flex flex-col items-center justify-center min-h-[80vh] overflow-hidden">
                 {/* Background effects */}
@@ -30,7 +29,7 @@ export default function ExclusivePage() {
                         </span>
                     </h1>
 
-                    <p className="text-white/60 text-xl font-light mb-12 max-w-xl mx-auto leading-relaxed">
+                    <p className="text-black/60 text-xl font-light mb-12 max-w-xl mx-auto leading-relaxed">
                         The tsgabrielle® Exclusive portal is currently being refined to ensure total privacy and immersion for our most loyal clients.
                     </p>
 
@@ -52,20 +51,18 @@ export default function ExclusivePage() {
                 <div className="grid md:grid-cols-3 gap-16">
                     <div className="space-y-4">
                         <h3 className="text-primary uppercase tracking-widest text-xs font-bold">Priority Drops</h3>
-                        <p className="text-white/40 font-light italic">Secure pieces before they enter the public atelier.</p>
+                        <p className="text-black/40 font-light italic">Secure pieces before they enter the public atelier.</p>
                     </div>
                     <div className="space-y-4">
                         <h3 className="text-primary uppercase tracking-widest text-xs font-bold">Bespoke Concierge</h3>
-                        <p className="text-white/40 font-light italic">One-on-one virtual tailoring for custom silhouettes.</p>
+                        <p className="text-black/40 font-light italic">One-on-one virtual tailoring for custom silhouettes.</p>
                     </div>
                     <div className="space-y-4">
                         <h3 className="text-primary uppercase tracking-widest text-xs font-bold">Immersion Events</h3>
-                        <p className="text-white/40 font-light italic">Exclusive invitations to digital and physical showcases.</p>
+                        <p className="text-black/40 font-light italic">Exclusive invitations to digital and physical showcases.</p>
                     </div>
                 </div>
             </div>
-
-            <ModernFooter />
         </main>
     );
 }

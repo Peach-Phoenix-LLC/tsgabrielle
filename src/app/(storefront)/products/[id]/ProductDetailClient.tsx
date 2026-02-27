@@ -11,8 +11,6 @@ import { TrustBadges } from '@/components/Product/Premium/TrustBadges';
 import { ShareModal } from '@/components/Product/Premium/ShareModal';
 import { StickyProductNav } from '@/components/Product/Premium/StickyProductNav';
 import { ColorSwatches } from '@/components/Product/Premium/ColorSwatches';
-import ModernNavbar from '@/components/Home/ModernNavbar';
-import ModernFooter from '@/components/Home/ModernFooter';
 import { motion } from 'framer-motion';
 
 interface ProductDetailClientProps {
@@ -63,7 +61,6 @@ export default function ProductDetailClient({ product, crossSells }: ProductDeta
 
     return (
         <main className="bg-[#faf9f6] text-text-dark font-light overflow-x-hidden">
-            <ModernNavbar />
             <StickyProductNav
                 productTitle={product.title}
                 productPrice={product.msrp_display}
@@ -201,7 +198,6 @@ export default function ProductDetailClient({ product, crossSells }: ProductDeta
                 </section>
             )}
 
-            <ModernFooter />
 
             <ShareModal
                 isOpen={isShareModalOpen}

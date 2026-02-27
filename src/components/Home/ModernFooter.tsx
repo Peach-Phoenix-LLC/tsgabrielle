@@ -3,6 +3,7 @@
 import React from 'react';
 import Link from 'next/link';
 import Image from 'next/image';
+import { motion } from 'framer-motion';
 
 interface ModernFooterProps {
     config?: any;
@@ -27,7 +28,7 @@ const ModernFooter: React.FC<ModernFooterProps> = ({ config = {}, siteSettings =
     const socialLinks = config.socials || defaultSocials;
 
     // Links Columns
-    const linkColumns = config.link_columns || [
+    const linkColumns = config.links_columns || [
         {
             title: 'Atelier',
             links: [
@@ -41,17 +42,21 @@ const ModernFooter: React.FC<ModernFooterProps> = ({ config = {}, siteSettings =
     return (
         <footer className={`${textColor} flex flex-col w-full bg-white`}>
             {/* Background Transition Image */}
-            <div className="w-full bg-white relative min-h-[100px] md:min-h-[200px]">
-                <img
+            <div className="w-full bg-white relative min-h-[100px] md:min-h-[200px] overflow-hidden">
+                <motion.img
+                    initial={{ opacity: 0, scale: 1.1, filter: 'blur(10px)' }}
+                    whileInView={{ opacity: 1, scale: 1, filter: 'blur(0px)' }}
+                    viewport={{ once: true, amount: 0.3 }}
+                    transition={{ duration: 1.5, ease: [0.22, 1, 0.36, 1] }}
                     src="/images/tsgabrielle-footer.png"
                     alt="Maison transition"
                     className="w-full h-auto block object-cover"
-                    style={{ minHeight: '100px', display: 'block' }}
+                    style={{ minHeight: '200px', display: 'block' }}
                     onError={(e) => {
                         console.error("Footer image load error");
-                        // Fallback hidden if error
                     }}
                 />
+                <div className="absolute inset-0 bg-gradient-to-t from-[#a932bd]/20 to-transparent pointer-events-none" />
             </div>
 
             <div className={`${bgColor} flex flex-col items-center w-full relative z-10 -mt-[1px]`}>

@@ -9,6 +9,7 @@ import GoogleAnalytics from "@/components/Analytics/GoogleAnalytics";
 import GlobalBreadcrumbs from "@/components/GlobalBreadcrumbs";
 import { prisma } from "@/lib/prisma";
 
+export const revalidate = 0;
 export async function generateMetadata(): Promise<Metadata> {
   const config = await prisma.storeConfig.findUnique({ where: { id: 1 } });
   const footerData = config?.footer as any;

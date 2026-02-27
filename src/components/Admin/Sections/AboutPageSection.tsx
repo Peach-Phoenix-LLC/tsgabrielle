@@ -1,7 +1,7 @@
 "use client";
 
 import React, { useState, useEffect } from 'react';
-
+import ImagePicker from '../ImagePicker';
 export default function AboutPageSection({ data, onSave, saving }: { data: any, onSave: any, saving: boolean }) {
     const [formData, setFormData] = useState(data || {
         title: "The Maison Story",
@@ -86,12 +86,19 @@ export default function AboutPageSection({ data, onSave, saving }: { data: any, 
                     <div className="space-y-4 max-h-[400px] overflow-y-auto pr-2 custom-scrollbar">
                         {formData.team.map((member: any, i: number) => (
                             <div key={i} className="flex gap-4 p-4 bg-neutral-50 border border-black/10 rounded-xl relative group shadow-sm transition-all hover:bg-neutral-100">
-                                <div className="size-16 rounded-lg bg-black/5 overflow-hidden ring-1 ring-black/5">
-                                    {member.image ? <img src={member.image} className="w-full h-full object-cover" /> : null}
+                                <div className="size-16 rounded-lg bg-black/5 overflow-hidden ring-1 ring-black/5 shrink-0">
+                                    {member.image ? <img src={member.image} className="w-full h-full object-cover" /> : <div className="w-full h-full flex items-center justify-center"><span className="material-symbols-outlined text-black/20 text-xl">person</span></div>}
                                 </div>
-                                <div className="flex-grow space-y-2">
-                                    <input placeholder="Name" value={member.name} onChange={(e) => updateTeamMember(i, 'name', e.target.value)} className="w-full bg-transparent text-xs font-bold border-b border-black/5 pb-1 focus:outline-none focus:border-[#a932bd] text-[#1a1a1a]" />
-                                    <input placeholder="Role" value={member.role} onChange={(e) => updateTeamMember(i, 'role', e.target.value)} className="w-full bg-transparent text-[10px] text-[#1a1a1a]/40 focus:outline-none" />
+                                <div className="flex-grow space-y-4">
+                                    <div className="space-y-2">
+                                        <input placeholder="Name" value={member.name} onChange={(e) => updateTeamMember(i, 'name', e.target.value)} className="w-full bg-transparent text-xs font-bold border-b border-black/5 pb-1 focus:outline-none focus:border-[#a932bd] text-[#1a1a1a]" />
+                                        <input placeholder="Role" value={member.role} onChange={(e) => updateTeamMember(i, 'role', e.target.value)} className="w-full bg-transparent text-[10px] text-[#1a1a1a]/40 focus:outline-none" />
+                                    </div>
+                                    <ImagePicker
+                                        label="Portrait URL"
+                                        value={member.image || ''}
+                                        onChange={(url) => updateTeamMember(i, 'image', url)}
+                                    />
                                 </div>
                                 <button onClick={() => removeTeamMember(i)} className="absolute -top-2 -right-2 size-6 bg-[#1a1a1a] text-white rounded-full flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity shadow-lg">
                                     <span className="material-symbols-outlined text-xs">close</span>

@@ -3,6 +3,10 @@
 import React, { useState, useEffect } from 'react';
 import ProductsTable from '../ProductsTable';
 import ImagePicker from '../ImagePicker';
+import ProductGalleryManager from '../ProductGalleryManager';
+import ProductVariantManager from '../ProductVariantManager';
+import SocialPostingManager from '../SocialPostingManager';
+import { triggerSocialPostAction } from '@/app/actions/social';
 
 export default function ProductsSection() {
     const [items, setItems] = useState<any[] /* eslint-disable-line @typescript-eslint/no-explicit-any */>([]);
@@ -28,23 +32,22 @@ export default function ProductsSection() {
         e.preventDefault();
         const action = editingItem.id ? 'update' : 'create';
 
-        // Prepare data
+        // Prepare data - clone and remove non-scalar fields
         const dataToSave = { ...editingItem };
         const id = dataToSave.id;
-        delete dataToSave.id;
-        delete dataToSave.created_at;
-        delete dataToSave.updated_at;
-        delete dataToSave.gallery_slides;
-        delete dataToSave.order_items;
-        delete dataToSave.metafields;
-        delete dataToSave.pillars;
-        delete dataToSave.variants;
-        delete dataToSave.wishlist_items;
 
-        // Parse peach number
-        if (dataToSave.peach_number) dataToSave.peach_number = parseInt(dataToSave.peach_number);
+        // Remove all relations and read-only fields
+        const fieldsToRemove = [
+            'id', 'created_at', 'updated_at',
+            'gallery_slides', 'order_items', 'metafields',
+            'pillars', 'wishlist_items', 'reviews'
+        ];
+        fieldsToRemove.forEach(f => delete dataToSave[f]);
 
-        const body: any /* eslint-disable-line @typescript-eslint/no-explicit-any */ = { type: 'products', action, data: dataToSave };
+        // Parse numeric fields
+        if (dataToSave.peach_number) dataToSave.peach_number = parseInt(dataToSave.peach_number.toString());
+
+        const body: any = { type: 'products', action, data: dataToSave };
         if (id) body.id = id;
 
         const res = await fetch('/api/admin/crud', {
@@ -54,12 +57,36 @@ export default function ProductsSection() {
         });
 
         if (res.ok) {
+            const result = await res.json();
+            const savedProductId = result.id || id;
+
+            // Auto-post to social media if enabled and product is active
+            if (dataToSave.social_auto_post && dataToSave.status === 'active' && savedProductId) {
+                // We fire and forget or wait? User wants results logged in DB, so we fire it.
+                triggerSocialPostAction(savedProductId, dataToSave.social_platforms);
+            }
+
             setEditingItem(null);
             fetchData();
         } else {
             const err = await res.json();
             alert(`Error: ${err.error || 'Operation failed'}`);
         }
+    };
+
+    const handleGalleryChange = (idx: number, url: string) => {
+        const newUrls = [...(editingItem.media_gallery_urls || [])];
+        if (url) {
+            newUrls[idx] = url;
+        } else {
+            newUrls.splice(idx, 1);
+        }
+        setEditingItem({ ...editingItem, media_gallery_urls: newUrls });
+    };
+
+    const addGalleryItem = () => {
+        const newUrls = [...(editingItem.media_gallery_urls || []), ""];
+        setEditingItem({ ...editingItem, media_gallery_urls: newUrls });
     };
 
     const handleDelete = async (id: string | number) => {
@@ -127,6 +154,8 @@ export default function ProductsSection() {
             "media_primary_alt": "",
             "media_gallery_urls": [],
             "media_gallery_alts": [],
+            "social_auto_post": true,
+            "social_platforms": ["instagram", "facebook", "twitter", "linkedin", "pinterest"],
             "status": "active"
         });
     };
@@ -326,17 +355,34 @@ export default function ProductsSection() {
                                         <input required={false} type="text" value={editingItem.status || ''} onChange={(e) => setEditingItem({ ...editingItem, status: e.target.value })} className="w-full bg-neutral-50 border border-black/10 rounded-xl px-4 py-3 text-sm focus:border-[#a932bd] outline-none text-[#1a1a1a]" />
                                     </div></div>
 
-                                <div className="space-y-8 mt-12 pt-12 border-t border-black/10">
-                                    <h4 className="text-[10px] uppercase tracking-[0.2em] font-bold text-[#1a1a1a]">Primary Visual Architecture</h4>
-                                    <ImagePicker
-                                        label="Master Image"
-                                        value={editingItem.media_primary_url || ''}
-                                        altValue={editingItem.media_primary_alt || ''}
-                                        onChange={(url) => setEditingItem({ ...editingItem, media_primary_url: url })}
-                                        onAltChange={(alt) => setEditingItem({ ...editingItem, media_primary_alt: alt })}
+                                <div className="space-y-12 mt-12 pt-12 border-t border-black/10">
+                                    <ProductVariantManager
+                                        variants={editingItem.variants || []}
+                                        onChange={(variants) => setEditingItem({ ...editingItem, variants })}
                                     />
-                                    <p className="text-[10px] mt-2 opacity-50">Note: Gallery media array management will be added in a separate sprint.</p>
                                 </div>
+
+                                <ProductGalleryManager
+                                    urls={editingItem.media_gallery_urls || []}
+                                    alts={editingItem.media_gallery_alts || []}
+                                    primaryUrl={editingItem.media_primary_url || ''}
+                                    primaryAlt={editingItem.media_primary_alt || ''}
+                                    onChange={(urls, alts, primaryUrl, primaryAlt) => setEditingItem({
+                                        ...editingItem,
+                                        media_gallery_urls: urls,
+                                        media_gallery_alts: alts,
+                                        media_primary_url: primaryUrl,
+                                        media_primary_alt: primaryAlt
+                                    })}
+                                />
+
+                                <SocialPostingManager
+                                    productId={editingItem.id}
+                                    autoPost={editingItem.social_auto_post}
+                                    selectedPlatforms={editingItem.social_platforms || []}
+                                    onAutoPostChange={(val) => setEditingItem({ ...editingItem, social_auto_post: val })}
+                                    onPlatformsChange={(platforms) => setEditingItem({ ...editingItem, social_platforms: platforms })}
+                                />
                             </form>
                         </div>
 

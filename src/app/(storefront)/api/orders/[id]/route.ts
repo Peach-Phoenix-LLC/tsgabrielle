@@ -2,6 +2,7 @@ import { NextResponse } from 'next/server';
 import { prisma } from '@/lib/prisma';
 import { getServerSession } from 'next-auth';
 import { authOptions } from '@/lib/auth';
+import { trackKlaviyoEvent } from '@/lib/klaviyo';
 
 export async function PATCH(
     request: Request,
@@ -24,6 +25,19 @@ export async function PATCH(
                 profile: true
             }
         });
+
+        // Track order status changes for Klaviyo
+        const customerEmail = updatedOrder.customer_email || updatedOrder.profile?.email;
+        if (customerEmail) {
+            if (status === 'SHIPPED') {
+                await trackKlaviyoEvent("Order Fulfilled", customerEmail, { orderId: updatedOrder.id, status });
+            } else if (status === 'CANCELLED') {
+                await trackKlaviyoEvent("Order Cancelled", customerEmail, { orderId: updatedOrder.id, status });
+            } else if (status === 'DELIVERED') {
+                // Send review request email internally or trigger a flow in Klaviyo
+                await trackKlaviyoEvent("Order Delivered", customerEmail, { orderId: updatedOrder.id, review_link: `https://tsgabrielle.us/profile` });
+            }
+        }
 
         return NextResponse.json(updatedOrder);
     } catch (error) {

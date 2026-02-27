@@ -3,6 +3,7 @@ import React, { useState, useEffect } from 'react';
 import { motion } from 'framer-motion';
 import { useCartStore } from '@/lib/store';
 import { createPayPalOrderAction, capturePayPalOrderAction } from '@/app/actions/paypal';
+import { trackStartedCheckoutAction } from '@/app/actions/klaviyo';
 import { PayPalScriptProvider, PayPalButtons } from '@paypal/react-paypal-js';
 import { useSession } from 'next-auth/react';
 import { useGrowthTracking } from '@/components/Analytics/GrowthTracker';
@@ -11,6 +12,25 @@ export default function CheckoutForm() {
     const { items, clearCart } = useCartStore();
     const { trackEvent } = useGrowthTracking();
     const { data: session } = useSession();
+
+    // Identity
+    const [email, setEmail] = useState('');
+
+    // Shipping Location
+    const [shipping, setShipping] = useState({
+        firstName: '',
+        lastName: '',
+        address: '',
+        city: '',
+        state: '',
+        zip: '',
+        country: 'US'
+    });
+
+    // Peaches
+    const [peachesToRedeem, setPeachesToRedeem] = useState(0);
+    const userPeaches = (session?.user as any)?.peaches || 0;
+
     const [isSubmitting, setIsSubmitting] = useState(false);
     const [error, setError] = useState<string | null>(null);
     const [success, setSuccess] = useState(false);
@@ -18,6 +38,14 @@ export default function CheckoutForm() {
     const [mounted, setMounted] = useState(false);
 
     const userId = (session?.user as any)?.id || null;
+
+    useEffect(() => {
+        if (session?.user?.email) {
+            setEmail(session.user.email);
+        }
+    }, [session]);
+
+    const [hasTrackedCheckout, setHasTrackedCheckout] = useState(false);
 
     useEffect(() => {
         setMounted(true);
@@ -30,9 +58,27 @@ export default function CheckoutForm() {
         }
     }, [items, trackEvent]);
 
+    useEffect(() => {
+        const validateEmail = (email: string) => /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
+
+        if (mounted && items.length > 0 && email && validateEmail(email) && !hasTrackedCheckout) {
+            const timer = setTimeout(async () => {
+                const total = items.reduce((acc, item) => acc + (item.price * (item.quantity || 1)), 0);
+                await trackStartedCheckoutAction(email, { items, total });
+                setHasTrackedCheckout(true);
+            }, 1000);
+            return () => clearTimeout(timer);
+        }
+    }, [email, items, mounted, hasTrackedCheckout]);
+
     const handleCreateOrder = async () => {
         if (items.length === 0) {
             setError("Your cart is empty.");
+            return "";
+        }
+
+        if (!email || !shipping.address || !shipping.city) {
+            setError("Please complete identity and location details.");
             return "";
         }
 
@@ -40,7 +86,20 @@ export default function CheckoutForm() {
         setError(null);
 
         try {
-            const result = await createPayPalOrderAction(items, userId);
+            const result = await createPayPalOrderAction(
+                items,
+                userId,
+                {
+                    customer_name: `${shipping.firstName} ${shipping.lastName}`,
+                    customer_email: email,
+                    shipping_address1: shipping.address,
+                    shipping_city: shipping.city,
+                    shipping_state: shipping.state,
+                    shipping_zip: shipping.zip,
+                    shipping_country: shipping.country
+                },
+                peachesToRedeem
+            );
 
             if (result.success && result.paypalOrderId) {
                 // Store the Prisma Order ID in state so the capture hook can access it
@@ -66,13 +125,29 @@ export default function CheckoutForm() {
 
         setIsSubmitting(true);
         try {
-            const result = await capturePayPalOrderAction(data.orderID, orderId);
+            // Try to get GA4 Client ID if available
+            let gaClientId = 'browser_client';
+            if (typeof window !== 'undefined' && (window as any).gtag) {
+                try {
+                    (window as any).gtag('get', process.env.NEXT_PUBLIC_GA4_MEASUREMENT_ID, 'client_id', (id: string) => {
+                        gaClientId = id;
+                    });
+                } catch (e) { }
+            }
+
+            const result = await capturePayPalOrderAction(data.orderID, orderId, gaClientId);
 
             if (result.success) {
                 trackEvent('purchase', {
-                    item_id: orderId,
+                    transaction_id: orderId,
                     value: items.reduce((acc, item) => acc + (item.price * (item.quantity || 1)), 0),
-                    currency: 'USD'
+                    currency: 'USD',
+                    items: items.map(i => ({
+                        item_id: i.id,
+                        item_name: i.name,
+                        quantity: i.quantity,
+                        price: i.price
+                    }))
                 });
                 setSuccess(true);
                 clearCart();
@@ -92,6 +167,7 @@ export default function CheckoutForm() {
         "clientId": process.env.NEXT_PUBLIC_PAYPAL_CLIENT_ID || "test",
         "currency": "USD",
         "intent": "capture",
+        "enable-funding": "applepay,googlepay", // Explicitly enable these
     };
 
     if (success) {
@@ -124,6 +200,9 @@ export default function CheckoutForm() {
         );
     }
 
+    const subtotal = items.reduce((acc, item) => acc + (item.price * (item.quantity || 1)), 0);
+    const discount = Math.floor(peachesToRedeem / 100);
+
     return (
         <div className="flex-1 lg:pr-12 xl:pr-16">
 
@@ -151,7 +230,13 @@ export default function CheckoutForm() {
 
                     <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                         <div className="md:col-span-2">
-                            <input type="email" placeholder="Identity@domain.com" className="w-full px-4 py-4 bg-white border border-primary/10 rounded-sm text-text-dark focus:outline-none focus:border-primary transition-colors placeholder:text-text-dark/20 font-light text-sm" />
+                            <input
+                                type="email"
+                                placeholder="Identity@domain.com"
+                                value={email}
+                                onChange={(e) => setEmail(e.target.value)}
+                                className="w-full px-4 py-4 bg-white border border-primary/10 rounded-sm text-text-dark focus:outline-none focus:border-primary transition-colors placeholder:text-text-dark/20 font-light text-sm"
+                            />
                         </div>
                         <div className="md:col-span-2 flex items-center gap-3 mt-2">
                             <input type="checkbox" id="newsletter" className="w-4 h-4 accent-primary bg-white border-primary/20 rounded-sm" defaultChecked />
@@ -173,37 +258,118 @@ export default function CheckoutForm() {
 
                     <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                         <div className="md:col-span-2">
-                            <select className="w-full px-4 py-4 bg-white border border-primary/10 rounded-sm text-text-dark focus:outline-none focus:border-primary transition-colors appearance-none font-light text-sm" defaultValue="US">
+                            <select
+                                className="w-full px-4 py-4 bg-white border border-primary/10 rounded-sm text-text-dark focus:outline-none focus:border-primary transition-colors appearance-none font-light text-sm"
+                                value={shipping.country}
+                                onChange={(e) => setShipping({ ...shipping, country: e.target.value })}
+                            >
                                 <option value="US">United States</option>
                                 <option value="FR">France</option>
                                 <option value="JP">Japan</option>
-                                <option value="UK">United Kingdom</option>
+                                <option value="GB">United Kingdom</option>
                             </select>
                         </div>
                         <div>
-                            <input type="text" placeholder="First name" className="w-full px-4 py-4 bg-white border border-primary/10 rounded-sm text-text-dark focus:outline-none focus:border-primary transition-colors placeholder:text-text-dark/20 font-light text-sm" />
+                            <input
+                                type="text"
+                                placeholder="First name"
+                                value={shipping.firstName}
+                                onChange={(e) => setShipping({ ...shipping, firstName: e.target.value })}
+                                className="w-full px-4 py-4 bg-white border border-primary/10 rounded-sm text-text-dark focus:outline-none focus:border-primary transition-colors placeholder:text-text-dark/20 font-light text-sm"
+                            />
                         </div>
                         <div>
-                            <input type="text" placeholder="Last name" className="w-full px-4 py-4 bg-white border border-primary/10 rounded-sm text-text-dark focus:outline-none focus:border-primary transition-colors placeholder:text-text-dark/20 font-light text-sm" />
+                            <input
+                                type="text"
+                                placeholder="Last name"
+                                value={shipping.lastName}
+                                onChange={(e) => setShipping({ ...shipping, lastName: e.target.value })}
+                                className="w-full px-4 py-4 bg-white border border-primary/10 rounded-sm text-text-dark focus:outline-none focus:border-primary transition-colors placeholder:text-text-dark/20 font-light text-sm"
+                            />
                         </div>
                         <div className="md:col-span-2">
-                            <input type="text" placeholder="Street address" className="w-full px-4 py-4 bg-white border border-primary/10 rounded-sm text-text-dark focus:outline-none focus:border-primary transition-colors placeholder:text-text-dark/20 font-light text-sm" />
+                            <input
+                                type="text"
+                                placeholder="Street address"
+                                value={shipping.address}
+                                onChange={(e) => setShipping({ ...shipping, address: e.target.value })}
+                                className="w-full px-4 py-4 bg-white border border-primary/10 rounded-sm text-text-dark focus:outline-none focus:border-primary transition-colors placeholder:text-text-dark/20 font-light text-sm"
+                            />
                         </div>
                         <div>
-                            <input type="text" placeholder="City" className="w-full px-4 py-4 bg-white border border-primary/10 rounded-sm text-text-dark focus:outline-none focus:border-primary transition-colors placeholder:text-text-dark/20 font-light text-sm" />
+                            <input
+                                type="text"
+                                placeholder="City"
+                                value={shipping.city}
+                                onChange={(e) => setShipping({ ...shipping, city: e.target.value })}
+                                className="w-full px-4 py-4 bg-white border border-primary/10 rounded-sm text-text-dark focus:outline-none focus:border-primary transition-colors placeholder:text-text-dark/20 font-light text-sm"
+                            />
                         </div>
                         <div className="grid grid-cols-2 gap-4">
-                            <input type="text" placeholder="State" className="w-full px-4 py-4 bg-white border border-primary/10 rounded-sm text-text-dark focus:outline-none focus:border-primary transition-colors placeholder:text-text-dark/20 font-light text-sm" />
-                            <input type="text" placeholder="Zip code" className="w-full px-4 py-4 bg-white border border-primary/10 rounded-sm text-text-dark focus:outline-none focus:border-primary transition-colors placeholder:text-text-dark/20 font-light text-sm" />
+                            <input
+                                type="text"
+                                placeholder="State"
+                                value={shipping.state}
+                                onChange={(e) => setShipping({ ...shipping, state: e.target.value })}
+                                className="w-full px-4 py-4 bg-white border border-primary/10 rounded-sm text-text-dark focus:outline-none focus:border-primary transition-colors placeholder:text-text-dark/20 font-light text-sm"
+                            />
+                            <input
+                                type="text"
+                                placeholder="Zip code"
+                                value={shipping.zip}
+                                onChange={(e) => setShipping({ ...shipping, zip: e.target.value })}
+                                className="w-full px-4 py-4 bg-white border border-primary/10 rounded-sm text-text-dark focus:outline-none focus:border-primary transition-colors placeholder:text-text-dark/20 font-light text-sm"
+                            />
                         </div>
                     </div>
                 </motion.div>
+
+                {/* 3. Peaches Loyalty */}
+                {session && (
+                    <motion.div
+                        initial={{ opacity: 0, y: 10 }}
+                        animate={{ opacity: 1, y: 0 }}
+                        transition={{ duration: 0.35, delay: 0.3 }}
+                    >
+                        <h2 className="text-lg font-light text-text-dark mb-6 flex items-center gap-3">
+                            <span className="w-6 h-6 border border-primary/20 text-primary flex items-center justify-center text-[10px] font-light rounded-full">03</span>
+                            Peaches Loyalty
+                        </h2>
+
+                        <div className="p-6 border border-primary/10 bg-white rounded-sm">
+                            <div className="flex justify-between items-center mb-4">
+                                <span className="text-[12px] text-text-dark/60 font-light">Available balance: <span className="text-primary font-medium">🍑 {userPeaches}</span></span>
+                                <span className="text-[10px] uppercase tracking-widest text-text-dark/40">100 🍑 = $1 discount</span>
+                            </div>
+
+                            {userPeaches >= 100 ? (
+                                <div className="space-y-4">
+                                    <div className="flex items-center gap-4">
+                                        <input
+                                            type="range"
+                                            min="0"
+                                            max={Math.min(userPeaches, subtotal * 100)}
+                                            step="100"
+                                            value={peachesToRedeem}
+                                            onChange={(e) => setPeachesToRedeem(parseInt(e.target.value))}
+                                            className="flex-grow h-1.5 bg-primary/10 rounded-lg appearance-none cursor-pointer accent-primary"
+                                        />
+                                        <span className="text-sm font-light text-text-dark min-w-[60px] text-right">🍑 {peachesToRedeem}</span>
+                                    </div>
+                                    <p className="text-[11px] text-text-dark/50 font-light italic">Applying <span className="text-primary">${discount.toFixed(2)}</span> discount to your order.</p>
+                                </div>
+                            ) : (
+                                <p className="text-[11px] text-text-dark/40 font-light italic text-center">Earn 100 Peaches to start redeeming rewards.</p>
+                            )}
+                        </div>
+                    </motion.div>
+                )}
 
                 {/* 3. Shipping Method */}
                 <motion.div
                     initial={{ opacity: 0, y: 10 }}
                     animate={{ opacity: 1, y: 0 }}
-                    transition={{ duration: 0.35, delay: 0.3 }}
+                    transition={{ duration: 0.35, delay: session ? 0.4 : 0.3 }}
                 >
                     <h2 className="text-lg font-light text-text-dark mb-6 flex items-center gap-3">
                         <span className="w-6 h-6 border border-primary/20 text-primary flex items-center justify-center text-[10px] font-light rounded-full">03</span>
@@ -228,7 +394,7 @@ export default function CheckoutForm() {
                 <motion.div
                     initial={{ opacity: 0, y: 10 }}
                     animate={{ opacity: 1, y: 0 }}
-                    transition={{ duration: 0.35, delay: 0.4 }}
+                    transition={{ duration: 0.35, delay: session ? 0.5 : 0.4 }}
                 >
                     <h2 className="text-lg font-light text-text-dark mb-6 flex items-center gap-3">
                         <span className="w-6 h-6 border border-primary/20 text-primary flex items-center justify-center text-[10px] font-light rounded-full">04</span>

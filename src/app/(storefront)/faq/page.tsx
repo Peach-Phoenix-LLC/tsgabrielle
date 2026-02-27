@@ -27,14 +27,14 @@ export default function FAQPage() {
     ];
 
     return (
-        <main className="min-h-screen bg-white text-white font-sans">
+        <main className="min-h-screen bg-white text-[#1a1a1a] font-sans">
             
 
-            <header className="pt-48 pb-20 border-b border-white/5">
+            <header className="pt-48 pb-20 border-b border-black/10">
                 <div className="max-w-4xl mx-auto px-8 text-center">
                     <p className="text-[10px] uppercase tracking-[0.4em] text-[#a932bd] font-bold mb-4">Questions Fréquentes</p>
                     <h1 className="text-6xl font-serif tracking-tight mb-8">How Can We Help?</h1>
-                    <p className="text-sm text-slate-400 font-light leading-relaxed uppercase tracking-[0.2em] max-w-xl mx-auto">
+                    <p className="text-sm text-[#1a1a1a]/60 font-light leading-relaxed uppercase tracking-[0.2em] max-w-xl mx-auto">
                         A curated guide to our service, craft, and philosophies.
                     </p>
                 </div>
@@ -44,12 +44,12 @@ export default function FAQPage() {
                 <div className="max-w-3xl mx-auto space-y-24">
                     {faqs.map((group, idx) => (
                         <div key={idx} className="space-y-12">
-                            <h2 className="text-xs uppercase tracking-[0.4em] text-slate-500 font-bold border-b border-white/5 pb-4">{group.category}</h2>
+                            <h2 className="text-xs uppercase tracking-[0.4em] text-[#1a1a1a]/40 font-bold border-b border-black/10 pb-4">{group.category}</h2>
                             <div className="space-y-12">
                                 {group.items.map((item, i) => (
                                     <div key={i} className="group">
                                         <h3 className="text-xl font-light mb-4 group-hover:text-[#a932bd] transition-colors">{item.q}</h3>
-                                        <p className="text-sm text-slate-400 font-light leading-relaxed tracking-wide">
+                                        <p className="text-sm text-[#1a1a1a]/60 font-light leading-relaxed tracking-wide">
                                             {item.a}
                                         </p>
                                     </div>
@@ -58,9 +58,9 @@ export default function FAQPage() {
                         </div>
                     ))}
 
-                    <div className="pt-20 border-t border-white/5 text-center">
-                        <p className="text-sm text-slate-500 font-light uppercase tracking-widest mb-8">Still have questions?</p>
-                        <Link href="/contact" className="inline-block px-12 py-4 bg-white text-black text-[10px] font-bold uppercase tracking-[0.3em] hover:bg-white hover:text-white transition-all rounded-sm">
+                    <div className="pt-20 border-t border-black/10 text-center">
+                        <p className="text-sm text-[#1a1a1a]/40 font-light uppercase tracking-widest mb-8">Still have questions?</p>
+                        <Link href="/contact" className="inline-block px-12 py-4 bg-white text-[#1a1a1a] text-[10px] font-bold uppercase tracking-[0.3em] hover:bg-white hover:text-[#1a1a1a] transition-all rounded-sm">
                             Contact Concierge
                         </Link>
                     </div>

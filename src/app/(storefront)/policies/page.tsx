@@ -42,14 +42,14 @@ const policyGroups = [
 
 export default function PoliciesHubPage() {
     return (
-        <main className="min-h-screen bg-white text-white font-sans">
+        <main className="min-h-screen bg-white text-[#1a1a1a] font-sans">
             
 
-            <header className="pt-48 pb-20 border-b border-white/5">
+            <header className="pt-48 pb-20 border-b border-black/10">
                 <div className="max-w-7xl mx-auto px-8">
                     <p className="text-[10px] uppercase tracking-[0.4em] text-[#a932bd] font-bold mb-4">Legal Atelier</p>
                     <h1 className="text-7xl font-serif tracking-tight mb-8">Policies Hub</h1>
-                    <p className="text-sm text-slate-400 font-light leading-relaxed uppercase tracking-[0.2em] max-w-2xl">
+                    <p className="text-sm text-[#1a1a1a]/60 font-light leading-relaxed uppercase tracking-[0.2em] max-w-2xl">
                         Transparency and trust are at the heart of our commitment. Explore the legal framework that governs the tsgabrielle® experience.
                     </p>
                 </div>
@@ -60,7 +60,7 @@ export default function PoliciesHubPage() {
                     <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-12">
                         {policyGroups.map((group, groupIdx) => (
                             <div key={groupIdx} className="space-y-8">
-                                <h2 className="text-[10px] uppercase tracking-[0.3em] font-bold text-white/40 border-b border-white/5 pb-4">
+                                <h2 className="text-[10px] uppercase tracking-[0.3em] font-bold text-[#1a1a1a]/40 border-b border-black/10 pb-4">
                                     {group.title}
                                 </h2>
                                 <div className="space-y-6">
@@ -73,7 +73,7 @@ export default function PoliciesHubPage() {
                                             <h3 className="text-xl font-serif mb-2 group-hover:text-[#a932bd] transition-colors">
                                                 {policy.name}
                                             </h3>
-                                            <p className="text-xs text-slate-500 font-light leading-relaxed">
+                                            <p className="text-xs text-[#1a1a1a]/40 font-light leading-relaxed">
                                                 {policy.desc}
                                             </p>
                                         </Link>
@@ -85,16 +85,16 @@ export default function PoliciesHubPage() {
                 </div>
             </section>
 
-            <section className="py-20 border-t border-white/5">
+            <section className="py-20 border-t border-black/10">
                 <div className="max-w-7xl mx-auto px-8">
-                    <div className="bg-white/5 p-12 rounded-sm border border-white/5 flex flex-col md:flex-row justify-between items-start md:items-center gap-8">
+                    <div className="bg-neutral-50 p-12 rounded-sm border border-black/10 flex flex-col md:flex-row justify-between items-start md:items-center gap-8">
                         <div>
                             <h2 className="text-2xl font-serif mb-2">Need dedicated assistance?</h2>
-                            <p className="text-sm text-slate-400 font-light">Our digital concierge is available for any legal or policy inquiries.</p>
+                            <p className="text-sm text-[#1a1a1a]/60 font-light">Our digital concierge is available for any legal or policy inquiries.</p>
                         </div>
                         <Link
                             href="/contact"
-                            className="px-8 py-4 bg-white text-black text-[10px] uppercase tracking-[0.2em] font-bold hover:bg-white hover:text-white transition-all duration-500"
+                            className="px-8 py-4 bg-white text-[#1a1a1a] text-[10px] uppercase tracking-[0.2em] font-bold hover:bg-white hover:text-[#1a1a1a] transition-all duration-500"
                         >
                             Contact Concierge
                         </Link>

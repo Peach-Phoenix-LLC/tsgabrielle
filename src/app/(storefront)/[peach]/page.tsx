@@ -10,6 +10,8 @@ import { SectionDetails } from "@/components/Product/sections/SectionDetails";
 import { SectionLogistics } from "@/components/Product/sections/SectionLogistics";
 import { SectionCompliance } from "@/components/Product/sections/SectionCompliance";
 import { prisma } from "@/lib/prisma";
+import ProductReviews from "@/components/Product/ProductReviews";
+import { GA4ProductView } from "@/components/Analytics/GA4ProductInteraction";
 
 export const dynamic = 'force-dynamic';
 export const revalidate = 3600; // ISR - revalidate every hour
@@ -71,17 +73,28 @@ export default async function ProductPage({ params }: PageProps) {
 
     const P = toPublicProduct(rawProduct);
 
+    // Fetch review stats
+    const reviews = await prisma.review.findMany({
+        where: { product_id: P.id, status: 'APPROVED' },
+        select: { rating: true }
+    });
+    const totalReviews = reviews.length;
+    const averageRating = totalReviews > 0 ? reviews.reduce((acc, r) => acc + r.rating, 0) / totalReviews : 0;
+
     return (
-        <main className="bg-white text-[#1a1a1a] min-h-screen selection:bg-[#a932bd] selection:text-white pt-20">
+        <main className="bg-white text-[#1a1a1a] min-h-screen selection:bg-[#a932bd] selection:text-white pt-0">
+            <GA4ProductView product={{ id: P.id, title: P.title, price: P.msrp_display, category: P.product_type }} />
             {/* 1. Fullscreen Gallery */}
             <Gallery slides={P.gallery_slides} />
 
             {/* 2. Brand Bar (Sticky Level 1) */}
             <BrandBar
+                id={P.id}
                 title={P.title}
                 subtitle={P.subtitle}
                 price={P.msrp_display}
                 badges={['Limited Release', 'Atelier Exclusive']}
+                reviewStats={{ average: averageRating, total: totalReviews }}
             />
 
             {/* 3. Tab Navigation (Sticky Level 2) */}
@@ -127,6 +140,8 @@ export default async function ProductPage({ params }: PageProps) {
                     />
                 </div>
             </div>
+
+            <ProductReviews productId={P.id} />
 
             {/* Footer Spacer */}
             <div className="h-40 border-t border-black/5 bg-white flex items-center justify-center">

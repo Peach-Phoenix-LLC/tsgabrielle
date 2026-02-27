@@ -9,6 +9,8 @@ interface TrackParams {
     item_name?: string;
     value?: number;
     currency?: string;
+    transaction_id?: string;
+    items?: any[];
 }
 
 export function useGrowthTracking() {
@@ -19,12 +21,7 @@ export function useGrowthTracking() {
 
         // GA4 Integration
         if (typeof window !== 'undefined' && (window as any).gtag) {
-            (window as any).gtag('event', event, {
-                item_id: params.item_id,
-                item_name: params.item_name,
-                value: params.value,
-                currency: params.currency || 'USD'
-            });
+            (window as any).gtag('event', event, params);
         }
     };
 

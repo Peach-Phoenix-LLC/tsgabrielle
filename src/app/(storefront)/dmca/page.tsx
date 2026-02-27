@@ -8,31 +8,31 @@ export const metadata = {
 
 export default function DMCAPage() {
     return (
-        <main className="min-h-screen bg-white text-white font-sans">
+        <main className="min-h-screen bg-white text-[#1a1a1a] font-sans">
             
 
-            <header className="pt-48 pb-20 border-b border-white/5">
+            <header className="pt-48 pb-20 border-b border-black/10">
                 <div className="max-w-4xl mx-auto px-8">
                     <p className="text-[10px] uppercase tracking-[0.4em] text-[#a932bd] font-bold mb-4">Intellectual Property</p>
                     <h1 className="text-6xl font-serif tracking-tight mb-8">DMCA Policy</h1>
-                    <p className="text-sm text-slate-400 font-light leading-relaxed uppercase tracking-[0.2em]">
+                    <p className="text-sm text-[#1a1a1a]/60 font-light leading-relaxed uppercase tracking-[0.2em]">
                         Our commitment to respecting intellectual property rights and the DMCA takedown process.
                     </p>
                 </div>
             </header>
 
             <section className="py-32 px-8">
-                <div className="max-w-4xl mx-auto space-y-16 text-sm text-slate-400 font-light leading-relaxed">
+                <div className="max-w-4xl mx-auto space-y-16 text-sm text-[#1a1a1a]/60 font-light leading-relaxed">
 
                     <div className="space-y-6">
-                        <p className="text-[10px] text-slate-500 italic">Last updated: February 2026</p>
+                        <p className="text-[10px] text-[#1a1a1a]/40 italic">Last updated: February 2026</p>
                         <p>
                             tsgabrielle®, operated by Peach Phoenix, LLC., respects the intellectual property rights of others and expects our users to do the same. In accordance with the Digital Millennium Copyright Act of 1998 (&ldquo;DMCA&rdquo;), we will respond promptly to claims of copyright infringement committed using our website.
                         </p>
                     </div>
 
                     <div className="space-y-6">
-                        <h2 className="text-xl font-serif text-white">01. Filing a DMCA Notice</h2>
+                        <h2 className="text-xl font-serif text-[#1a1a1a]">01. Filing a DMCA Notice</h2>
                         <p>
                             If you believe that content available on tsgabrielle.us infringes upon your copyright, you may submit a written DMCA takedown notice to our designated copyright agent. Your notice must include:
                         </p>
@@ -47,29 +47,29 @@ export default function DMCAPage() {
                     </div>
 
                     <div className="space-y-6">
-                        <h2 className="text-xl font-serif text-white">02. Counter-Notification</h2>
+                        <h2 className="text-xl font-serif text-[#1a1a1a]">02. Counter-Notification</h2>
                         <p>
                             If you believe that your content was removed or disabled by mistake or misidentification, you may file a counter-notification with the required information as specified by the DMCA. Upon receipt of a valid counter-notification, we may restore the removed content.
                         </p>
                     </div>
 
                     <div className="space-y-6">
-                        <h2 className="text-xl font-serif text-white">03. Repeat Infringers</h2>
+                        <h2 className="text-xl font-serif text-[#1a1a1a]">03. Repeat Infringers</h2>
                         <p>
                             In accordance with the DMCA, we have adopted a policy of terminating the accounts or access of users who are deemed to be repeat infringers.
                         </p>
                     </div>
 
-                    <div className="pt-12 border-t border-white/5 space-y-4">
-                        <h2 className="text-xl font-serif text-white">Designated Copyright Agent</h2>
-                        <div className="bg-white/5 p-8 rounded-sm border border-white/5 space-y-2">
-                            <p className="text-xs text-white font-bold">Peach Phoenix, LLC.</p>
+                    <div className="pt-12 border-t border-black/10 space-y-4">
+                        <h2 className="text-xl font-serif text-[#1a1a1a]">Designated Copyright Agent</h2>
+                        <div className="bg-neutral-50 p-8 rounded-sm border border-black/10 space-y-2">
+                            <p className="text-xs text-[#1a1a1a] font-bold">Peach Phoenix, LLC.</p>
                             <p className="text-xs">Trading Name: tsgabrielle®</p>
                             <p className="text-xs">Email: <Link href="mailto:contact@tsgabrielle.us" className="text-[#a932bd]">contact@tsgabrielle.us</Link></p>
                             <p className="text-xs">1801 East Camelback Road, Suite 102, Phoenix, AZ 85016, US</p>
                             <p className="text-xs">USPTO Reg. No. 7,924,799 | Ser. No. 98-580,310</p>
                         </div>
-                        <p className="text-[10px] uppercase tracking-[0.2em] text-slate-500 pt-4">Last Updated: February 2026</p>
+                        <p className="text-[10px] uppercase tracking-[0.2em] text-[#1a1a1a]/40 pt-4">Last Updated: February 2026</p>
                     </div>
 
                 </div>

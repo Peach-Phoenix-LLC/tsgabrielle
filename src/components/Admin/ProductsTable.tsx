@@ -33,11 +33,12 @@ export default function ProductsTable({ products, onEdit, onDelete }: ProductsTa
                             <th className="p-5 text-xs font-bold text-slate-500 uppercase tracking-wider">Category</th>
                             <th className="p-5 text-xs font-bold text-slate-500 uppercase tracking-wider">Price</th>
                             <th className="p-5 text-xs font-bold text-slate-500 uppercase tracking-wider">Stock Level</th>
+                            <th className="p-5 text-xs font-bold text-slate-500 uppercase tracking-wider">Social Feed</th>
                             <th className="p-5 text-xs font-bold text-slate-500 uppercase tracking-wider text-right">Actions</th>
                         </tr>
                     </thead>
                     <tbody className="text-sm divide-y divide-slate-100">
-                        {products.map((p) => (
+                        {products.map((p: any) => (
                             <tr key={p.id} className="hover:bg-purple-500/5 transition-colors group">
                                 <td className="p-4 pl-5">
                                     <div className="p-[2px] bg-gradient-to-tr from-[#a932bd] to-[#00d4ff] rounded-full w-12 h-12">
@@ -69,6 +70,21 @@ export default function ProductsTable({ products, onEdit, onDelete }: ProductsTa
                                         </span>
                                         {p.stock > 0 && <span className="text-slate-400 text-xs ml-1">({p.stock})</span>}
                                     </div>
+                                </td>
+                                <td className="p-4">
+                                    {p.social_posts && p.social_posts[0] ? (
+                                        <div className="space-y-1">
+                                            <div className="flex items-center gap-1.5">
+                                                <span className={`text-[10px] font-bold uppercase ${p.social_posts[0].status === 'SUCCESS' ? 'text-green-600' : 'text-red-500'}`}>
+                                                    {p.social_posts[0].status === 'SUCCESS' ? 'Posted ✓' : 'Failed ✗'}
+                                                </span>
+                                                <span className="text-[9px] text-slate-400">{new Date(p.social_posts[0].created_at).toLocaleDateString()}</span>
+                                            </div>
+                                            <p className="text-[9px] uppercase tracking-tighter text-slate-500 font-medium truncate max-w-[80px]">via {p.social_posts[0].platform}</p>
+                                        </div>
+                                    ) : (
+                                        <span className="text-[10px] text-slate-300 uppercase font-bold tracking-widest italic">Not Broadcast</span>
+                                    )}
                                 </td>
                                 <td className="p-4 text-right">
                                     <div className="flex items-center justify-end gap-2 opacity-60 group-hover:opacity-100 transition-opacity">
