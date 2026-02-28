@@ -39,6 +39,7 @@
   "exclude": [
     "node_modules",
     "prisma",
-    "scripts"
+    "scripts",
+    "stitch_tsgabrielle_home_page"
   ]
 }

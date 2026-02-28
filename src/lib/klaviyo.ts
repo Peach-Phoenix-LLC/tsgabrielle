@@ -23,7 +23,7 @@ export async function trackKlaviyoEvent(metricName: string, email: string, prope
                 }
             } as any
         });
-        console.log(`Klaviyo EVENT Tracked: ${metricName} for ${email}`);
+        
     } catch (e: any) {
         console.error('Klaviyo event tracking error:', e?.response?.body || e.message || e);
     }
@@ -44,7 +44,7 @@ export async function syncKlaviyoProfile(email: string, traits: any = {}) {
                 }
             } as any
         });
-        console.log(`Klaviyo PROFILE Synced: ${email}`);
+        
     } catch (e: any) {
         console.error('Klaviyo profile sync error:', e?.response?.body || e.message || e);
     }

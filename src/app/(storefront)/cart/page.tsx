@@ -1,32 +1,27 @@
 import React from 'react';
-import CartItems from '@/components/Stitch/Checkout/CartItems';
-import OrderSummary from '@/components/Stitch/Checkout/OrderSummary';
+import CartItems from '@/components/Update/Cart/CartItems';
+import OrderSummary from '@/components/Update/Cart/OrderSummary';
+import OrganicDivider from '@/components/Update/OrganicDivider';
 
-export default function ShoppingBagPage() {
+export default function CartPage() {
     return (
-        <main className="min-h-screen bg-white text-slate-100 font-sans selection:bg-white/30 selection:text-white">
-            {/* Global Navbar */}
-            <div className="bg-white shadow-sm pb-1 relative z-50">
-                
-            </div>
+        <main className="min-h-screen bg-white pt-40 pb-24">
+            <div className="max-w-[1280px] mx-auto px-6">
+                <header className="mb-20">
+                    <h1 className="text-[12px] font-light text-[#888888] uppercase tracking-[0.4em] mb-4 text-center">Your Spectrum</h1>
+                    <h2 className="text-[42px] font-light text-[#1a1a1a] uppercase tracking-[0.2em] text-center">Shopping Bag</h2>
+                </header>
 
-            <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12 md:py-16">
-
-                <div className="flex flex-col lg:flex-row gap-12 lg:gap-16">
-
-                    {/* Left Column: Cart Items */}
+                <div className="flex flex-col lg:flex-row gap-16 lg:gap-24 relative z-10">
                     <CartItems />
-
-                    {/* Right Column: Order Summary (Sticky) */}
                     <OrderSummary />
-
                 </div>
-
             </div>
 
-            {/* Global Footer */}
-            
+            <div className="mt-32">
+                <OrganicDivider />
+                <div className="h-40 bg-white" />
+            </div>
         </main>
     );
 }
-

@@ -1,8 +1,10 @@
 "use client";
 
 import React, { useState, useEffect } from 'react';
+import RichTextEditor from '../Editor/RichTextEditor';
 
 type ContentBlock = {
+
     id: string;
     type: 'text' | 'image' | 'dual_column';
     content: any;
@@ -233,11 +235,10 @@ export default function PagesSection() {
                                                     <div className="flex justify-between items-center mb-2">
                                                         <span className="text-[8px] uppercase tracking-[0.2em] font-bold text-[#a932bd]">Text Block</span>
                                                     </div>
-                                                    <textarea
+                                                    <RichTextEditor
                                                         placeholder="Write your Maison's story..."
                                                         value={block.content.text}
-                                                        onChange={(e) => updateBlock(block.id, { ...block.content, text: e.target.value })}
-                                                        className="w-full min-h-[150px] bg-transparent text-sm leading-relaxed outline-none resize-none font-serif italic"
+                                                        onChange={(val) => updateBlock(block.id, { ...block.content, text: val })}
                                                     />
                                                 </div>
                                             )}
@@ -285,19 +286,17 @@ export default function PagesSection() {
                                                     <div className="grid grid-cols-2 gap-6">
                                                         <div className="space-y-2">
                                                             <label className="text-[8px] uppercase tracking-widest text-[#1a1a1a]/40">Left Column</label>
-                                                            <textarea
+                                                            <RichTextEditor
                                                                 value={block.content.left}
-                                                                onChange={(e) => updateBlock(block.id, { ...block.content, left: e.target.value })}
-                                                                className="w-full bg-neutral-50 border border-black/5 rounded-xl px-4 py-3 text-[10px] outline-none h-32 resize-none"
+                                                                onChange={(val) => updateBlock(block.id, { ...block.content, left: val })}
                                                                 placeholder="Left content..."
                                                             />
                                                         </div>
                                                         <div className="space-y-2">
                                                             <label className="text-[8px] uppercase tracking-widest text-[#1a1a1a]/40">Right Column</label>
-                                                            <textarea
+                                                            <RichTextEditor
                                                                 value={block.content.right}
-                                                                onChange={(e) => updateBlock(block.id, { ...block.content, right: e.target.value })}
-                                                                className="w-full bg-neutral-50 border border-black/5 rounded-xl px-4 py-3 text-[10px] outline-none h-32 resize-none"
+                                                                onChange={(val) => updateBlock(block.id, { ...block.content, right: val })}
                                                                 placeholder="Right content..."
                                                             />
                                                         </div>

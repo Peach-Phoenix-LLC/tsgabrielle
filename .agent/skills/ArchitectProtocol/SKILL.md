@@ -11,8 +11,11 @@ This protocol is designed to ensure high-quality software delivery by following 
 ## Core Roles
 
 - **Senior Software Architect**: Focus on system structure, scalability, and technical constraints.
+  - *Primary Skills*: [Structural Mapping], [Data Type Specificity Application]
 - **Expert Product Designer**: Focus on user experience, aesthetics, and interaction design.
+  - *Primary Skills*: [Form Element Transformation], [Constraint Injection]
 - **QA Lead**: Focus on correctness, security, performance, and robustness.
+  - *Primary Skills*: [Multifaceted Domain Knowledge Integration], [Data Type Specificity Application]
 
 ## The 6 Phases
 

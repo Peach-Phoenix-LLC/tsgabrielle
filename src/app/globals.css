@@ -1,26 +1,29 @@
 @import "tailwindcss";
+@plugin "@tailwindcss/typography";
+
 
 @theme {
-    /* tsgabrielle® Design System 2.0 */
-    --color-primary: #a932bd;
-    --color-bg-light: #e7e7e7;
-    --color-bg-dark: #050406;
-    --color-text-dark: #1a1a1a;
-    --color-text-light: #e7e7e7;
-    --color-accent-purple: #a932bd;
+    /* Update Brand Design System */
+    --color-update-purple: #a932bd;
+    --color-update-bg: #e7e7e7;
+    --color-update-text: #1a1a1a;
+    --color-update-muted: #888888;
+    --color-update-surface: #ffffff;
 
     --font-lato: "Lato", sans-serif;
 
     --animate-fade-in-up: fade-in-up 0.35s ease-out forwards;
+    --animate-float: float 6s ease-in-out infinite;
+    --animate-holographic: holographic-motion 12s linear infinite;
 }
 
 :root {
-    --primary: #a932bd;
-    --bg-light: #e7e7e7;
-    --bg-dark: #050406;
-    --text-dark: #1a1a1a;
-    --text-light: #e7e7e7;
-    --accent-purple: #a932bd;
+    --color-bg: #ffffff;
+    --color-surface: #e7e7e7;
+    --color-accent: #a932bd;
+    --color-text: #1a1a1a;
+    --color-muted: #888888;
+    --holo-gradient: linear-gradient(135deg, #ff006e, #a932bd, #3a86ff, #06ffa5, #ffbe0b);
 }
 
 * {
@@ -33,8 +36,8 @@ html,
 body {
     max-width: 100vw;
     overflow-x: hidden;
-    background-color: var(--bg-light);
-    color: var(--text-dark);
+    background-color: var(--color-bg);
+    color: var(--color-text);
     font-family: 'Lato', sans-serif;
     font-weight: 300;
     /* Lato Light */
@@ -48,61 +51,91 @@ h2,
 h3,
 h4,
 h5,
-h6,
-button,
-div,
-span,
-a,
-p {
+h6 {
     font-family: 'Lato', sans-serif;
     font-weight: 300 !important;
-    text-transform: none !important;
-    letter-spacing: normal !important;
+    letter-spacing: 0.12em !important;
+    text-transform: uppercase !important;
 }
 
-.label-caps {
-    display: none;
-    /* Removed based on no-caps rule */
+p,
+span,
+b,
+a,
+button {
+    font-family: 'Lato', sans-serif;
+    font-weight: 300 !important;
 }
 
-/* --- Holographic Card Style --- */
-.holographic-card {
+/* --- Holographic Iridescent Shimmer --- */
+.holo-shimmer {
     position: relative;
-    background: var(--bg-surface);
-    border-radius: 4px;
-    /* Minimal radius */
     overflow: hidden;
-    transition: transform 0.3s ease, box-shadow 0.3s ease;
 }
 
-.holographic-card::before {
+.holo-shimmer::after {
     content: '';
     position: absolute;
-    top: 0;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    border-radius: inherit;
-    padding: 1.2px;
-    /* Border thickness */
-    background: var(--holo-border);
-    background-size: 300% 300%;
-    animation: holographic-motion 12s linear infinite;
-    -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
-    -webkit-mask-composite: xor;
-    mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
-    mask-composite: exclude;
-    opacity: 0.7;
-    transition: opacity 0.3s ease;
+    top: -50%;
+    left: -50%;
+    width: 200%;
+    height: 200%;
+    background: var(--holo-gradient);
+    background-size: 200% 200%;
+    opacity: 0;
+    mix-blend-mode: overlay;
+    pointer-events: none;
+    transition: opacity 0.4s ease;
+    animation: holographic-rotate 4s linear infinite;
 }
 
-.holographic-card:hover {
-    transform: translateY(-4px) scale(1.015);
-    box-shadow: 0 10px 30px -10px rgba(169, 50, 189, 0.2);
+.holo-shimmer:hover::after {
+    opacity: 0.4;
 }
 
-.holographic-card:hover::before {
-    opacity: 1;
+@keyframes holographic-rotate {
+    0% {
+        transform: rotate(0deg);
+        filter: hue-rotate(0deg);
+    }
+
+    100% {
+        transform: rotate(360deg);
+        filter: hue-rotate(360deg);
+    }
+}
+
+/* --- Organic SVG Blob Divider --- */
+.blob-divider {
+    width: 100%;
+    height: auto;
+    fill: var(--color-surface);
+}
+
+/* --- Floating Animation --- */
+@keyframes float {
+
+    0%,
+    100% {
+        transform: translateY(0);
+    }
+
+    50% {
+        transform: translateY(-12px);
+    }
+}
+
+.animate-float {
+    animation: float 6s ease-in-out infinite;
+}
+
+/* --- Glassmorphism Panel --- */
+.glass-panel {
+    background: rgba(255, 255, 255, 0.65);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    border: 1px solid rgba(169, 50, 189, 0.1);
+    border-radius: 20px;
 }
 
 .entrance-stagger>* {
@@ -110,26 +143,14 @@ p {
     animation: fade-in-up 0.35s ease-out forwards;
 }
 
-.entrance-stagger>*:nth-child(1) {
-    animation-delay: 0.08s;
-}
+@keyframes fade-in-up {
+    from {
+        opacity: 0;
+        transform: translateY(20px);
+    }
 
-.entrance-stagger>*:nth-child(2) {
-    animation-delay: 0.16s;
-}
-
-.entrance-stagger>*:nth-child(3) {
-    animation-delay: 0.24s;
-}
-
-.entrance-stagger>*:nth-child(4) {
-    animation-delay: 0.32s;
-}
-
-.entrance-stagger>*:nth-child(5) {
-    animation-delay: 0.40s;
-}
-
-.entrance-stagger>*:nth-child(6) {
-    animation-delay: 0.48s;
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
 }

@@ -19,6 +19,7 @@ model Profile {
   wishlist        WishlistItem[]
   reviews         Review[]
   peach_history   PeachTransaction[]
+  loyalty_history LoyaltyTransaction[]
 
   @@map("profiles")
 }
@@ -88,6 +89,8 @@ model Product {
   media_gallery_alts   String[]
   social_auto_post   Boolean            @default(true)
   social_platforms   String[]           @default(["instagram", "facebook", "twitter", "linkedin", "pinterest"])
+  holographic_highlight String?
+  organic_note         String?
   created_at           DateTime           @default(now())
   updated_at           DateTime           @updatedAt
   gallery_slides       GallerySlide[]
@@ -344,6 +347,40 @@ model PeachTransaction {
 
   @@map("peach_transactions")
 }
+
+model PageContent {
+  id        String   @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  slug      String   @unique
+  title     String
+  content   Json
+  createdAt DateTime @default(now()) @map("created_at")
+  updatedAt DateTime @updatedAt @map("updated_at")
+
+  @@map("page_contents")
+}
+
+model Asset {
+  id        String   @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  name      String
+  url       String
+  type      String   // IMAGE, VIDEO, etc.
+  createdAt DateTime @default(now()) @map("created_at")
+
+  @@map("assets")
+}
+
+model LoyaltyTransaction {
+  id          String   @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  user_id     String   @db.Uuid
+  points      Int
+  type        String   // EARNED, REDEEMED
+  description String?
+  createdAt   DateTime @default(now()) @map("created_at")
+  profile     Profile  @relation(fields: [user_id], references: [id])
+
+  @@map("loyalty_transactions")
+}
+
 
 enum ReviewStatus {
   PENDING

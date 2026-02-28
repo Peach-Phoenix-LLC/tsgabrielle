@@ -11,18 +11,12 @@ import { prisma } from "@/lib/prisma";
 
 export const revalidate = 0;
 export async function generateMetadata(): Promise<Metadata> {
-  const config = await prisma.storeConfig.findUnique({ where: { id: 1 } });
-  const footerData = config?.footer as any;
-  const faviconUrl = footerData?.faviconUrl;
-
   return {
-    title: "tsgabrielle® | Luxury Fashion & Artistic Expression",
-    description: "Experience the refined elegance of tsgabrielle®. Paris-inspired luxury minimalism.",
+    title: "Update | wear the shift",
+    description: "Holographic ecommerce store for modern shifts. Premium organic design.",
     icons: {
-      icon: faviconUrl ? [
-        { url: faviconUrl, type: faviconUrl.endsWith('.png') ? 'image/png' : 'image/x-icon' }
-      ] : [
-        { url: '/favicon.png', type: 'image/png' },
+      icon: [
+        { url: 'https://storage.googleapis.com/tsgabrielle-media-prod/images/tsgabrielle-flavicon.png', type: 'image/png' },
         { url: '/favicon.ico', sizes: 'any' },
       ],
     },

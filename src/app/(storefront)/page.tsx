@@ -1,51 +1,42 @@
 import React from 'react';
-import HoloHero from '@/components/Stitch/HoloHero';
-import HoloCategories from '@/components/Stitch/HoloCategories';
-import HoloPhilosophy from '@/components/Stitch/HoloPhilosophy';
-import HoloCollections from '@/components/Stitch/HoloCollections';
-import { prisma } from '@/lib/prisma';
-import PageAnimations from './PageAnimations';
+import Hero from '@/components/Update/Hero';
+import OrganicDivider from '@/components/Update/OrganicDivider';
+import CategoriesGrid from '@/components/CategoriesGrid/CategoriesGrid';
+import CollectionsGrid from '@/components/CollectionsGrid/CollectionsGrid';
+import FeaturedCollection from '@/components/Update/FeaturedCollection';
+import NewArrivals from '@/components/Update/NewArrivals';
+import Newsletter from '@/components/Update/Newsletter';
 
-export const dynamic = 'force-dynamic';
+export const metadata = {
+  title: 'Update | Wear the Shift',
+  description: 'Holographic essentials for the modern existence. Crafting high-end organic apparel with a transformational perspective.',
+};
 
-export default async function Home() {
-  try {
-    const config = await prisma.storeConfig.findUnique({
-      where: { id: 1 },
-    });
+export default function Home() {
+  return (
+    <main className="min-h-screen bg-white selection:bg-[#a932bd]/10 selection:text-[#a932bd]">
+      {/* SECTION 1: HERO */}
+      <Hero />
 
-    const collections = await prisma.collection.findMany({
-      where: { is_active: true },
-      orderBy: { sort_order: 'asc' },
-    });
+      {/* SECTION 2: ORGANIC DIVIDER */}
+      <OrganicDivider />
 
-    const categories = await prisma.category.findMany({
-      where: { is_active: true },
-      orderBy: { sort_order: 'asc' },
-    });
+      {/* SECTION 3: CATEGORIES GRID */}
+      <CategoriesGrid />
 
-    const mappedCollections = collections.map((c: any) => ({
-      id: c.slug,
-      name: c.name,
-      image_url: c.image_url,
-      category: 'Collection'
-    }));
+      {/* SECTION 4: COLLECTIONS GRID */}
+      <CollectionsGrid />
 
-    const heroBanner = (config?.hero_banner as any) || {};
+      {/* SECTION 5: FEATURED COLLECTION */}
+      <section className="bg-white">
+        <FeaturedCollection />
+      </section>
 
-    return (
-      <main className="min-h-screen bg-white">
-        <PageAnimations>
-          <HoloHero config={heroBanner} />
-          <HoloCategories categories={categories as any} />
-          <HoloPhilosophy />
-          <HoloCollections products={mappedCollections as any} />
-        </PageAnimations>
-      </main>
-    );
-  } catch (error: any) {
-    console.error("PAGE RENDER ERROR:", error);
-    throw error;
-  }
+      {/* SECTION 4: ORGANIC BLOB EDITORIAL / NEW ARRIVALS */}
+      <NewArrivals />
+
+      {/* SECTION 5: NEWSLETTER */}
+      <Newsletter />
+    </main>
+  );
 }
-

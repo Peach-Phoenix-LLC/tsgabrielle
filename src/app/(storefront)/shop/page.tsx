@@ -1,80 +1,99 @@
-import React from 'react';
+import React, { Suspense } from 'react';
 import { prisma } from '@/lib/prisma';
-import Link from 'next/link';
+import ProductCard from '@/components/Update/ProductCard';
+import OrganicDivider from '@/components/Update/OrganicDivider';
 
+// Force dynamic since we are fetching from DB
 export const dynamic = 'force-dynamic';
 
 export default async function ShopPage() {
+    // Fetch products from Prisma
     const products = await prisma.product.findMany({
+        where: { status: 'active' },
         orderBy: { created_at: 'desc' }
     });
 
     return (
-        <main className="min-h-screen bg-white">
-            {/* Page Header */}
-            <header className="pt-40 pb-20 border-b border-black/5">
-                <div className="max-w-7xl mx-auto px-8">
-                    <nav className="flex items-center gap-2 text-[12px] text-[#1a1a1a]/50 mb-8 font-light uppercase tracking-widest">
-                        <Link href="/" className="hover:text-primary transition-colors">Home</Link>
-                        <span>/</span>
-                        <span className="text-[#1a1a1a]">Shop all</span>
-                    </nav>
-                    <h1 className="text-7xl font-extralight tracking-tighter mb-4 text-[#1a1a1a]">The Atelier</h1>
-                    <p className="text-sm text-[#1a1a1a]/40 font-light max-w-xl leading-relaxed uppercase tracking-widest">
-                        A curated collection of Parisian luxury, redefined for the modern identity.
-                    </p>
-                </div>
-            </header>
-
-            {/* Filter Bar Placeholder */}
-            <div className="sticky top-20 z-40 bg-white/80 backdrop-blur-md border-b border-black/5">
-                <div className="max-w-7xl mx-auto px-8 h-16 flex items-center justify-between">
-                    <div className="flex gap-12">
-                        <button className="text-[10px] font-bold uppercase tracking-widest text-[#1a1a1a] border-b-2 border-[#a932bd] pb-1">All pieces</button>
-                        <button className="text-[10px] font-bold uppercase tracking-widest text-[#1a1a1a]/40 hover:text-black transition-colors">Dresses</button>
-                        <button className="text-[10px] font-bold uppercase tracking-widest text-[#1a1a1a]/40 hover:text-black transition-colors">Accessories</button>
-                    </div>
-                </div>
+        <main className="min-h-screen bg-white pt-24">
+            {/* Organic Background Blobs */}
+            <div className="fixed inset-0 pointer-events-none opacity-[0.03] z-0 overflow-hidden">
+                <svg viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg" className="absolute -top-20 -left-20 w-[600px] h-[600px] fill-[#a932bd] blur-3xl">
+                    <path d="M44.7,-76.4C58.1,-69.2,69.5,-57.4,77.3,-43.8C85.1,-30.2,89.2,-15.1,88.4,-0.5Z" />
+                </svg>
+                <svg viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg" className="absolute -bottom-20 -right-20 w-[800px] h-[800px] fill-[#a932bd] blur-3xl">
+                    <path d="M44.7,-76.4C58.1,-69.2,69.5,-57.4,77.3,-43.8C85.1,-30.2,89.2,-15.1,88.4,-0.5Z" transform="rotate(180 100 100)" />
+                </svg>
             </div>
 
-            {/* Product Grid */}
-            <section className="max-w-7xl mx-auto px-8 py-20">
-                <div className="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-4 gap-x-8 gap-y-16">
-                    {products.map((product: any) => (
-                        <Link href={`/${product.peach_number}`} key={product.id} className="group flex flex-col">
-                            <div className="aspect-[3/4] overflow-hidden bg-neutral-50 rounded-2xl mb-6 relative border border-black/5">
-                                <img
-                                    alt={product.title}
-                                    className="w-full h-full object-cover group-hover:scale-110 transition-all duration-1000 grayscale-[0.2] group-hover:grayscale-0"
-                                    src={product.media_primary_url || (product.media_gallery_urls && product.media_gallery_urls[0]) || "https://placehold.co/600x800"}
-                                />
-                                <div className="absolute top-6 right-6 opacity-0 group-hover:opacity-100 transition-opacity">
-                                    <span className="material-symbols-outlined text-[#1a1a1a] text-xl font-light scale-90">favorite</span>
-                                </div>
-                                <div className="absolute bottom-6 left-6 opacity-0 group-hover:opacity-100 transition-all duration-500 translate-y-4 group-hover:translate-y-0">
-                                    <span className="bg-white/90 backdrop-blur-xl text-[8px] font-bold uppercase tracking-[0.3em] px-4 py-2 rounded-full border border-black/5 shadow-xl">Discovery</span>
-                                </div>
-                            </div>
-                            <div className="space-y-2 px-2">
-                                <p className="text-[9px] font-bold text-[#a932bd] uppercase tracking-[0.3em]">Maison Release</p>
-                                <h3 className="text-xl font-extralight text-[#1a1a1a] tracking-tight group-hover:tracking-tighter transition-all duration-500">
-                                    {product.title}
-                                </h3>
-                                <p className="text-base font-medium text-[#1a1a1a]">
-                                    {product.msrp_display}
-                                </p>
-                            </div>
-                        </Link>
+            <div className="max-w-[1440px] mx-auto px-6 relative z-10">
+                {/* Visual Header */}
+                <div className="flex flex-col items-center py-32 text-center">
+                    <span className="text-[12px] font-light text-[#a932bd] uppercase tracking-[0.5em] mb-6 block">
+                        Surface the Future
+                    </span>
+                    <h1 className="text-[clamp(42px,8vw,86px)] font-light text-[#1a1a1a] uppercase tracking-[0.15em] leading-tight">
+                        The<br /><span className="text-[#a932bd]">Collection</span>
+                    </h1>
+                </div>
+
+                {/* Filter Pill Navigation */}
+                <div className="flex flex-wrap justify-center gap-4 mb-24">
+                    {['All Pieces', 'Prism Essentials', 'Shift Outerwear', 'Refraction Accessories', 'Limited Drops'].map((cat, i) => (
+                        <button
+                            key={cat}
+                            className={`px-10 py-4 rounded-full text-[11px] font-light uppercase tracking-[0.2em] transition-all duration-500 border ${i === 0
+                                    ? 'bg-[#1a1a1a] text-white border-[#1a1a1a]'
+                                    : 'bg-white text-[#1a1a1a] border-[#e7e7e7] hover:border-[#a932bd] hover:text-[#a932bd]'
+                                }`}
+                        >
+                            {cat}
+                        </button>
                     ))}
                 </div>
 
-                {products.length === 0 && (
-                    <div className="py-40 text-center">
-                        <p className="text-[#1a1a1a]/30 font-light uppercase tracking-widest">No products found in the atelier.</p>
+                <OrganicDivider />
+
+                <div className="py-24 flex flex-col items-center">
+                    {/* Toolbar / Sort */}
+                    <div className="w-full flex justify-between items-center mb-16 px-4">
+                        <span className="text-[11px] font-light text-[#888888] uppercase tracking-[0.2em]">
+                            Showing {products.length} Results
+                        </span>
+                        <div className="flex items-center gap-4 border-b border-[#e7e7e7] pb-2 cursor-pointer group">
+                            <span className="text-[11px] font-light text-[#888888] uppercase tracking-[0.2em] group-hover:text-[#a932bd] transition-colors">Sort by</span>
+                            <span className="text-[11px] font-light text-[#1a1a1a] uppercase tracking-[0.1em]">Newest First</span>
+                        </div>
                     </div>
-                )}
-            </section>
+
+                    <Suspense fallback={
+                        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-x-10 gap-y-20 w-full">
+                            {[1, 2, 3, 4, 5, 6, 7, 8].map(i => (
+                                <div key={i} className="aspect-[3/4] bg-neutral-50 animate-pulse rounded-[32px]" />
+                            ))}
+                        </div>
+                    }>
+                        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-x-10 gap-y-20 w-full">
+                            {products.map((product: any) => (
+                                <ProductCard key={product.id} product={product} />
+                            ))}
+                        </div>
+                    </Suspense>
+
+                    {products.length === 0 && (
+                        <div className="py-40 text-center space-y-8">
+                            <div className="text-[#a932bd] opacity-20">
+                                <span className="material-symbols-outlined text-[82px] font-light">auto_awesome</span>
+                            </div>
+                            <p className="max-w-[320px] mx-auto text-[14px] font-light text-[#888888] uppercase tracking-[0.25em] leading-relaxed">
+                                The collection is currently evolving. New drops arriving shortly.
+                            </p>
+                            <button className="px-12 py-4 border border-[#a932bd] text-[#a932bd] rounded-full text-[11px] font-light tracking-[0.2em] uppercase hover:bg-[#a932bd] hover:text-white transition-all">
+                                Notify Me
+                            </button>
+                        </div>
+                    )}
+                </div>
+            </div>
         </main>
     );
 }
-

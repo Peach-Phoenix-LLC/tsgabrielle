@@ -42,20 +42,23 @@ const ModernFooter: React.FC<ModernFooterProps> = ({ config = {}, siteSettings =
     return (
         <footer className={`${textColor} flex flex-col w-full bg-white`}>
             {/* Background Transition Image */}
-            <div className="w-full bg-white relative min-h-[100px] md:min-h-[200px] overflow-hidden">
-                <motion.img
+            <div className="w-full bg-white relative min-h-[200px] overflow-hidden">
+                <motion.div
                     initial={{ opacity: 0, scale: 1.1, filter: 'blur(10px)' }}
                     whileInView={{ opacity: 1, scale: 1, filter: 'blur(0px)' }}
                     viewport={{ once: true, amount: 0.3 }}
                     transition={{ duration: 1.5, ease: [0.22, 1, 0.36, 1] }}
-                    src="/images/tsgabrielle-footer.png"
-                    alt="Maison transition"
-                    className="w-full h-auto block object-cover"
-                    style={{ minHeight: '200px', display: 'block' }}
-                    onError={(e) => {
-                        console.error("Footer image load error");
-                    }}
-                />
+                    className="relative w-full h-[200px] md:h-[300px]"
+                >
+                    <Image
+                        src="/images/tsgabrielle-footer.png"
+                        alt="Maison transition"
+                        fill
+                        className="object-cover"
+                        sizes="100vw"
+                        priority
+                    />
+                </motion.div>
                 <div className="absolute inset-0 bg-gradient-to-t from-[#a932bd]/20 to-transparent pointer-events-none" />
             </div>
 

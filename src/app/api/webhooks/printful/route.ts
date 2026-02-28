@@ -7,7 +7,7 @@ export async function POST(req: NextRequest) {
         const body = await req.json();
         const { type, data } = body;
 
-        console.log(`Printful Webhook Received: ${type}`, data);
+        
 
         // Handle Package Shipped
         if (type === 'package_shipped') {

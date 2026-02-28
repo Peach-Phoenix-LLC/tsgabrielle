@@ -17,7 +17,7 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
         "/terms",
         "/refund-policy",
         "/shipping-returns",
-        "/profile",
+        "/account",
         "/cart",
         "/checkout",
     ].map((route) => ({
@@ -27,41 +27,40 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
         priority: route === "" ? 1.0 : 0.8,
     }));
 
-    // Dynamic products
-    const products = await prisma.product.findMany({
-        select: { peach_number: true, updated_at: true },
-    });
+    // Dynamic products, Categories, and Collections wrapped in try-catch for build-time safety
+    try {
+        if (!process.env.DATABASE_URL) return staticRoutes;
 
-    const productRoutes = products.map((p) => ({
-        url: `${baseUrl}/${p.peach_number}`,
-        lastModified: p.updated_at,
-        changeFrequency: 'daily' as const,
-        priority: 0.7,
-    }));
+        const [products, categories, collections] = await Promise.all([
+            prisma.product.findMany({ select: { peach_number: true, updated_at: true } }),
+            prisma.category.findMany({ select: { slug: true } }),
+            prisma.collection.findMany({ select: { slug: true } }),
+        ]);
 
-    // Categories
-    const categories = await prisma.category.findMany({
-        select: { slug: true },
-    });
+        const productRoutes = products.map((p) => ({
+            url: `${baseUrl}/product/${p.peach_number}`,
+            lastModified: p.updated_at,
+            changeFrequency: 'daily' as const,
+            priority: 0.7,
+        }));
 
-    const categoryRoutes = categories.map((c) => ({
-        url: `${baseUrl}/categories/${c.slug}`,
-        lastModified: new Date(),
-        changeFrequency: 'weekly' as const,
-        priority: 0.6,
-    }));
+        const categoryRoutes = categories.map((c) => ({
+            url: `${baseUrl}/categories/${c.slug}`,
+            lastModified: new Date(),
+            changeFrequency: 'weekly' as const,
+            priority: 0.6,
+        }));
 
-    // Collections
-    const collections = await prisma.collection.findMany({
-        select: { slug: true },
-    });
+        const collectionRoutes = collections.map((c) => ({
+            url: `${baseUrl}/collections/${c.slug}`,
+            lastModified: new Date(),
+            changeFrequency: 'weekly' as const,
+            priority: 0.6,
+        }));
 
-    const collectionRoutes = collections.map((c) => ({
-        url: `${baseUrl}/collections/${c.slug}`,
-        lastModified: new Date(),
-        changeFrequency: 'weekly' as const,
-        priority: 0.6,
-    }));
-
-    return [...staticRoutes, ...productRoutes, ...categoryRoutes, ...collectionRoutes];
+        return [...staticRoutes, ...productRoutes, ...categoryRoutes, ...collectionRoutes];
+    } catch (e) {
+        console.warn("Sitemap generation failed (likely due to missing DB at build time):", e);
+        return staticRoutes;
+    }
 }

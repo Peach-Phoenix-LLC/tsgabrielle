@@ -113,7 +113,7 @@ export default function AdminPanel() {
 
     const renderSection = () => {
         switch (activeSection) {
-            case 'dashboard': return <DashboardSection stats={config?.dashboard_stats} />;
+            case 'dashboard': return <DashboardSection stats={config?.stats} />;
             case 'analytics': return <AnalyticsSection />;
             case 'orders': return <OrdersSection />;
             case 'connections': return <ConnectionsSection />;

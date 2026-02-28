@@ -7,7 +7,7 @@ async function verifyDatabaseConnection() {
         user: 'postgres',
         host: '34.70.168.74',
         database: 'tsgabrielle',
-        password: 'X7f#9Lm$2qRz!666',
+        password: 'TsgProd_2026_Secure!',
         // SSL is usually required for Cloud SQL public IP connections
         ssl: { rejectUnauthorized: false },
         connectionTimeoutMillis: 5000 // Fail fast (5s) if firewall blocks connection
