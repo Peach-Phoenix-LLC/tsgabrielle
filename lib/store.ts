@@ -19,11 +19,11 @@ export async function getProductsByCategorySlug(slug: string): Promise<Product[]
   if (!category?.id) return [];
   const { data } = await supabase
     .from("products")
-    .select("*")
+    .select("*, product_images(url)")
     .eq("category_id", category.id)
     .eq("active", true)
     .order("created_at", { ascending: false });
-  return (data ?? []) as Product[];
+  return (data ?? []) as any[];
 }
 
 export async function getCollectionBySlug(slug: string): Promise<any | null> {

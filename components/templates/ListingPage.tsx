@@ -1,5 +1,7 @@
 import { ProductGrid } from "@/components/product/ProductGrid";
 import { getProductsByCategorySlug, getProductsByCollectionSlug } from "@/lib/store";
+import { CATEGORIES, COLLECTIONS } from "@/lib/menu";
+import Link from "next/link";
 
 export async function CategoryPageTemplate({
   title,
@@ -9,13 +11,40 @@ export async function CategoryPageTemplate({
   slug: string;
 }) {
   const products = await getProductsByCategorySlug(slug);
+  const categoryData = CATEGORIES.find(c => c.href.includes(slug));
+  const heroImage = categoryData?.image || "/images/slides/tsgabrielle-Slide3.png";
+
   return (
-    <section className="container-luxe py-14">
-      <h1 className="font-display text-4xl">{title}</h1>
-      <div className="mt-8">
+    <div className="bg-white pb-32">
+      <section className="relative flex h-[70vh] items-center justify-center overflow-hidden -mt-[100px] lg:-mt-[112px]">
+        <div className="absolute inset-0">
+          <img
+            src={heroImage}
+            alt={title}
+            className="h-full w-full object-cover"
+          />
+          <div className="absolute inset-0 bg-black/30" />
+        </div>
+        <div className="relative z-10 text-center text-white space-y-4 px-4">
+           <p className="text-[10px] uppercase tracking-[0.4em] font-light">Official Catalogue</p>
+           <h1 className="text-5xl md:text-7xl font-light tracking-wide">{title}</h1>
+        </div>
+      </section>
+
+      <section className="container-luxe pt-24 space-y-10">
+        <header className="flex flex-col md:flex-row items-center justify-between border-b border-[#e7e7e7] pb-8 gap-6">
+           <div className="text-xs font-light text-[#555555] tracking-widest uppercase">
+              {products.length} {products.length === 1 ? 'Piece' : 'Pieces'}
+           </div>
+           <div className="flex gap-4">
+              <span className="text-[10px] uppercase tracking-[0.2em] text-[#111111] pb-1 border-b border-[#111111] cursor-pointer">All</span>
+              <span className="text-[10px] uppercase tracking-[0.2em] text-[#555555] hover:text-[#111111] transition-colors cursor-pointer">Newest</span>
+              <span className="text-[10px] uppercase tracking-[0.2em] text-[#555555] hover:text-[#111111] transition-colors cursor-pointer">Price</span>
+           </div>
+        </header>
         <ProductGrid products={products} />
-      </div>
-    </section>
+      </section>
+    </div>
   );
 }
 
@@ -27,12 +56,37 @@ export async function CollectionPageTemplate({
   slug: string;
 }) {
   const products = await getProductsByCollectionSlug(slug);
+  const collectionData = COLLECTIONS.find(c => c.href.includes(slug));
+  const heroImage = collectionData?.image || "/images/slides/tsgabrielle-Slide2.png";
+
   return (
-    <section className="container-luxe py-14">
-      <h1 className="font-display text-4xl">{title}</h1>
-      <div className="mt-8">
+    <div className="bg-white pb-32">
+      <section className="relative flex h-[70vh] items-center justify-center overflow-hidden -mt-[100px] lg:-mt-[112px]">
+        <div className="absolute inset-0">
+          <img
+            src={heroImage}
+            alt={title}
+            className="h-full w-full object-cover"
+          />
+          <div className="absolute inset-0 bg-black/30" />
+        </div>
+        <div className="relative z-10 text-center text-white space-y-4 px-4">
+           <p className="text-[10px] uppercase tracking-[0.4em] font-light">Curated Series</p>
+           <h1 className="text-5xl md:text-7xl font-light tracking-wide uppercase">{title}</h1>
+        </div>
+      </section>
+
+      <section className="container-luxe pt-24 space-y-10">
+        <header className="flex flex-col md:flex-row items-center justify-between border-b border-[#e7e7e7] pb-8 gap-6">
+           <div className="text-xs font-light text-[#555555] tracking-widest uppercase">
+              {products.length} {products.length === 1 ? 'Piece' : 'Pieces'}
+           </div>
+           <div className="flex gap-4">
+              <span className="text-[10px] uppercase tracking-[0.2em] text-[#111111] pb-1 border-b border-[#111111] cursor-pointer">Series Overview</span>
+           </div>
+        </header>
         <ProductGrid products={products} />
-      </div>
-    </section>
+      </section>
+    </div>
   );
 }
