@@ -20,8 +20,8 @@ export default async function ProductPage({ params }: { params: Promise<{ slug: 
   const { slug } = await params;
   
   let product = null;
-  let variants = [];
-  let images = [];
+  let variants: any[] = [];
+  let images: any[] = [];
   
   try {
     product = await getProductBySlug(slug);

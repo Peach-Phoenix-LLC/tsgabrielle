@@ -27,41 +27,55 @@ export async function POST(request: Request) {
 
   console.log("Printful Webhook received:", body.type, body.data);
 
-  // Handle package_shipped event
-  if (body.type === "package_shipped") {
-    const externalId = body.data?.order?.external_id;
-    const tracking = body.data?.order?.shipment?.tracking_number;
-    const trackingUrl = body.data?.order?.shipment?.tracking_url;
+  // Determine what to update based on the event
+  const updatePayload: any = {};
+  let externalId = body.data?.order?.external_id;
 
-    if (externalId) {
-      const { error } = await supabase
+  if (body.type === "package_shipped") {
+    updatePayload.status = "fulfilled";
+    updatePayload.tracking_number = body.data?.order?.shipment?.tracking_number ?? null;
+    
+    // These columns might not exist yet, we'll try to include them
+    // Supabase will ignore columns that don't exist if we use a specific approach, 
+    // but here we just list them and catch errors.
+    updatePayload.tracking_url = body.data?.order?.shipment?.tracking_url ?? null;
+  } else if (body.type === "order_failed") {
+    updatePayload.status = "failed";
+  } else if (body.type === "order_cancelled") {
+    updatePayload.status = "cancelled";
+  }
+
+  if (externalId && Object.keys(updatePayload).length > 0) {
+    // Try to update with all fields
+    const { error: fullUpdateError } = await supabase
+      .from("orders")
+      .update({ ...updatePayload, updated_at: new Date().toISOString() })
+      .eq("id", externalId);
+    
+    if (fullUpdateError) {
+      console.warn("Full update failed, trying minimal update (status and tracking_number only):", fullUpdateError.message);
+      
+      // Fallback to minimal update if full update fails (likely due to missing columns)
+      const minimalPayload: any = { status: updatePayload.status };
+      if (updatePayload.tracking_number !== undefined) {
+        minimalPayload.tracking_number = updatePayload.tracking_number;
+      }
+
+      const { error: minimalUpdateError } = await supabase
         .from("orders")
-        .update({ 
-          status: "fulfilled", 
-          tracking_number: tracking ?? null,
-          tracking_url: trackingUrl ?? null,
-          updated_at: new Date().toISOString()
-        })
+        .update(minimalPayload)
         .eq("id", externalId);
       
-      if (error) {
-        console.error("Error updating order from Printful webhook:", error);
+      if (minimalUpdateError) {
+        console.error("Minimal update also failed:", minimalUpdateError);
       } else {
-        console.log(`Order ${externalId} updated to fulfilled via Printful webhook.`);
+        console.log(`Order ${externalId} updated (minimal) to ${updatePayload.status}`);
       }
+    } else {
+      console.log(`Order ${externalId} updated (full) to ${updatePayload.status}`);
     }
   }
 
-  // Handle other events if needed
-  if (body.type === "order_failed" || body.type === "order_cancelled") {
-    const externalId = body.data?.order?.external_id;
-    if (externalId) {
-       await supabase
-        .from("orders")
-        .update({ status: body.type === "order_cancelled" ? "cancelled" : "failed" })
-        .eq("id", externalId);
-    }
-  }
 
   return NextResponse.json({ received: true });
 }
