@@ -7,8 +7,8 @@ const worldwide = ["Store Directory.", "Stores Directory", "USA"];
 export function Footer() {
   return (
     <footer 
-      className="relative w-full overflow-hidden bg-cover bg-center pt-24 pb-12 text-[#ffffff]"
-      style={{ backgroundImage: "url('/images/tsgabrielle-footer.png')" }}
+      className="relative w-full min-h-screen flex flex-col justify-end overflow-hidden bg-cover bg-center pt-24 pb-12 text-[#ffffff]"
+      style={{ backgroundColor: "#a932bd", backgroundImage: "url('/images/tsgabrielle-footer.png')" }}
     >
       <div className="absolute inset-0 bg-black/40" />
       <div className="container-luxe relative z-10">
@@ -51,9 +51,9 @@ export function Footer() {
           </div>
         </div>
         <div className="flex flex-col items-center justify-between gap-6 border-t border-white/20 pt-8 md:flex-row">
-          <p className="text-xs font-light tracking-wide text-[#ffffff]">
-            © 2026 tsgabrielle · Legal Hub · Privacy · Contact
-          </p>
+          <div className="text-xs font-light tracking-wide text-[#ffffff]">
+            © 2026 tsgabrielle · Legal Hub · Privacy · Contact · <Link href="/admin" className="opacity-30 hover:opacity-100 transition-opacity">Admin</Link>
+          </div>
           <div className="flex gap-6 text-xs tracking-wide text-[#ffffff] font-light">
             <span className="cursor-pointer hover:opacity-75">Instagram</span>
             <span className="cursor-pointer hover:opacity-75">LinkedIn</span>

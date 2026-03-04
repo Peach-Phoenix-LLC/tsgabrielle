@@ -90,6 +90,62 @@ const months = ["Apr","May","Jun","Jul","Aug","Sep","Oct","Nov","Dec","Jan","Feb
 export default function Dashboard() {
   const [active, setActive] = useState("overview");
   const [sideOpen, setSideOpen] = useState(true);
+  
+  // Authentication state
+  const [isAuthenticated, setIsAuthenticated] = useState(false);
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const [error, setError] = useState("");
+
+  const handleLogin = (e: React.FormEvent) => {
+    e.preventDefault();
+    if (email === "contact@tsgabrielle.us" && password === "Paris2026") {
+      setIsAuthenticated(true);
+      setError("");
+    } else {
+      setError("Invalid credentials.");
+    }
+  };
+
+  if (!isAuthenticated) {
+    return (
+      <div style={{ fontFamily: "'Lato', sans-serif", fontWeight: 300, background: "#f4f4f6", minHeight: "100vh", display: "flex", justifyContent: "center", alignItems: "center" }}>
+        <link href="https://fonts.googleapis.com/css2?family=Lato:wght@300;400&display=swap" rel="stylesheet" />
+        <div style={{ ...card, padding: "40px", width: "400px", maxWidth: "90%" } as any}>
+          <div style={{ textAlign: "center", marginBottom: 30 }}>
+            <img src="/favicon.png" alt="logo" style={{ height: 48, width: "auto", marginBottom: 16 }} />
+            <h1 style={{ fontSize: 24, fontWeight: 300, margin: 0, color: "#111" }}>Admin Login</h1>
+          </div>
+          <form onSubmit={handleLogin} style={{ display: "flex", flexDirection: "column", gap: 16 }}>
+            <div>
+              <label style={{ fontSize: 12, color: "#666", letterSpacing: "0.05em" }}>EMAIL</label>
+              <input 
+                type="email" 
+                value={email}
+                onChange={(e) => setEmail(e.target.value)}
+                style={{ width: "100%", padding: "12px", border: `1px solid ${LIGHT}`, borderRadius: 8, marginTop: 6, boxSizing: "border-box", fontSize: 14 }}
+                required 
+              />
+            </div>
+            <div>
+              <label style={{ fontSize: 12, color: "#666", letterSpacing: "0.05em" }}>PASSWORD</label>
+              <input 
+                type="password" 
+                value={password}
+                onChange={(e) => setPassword(e.target.value)}
+                style={{ width: "100%", padding: "12px", border: `1px solid ${LIGHT}`, borderRadius: 8, marginTop: 6, boxSizing: "border-box", fontSize: 14 }}
+                required 
+              />
+            </div>
+            {error && <div style={{ color: "#ef4444", fontSize: 13, textAlign: "center" }}>{error}</div>}
+            <button type="submit" style={{ width: "100%", padding: "14px", background: BRAND, color: "#fff", border: "none", borderRadius: 8, fontSize: 14, fontWeight: 400, cursor: "pointer", marginTop: 8 }}>
+              Sign In
+            </button>
+          </form>
+        </div>
+      </div>
+    );
+  }
 
   return (
     <div style={{ fontFamily: "'Lato', sans-serif", fontWeight: 300, background: "#f4f4f6", minHeight: "100vh", display: "flex", flexDirection: "column" }}>

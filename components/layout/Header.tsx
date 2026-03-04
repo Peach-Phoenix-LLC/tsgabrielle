@@ -9,6 +9,7 @@ import { useCart } from "@/hooks/useCart";
 export function Header() {
   const [open, setOpen] = useState(false);
   const [activeGroup, setActiveGroup] = useState<string | null>(null);
+  const [hoveredItem, setHoveredItem] = useState<{ label: string; image?: string } | null>(null);
   const { items } = useCart();
   const itemCount = items.reduce((sum, item) => sum + item.qty, 0);
 
@@ -18,7 +19,10 @@ export function Header() {
   return (
     <header 
       className="absolute top-0 z-50 w-full bg-transparent text-[#a932bd]"
-      onMouseLeave={() => setActiveGroup(null)}
+      onMouseLeave={() => {
+        setActiveGroup(null);
+        setHoveredItem(null);
+      }}
     >
       <div className="container-luxe flex items-center justify-between py-6 lg:py-8">
         {/* Left Nav */}
@@ -41,7 +45,7 @@ export function Header() {
 
         {/* Center Logo */}
         <div className="flex-shrink-0 z-50">
-          <BrandLogo className="h-10 lg:h-12" />
+          <BrandLogo light className="h-10 lg:h-12" />
         </div>
 
         {/* Right Nav */}
@@ -87,27 +91,44 @@ export function Header() {
         className={`
           absolute left-0 top-full w-full bg-white/95 backdrop-blur-xl border-b border-[#a932bd]/10 
           transition-all duration-500 ease-in-out overflow-hidden shadow-2xl
-          ${activeGroup ? 'max-h-[70vh] opacity-100' : 'max-h-0 opacity-0 pointer-events-none'}
+          ${activeGroup ? 'max-h-[85vh] opacity-100' : 'max-h-0 opacity-0 pointer-events-none'}
         `}
       >
         <div className="container-luxe py-16">
           {MENU_GROUPS.map((group) => (
             <div 
               key={group.label}
-              className={`${activeGroup === group.label ? 'grid' : 'hidden'} grid-cols-4 gap-20`}
+              className={`${activeGroup === group.label ? 'grid' : 'hidden'} grid-cols-4 gap-20 items-start`}
             >
-              <div className="col-span-1 space-y-6">
-                <p className="text-[10px] uppercase tracking-[0.3em] text-[#a932bd]/60">Department</p>
-                <h2 className="text-4xl font-light tracking-tight text-[#111111]">{group.label}</h2>
-                <p className="text-sm font-light leading-relaxed text-[#555555]">
-                  Experience the pinnacle of inclusive luxury. Explore our curated selection of {group.label.toLowerCase()}.
-                </p>
+              <div className="col-span-1 space-y-8">
+                <div className="space-y-4">
+                  <p className="text-[10px] uppercase tracking-[0.3em] text-[#a932bd]/60">Department</p>
+                  <h2 className="text-4xl font-light tracking-tight text-[#111111]">{hoveredItem?.label || group.label}</h2>
+                </div>
+                
+                <div className="aspect-[4/5] w-full bg-[#f9f9f9] overflow-hidden rounded-sm border border-[#a932bd]/5 relative group/img">
+                  {hoveredItem?.image ? (
+                    <img 
+                      src={hoveredItem.image} 
+                      alt={hoveredItem.label}
+                      className="h-full w-full object-cover transition-transform duration-700 group-hover/img:scale-110"
+                    />
+                  ) : (
+                    <div className="h-full w-full flex flex-col items-center justify-center p-8 text-center space-y-4">
+                       <span className="text-[10px] uppercase tracking-widest text-[#a932bd]/40">tsgabrielle® Luxury</span>
+                       <p className="text-xs font-light text-[#555555] leading-relaxed">
+                          Discover the essence of inclusive elegance. Hover over an item to preview the collection.
+                       </p>
+                    </div>
+                  )}
+                </div>
+
                 <Link 
                   href={group.href}
-                  className="inline-block pt-4 text-[10px] uppercase tracking-[0.2em] font-medium border-b border-[#a932bd] pb-2 transition-opacity hover:opacity-60"
+                  className="inline-block text-[10px] uppercase tracking-[0.2em] font-medium border-b border-[#a932bd] pb-2 transition-opacity hover:opacity-60"
                   onClick={() => setActiveGroup(null)}
                 >
-                  View Collection
+                  Explore All {group.label}
                 </Link>
               </div>
               <div className="col-span-3">
@@ -116,7 +137,8 @@ export function Header() {
                     <li key={item.href}>
                       <Link 
                         href={item.href}
-                        className="text-[13px] font-light text-[#111111] transition-all hover:text-[#a932bd] hover:pl-2"
+                        className="text-[15px] font-light text-[#111111] transition-all hover:text-[#a932bd] hover:pl-2 block py-1"
+                        onMouseEnter={() => setHoveredItem(item)}
                         onClick={() => setActiveGroup(null)}
                       >
                         {item.label}
@@ -134,7 +156,7 @@ export function Header() {
       {open && (
         <div className="fixed inset-0 top-0 z-[60] flex flex-col bg-white lg:hidden">
           <div className="flex items-center justify-between px-6 py-6 border-b border-[#e7e7e7]">
-            <BrandLogo />
+            <BrandLogo light />
             <button className="text-[11px] font-medium uppercase tracking-[0.25em] text-[#a932bd]" onClick={() => setOpen(false)}>
               Close
             </button>
