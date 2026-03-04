@@ -2,6 +2,7 @@
 
 import { useState } from "react";
 import { useCart } from "@/hooks/useCart";
+import Link from "next/link";
 
 export default function CheckoutPage() {
   const { items, removeItem, totalCents } = useCart();
@@ -25,61 +26,119 @@ export default function CheckoutPage() {
     }
   };
 
-  return (
-    <section className="relative mx-auto min-h-[80vh] w-full max-w-[520px] overflow-hidden rounded-2xl border border-white/50 bg-white/70 shadow-xl backdrop-blur-xl">
-      <div className="absolute -left-20 -top-20 h-72 w-72 rounded-full bg-primary/20 blur-3xl" />
-      <div className="absolute -bottom-20 -right-20 h-72 w-72 rounded-full bg-cyan-300/20 blur-3xl" />
-
-      <div className="relative z-10 flex items-center justify-between border-b border-white/60 bg-white/60 px-5 py-4">
-        <h1 className="text-lg font-bold text-charcoal">Checkout</h1>
-        <span className="text-xs font-semibold uppercase tracking-[0.2em] text-primary">Step 1/3</span>
+  if (items.length === 0 && !loading) {
+    return (
+      <div className="flex min-h-[70vh] flex-col items-center justify-center space-y-8 px-4 text-center">
+        <div className="space-y-4">
+          <h1 className="text-4xl font-light text-[#111111]">Your bag is empty</h1>
+          <p className="text-base font-light text-[#555555]">Discover the latest additions to our 2026 catalogue.</p>
+        </div>
+        <Link
+          href="/"
+          className="inline-flex bg-[#a932bd] px-10 py-4 text-xs font-light uppercase tracking-widest text-white transition-all hover:opacity-90"
+        >
+          Explore Catalogue
+        </Link>
       </div>
+    );
+  }
 
-      <div className="relative z-10 p-5">
-        <details className="group rounded-xl border border-white/70 bg-white/70 p-4 shadow-sm" open>
-          <summary className="cursor-pointer list-none text-sm font-bold text-charcoal">
-            Order Summary <span className="ml-1 text-primary">(${(totalCents / 100).toFixed(2)})</span>
-          </summary>
-          <div className="mt-4 space-y-3">
-            {items.length === 0 && <p className="text-sm text-slate-500">Your cart is empty.</p>}
-            {items.map((item) => (
-              <div key={item.variantId} className="flex items-center justify-between rounded-lg bg-white p-3">
-                <div>
-                  <p className="text-sm font-bold text-charcoal">{item.title}</p>
-                  <p className="text-xs text-slate-500">Qty: {item.qty}</p>
+  return (
+    <div className="bg-white pb-24">
+      <section className="container-luxe py-12 md:py-24">
+        <div className="flex flex-col lg:flex-row lg:items-start gap-16">
+          
+          {/* Left: Bag Items */}
+          <div className="flex-1 space-y-10">
+            <header className="space-y-2">
+              <p className="text-[10px] tracking-widest text-[#a932bd] uppercase font-light">Shopping Bag</p>
+              <h1 className="text-4xl font-light tracking-wide text-[#111111]">Your Selection</h1>
+            </header>
+
+            <div className="divide-y divide-[#e7e7e7] border-t border-[#e7e7e7]">
+              {items.map((item) => (
+                <div key={item.variantId} className="flex gap-6 py-8">
+                  <div className="h-32 w-24 flex-shrink-0 bg-[#f9f9f9] overflow-hidden">
+                    {/* Image placeholder or fetch if we had product images in the cart object */}
+                    <div className="h-full w-full border border-[#e7e7e7] flex items-center justify-center">
+                         <span className="text-[8px] uppercase tracking-tighter text-[#555555]">tsgabrielle®</span>
+                    </div>
+                  </div>
+                  <div className="flex flex-1 flex-col justify-between">
+                    <div className="space-y-1">
+                      <div className="flex justify-between">
+                        <h3 className="text-lg font-light text-[#111111]">{item.title}</h3>
+                        <p className="text-base font-light text-[#111111]">
+                          ${((item.priceCents * item.qty) / 100).toFixed(2)}
+                        </p>
+                      </div>
+                      <p className="text-xs font-light text-[#555555] uppercase tracking-widest">
+                        Quantity: {item.qty}
+                      </p>
+                    </div>
+                    <div>
+                      <button 
+                        onClick={() => removeItem(item.variantId)}
+                        className="text-[10px] font-light text-[#555555] uppercase tracking-widest underline underline-offset-4 hover:text-[#a932bd] transition-colors"
+                      >
+                        Remove
+                      </button>
+                    </div>
+                  </div>
                 </div>
-                <div className="text-right">
-                  <p className="text-sm font-bold text-primary">${((item.priceCents * item.qty) / 100).toFixed(2)}</p>
-                  <button className="text-xs text-slate-500 hover:text-primary" onClick={() => removeItem(item.variantId)}>
-                    Remove
-                  </button>
+              ))}
+            </div>
+          </div>
+
+          {/* Right: Summary */}
+          <div className="w-full lg:w-[400px] sticky top-32">
+            <div className="bg-[#f9f9f9] p-8 space-y-8 border border-[#e7e7e7]">
+              <h2 className="text-xs font-light tracking-widest text-[#111111] uppercase">Order Summary</h2>
+              
+              <div className="space-y-4">
+                <div className="flex justify-between text-sm font-light text-[#555555]">
+                  <span>Subtotal</span>
+                  <span>${(totalCents / 100).toFixed(2)}</span>
+                </div>
+                <div className="flex justify-between text-sm font-light text-[#555555]">
+                  <span>Shipping</span>
+                  <span className="text-[#a932bd] uppercase text-[10px] tracking-widest">Complimentary</span>
+                </div>
+                <div className="h-px bg-[#e7e7e7] w-full" />
+                <div className="flex justify-between text-lg font-light text-[#111111]">
+                  <span>Total</span>
+                  <span>USD ${(totalCents / 100).toFixed(2)}</span>
                 </div>
               </div>
-            ))}
-          </div>
-        </details>
 
-        <div className="mt-5 space-y-3">
-          <div className="rounded-lg border border-slate-200 bg-white p-3">
-            <label className="text-xs font-semibold text-slate-500">Email</label>
-            <input className="mt-1 w-full border-none p-0 text-sm font-medium text-charcoal focus:ring-0" defaultValue="" />
+              <div className="space-y-4">
+                <button
+                  onClick={checkout}
+                  disabled={loading}
+                  className="w-full bg-[#a932bd] py-5 text-xs font-light uppercase tracking-widest text-white transition-all hover:opacity-90 disabled:opacity-50 disabled:cursor-not-allowed"
+                >
+                  {loading ? "Processing..." : "Secure Checkout"}
+                </button>
+                <p className="text-[10px] font-light text-[#555555] text-center uppercase tracking-widest">
+                  Processed securely by PayPal
+                </p>
+              </div>
+            </div>
+
+            <div className="mt-8 space-y-4 px-2">
+                 <div className="flex items-center gap-4">
+                    <div className="h-px flex-1 bg-[#e7e7e7]" />
+                    <span className="text-[10px] font-light text-[#555555] uppercase tracking-widest">Assistance</span>
+                    <div className="h-px flex-1 bg-[#e7e7e7]" />
+                 </div>
+                 <p className="text-[10px] font-light text-[#555555] leading-relaxed text-center italic">
+                    For inquiries regarding inclusive tailoring or bespoke dimensioning, please contact our global concierge.
+                 </p>
+            </div>
           </div>
-          <div className="rounded-lg border border-slate-200 bg-white p-3">
-            <label className="text-xs font-semibold text-slate-500">Address</label>
-            <input className="mt-1 w-full border-none p-0 text-sm font-medium text-charcoal focus:ring-0" defaultValue="" />
-          </div>
+
         </div>
-      </div>
-
-      <div className="sticky bottom-0 z-20 border-t border-white/60 bg-white/80 p-4 backdrop-blur">
-        <button
-          onClick={checkout}
-          disabled={loading || items.length === 0}
-          className="w-full rounded-xl bg-primary px-5 py-4 text-base font-bold text-white shadow-lg shadow-primary/30 transition hover:opacity-95 disabled:cursor-not-allowed disabled:opacity-50"
-        >
-          {loading ? "Redirecting..." : "Continue to Payment"}
-        </button>
-      </div>
-    </section>
+      </section>
+    </div>
   );
 }

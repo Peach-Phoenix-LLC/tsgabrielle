@@ -1,50 +1,118 @@
-import Link from "next/link";
-import { buildMetadata } from "@/lib/seo";
+"use client";
 
-export const metadata = buildMetadata({
-  title: "Merci | tsgabrielle",
-  description: "Thank you celebration page after successful checkout.",
-  path: "/checkout/success"
-});
+import { useEffect, useState, Suspense } from "react";
+import { useSearchParams } from "next/navigation";
+import Link from "next/link";
+import { useCart } from "@/hooks/useCart";
+
+function SuccessContent() {
+  const searchParams = useSearchParams();
+  const token = searchParams.get("token");
+  const { clearCart } = useCart();
+  const [status, setStatus] = useState<"loading" | "success" | "error">("loading");
+
+  useEffect(() => {
+    if (!token) {
+      setStatus("success"); // Might be a direct visit or already processed
+      return;
+    }
+
+    const captureOrder = async () => {
+      try {
+        const res = await fetch("/api/paypal/capture-order", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ orderId: token })
+        });
+        
+        if (res.ok) {
+          clearCart();
+          setStatus("success");
+        } else {
+          setStatus("error");
+        }
+      } catch (err) {
+        console.error("Capture error:", err);
+        setStatus("error");
+      }
+    };
+
+    captureOrder();
+  }, [token, clearCart]);
+
+  if (status === "loading") {
+    return (
+      <div className="flex min-h-[60vh] flex-col items-center justify-center space-y-4">
+        <div className="h-8 w-8 animate-spin border-2 border-[#a932bd] border-t-transparent rounded-full" />
+        <p className="text-sm font-light tracking-widest text-[#555555] uppercase">Finalizing Your Order...</p>
+      </div>
+    );
+  }
+
+  if (status === "error") {
+    return (
+      <div className="flex min-h-[60vh] flex-col items-center justify-center space-y-8 text-center px-4">
+        <div className="space-y-4">
+            <h1 className="text-4xl font-light text-[#111111]">Order Issue</h1>
+            <p className="max-w-md text-base font-light text-[#555555]">
+                We encountered a small issue finalizing your payment. If you received a confirmation from PayPal, your order is likely safe, otherwise please contact us.
+            </p>
+        </div>
+        <Link
+          href="/contact-tsgabrielle"
+          className="inline-flex border border-[#111111] px-10 py-4 text-xs font-light uppercase tracking-widest text-[#111111] transition-all hover:bg-[#111111] hover:text-white"
+        >
+          Contact Concierge
+        </Link>
+      </div>
+    );
+  }
+
+  return (
+    <div className="flex min-h-[80vh] flex-col items-center justify-center py-20 px-4">
+      <div className="max-w-xl w-full text-center space-y-12">
+        <header className="space-y-4">
+            <p className="text-[10px] tracking-widest text-[#a932bd] uppercase font-light">Order Successful</p>
+            <h1 className="text-6xl md:text-8xl font-light tracking-tight text-[#111111]">Merci</h1>
+            <div className="h-px w-24 bg-[#a932bd] mx-auto mt-6" />
+        </header>
+
+        <div className="space-y-6">
+            <p className="text-lg font-light text-[#555555] leading-relaxed">
+                Thank you for your trust in tsgabrielle®. Your order has been confirmed and is now being meticulously prepared for its ethereal journey to you.
+            </p>
+            <p className="text-sm font-light text-[#555555] tracking-wide italic">
+                A confirmation email has been dispatched to your inbox.
+            </p>
+        </div>
+
+        <div className="pt-8 grid grid-cols-1 md:grid-cols-2 gap-4">
+            <Link
+                href="/"
+                className="inline-flex items-center justify-center bg-[#a932bd] px-8 py-5 text-xs font-light uppercase tracking-widest text-white transition-all hover:opacity-90"
+            >
+                Return to Catalogue
+            </Link>
+            <Link
+                href="/account/orders"
+                className="inline-flex items-center justify-center border border-[#e7e7e7] px-8 py-5 text-xs font-light uppercase tracking-widest text-[#555555] transition-all hover:bg-[#f9f9f9]"
+            >
+                View Order Status
+            </Link>
+        </div>
+      </div>
+    </div>
+  );
+}
 
 export default function SuccessPage() {
   return (
-    <section className="relative mx-auto min-h-[80vh] w-full max-w-[520px] overflow-hidden rounded-2xl border border-white/50 bg-white">
-      <div className="absolute inset-0 pointer-events-none">
-        <div className="absolute left-[12%] top-[15%] h-3 w-3 animate-float rounded-full bg-primary/25" />
-        <div className="absolute left-[78%] top-[25%] h-4 w-4 animate-float rounded-full bg-cyan-300/30" />
-        <div className="absolute left-[24%] top-[58%] h-2 w-2 animate-float rounded-full bg-pink-300/35" />
-        <div className="absolute left-[72%] top-[72%] h-3 w-3 animate-float rounded-full bg-primary/20" />
-      </div>
-      <div className="relative z-10 flex h-full flex-col items-center px-6 py-12 text-center">
-        <h1 className="holographic-text text-7xl font-extrabold tracking-tight">Merci</h1>
-        <p className="mt-2 text-lg font-medium text-slate-500">Thank you for your order.</p>
-
-        <div className="mt-10 w-full rounded-xl border border-white/70 bg-white/80 p-6 shadow-lg backdrop-blur">
-          <div className="mx-auto mb-3 flex h-14 w-14 items-center justify-center rounded-full bg-primary/10">
-            <span className="text-3xl text-primary">✓</span>
-          </div>
-          <h2 className="text-2xl font-bold text-charcoal">Order Confirmed</h2>
-          <p className="mt-1 text-sm text-slate-500">Your order is being prepared with love.</p>
-          <div className="mt-6 rounded-lg bg-background-light p-4 text-left">
-            <div className="mb-2 flex items-center justify-between text-sm text-slate-600">
-              <span>Order ID</span>
-              <span className="font-bold text-charcoal">TSG-88294</span>
-            </div>
-            <div className="flex items-center justify-between text-sm text-slate-600">
-              <span>Status</span>
-              <span className="font-bold text-primary">Processing</span>
-            </div>
-          </div>
+    <Suspense fallback={
+        <div className="flex min-h-[60vh] flex-col items-center justify-center">
+            <div className="h-8 w-8 animate-spin border-2 border-[#a932bd] border-t-transparent rounded-full" />
         </div>
-
-        <Link
-          href="/"
-          className="mt-8 inline-flex w-full items-center justify-center rounded-xl bg-primary px-6 py-4 text-lg font-bold text-white shadow-lg shadow-primary/30"
-        >
-          Return to home
-        </Link>
-      </div>
-    </section>
+    }>
+      <SuccessContent />
+    </Suspense>
   );
 }

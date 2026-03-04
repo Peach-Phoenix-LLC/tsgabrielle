@@ -46,13 +46,16 @@ export async function POST(request: Request) {
     })
   });
 
+  const { data: { user } } = await supabase.auth.getUser();
+
   const { data: orderRow } = await supabase
     .from("orders")
     .insert({
-    paypal_order_id: order.id,
-    status: "pending",
-    currency: "USD",
-    total_cents: totalCents
+      user_id: user?.id,
+      paypal_order_id: order.id,
+      status: "pending",
+      currency: "USD",
+      total_cents: totalCents
     })
     .select("id")
     .single();

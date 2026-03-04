@@ -7,7 +7,7 @@ type BrandLogoProps = {
 };
 
 export function BrandLogo({ href = "/", className = "", light = false }: BrandLogoProps) {
-  const logoUrl = "/images/logo-icon.png";
+  const logoUrl = light ? "/images/tsgabrielle-logo-white.png" : "/images/tsgabrielle-logo.png";
 
   return (
     <Link href={href} className={`inline-flex items-center ${className}`.trim()}>
