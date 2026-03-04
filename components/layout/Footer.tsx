@@ -6,8 +6,12 @@ const worldwide = ["Store Directory.", "Stores Directory", "USA"];
 
 export function Footer() {
   return (
-    <footer className="w-full bg-[#a932bd] text-[#ffffff] border-t border-white/20 pt-12 pb-6 px-6 md:px-12">
-      <div className="container-luxe">
+    <footer 
+      className="relative w-full overflow-hidden bg-cover bg-center pt-24 pb-12 text-[#ffffff]"
+      style={{ backgroundImage: "url('/images/tsgabrielle-footer.png')" }}
+    >
+      <div className="absolute inset-0 bg-black/40" />
+      <div className="container-luxe relative z-10">
         <div className="mb-16 grid gap-12 md:grid-cols-3">
           <div>
             <BrandLogo light className="[&_img]:h-9" />

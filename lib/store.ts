@@ -1,5 +1,5 @@
 import { getSupabaseServerClient } from "@/lib/supabase/server";
-import type { Product, ProductVariant } from "@/lib/types";
+import type { Product, ProductVariant, ProductImage } from "@/lib/types";
 
 function hasSupabaseServerEnv() {
   return Boolean(process.env.NEXT_PUBLIC_SUPABASE_URL && process.env.SUPABASE_SERVICE_ROLE_KEY);
@@ -56,4 +56,14 @@ export async function getVariantsByProductId(productId: string): Promise<Product
     .eq("product_id", productId)
     .order("title", { ascending: true });
   return (data ?? []) as ProductVariant[];
+}
+export async function getProductImages(productId: string): Promise<ProductImage[]> {
+  if (!hasSupabaseServerEnv()) return [];
+  const supabase = getSupabaseServerClient();
+  const { data } = await supabase
+    .from("product_images")
+    .select("*")
+    .eq("product_id", productId)
+    .order("sort_order", { ascending: true });
+  return (data ?? []) as ProductImage[];
 }

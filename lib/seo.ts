@@ -28,6 +28,11 @@ export function buildMetadata({
       card: "summary_large_image",
       title,
       description
+    },
+    icons: {
+      icon: "/favicon.png",
+      shortcut: "/favicon.png",
+      apple: "/favicon.png"
     }
   };
 }

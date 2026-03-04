@@ -98,7 +98,7 @@ export default function Dashboard() {
       {/* ── HEADER ── */}
       <header style={{ background: BRAND, color: "#fff", height: 60, display: "flex", alignItems: "center", padding: "0 28px", gap: 16, position: "sticky", top: 0, zIndex: 100, boxShadow: "0 2px 12px rgba(169,50,189,0.3)" }}>
         <button onClick={() => setSideOpen(o => !o)} style={{ background: "none", border: "none", color: "#fff", fontSize: 20, cursor: "pointer", opacity: 0.9 }}>☰</button>
-        <span style={{ fontSize: 20, letterSpacing: "0.12em", fontWeight: 300 }}>tsgabrielle<sup style={{ fontSize: 10, opacity: 0.7 }}>®</sup></span>
+        <img src="/favicon.png" alt="logo" style={{ height: 32, width: "auto" }} />
         <span style={{ marginLeft: 8, opacity: 0.5, fontSize: 12, letterSpacing: "0.18em", textTransform: "uppercase" }}>Admin</span>
         <div style={{ flex: 1 }} />
         <div style={{ display: "flex", gap: 12, alignItems: "center" }}>
@@ -489,7 +489,10 @@ export default function Dashboard() {
 
       {/* ── FOOTER ── */}
       <footer style={{ background: BRAND, color: "#fff", padding: "16px 32px", display: "flex", justifyContent: "space-between", alignItems: "center", fontSize: 11, letterSpacing: "0.08em", opacity: 0.95 }}>
-        <span>tsgabrielle<sup style={{ fontSize: 8 }}>®</sup> · Admin Dashboard</span>
+        <div style={{ display: "flex", alignItems: "center", gap: 8 }}>
+          <img src="/favicon.png" alt="logo" style={{ height: 16, width: "auto" }} />
+          <span>Admin Dashboard</span>
+        </div>
         <span style={{ opacity: 0.6 }}>Powered by Next.js · Supabase · Printful · PayPal · Klaviyo</span>
         <span style={{ opacity: 0.6 }}>© 2026 Peach-Phoenix-LLC</span>
       </footer>
