@@ -2,9 +2,9 @@ import { notFound } from "next/navigation";
 import CollectionHero from "@/components/collection/CollectionHero";
 import CollectionHeader from "@/components/collection/CollectionHeader";
 import CollectionPageClient from "@/components/collection/CollectionPageClient";
-import { getCollectionBySlug, getProductsByCollectionSlug, getCategories } from "@/lib/store";
+import { getCategoryBySlug, getProductsByCategorySlug, getCategories } from "@/lib/store";
 import { buildMetadata } from "@/lib/seo";
-import { COLLECTIONS } from "@/lib/menu";
+import { CATEGORIES } from "@/lib/menu";
 
 // Add dynamic params as this is an ecommerce site, slug could change or be new
 export const dynamicParams = true;
@@ -17,58 +17,58 @@ type PageProps = {
 
 export async function generateMetadata({ params }: PageProps) {
   const resolvedParams = await params;
-  const collection = await getCollectionBySlug(resolvedParams.slug);
+  const category = await getCategoryBySlug(resolvedParams.slug);
 
-  if (!collection) {
+  if (!category) {
     return buildMetadata({ 
-      title: "Collection Not Found", 
+      title: "Category Not Found", 
       description: "" 
     });
   }
   
   return buildMetadata({
-    title: `${collection.name} | tsgabrielle`,
-    description: collection.description ?? "Explore this exclusive collection at tsgabrielle.",
-    path: `/collections/${resolvedParams.slug}`,
+    title: `${category.name} | tsgabrielle`,
+    description: category.description ?? `Explore our exclusive ${category.name} selection at tsgabrielle.`,
+    path: `/categories/${resolvedParams.slug}`,
   });
 }
 
-export default async function CollectionPage({ params }: PageProps) {
+export default async function CategoryPage({ params }: PageProps) {
   const resolvedParams = await params;
   
-  let collection: any = null;
+  let category: any = null;
   let products: any[] = [];
   let categories: any[] = [];
   
   try {
-    const [collRes, prodRes, catsRes] = await Promise.all([
-      getCollectionBySlug(resolvedParams.slug),
-      getProductsByCollectionSlug(resolvedParams.slug),
+    const [catRes, prodRes, catsRes] = await Promise.all([
+      getCategoryBySlug(resolvedParams.slug),
+      getProductsByCategorySlug(resolvedParams.slug),
       getCategories(),
     ]);
-    collection = collRes;
+    category = catRes;
     products = prodRes;
     categories = catsRes;
   } catch (error) {
-    console.error("Error fetching collection data:", error);
+    console.error("Error fetching category data:", error);
   }
 
-  if (!collection) {
+  if (!category) {
     return notFound();
   }
 
   // Fallback to menu image if the DB doesn't have a hero image mapping
-  const menuLookup = COLLECTIONS.find(
-    c => c.href === `/${resolvedParams.slug}` || c.href === `/collections/${resolvedParams.slug}`
+  const menuLookup = CATEGORIES.find(
+    c => c.href === `/${resolvedParams.slug}` || c.href === `/categories/${resolvedParams.slug}`
   );
   
-  // Choose image: we assume hero_image is on the collection object, or fallback to menu.ts image
-  const heroImage = collection.hero_image || menuLookup?.image || undefined;
+  // Choose image: we assume hero_image is on the category object, or fallback to menu.ts image
+  const heroImage = category.hero_image || menuLookup?.image || undefined;
 
   return (
     <div className="bg-[#f9f9f9] min-h-screen">
-      <CollectionHero imageUrl={heroImage} alt={collection.name} />
-      <CollectionHeader title={collection.name} description={collection.description} />
+      <CollectionHero imageUrl={heroImage} alt={category.name} />
+      <CollectionHeader title={category.name} description={category.description} />
       <CollectionPageClient 
         initialProducts={products} 
         categories={categories} 

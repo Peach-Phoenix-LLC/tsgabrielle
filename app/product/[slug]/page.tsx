@@ -14,15 +14,30 @@ export async function generateMetadata({ params }: { params: Promise<{ slug: str
   });
 }
 
+export const dynamic = "force-dynamic";
+
 export default async function ProductPage({ params }: { params: Promise<{ slug: string }> }) {
   const { slug } = await params;
-  const product = await getProductBySlug(slug);
-  if (!product) notFound();
   
-  const [variants, images] = await Promise.all([
-    getVariantsByProductId(product.id),
-    getProductImages(product.id)
-  ]);
+  let product = null;
+  let variants = [];
+  let images = [];
+  
+  try {
+    product = await getProductBySlug(slug);
+    if (product) {
+      const [vRes, iRes] = await Promise.all([
+        getVariantsByProductId(product.id),
+        getProductImages(product.id)
+      ]);
+      variants = vRes;
+      images = iRes;
+    }
+  } catch (error) {
+    console.error("Error fetching product data:", error);
+  }
+
+  if (!product) notFound();
 
   return <ProductClientView product={product} variants={variants} images={images} />;
 }

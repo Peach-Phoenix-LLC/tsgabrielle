@@ -17,21 +17,29 @@ export const metadata = buildMetadata({
   path: "/"
 });
 
+export const dynamic = "force-dynamic";
+
 export default async function HomePage() {
-  const supabase = getSupabaseServerClient();
-  
-  // Fetch featured products
-  const { data: featuredProducts } = await supabase
-    .from("products")
-    .select(`
-      id,
-      title,
-      slug,
-      price_cents,
-      images:product_images(url)
-    `)
-    .eq("active", true)
-    .limit(4);
+  let featuredProducts: any[] = [];
+  try {
+    const supabase = getSupabaseServerClient();
+    
+    // Fetch featured products
+    const { data } = await supabase
+      .from("products")
+      .select(`
+        id,
+        title,
+        slug,
+        price_cents,
+        images:product_images(url)
+      `)
+      .eq("active", true)
+      .limit(4);
+    featuredProducts = data || [];
+  } catch (error) {
+    console.warn("Could not fetch featured products:", error);
+  }
 
   // We use the imported CATEGORIES and COLLECTIONS for the main grid to ensure premium imagery
   // we take up to 9 for the 3x3 grid
@@ -101,13 +109,12 @@ export default async function HomePage() {
             <h2 className="text-4xl md:text-5xl font-light tracking-tight text-[#111111]">The Elements</h2>
           </div>
           
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-12 lg:gap-16">
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
             {displayCategories.map((category, idx) => {
               const displayImg = category.image || heroSlides[idx % 4];
               return (
-                <div key={idx} className="group flex flex-col items-center gap-8">
-                  {/* Circular Image Container */}
-                  <div className="aspect-square w-full max-w-[320px] overflow-hidden rounded-full border border-[#e7e7e7] bg-white transition-all duration-700 group-hover:shadow-xl group-hover:border-[#a932bd]/20">
+                <div key={idx} className="group flex flex-col gap-6">
+                  <div className="aspect-[3/4] overflow-hidden bg-[#f9f9f9] border border-[#e7e7e7] rounded-[3rem] transition-all duration-700 group-hover:shadow-xl group-hover:border-[#a932bd]/20">
                     <img
                       src={displayImg}
                       alt={category.label}

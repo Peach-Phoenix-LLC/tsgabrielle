@@ -21,9 +21,8 @@ export default function CategoriesIndexPage() {
           {CATEGORIES.map((category, idx) => {
             const displayImg = category.image || `/images/slides/tsgabrielle-Slide${(idx % 4) + 1}.png`;
             return (
-              <div key={idx} className="group flex flex-col items-center gap-8">
-                {/* Circular Image Container */}
-                <div className="aspect-square w-full max-w-[320px] overflow-hidden rounded-full border border-[#e7e7e7] bg-[#f9f9f9] transition-all duration-700 group-hover:shadow-xl group-hover:border-[#a932bd]/20">
+              <div key={idx} className="group flex flex-col gap-6">
+                <div className="aspect-[3/4] overflow-hidden bg-[#f9f9f9] border border-[#e7e7e7] rounded-[3rem] transition-all duration-700 group-hover:shadow-xl group-hover:border-[#a932bd]/20">
                   <img
                     src={displayImg}
                     alt={category.label}

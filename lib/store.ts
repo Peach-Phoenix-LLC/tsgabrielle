@@ -87,3 +87,10 @@ export async function getProductImages(productId: string): Promise<ProductImage[
     .order("sort_order", { ascending: true });
   return (data ?? []) as ProductImage[];
 }
+
+export async function getCategoryBySlug(slug: string): Promise<any | null> {
+  if (!hasSupabaseServerEnv()) return null;
+  const supabase = getSupabaseServerClient();
+  const { data } = await supabase.from("categories").select("*").eq("slug", slug).single();
+  return data || null;
+}
