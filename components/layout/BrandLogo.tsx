@@ -16,12 +16,9 @@ export function BrandLogo({ href = "/", className = "", light = false }: BrandLo
       <img 
         src={logoUrl} 
         alt="tsgabrielle logo" 
-        className="h-9 w-auto object-contain"
+        className="h-10 w-auto object-contain"
         onError={(e) => (e.currentTarget.style.display = 'none')} 
       />
-      <span className={`font-light tracking-wide text-xl ${light ? 'text-[#ffffff]' : 'text-[#111111]'}`}>
-        tsgabrielle®
-      </span>
     </Link>
   );
 }

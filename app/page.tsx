@@ -9,10 +9,10 @@ export const metadata = buildMetadata({
 });
 
 const heroSlides = [
-  "/images/Collections/Peach Phoenix/Peach_Phienix.PNG",
-  "/images/Collections/Édition Spatiale/Spatial_Edition_by_tsgabrielle.png",
-  "/images/Collections/Flamant Rose/Flamant-Rose.png",
-  "/images/Collections/Womanizer/Womanizer.png"
+  "/images/slides/tsgabrielle-Slide1.png",
+  "/images/slides/tsgabrielle-Slide2.png",
+  "/images/slides/tsgabrielle-Slide3.png",
+  "/images/slides/tsgabrielle-Slide4.png"
 ];
 
 export default function HomePage() {

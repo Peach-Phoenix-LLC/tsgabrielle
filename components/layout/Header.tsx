@@ -11,8 +11,8 @@ export function Header() {
 
   return (
     <header className="sticky top-0 z-50 flex w-full flex-col justify-center bg-[#a932bd] text-[#ffffff] min-h-[56px] lg:min-h-[64px]">
-      <div className="container-luxe flex items-center justify-between py-2">
-        <div className="hidden items-center gap-8 lg:flex">
+      <div className="container-luxe flex items-center justify-between py-3">
+        <div className="hidden items-center gap-10 lg:flex">
           {MENU_GROUPS.slice(0, 3).map((group) => (
             <div key={group.label} className="group relative">
               <Link href={group.href} className="text-base font-light tracking-wide text-[#ffffff] transition-opacity hover:opacity-75">
