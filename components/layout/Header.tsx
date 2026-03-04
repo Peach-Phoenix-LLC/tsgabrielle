@@ -89,7 +89,7 @@ export function Header() {
       {/* Mega Menu Overlay */}
       <div 
         className={`
-          absolute left-0 top-full w-full bg-white/95 backdrop-blur-xl border-b border-[#a932bd]/10 
+          absolute left-0 top-full w-full bg-transparent border-b border-[#a932bd]/10 
           transition-all duration-500 ease-in-out overflow-hidden shadow-2xl
           ${activeGroup ? 'max-h-[85vh] opacity-100' : 'max-h-0 opacity-0 pointer-events-none'}
         `}
@@ -103,7 +103,7 @@ export function Header() {
               <div className="col-span-1 space-y-8">
                 <div className="space-y-4">
                   <p className="text-[10px] uppercase tracking-[0.3em] text-[#a932bd]/60">Department</p>
-                  <h2 className="text-4xl font-light tracking-tight text-[#111111]">{hoveredItem?.label || group.label}</h2>
+                  <h2 className="text-4xl font-light tracking-tight text-[#a932bd]">{hoveredItem?.label || group.label}</h2>
                 </div>
                 
                 <div className="aspect-[4/5] w-full bg-[#f9f9f9] overflow-hidden rounded-sm border border-[#a932bd]/5 relative group/img">
@@ -116,7 +116,7 @@ export function Header() {
                   ) : (
                     <div className="h-full w-full flex flex-col items-center justify-center p-8 text-center space-y-4">
                        <span className="text-[10px] uppercase tracking-widest text-[#a932bd]/40">tsgabrielle® Luxury</span>
-                       <p className="text-xs font-light text-[#555555] leading-relaxed">
+                       <p className="text-xs font-light text-[#a932bd]/80 leading-relaxed">
                           Discover the essence of inclusive elegance. Hover over an item to preview the collection.
                        </p>
                     </div>
@@ -137,7 +137,7 @@ export function Header() {
                     <li key={item.href}>
                       <Link 
                         href={item.href}
-                        className="text-[15px] font-light text-[#111111] transition-all hover:text-[#a932bd] hover:pl-2 block py-1"
+                        className="text-[15px] font-light text-[#a932bd] transition-all hover:opacity-100 hover:pl-2 block py-1"
                         onMouseEnter={() => setHoveredItem(item)}
                         onClick={() => setActiveGroup(null)}
                       >

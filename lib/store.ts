@@ -26,18 +26,38 @@ export async function getProductsByCategorySlug(slug: string): Promise<Product[]
   return (data ?? []) as Product[];
 }
 
+export async function getCollectionBySlug(slug: string): Promise<any | null> {
+  if (!hasSupabaseServerEnv()) return null;
+  const supabase = getSupabaseServerClient();
+  const { data } = await supabase.from("collections").select("*").eq("slug", slug).single();
+  return data || null;
+}
+
 export async function getProductsByCollectionSlug(slug: string): Promise<Product[]> {
   if (!hasSupabaseServerEnv()) return [];
   const supabase = getSupabaseServerClient();
   const { data: collection } = await supabase.from("collections").select("id").eq("slug", slug).single();
   if (!collection?.id) return [];
+  return getProductsByCollectionId(collection.id);
+}
+
+export async function getProductsByCollectionId(collectionId: string): Promise<Product[]> {
+  if (!hasSupabaseServerEnv()) return [];
+  const supabase = getSupabaseServerClient();
   const { data } = await supabase
     .from("products")
-    .select("*")
-    .eq("collection_id", collection.id)
+    .select("*, product_images(url)")
+    .eq("collection_id", collectionId)
     .eq("active", true)
     .order("created_at", { ascending: false });
-  return (data ?? []) as Product[];
+  return (data ?? []) as any[];
+}
+
+export async function getCategories(): Promise<any[]> {
+  if (!hasSupabaseServerEnv()) return [];
+  const supabase = getSupabaseServerClient();
+  const { data } = await supabase.from("categories").select("id, name, slug").order("name");
+  return data ?? [];
 }
 
 export async function getProductBySlug(slug: string): Promise<Product | null> {

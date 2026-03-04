@@ -60,3 +60,18 @@ body {
   background-size: 200% 100%;
   animation: iridescent 2s linear infinite;
 }
+@keyframes liquid {
+  0% { background-position: 0% 50%; opacity: 0; }
+  5% { opacity: 1; }
+  20% { background-position: 100% 50%; }
+  40% { background-position: 50% 100%; }
+  60% { background-position: 0% 50%; }
+  95% { opacity: 1; }
+  100% { background-position: 0% 50%; opacity: 0; }
+}
+
+@keyframes iridescent {
+  0% { background-position: 0% 50%; }
+  50% { background-position: 100% 50%; }
+  100% { background-position: 0% 50%; }
+}
