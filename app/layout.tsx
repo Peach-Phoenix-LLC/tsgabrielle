@@ -1,27 +1,28 @@
 import type { Metadata } from "next";
-import { Cinzel, Jost } from "next/font/google";
+import { Lato, Space_Grotesk } from "next/font/google";
 import "@/app/globals.css";
-import { Header } from "@/components/layout/Header";
-import { Footer } from "@/components/layout/Footer";
 import { AppProviders } from "@/components/providers/AppProviders";
 import { buildMetadata } from "@/lib/seo";
 
-const cinzel = Cinzel({ subsets: ["latin"], variable: "--font-cinzel" });
-const jost = Jost({ subsets: ["latin"], variable: "--font-jost" });
+const spaceGrotesk = Space_Grotesk({ subsets: ["latin"], variable: "--font-space-grotesk" });
+const lato = Lato({ subsets: ["latin"], weight: ["300", "400", "700"], variable: "--font-lato" });
 
 export const metadata: Metadata = buildMetadata({
   title: "tsgabrielle | Inclusive Luxury Ecommerce",
   description: "Luxury ecommerce platform with short collection URLs and inclusive products."
 });
 
+import { SpeedInsights } from "@vercel/speed-insights/next";
+
+import { StoreLayoutWrapper } from "@/components/layout/StoreLayoutWrapper";
+
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
     <html lang="en">
-      <body className={`${cinzel.variable} ${jost.variable}`}>
+      <body className={`${spaceGrotesk.variable} ${lato.variable}`}>
         <AppProviders>
-          <Header />
-          <main>{children}</main>
-          <Footer />
+          <StoreLayoutWrapper>{children}</StoreLayoutWrapper>
+          <SpeedInsights />
         </AppProviders>
       </body>
     </html>

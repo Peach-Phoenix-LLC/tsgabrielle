@@ -4,12 +4,59 @@
 
 :root {
   color-scheme: light;
+  --color-primary:    #a932bd;
+  --color-light:      #e7e7e7;
+  --color-bg:         #ffffff;
+  --color-header-bg:  #a932bd;
+  --color-footer-bg:  #a932bd;
+  --color-header-text:#ffffff;
+  --color-footer-text:#ffffff;
 }
 
 body {
-  @apply bg-champagne text-night font-body;
+  background-color: var(--color-bg);
+  color: #111111;
+  font-family: var(--font-lato), sans-serif;
+  font-weight: 300;
+  @apply antialiased overflow-x-hidden;
 }
 
 .container-luxe {
-  @apply mx-auto w-full max-w-7xl px-4 sm:px-6 lg:px-8;
+  @apply mx-auto w-full max-w-[1540px] px-6 md:px-10;
+}
+
+.glass-header {
+  background: rgba(255, 255, 255, 0.05);
+  backdrop-filter: blur(24px) saturate(120%);
+  -webkit-backdrop-filter: blur(24px) saturate(120%);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.15);
+}
+
+.holographic-text {
+  background: linear-gradient(90deg, #a932bd, #00d2ff, #a932bd, #ff0099);
+  background-size: 300% 300%;
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+  animation: liquid 6s ease-in-out infinite;
+}
+
+.holographic-border {
+  position: relative;
+  background: #fff;
+  background-clip: padding-box;
+  border: 2px solid transparent;
+  border-radius: 9999px;
+}
+
+.holographic-border::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  margin: -2px;
+  border-radius: inherit;
+  background: linear-gradient(to right, #a932bd, #00d2ff, #ff0099);
+  background-size: 200% 100%;
+  animation: iridescent 2s linear infinite;
 }
