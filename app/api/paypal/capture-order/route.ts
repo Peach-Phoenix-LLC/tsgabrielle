@@ -1,5 +1,6 @@
 import { NextResponse } from "next/server";
 import { paypalFetch } from "@/lib/paypal";
+import { printfulFetch } from "@/lib/printful";
 import { getSupabaseServerClient } from "@/lib/supabase/server";
 
 type CaptureBody = { orderId: string };

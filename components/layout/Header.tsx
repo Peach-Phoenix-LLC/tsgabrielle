@@ -8,54 +8,62 @@ import { useCart } from "@/hooks/useCart";
 
 export function Header() {
   const [open, setOpen] = useState(false);
+  const [activeGroup, setActiveGroup] = useState<string | null>(null);
   const { items } = useCart();
   const itemCount = items.reduce((sum, item) => sum + item.qty, 0);
 
+  const mainNavLeft = MENU_GROUPS.slice(1, 4); // Categories, Collections, Collabs
+  const mainNavRight = MENU_GROUPS.slice(4, 7); // Universe, Meet, Follow
+
   return (
-    <header className="sticky top-0 z-50 flex w-full flex-col justify-center bg-[#a932bd] text-[#ffffff] min-h-[56px] lg:min-h-[64px]">
-      <div className="container-luxe flex items-center justify-between py-3">
+    <header 
+      className="absolute top-0 z-50 w-full bg-transparent text-[#a932bd]"
+      onMouseLeave={() => setActiveGroup(null)}
+    >
+      <div className="container-luxe flex items-center justify-between py-6 lg:py-8">
         {/* Left Nav */}
-        <div className="hidden items-center gap-8 lg:flex">
-          {MENU_GROUPS.slice(0, 3).map((group) => (
-            <div key={group.label} className="group relative">
-              <Link href={group.href} className="text-[13px] font-light uppercase tracking-widest text-[#ffffff] transition-opacity hover:opacity-75">
+        <div className="hidden items-center gap-10 lg:flex flex-1">
+          {mainNavLeft.map((group) => (
+            <div 
+              key={group.label} 
+              className="relative"
+              onMouseEnter={() => setActiveGroup(group.label)}
+            >
+              <Link 
+                href={group.href} 
+                className="text-[11px] font-medium uppercase tracking-[0.25em] transition-opacity hover:opacity-60"
+              >
                 {group.label}
               </Link>
-              {"children" in group && (
-                <div className="invisible absolute left-0 top-full mt-4 w-[240px] border border-white/10 bg-[#a932bd] p-6 opacity-0 shadow-2xl transition-all group-hover:visible group-hover:opacity-100">
-                  <ul className="space-y-4">
-                    {group.children.map((item) => (
-                      <li key={item.href}>
-                        <Link href={item.href} className="block text-xs font-light uppercase tracking-widest text-[#ffffff] transition-opacity hover:opacity-75">
-                          {item.label}
-                        </Link>
-                      </li>
-                    ))}
-                  </ul>
-                </div>
-              )}
             </div>
           ))}
         </div>
 
         {/* Center Logo */}
-        <BrandLogo light className="[&_img]:h-10" />
+        <div className="flex-shrink-0 z-50">
+          <BrandLogo className="h-10 lg:h-12" />
+        </div>
 
         {/* Right Nav */}
-        <div className="hidden items-center gap-8 lg:flex">
-          {MENU_GROUPS.slice(3, 6).map((group) => (
-            <Link
-              key={group.label}
-              href={group.href}
-              className="text-[13px] font-light uppercase tracking-widest text-[#ffffff] transition-opacity hover:opacity-75"
+        <div className="hidden items-center justify-end gap-10 lg:flex flex-1">
+          {mainNavRight.map((group) => (
+            <div 
+              key={group.label} 
+              className="relative"
+              onMouseEnter={() => setActiveGroup(group.label)}
             >
-              {group.label}
-            </Link>
+              <Link 
+                href={group.href} 
+                className="text-[11px] font-medium uppercase tracking-[0.25em] transition-opacity hover:opacity-60"
+              >
+                {group.label}
+              </Link>
+            </div>
           ))}
           
-          <Link href="/checkout" className="flex items-center gap-2 text-[13px] font-light uppercase tracking-widest text-[#ffffff] transition-opacity hover:opacity-75">
+          <Link href="/checkout" className="flex items-center gap-2 text-[11px] font-medium uppercase tracking-[0.25em] transition-opacity hover:opacity-60">
             <span>Bag</span>
-            <span className="flex h-5 w-5 items-center justify-center rounded-full border border-white/50 text-[10px]">
+            <span className="flex h-5 w-5 items-center justify-center rounded-full border border-[#a932bd] text-[10px]">
               {itemCount}
             </span>
           </Link>
@@ -64,33 +72,87 @@ export function Header() {
         {/* Mobile Actions */}
         <div className="flex items-center gap-6 lg:hidden">
             <Link href="/checkout" className="relative">
-                <span className="flex h-5 w-5 items-center justify-center rounded-full border border-white/50 text-[10px] text-white">
+                <span className="flex h-5 w-5 items-center justify-center rounded-full border border-[#a932bd] text-[10px]">
                   {itemCount}
                 </span>
             </Link>
-            <button className="text-xs font-light uppercase tracking-widest text-[#ffffff]" onClick={() => setOpen((v) => !v)}>
+            <button className="text-[11px] font-medium uppercase tracking-[0.25em]" onClick={() => setOpen((v) => !v)}>
               {open ? "Close" : "Menu"}
             </button>
         </div>
       </div>
 
+      {/* Mega Menu Overlay */}
+      <div 
+        className={`
+          absolute left-0 top-full w-full bg-white/95 backdrop-blur-xl border-b border-[#a932bd]/10 
+          transition-all duration-500 ease-in-out overflow-hidden shadow-2xl
+          ${activeGroup ? 'max-h-[70vh] opacity-100' : 'max-h-0 opacity-0 pointer-events-none'}
+        `}
+      >
+        <div className="container-luxe py-16">
+          {MENU_GROUPS.map((group) => (
+            <div 
+              key={group.label}
+              className={`${activeGroup === group.label ? 'grid' : 'hidden'} grid-cols-4 gap-20`}
+            >
+              <div className="col-span-1 space-y-6">
+                <p className="text-[10px] uppercase tracking-[0.3em] text-[#a932bd]/60">Department</p>
+                <h2 className="text-4xl font-light tracking-tight text-[#111111]">{group.label}</h2>
+                <p className="text-sm font-light leading-relaxed text-[#555555]">
+                  Experience the pinnacle of inclusive luxury. Explore our curated selection of {group.label.toLowerCase()}.
+                </p>
+                <Link 
+                  href={group.href}
+                  className="inline-block pt-4 text-[10px] uppercase tracking-[0.2em] font-medium border-b border-[#a932bd] pb-2 transition-opacity hover:opacity-60"
+                  onClick={() => setActiveGroup(null)}
+                >
+                  View Collection
+                </Link>
+              </div>
+              <div className="col-span-3">
+                <ul className="grid grid-cols-3 gap-x-12 gap-y-6">
+                  {"children" in group && group.children.map((item) => (
+                    <li key={item.href}>
+                      <Link 
+                        href={item.href}
+                        className="text-[13px] font-light text-[#111111] transition-all hover:text-[#a932bd] hover:pl-2"
+                        onClick={() => setActiveGroup(null)}
+                      >
+                        {item.label}
+                      </Link>
+                    </li>
+                  ))}
+                </ul>
+              </div>
+            </div>
+          ))}
+        </div>
+      </div>
+
       {/* Mobile Menu Overlay */}
       {open && (
-        <div className="fixed inset-0 top-[56px] z-40 flex flex-col bg-[#a932bd] lg:hidden">
+        <div className="fixed inset-0 top-0 z-[60] flex flex-col bg-white lg:hidden">
+          <div className="flex items-center justify-between px-6 py-6 border-b border-[#e7e7e7]">
+            <BrandLogo />
+            <button className="text-[11px] font-medium uppercase tracking-[0.25em] text-[#a932bd]" onClick={() => setOpen(false)}>
+              Close
+            </button>
+          </div>
           <div className="flex-1 overflow-y-auto px-6 py-10">
             <ul className="space-y-8">
               {MENU_GROUPS.map((group) => (
-                <li key={group.label} className="space-y-4">
-                  <Link href={group.href} className="block text-xl font-light tracking-wide text-[#ffffff]" onClick={() => setOpen(false)}>
+                <li key={group.label} className="space-y-6">
+                  <Link href={group.href} className="block text-2xl font-light tracking-tight text-[#111111]" onClick={() => setOpen(false)}>
                     {group.label}
                   </Link>
                   {"children" in group && (
-                    <ul className="grid grid-cols-1 gap-4 border-l border-white/10 pl-5">
+                    <ul className="grid grid-cols-1 gap-4 border-l border-[#a932bd]/20 pl-6">
                       {group.children.map((item) => (
                         <li key={item.href}>
                           <Link
                             href={item.href}
-                            className="block text-sm font-light uppercase tracking-widest text-white/70"
+                            className="block text-[13px] font-light text-[#555555]"
                             onClick={() => setOpen(false)}
                           >
                             {item.label}
@@ -102,15 +164,6 @@ export function Header() {
                 </li>
               ))}
             </ul>
-          </div>
-          <div className="border-t border-white/10 p-6">
-             <Link 
-                href="/checkout" 
-                className="flex w-full items-center justify-center bg-white py-4 text-xs font-light uppercase tracking-widest text-[#a932bd]"
-                onClick={() => setOpen(false)}
-             >
-                View Bag ({itemCount})
-             </Link>
           </div>
         </div>
       )}
