@@ -1,28 +1,37 @@
 import Link from "next/link";
 import { getSupabaseServerClient } from "@/lib/supabase/server";
 
-export default async function AdminProductsPage() {
-  const supabase = getSupabaseServerClient();
-  
-  // Fetch products with their category and variants
-  // We'll take the first variant's SKU and stock for the list view
-  const { data: products, error } = await supabase
-    .from("products")
-    .select(`
-      id,
-      title,
-      price_cents,
-      active,
-      category:categories(name),
-      variants:product_variants(sku, stock)
-    `)
-    .order("created_at", { ascending: false });
+export const dynamic = "force-dynamic";
 
-  if (error) {
-    console.error("Error fetching products:", error);
+export default async function AdminProductsPage() {
+  let products: any[] = [];
+  try {
+    const supabase = getSupabaseServerClient();
+    
+    // Fetch products with their category and variants
+    // We'll take the first variant's SKU and stock for the list view
+    const { data, error } = await supabase
+      .from("products")
+      .select(`
+        id,
+        title,
+        price_cents,
+        active,
+        category:categories(name),
+        variants:product_variants(sku, stock)
+      `)
+      .order("created_at", { ascending: false });
+
+    if (error) {
+      console.error("Error fetching products:", error);
+    } else {
+      products = data || [];
+    }
+  } catch (err) {
+    console.warn("Could not fetch products:", err);
   }
 
-  const rows = (products || []).map((p) => {
+  const rows = (products || []).map((p: any) => {
     // Get the first variant if available
     const primaryVariant = p.variants?.[0] || {};
     const stockCount = primaryVariant.stock ?? 0;
