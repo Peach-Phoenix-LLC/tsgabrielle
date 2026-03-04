@@ -35,7 +35,7 @@ export function Header() {
           ))}
         </div>
 
-        <BrandLogo className="[&>span]:text-[#ffffff] [&_img]:h-8" />
+        <BrandLogo light className="[&_img]:h-9" />
 
         <div className="hidden items-center gap-8 lg:flex">
           {MENU_GROUPS.slice(3).map((group) => (

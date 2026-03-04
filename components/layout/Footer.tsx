@@ -10,7 +10,7 @@ export function Footer() {
       <div className="container-luxe">
         <div className="mb-16 grid gap-12 md:grid-cols-3">
           <div>
-            <BrandLogo className="[&>span]:text-[#ffffff] [&_img]:h-9" />
+            <BrandLogo light className="[&_img]:h-9" />
             <p className="mt-5 max-w-xs text-sm font-light leading-relaxed text-[#ffffff]">
               Inclusive luxury, globally shipped.
             </p>
