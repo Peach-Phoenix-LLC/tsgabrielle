@@ -1,7 +1,8 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useRef } from "react";
 import { useRouter } from "next/navigation";
+import { createClient } from "@supabase/supabase-js";
 
 type Option = { id: string; name: string };
 
@@ -10,10 +11,53 @@ type ProductFormProps = {
   collections: Option[];
 };
 
+// Initialize Supabase client for browser-side uploads
+function getSupabaseBrowserClient() {
+  return createClient(
+    process.env.NEXT_PUBLIC_SUPABASE_URL!,
+    process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!
+  );
+}
+
 export function ProductForm({ categories, collections }: ProductFormProps) {
   const router = useRouter();
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
+  const [uploading, setUploading] = useState(false);
+  const [imagePreview, setImagePreview] = useState<string | null>(null);
+  const fileInputRef = useRef<HTMLInputElement>(null);
+
+  async function uploadImage(file: File): Promise<string> {
+    const supabase = getSupabaseBrowserClient();
+    const fileExt = file.name.split('.').pop();
+    const fileName = `${Date.now()}-${Math.random().toString(36).substring(7)}.${fileExt}`;
+    const filePath = `products/${fileName}`;
+
+    const { error: uploadError } = await supabase.storage
+      .from('images')
+      .upload(filePath, file);
+
+    if (uploadError) {
+      throw new Error(`Upload failed: ${uploadError.message}`);
+    }
+
+    const { data: { publicUrl } } = supabase.storage
+      .from('images')
+      .getPublicUrl(filePath);
+
+    return publicUrl;
+  }
+
+  function handleImageChange(e: React.ChangeEvent<HTMLInputElement>) {
+    const file = e.target.files?.[0];
+    if (file) {
+      const reader = new FileReader();
+      reader.onloadend = () => {
+        setImagePreview(reader.result as string);
+      };
+      reader.readAsDataURL(file);
+    }
+  }
 
   async function onSubmit(e: React.FormEvent<HTMLFormElement>) {
     e.preventDefault();
@@ -21,6 +65,24 @@ export function ProductForm({ categories, collections }: ProductFormProps) {
     setError(null);
 
     const formData = new FormData(e.currentTarget);
+    const imageFile = formData.get("image_file") as File;
+    
+    let image_url = formData.get("image_url") as string;
+
+    // Upload image file if provided
+    if (imageFile && imageFile.size > 0) {
+      setUploading(true);
+      try {
+        image_url = await uploadImage(imageFile);
+      } catch (err: any) {
+        setError(err.message);
+        setLoading(false);
+        setUploading(false);
+        return;
+      }
+      setUploading(false);
+    }
+
     const data = {
       title: formData.get("title") as string,
       slug: formData.get("slug") as string,
@@ -30,7 +92,7 @@ export function ProductForm({ categories, collections }: ProductFormProps) {
       collection_id: formData.get("collection_id") as string || null,
       active: formData.get("active") === "on",
       sku: formData.get("sku") as string,
-      image_url: formData.get("image_url") as string,
+      image_url,
     };
 
     try {
@@ -146,7 +208,23 @@ export function ProductForm({ categories, collections }: ProductFormProps) {
             />
           </div>
           <div className="space-y-2">
-            <label className="text-xs uppercase tracking-widest text-[#555555] font-light">Primary Image URL</label>
+            <label className="text-xs uppercase tracking-widest text-[#555555] font-light">Primary Image</label>
+            <div className="border-2 border-dashed border-[#e7e7e7] rounded-lg p-4 hover:border-[#a932bd] transition-colors">
+              <input 
+                ref={fileInputRef}
+                name="image_file"
+                type="file"
+                accept="image/*"
+                onChange={handleImageChange}
+                className="w-full text-sm text-[#555555] file:mr-4 file:py-2 file:px-4 file:rounded file:border-0 file:text-xs file:uppercase file:tracking-widest file:bg-[#a932bd] file:text-white hover:file:bg-[#921fa6]"
+              />
+              {imagePreview && (
+                <div className="mt-4">
+                  <img src={imagePreview} alt="Preview" className="h-32 w-auto object-contain" />
+                </div>
+              )}
+            </div>
+            <p className="text-xs text-[#555555] mt-1">Or enter image URL below</p>
             <input 
               name="image_url"
               type="url"
@@ -167,10 +245,10 @@ export function ProductForm({ categories, collections }: ProductFormProps) {
       <div className="pt-8">
         <button 
           type="submit"
-          disabled={loading}
+          disabled={loading || uploading}
           className="w-full bg-[#a932bd] py-5 text-sm uppercase tracking-widest font-light text-white transition-all hover:bg-[#921fa6] disabled:opacity-50"
         >
-          {loading ? "Saving..." : "Create Product"}
+          {loading || uploading ? (uploading ? "Uploading Image..." : "Saving...") : "Create Product"}
         </button>
       </div>
     </form>
