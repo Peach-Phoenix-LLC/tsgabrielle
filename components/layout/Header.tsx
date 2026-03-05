@@ -90,7 +90,7 @@ export function Header() {
       {/* Mega Menu Overlay */}
       <div 
         className={`
-          absolute left-0 top-full w-full bg-transparent border-b border-[#a932bd]/10 
+          absolute left-0 top-full w-full bg-white/50 backdrop-blur-md border-b border-[#a932bd]/10 
           transition-all duration-500 ease-in-out overflow-hidden shadow-2xl
           ${activeGroup ? 'max-h-[85vh] opacity-100' : 'max-h-0 opacity-0 pointer-events-none'}
         `}
