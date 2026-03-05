@@ -1,4 +1,7 @@
+import Link from "next/link";
+
 export default function NotFound() {
+
   return (
     <div className="fixed inset-0 w-screen h-screen overflow-hidden bg-black z-[9999]">
       {/* Background Video Container */}
@@ -11,10 +14,18 @@ export default function NotFound() {
         />
       </div>
       
-      {/* Overlay to catch clicks and prevent YouTube interaction */}
       <div className="absolute inset-0 bg-transparent z-10" />
 
-      {/* Optional: Add a subtle logo or home link if needed, but the user requested "without text" */}
+      <div className="absolute top-10 left-10 z-20">
+        <Link href="/" className="text-white text-xs uppercase tracking-widest px-6 py-3 border border-white/20 hover:bg-white hover:text-black transition-all">
+          Return Home
+        </Link>
+      </div>
+
+      <div className="absolute bottom-10 left-1/2 -translate-x-1/2 z-20 text-white/40 text-[10px] uppercase tracking-widest">
+        tsgabrielle® · 404 Page Not Found
+      </div>
+
     </div>
   );
 }

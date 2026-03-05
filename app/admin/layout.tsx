@@ -1,6 +1,9 @@
 import type { Metadata } from "next";
 import { buildMetadata } from "@/lib/seo";
 
+export const dynamic = "force-dynamic";
+
+
 export const metadata: Metadata = buildMetadata({
   title: "Admin | tsgabrielle",
   description: "Administrative dashboard.",

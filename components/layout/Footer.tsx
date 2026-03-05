@@ -71,10 +71,21 @@ export function Footer() {
         </div>
         
         {/* Minimal Legal Credit */}
-        <div className="mt-12 text-[10px] font-light opacity-50 flex flex-col md:flex-row justify-between items-center gap-4">
-          <span>© 2026 tsgabrielle · All Rights Reserved</span>
-          <Link href="/admin" className="hover:opacity-100 transition-opacity">Admin Panel</Link>
+        <div className="mt-12 text-[10px] font-light flex flex-col md:flex-row justify-between items-center gap-4 border-t border-white/10 pt-8">
+          <span className="opacity-50">© 2026 tsgabrielle · All Rights Reserved</span>
+          <div className="flex gap-8 items-center">
+            <div className="group relative">
+              <span className="opacity-50 text-[8px] uppercase tracking-widest">© 2026 Peach Phoenix, LLC.</span>
+              <Link 
+                href="/admin" 
+                className="absolute -bottom-4 left-0 text-[6px] text-transparent group-hover:text-white/20 transition-colors uppercase tracking-widest"
+              >
+                Adm
+              </Link>
+            </div>
+          </div>
         </div>
+
       </div>
     </footer>
   );

@@ -106,3 +106,21 @@ body {
   50% { background-position: 100% 50%; }
   100% { background-position: 0% 50%; }
 }
+
+
+/* Core Antigravity Class for tsgabrielle™ UI Elements */
+.zero-gravity-element {
+  /* Establish 3D space for hardware acceleration */
+  transform: translate3d(0, 0, 0);
+  /* Frictionless easing: swift lift, slow settle */
+  transition: transform 1.2s cubic-bezier(0.165, 0.84, 0.44, 1),
+              box-shadow 1.2s cubic-bezier(0.165, 0.84, 0.44, 1);
+  will-change: transform;
+}
+
+.zero-gravity-element:hover {
+  /* Elevate on the Y-axis while scaling slightly */
+  transform: translate3d(0, -12px, 0) scale(1.02);
+  /* Diffuse shadow to simulate increased distance from the background */
+  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.08);
+}

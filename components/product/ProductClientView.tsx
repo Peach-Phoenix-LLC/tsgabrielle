@@ -1,208 +1,326 @@
 "use client";
 
-import { useState } from "react";
+import React, { useState, useEffect } from "react";
+import { 
+  Heart, Share2, ChevronLeft, ChevronRight, Maximize2, 
+  Minus, Plus, ShieldCheck, Truck, RefreshCw, Award, 
+  Star, ShoppingBag, CreditCard, X, Check
+} from "lucide-react";
+import { motion, AnimatePresence } from "framer-motion";
 import { useCart } from "@/hooks/useCart";
-import type { Product, ProductVariant, ProductImage } from "@/lib/types";
 
-export function ProductClientView({
-  product,
-  variants,
-  images
-}: {
-  product: Product;
-  variants: ProductVariant[];
-  images: ProductImage[];
-}) {
-  const { addItem } = useCart();
-  const [selectedVariant, setSelectedVariant] = useState(variants[0]?.id ?? "");
+// Types for strict verification
+interface ProductProps {
+  product: {
+    id: string;
+    title: string;
+    price: number;
+    description: string;
+    details: string[];
+    care: string;
+    shipping: string;
+    images: string[];
+    colors: { name: string; hex: string }[];
+    sizes: { name: string; variantId: string }[];
+    rating: number;
+    reviewCount: number;
+    soldCount: number;
+    stock: number;
+    tags: string[];
+    ribbon?: "NEW" | "EXCLUSIVE" | "SALE";
+    gifTitleUrl?: string;
+  };
+}
+
+export default function ProductClientView({ product }: ProductProps) {
+  const { addItem, items } = useCart();
+  const [currentImg, setCurrentImg] = useState(0);
+  const [selectedColor, setSelectedColor] = useState(product.colors[0].name);
+  const [selectedSize, setSelectedSize] = useState<any>(null);
+  const [quantity, setQuantity] = useState(1);
   const [activeTab, setActiveTab] = useState("description");
+  const [isWishlisted, setIsWishlisted] = useState(false);
+  const [isZoomOpen, setIsZoomOpen] = useState(false);
+  const [isAdded, setIsAdded] = useState(false);
+  const [showShare, setShowShare] = useState(false);
 
-  const variant = variants.find((v) => v.id === selectedVariant) ?? variants[0];
+  const handleAddToBag = () => {
+    if (!selectedSize) {
+      alert("Please select a size first.");
+      return;
+    }
 
-  const handleAddToCart = () => {
-    if (!variant) return;
     addItem({
-      variantId: variant.id,
-      title: variant.title,
-      qty: 1,
-      priceCents: variant.price_cents
+      variantId: selectedSize.variantId,
+      title: `${product.title} - ${selectedColor} / ${selectedSize.name}`,
+      qty: quantity,
+      priceCents: product.price,
     });
+
+    setIsAdded(true);
+    setTimeout(() => setIsAdded(false), 2000);
   };
 
+  // Animation Constants per Directives
+  const easing = [0.165, 0.84, 0.44, 1];
+
   return (
-    <div className="bg-white pb-32">
-      {/* Fullscreen Slides Gallery */}
-      <section className="relative w-full h-[85vh] md:h-screen bg-[#f9f9f9]">
-        {images.length > 0 ? (
-          <div className="flex h-full w-full overflow-x-auto snap-x snap-mandatory hide-scrollbar">
-            {images.map((img) => (
-              <div key={img.id} className="min-w-full h-full snap-start relative">
-                <img
-                  src={img.url}
-                  alt={img.alt || product.title}
-                  className="absolute inset-0 h-full w-full object-cover"
-                />
-              </div>
-            ))}
+    <div className="min-h-screen bg-[#fdfcf5] text-[#111] font-light selection:bg-[#a932bd]/20">
+      {/* Sticky Header Nav */}
+      <nav className="sticky top-0 z-50 glass-header border-b border-black/5 px-6 py-4 flex justify-between items-center">
+        <div className="flex items-center gap-4">
+          <span className="text-[10px] tracking-widest uppercase font-medium">tsgabrielle™</span>
+        </div>
+        <div className="flex items-center gap-6">
+          <button onClick={() => setShowShare(true)} className="hover:text-[#a932bd] transition-colors"><Share2 size={18} /></button>
+          <button onClick={() => setIsWishlisted(!isWishlisted)} className={`transition-colors ${isWishlisted ? "text-[#a932bd] fill-[#a932bd]" : "hover:text-[#a932bd]"}`}>
+            <Heart size={18} />
+          </button>
+          <div className="relative">
+            <ShoppingBag size={18} />
+            <span className="absolute -top-2 -right-2 bg-[#a932bd] text-white text-[8px] w-4 h-4 rounded-full flex items-center justify-center">
+              {items.reduce((acc, i) => acc + i.qty, 0)}
+            </span>
           </div>
-        ) : (
-          <div className="h-full w-full flex items-center justify-center border-b border-[#e7e7e7]">
-             <span className="text-xs font-light text-[#555555] tracking-widest uppercase">No Image Available</span>
-          </div>
-        )}
+        </div>
+      </nav>
+
+      <main className="container-luxe py-12 lg:grid lg:grid-cols-12 lg:gap-16">
         
-        {/* Scroll Indicator (if multiple images) */}
-        {images.length > 1 && (
-          <div className="absolute bottom-10 left-1/2 -translate-x-1/2 flex gap-2 z-10">
-            {images.map((_, i) => (
-              <div key={i} className="h-1 w-8 bg-white/50 rounded-full" />
-            ))}
-          </div>
-        )}
-      </section>
-
-      {/* Product Information */}
-      <section className="container-luxe max-w-4xl mx-auto pt-16 md:pt-24 space-y-12 text-center">
-        {/* Head Title & Price */}
-        <header className="space-y-6">
-          <nav className="text-[10px] tracking-[0.3em] text-[#a932bd] uppercase font-medium">
-            tsgabrielle® · Official Catalogue
-          </nav>
-          <h1 className="text-4xl md:text-5xl font-light tracking-wide text-[#111111] leading-tight capitalize">
-            {product.title}
-          </h1>
-          <div className="text-2xl font-light text-[#111111]">
-            ${variant ? (variant.price_cents / 100).toFixed(2) : (product.price_cents / 100).toFixed(2)}
-          </div>
-        </header>
-
-        {/* Variants Selection */}
-        {variants.length > 0 && (
-          <div className="max-w-md mx-auto space-y-4">
-             <label className="block text-xs font-light tracking-[0.2em] text-[#555555] uppercase">
-                Select Option
-             </label>
-             <div className="relative">
-                <select
-                  className="w-full appearance-none border border-[#e7e7e7] bg-white px-5 py-4 text-sm font-light text-[#111111] focus:border-[#a932bd] focus:outline-none transition-colors text-center"
-                  value={selectedVariant}
-                  onChange={(e) => setSelectedVariant(e.target.value)}
+        {/* Left: Sticky Image Gallery */}
+        <section className="lg:col-span-7 relative">
+          <div className="sticky top-24 flex gap-4">
+            {/* Thumbnails */}
+            <div className="hidden md:flex flex-col gap-3 w-20">
+              {product.images.map((img, i) => (
+                <button 
+                  key={i} 
+                  onClick={() => setCurrentImg(i)}
+                  className={`aspect-[3/4] border transition-all duration-500 overflow-hidden ${currentImg === i ? "border-[#a932bd]" : "border-transparent opacity-60 hover:opacity-100"}`}
                 >
-                  {variants.map((v) => (
-                    <option key={v.id} value={v.id}>
-                      {v.title}
-                    </option>
-                  ))}
-                </select>
-                <div className="pointer-events-none absolute right-4 top-1/2 -translate-y-1/2 text-[#555555]">
-                  <svg width="12" height="8" viewBox="0 0 12 8" fill="none" stroke="currentColor">
-                    <path d="M1 1L6 6L11 1" strokeWidth="1.5" />
-                  </svg>
+                  <img src={img} alt="thumbnail" className="w-full h-full object-cover" />
+                </button>
+              ))}
+            </div>
+
+            {/* Main Image Viewport */}
+            <div className="relative flex-1 aspect-[3/4] bg-white overflow-hidden zero-gravity-element">
+              {product.ribbon && (
+                <div className="absolute top-6 left-6 z-10 holographic-border px-4 py-1">
+                  <span className="text-[9px] font-bold tracking-[0.2em] text-[#a932bd] uppercase italic">{product.ribbon}</span>
                 </div>
-             </div>
+              )}
+              
+              <AnimatePresence mode="wait">
+                <motion.img 
+                  key={currentImg}
+                  src={product.images[currentImg]}
+                  initial={{ opacity: 0, scale: 1.05 }}
+                  animate={{ opacity: 1, scale: 1 }}
+                  exit={{ opacity: 0 }}
+                  transition={{ duration: 0.8, ease: easing }}
+                  className="w-full h-full object-cover"
+                />
+              </AnimatePresence>
+
+              <div className="absolute inset-0 flex items-center justify-between px-4 opacity-0 hover:opacity-100 transition-opacity">
+                <button onClick={() => setCurrentImg(prev => Math.max(0, prev - 1))} className="p-3 bg-white/80 rounded-full backdrop-blur-sm"><ChevronLeft size={20}/></button>
+                <button onClick={() => setCurrentImg(prev => Math.min(product.images.length - 1, prev + 1))} className="p-3 bg-white/80 rounded-full backdrop-blur-sm"><ChevronRight size={20}/></button>
+              </div>
+
+              <button 
+                onClick={() => setIsZoomOpen(true)}
+                className="absolute bottom-6 right-6 p-3 bg-white/80 rounded-full backdrop-blur-sm"
+              >
+                <Maximize2 size={18} />
+              </button>
+            </div>
+          </div>
+        </section>
+
+        {/* Right: Product Details */}
+        <section className="lg:col-span-5 mt-12 lg:mt-0 space-y-8">
+          <header className="space-y-4">
+            <div className="flex items-center gap-2 text-[10px] tracking-widest uppercase text-black/40">
+              <span>Home</span> / <span>Collections</span> / <span className="text-[#a932bd]">Flamant Rose</span>
+            </div>
+            
+            {/* GIF Title Head */}
+            <h1 className={`text-5xl md:text-6xl font-serif tracking-tight leading-tight ${product.gifTitleUrl ? "holographic-text" : ""}`}
+                style={product.gifTitleUrl ? { backgroundImage: `url(${product.gifTitleUrl})` } : {}}>
+              {product.title}
+            </h1>
+
+            <div className="flex items-center gap-6">
+              <div className="flex items-center gap-1">
+                {[...Array(5)].map((_, i) => <Star key={i} size={12} className={i < Math.floor(product.rating) ? "fill-[#a932bd] text-[#a932bd]" : "text-black/10"} />)}
+                <span className="text-[10px] ml-2 font-medium">{product.rating} ({product.reviewCount} Reviews)</span>
+              </div>
+              <div className="h-4 w-px bg-black/10"></div>
+              <div className="flex items-center gap-2">
+                <div className="w-2 h-2 rounded-full bg-green-500 animate-pulse"></div>
+                <span className="text-[10px] font-medium uppercase tracking-wider">{product.soldCount} Sold • Limited Stock</span>
+              </div>
+            </div>
+            
+            <p className="text-3xl font-light text-[#a932bd]">${(product.price / 100).toFixed(2)}</p>
+          </header>
+
+          {/* Color Selection */}
+          <div className="space-y-4">
+            <p className="text-[10px] uppercase tracking-widest font-bold">Color: <span className="font-light">{selectedColor}</span></p>
+            <div className="flex gap-3">
+              {product.colors.map(color => (
+                <button 
+                  key={color.name}
+                  onClick={() => setSelectedColor(color.name)}
+                  className={`w-8 h-8 rounded-full border-2 p-0.5 transition-all ${selectedColor === color.name ? "border-[#a932bd]" : "border-transparent"}`}
+                >
+                  <div className="w-full h-full rounded-full" style={{ backgroundColor: color.hex }}></div>
+                </button>
+              ))}
+            </div>
+          </div>
+
+          {/* Size Selection */}
+          <div className="space-y-4">
+            <div className="flex justify-between items-center">
+              <p className="text-[10px] uppercase tracking-widest font-bold">Size: <span className="font-light">{selectedSize?.name || "Select"}</span></p>
+              <button className="text-[10px] uppercase tracking-widest underline decoration-[#a932bd]/30">Size Guide</button>
+            </div>
+            <div className="grid grid-cols-4 gap-2">
+              {product.sizes.map(size => (
+                <button 
+                  key={size.variantId}
+                  onClick={() => setSelectedSize(size)}
+                  className={`py-3 text-xs border transition-all ${selectedSize?.variantId === size.variantId ? "bg-black text-white border-black" : "border-black/10 hover:border-black"}`}
+                >
+                  {size.name}
+                </button>
+              ))}
+            </div>
+          </div>
+
+          {/* Action Buttons */}
+          <div className="space-y-4">
+            <div className="flex gap-4">
+              <div className="flex items-center border border-black/10 px-4">
+                <button onClick={() => setQuantity(q => Math.max(1, q - 1))}><Minus size={14}/></button>
+                <input type="number" value={quantity} readOnly className="w-12 text-center bg-transparent text-sm focus:outline-none" />
+                <button onClick={() => setQuantity(q => q + 1)}><Plus size={14}/></button>
+              </div>
+              <button 
+                onClick={handleAddToBag}
+                className={`flex-1 py-5 text-[10px] uppercase tracking-[0.3em] font-bold transition-all ${isAdded ? "bg-green-600 text-white" : "bg-[#a932bd] text-white hover:bg-black"}`}
+              >
+                {isAdded ? "Added to Bag" : "Add to Bag"}
+              </button>
+            </div>
+            <button className="w-full py-5 bg-black text-white text-[10px] uppercase tracking-[0.3em] font-bold hover:bg-[#a932bd] transition-all flex items-center justify-center gap-3">
+              <CreditCard size={16} /> Buy Now
+            </button>
+            <div className="grid grid-cols-2 gap-4">
+               <button className="py-4 border border-black/5 bg-white rounded-md flex items-center justify-center grayscale hover:grayscale-0 transition-all opacity-80">Apple Pay</button>
+               <button className="py-4 border border-black/5 bg-white rounded-md flex items-center justify-center grayscale hover:grayscale-0 transition-all opacity-80">Google Pay</button>
+            </div>
+          </div>
+
+          {/* Tabs */}
+          <div className="pt-8 border-t border-black/5 space-y-6">
+            <div className="flex gap-8 border-b border-black/5">
+              {["description", "details", "care", "shipping"].map(tab => (
+                <button 
+                  key={tab} 
+                  onClick={() => setActiveTab(tab)}
+                  className={`pb-4 text-[10px] uppercase tracking-widest font-bold transition-all relative ${activeTab === tab ? "text-[#a932bd]" : "text-black/40"}`}
+                >
+                  {tab}
+                  {activeTab === tab && <motion.div layoutId="tab" className="absolute bottom-0 left-0 right-0 h-0.5 bg-[#a932bd]" />}
+                </button>
+              ))}
+            </div>
+            
+            <AnimatePresence mode="wait">
+              <motion.div 
+                key={activeTab}
+                initial={{ opacity: 0, y: 10 }}
+                animate={{ opacity: 1, y: 0 }}
+                exit={{ opacity: 0, y: -10 }}
+                transition={{ duration: 0.4, ease: easing }}
+                className="text-xs leading-relaxed text-black/60"
+              >
+                {activeTab === "description" && <p>{product.description}</p>}
+                {activeTab === "details" && (
+                  <ul className="space-y-3">
+                    {product.details.map((item, i) => (
+                      <li key={i} className="flex items-center gap-3">
+                        <div className="w-1 h-1 bg-[#a932bd] rounded-full" />
+                        {item}
+                      </li>
+                    ))}
+                  </ul>
+                )}
+                {activeTab === "care" && <p>{product.care}</p>}
+                {activeTab === "shipping" && <p>{product.shipping}</p>}
+              </motion.div>
+            </AnimatePresence>
+          </div>
+
+          {/* Trust Badges */}
+          <div className="grid grid-cols-2 md:grid-cols-4 gap-6 pt-8">
+            <div className="flex flex-col items-center gap-2 text-center">
+              <div className="w-12 h-12 rounded-full bg-white flex items-center justify-center shadow-sm"><RefreshCw size={18} className="text-[#a932bd]" /></div>
+              <span className="text-[8px] uppercase tracking-tighter">Free Returns</span>
+            </div>
+            <div className="flex flex-col items-center gap-2 text-center">
+              <div className="w-12 h-12 rounded-full bg-white flex items-center justify-center shadow-sm"><ShieldCheck size={18} className="text-[#a932bd]" /></div>
+              <span className="text-[8px] uppercase tracking-tighter">Secure Pay</span>
+            </div>
+            <div className="flex flex-col items-center gap-2 text-center">
+              <div className="w-12 h-12 rounded-full bg-white flex items-center justify-center shadow-sm"><Award size={18} className="text-[#a932bd]" /></div>
+              <span className="text-[8px] uppercase tracking-tighter">Authentic</span>
+            </div>
+            <div className="flex flex-col items-center gap-2 text-center">
+              <div className="w-12 h-12 rounded-full bg-white flex items-center justify-center shadow-sm"><Truck size={18} className="text-[#a932bd]" /></div>
+              <span className="text-[8px] uppercase tracking-tighter">Worldwide</span>
+            </div>
+          </div>
+        </section>
+      </main>
+
+      {/* Share Modal */}
+      <AnimatePresence>
+        {showShare && (
+          <div className="fixed inset-0 z-[100] flex items-center justify-center p-6">
+            <motion.div 
+              initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }}
+              onClick={() => setShowShare(false)} className="absolute inset-0 bg-black/40 backdrop-blur-sm" 
+            />
+            <motion.div 
+              initial={{ scale: 0.9, opacity: 0 }} animate={{ scale: 1, opacity: 1 }} exit={{ scale: 0.9, opacity: 0 }}
+              className="relative w-full max-w-md bg-white p-10 rounded-2xl shadow-2xl"
+            >
+              <button onClick={() => setShowShare(false)} className="absolute top-6 right-6"><X size={20}/></button>
+              <h3 className="text-xl font-serif mb-8 text-[#a932bd]">Share with your universe</h3>
+              <div className="grid grid-cols-3 gap-8 mb-8">
+                {/* Social icons placeholder */}
+                {['Pinterest', 'Instagram', 'WhatsApp'].map(social => (
+                  <div key={social} className="flex flex-col items-center gap-2 cursor-pointer group">
+                    <div className="w-14 h-14 rounded-full bg-[#fdfcf5] border border-black/5 flex items-center justify-center group-hover:bg-[#a932bd] group-hover:text-white transition-all"><Share2 size={20}/></div>
+                    <span className="text-[10px] uppercase font-bold tracking-widest">{social}</span>
+                  </div>
+                ))}
+              </div>
+              <button className="w-full py-4 border border-black/10 rounded-full text-xs font-bold tracking-widest uppercase hover:bg-black hover:text-white transition-all">Copy Link</button>
+            </motion.div>
           </div>
         )}
+      </AnimatePresence>
 
-        {/* Actions (Add to Cart, Buy Now, Wishlist) */}
-        <div className="max-w-md mx-auto space-y-6 pt-4">
-          <button
-            type="button"
-            disabled={!variant}
-            onClick={handleAddToCart}
-            className="w-full btn-holographic-outline text-center flex items-center justify-center !py-5"
-          >
-            Add to Bag
-          </button>
-
-          <div className="grid grid-cols-2 gap-4">
-             {/* Apple Pay & Google Pay (Styled as native-like buttons) */}
-             <button className="w-full bg-black text-white px-4 py-4 rounded-md flex items-center justify-center gap-2 hover:opacity-90">
-                <span className="text-sm font-medium">Apple Pay</span>
-             </button>
-             <button className="w-full bg-white border border-[#e7e7e7] text-black px-4 py-4 rounded-md flex items-center justify-center gap-2 hover:bg-[#f9f9f9]">
-                <span className="text-sm font-medium">Google Pay</span>
-             </button>
-             {/* PayPal & Venmo */}
-             <button className="w-full bg-[#ffc439] text-[#003087] px-4 py-4 rounded-md flex items-center justify-center font-bold italic hover:opacity-90">
-                PayPal
-             </button>
-             <button className="w-full bg-[#008cff] text-white px-4 py-4 rounded-md flex items-center justify-center font-bold italic hover:opacity-90">
-                venmo
-             </button>
-          </div>
-
-          <button className="w-full flex items-center justify-center gap-2 py-4 text-[10px] tracking-[0.2em] uppercase font-light text-[#555555] hover:text-[#a932bd] transition-colors">
-            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5">
-              <path d="M20.84 4.61a5.5 5.5 0 00-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 00-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 000-7.78v0z" />
-            </svg>
-            Add to Wishlist
-          </button>
-        </div>
-
-        {/* Tabs section */}
-        <div className="pt-16 border-t border-[#e7e7e7] text-left">
-           <div className="flex items-center justify-center gap-8 border-b border-[#e7e7e7] pb-4">
-              {['description', 'specifications', 'shipping'].map((tab) => (
-                 <button 
-                  key={tab}
-                  className={`text-[10px] tracking-[0.2em] uppercase font-light pb-4 -mb-[17px] border-b-2 transition-colors ${activeTab === tab ? 'border-[#a932bd] text-[#111111]' : 'border-transparent text-[#555555] hover:text-[#111111]'}`}
-                  onClick={() => setActiveTab(tab)}
-                 >
-                    {tab.replace('-', ' ')}
-                 </button>
-              ))}
-           </div>
-           
-           <div className="mt-8 text-sm font-light leading-relaxed text-[#555555] max-w-2xl mx-auto">
-              {activeTab === 'description' && (
-                 <div className="animate-fade-in space-y-4">
-                    <p>{product.description}</p>
-                    <p>Designed with inclusive luxury in mind, this piece offers an unparalleled aesthetic experience tailored for any environment.</p>
-                 </div>
-              )}
-              {activeTab === 'specifications' && (
-                 <div className="animate-fade-in space-y-4">
-                    <ul className="list-disc pl-5 space-y-2">
-                       <li>Premium globally sourced materials</li>
-                       <li>Available in exclusive tsgabrielle sizing</li>
-                       <li>Care instructions: Dry clean or cold wash only</li>
-                       <li>SKU: {variant?.sku || 'N/A'}</li>
-                    </ul>
-                    <div className="flex gap-2 pt-4">
-                       <span className="px-3 py-1 bg-[#f9f9f9] border border-[#e7e7e7] text-[10px] uppercase tracking-widest text-[#111111]">Luxury</span>
-                       <span className="px-3 py-1 bg-[#f9f9f9] border border-[#e7e7e7] text-[10px] uppercase tracking-widest text-[#111111]">Inclusive</span>
-                       <span className="px-3 py-1 bg-[#f9f9f9] border border-[#e7e7e7] text-[10px] uppercase tracking-widest text-[#111111]">2026 Collection</span>
-                    </div>
-                 </div>
-              )}
-              {activeTab === 'shipping' && (
-                 <div className="animate-fade-in space-y-4 text-center">
-                    <p><strong>Complimentary Global Delivery</strong></p>
-                    <p>We offer seamless worldwide shipping on all tsgabrielle luxury orders.</p>
-                    <p>Returns are elegantly accepted within 30 days of receipt, provided items are returned in their original, ethereal condition.</p>
-                 </div>
-              )}
-           </div>
-        </div>
-      </section>
-
-      {/* Global CSS for hiding scrollbar if needed */}
-      <style dangerouslySetInnerHTML={{__html: `
-        .hide-scrollbar::-webkit-scrollbar {
-          display: none;
-        }
-        .hide-scrollbar {
-          -ms-overflow-style: none;
-          scrollbar-width: none;
-        }
-        .animate-fade-in {
-          animation: fadeIn 0.5s ease-in-out;
-        }
-        @keyframes fadeIn {
-          from { opacity: 0; transform: translateY(5px); }
-          to { opacity: 1; transform: translateY(0); }
-        }
-      `}} />
+      <footer className="py-20 border-t border-black/5 flex flex-col items-center gap-4">
+        <p className="text-[10px] tracking-[0.5em] uppercase font-medium">tsgabrielle™</p>
+        <p className="text-[8px] text-black/40">© 2026 Peach Phoenix, LLC. All rights reserved.</p>
+      </footer>
     </div>
   );
 }
