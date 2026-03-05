@@ -6,7 +6,7 @@ export type MenuLink = {
 
 export const CATEGORIES: MenuLink[] = [
   { label: "Accessories", href: "/categories/accessories" },
-  { label: "Beauté Beauty", href: "/categories/beaute-beauty" },
+  { label: "Beauté • Beauty", href: "/categories/beaute-beauty" },
   { label: "Hats", href: "/categories/hats" },
   { label: "🏡 Home & Décor", href: "/categories/home-decor" },
   { label: "For Him 👔", href: "/categories/for-him" },

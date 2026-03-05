@@ -5,10 +5,12 @@ import Link from "next/link";
 
 export async function CategoryPageTemplate({
   title,
-  slug
+  slug,
+  description,
 }: {
   title: string;
   slug: string;
+  description?: string;
 }) {
   const products = await getProductsByCategorySlug(slug);
   const categoryData = CATEGORIES.find(c => c.href.includes(slug));
@@ -28,7 +30,8 @@ export async function CategoryPageTemplate({
         <div className="relative z-10 text-center text-white space-y-4 px-4">
            <p className="text-[10px] uppercase tracking-[0.4em] font-light">Official Catalogue</p>
            <h1 className="text-5xl md:text-7xl font-light tracking-wide">{title}</h1>
-        </div>
+           {description && <p className="mt-4 text-sm max-w-2xl mx-auto opacity-80 leading-relaxed">{description}</p>}
+         </div>
       </section>
 
       <section className="container-luxe pt-24 space-y-10">

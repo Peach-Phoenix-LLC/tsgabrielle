@@ -4,7 +4,7 @@ import React, { useState } from "react";
 import { 
   LayoutDashboard, Settings, Image, Users, Menu, 
   Layers, FileText, ShoppingBag, Palette, CreditCard, 
-  BarChart3, Bell, LogOut, ChevronRight 
+  BarChart3, Bell, LogOut, ChevronRight, Mail
 } from "lucide-react";
 
 // Sections
@@ -13,6 +13,7 @@ import ThemeSection from "@/components/admin/sections/ThemeSection";
 import CheckoutSection from "@/components/admin/sections/CheckoutSection";
 import NotificationSection from "@/components/admin/sections/NotificationSection";
 import AnalyticsSection from "@/components/admin/sections/AnalyticsSection";
+import EmailSection from "@/components/admin/sections/EmailSection";
 import { 
   HeroBannerSection, 
   AboutPageSection, 
@@ -36,6 +37,7 @@ const SIDEBAR_ITEMS = [
   { id: "checkout", label: "Checkout", icon: CreditCard },
   { id: "seo", label: "SEO & Analytics", icon: BarChart3 },
   { id: "notifications", label: "Notifications", icon: Bell },
+  { id: "email", label: "Email Center", icon: Mail },
 ];
 
 export default function AdminDashboard() {
@@ -115,6 +117,7 @@ export default function AdminDashboard() {
           {activeTab === "design" && <ThemeSection />}
           {activeTab === "checkout" && <CheckoutSection />}
           {activeTab === "notifications" && <NotificationSection />}
+          {activeTab === "email" && <EmailSection />}
           {activeTab === "hero" && <SiteSettingsManager />}
           {activeTab === "about" && <ContentPagesManager />}
           {activeTab === "nav" && <NavigationSection />}

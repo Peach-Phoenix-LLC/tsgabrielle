@@ -5,16 +5,19 @@ const siteUrl = process.env.NEXT_PUBLIC_SITE_URL ?? "https://tsgabrielle.com";
 export function buildMetadata({
   title,
   description,
-  path = "/"
+  keywords,
+  path = "/",
 }: {
   title: string;
   description: string;
+  keywords?: string[];
   path?: string;
 }): Metadata {
   const url = `${siteUrl}${path}`;
   return {
     title,
     description,
+    keywords,
     metadataBase: new URL(siteUrl),
     alternates: { canonical: path },
     openGraph: {
@@ -22,17 +25,17 @@ export function buildMetadata({
       description,
       url,
       siteName: "tsgabrielle",
-      type: "website"
+      type: "website",
     },
     twitter: {
       card: "summary_large_image",
       title,
-      description
+      description,
     },
     icons: {
       icon: "/favicon.png",
       shortcut: "/favicon.png",
-      apple: "/favicon.png"
-    }
+      apple: "/favicon.png",
+    },
   };
 }
