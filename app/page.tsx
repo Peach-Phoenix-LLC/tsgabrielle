@@ -5,8 +5,16 @@ import { CATEGORIES, COLLECTIONS } from "@/lib/menu";
 import { getPageContent, getHeroSlides } from "@/lib/content";
 
 export const metadata = buildMetadata({
-  title: "tsgabrielle® | 2026 Official Catalogue",
-  description: "Official 2026 catalogue with holographic luxury collections.",
+  title: "Welcome to tsgabrielle® USA • The French Trans Touchr™",
+  description: "Discover curated lifestyle essentials at tsgabrielle® • Shop our exclusive collections of fashion accessories, luxury beauty, home décor, and apparel for him and her.",
+  keywords: [
+    "tsgabrielle", "lifestyle brand", "premium fashion", "home decor", "beauty essentials", 
+    "luxury accessories", "online shopping", "curated lifestyle", "fashion for him", 
+    "fashion for her", "stylish hats", "modern furnishings", "lifestyle boutique", 
+    "exclusive collections", "high-quality apparel", "designer lifestyle", "luxury beauty", 
+    "everyday elegance", "statement pieces", "premium skincare", "chic apparel", 
+    "trendy lifestyle", "home styling", "lifestyle store", "premium goods"
+  ],
   path: "/"
 });
 
@@ -27,7 +35,7 @@ export default async function HomePage() {
         "/images/slides/tsgabrielle-Slide4.png"
       ];
 
-  const catalogueTitle = content.catalogue_title || "The Catalogue";
+  const catalogueTitle = content.catalogue_title || "Welcome";
   const catalogueSubtitle = content.catalogue_subtitle || "Selected Works";
   const etherealTitle = content.ethereal_title || "Ethereal Craftsmanship";
   const etherealText = content.ethereal_text || "Defining the next era of high-end aesthetics through material innovation and liquid luxury. tsgabrielle® 2026 presents a curated selection of inclusive products designed for the contemporary global citizen.";
