@@ -8,6 +8,7 @@ import {
 } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
 import { useCart } from "@/hooks/useCart";
+import { usePeaches } from "@/hooks/usePeaches";
 
 // Types for strict verification
 interface ProductProps {
@@ -34,6 +35,7 @@ interface ProductProps {
 
 export default function ProductClientView({ product }: ProductProps) {
   const { addItem, items } = useCart();
+  const { tier, points } = usePeaches();
   const [currentImg, setCurrentImg] = useState(0);
   const [selectedColor, setSelectedColor] = useState(product.colors[0].name);
   const [selectedSize, setSelectedSize] = useState<any>(null);
@@ -163,7 +165,14 @@ export default function ProductClientView({ product }: ProductProps) {
               </div>
             </div>
             
-            <p className="text-3xl font-light text-[#a932bd]">${(product.price / 100).toFixed(2)}</p>
+            <div className="flex items-baseline gap-4">
+              <p className="text-3xl font-light text-[#a932bd]">${(product.price / 100).toFixed(2)}</p>
+              {points > 0 && (
+                <span className="text-[10px] uppercase tracking-widest text-black/40">
+                  Earn {Math.floor(product.price / 100)} <span className="font-bold text-[#cb5c31]">Peaches</span>
+                </span>
+              )}
+            </div>
           </header>
 
           {/* Color Selection */}

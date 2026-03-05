@@ -3,7 +3,7 @@
 import { useEffect } from "react";
 
 /**
- * useAntigravityParallax - Hardware-accelerated parallax for tsgabrielle™
+ * useAntigravityParallax - Hardware-accelerated parallax for tsgabrielle®
  * Applies translate3d transformations to elements with the .parallax-layer class
  * based on their data-speed attribute.
  */
@@ -22,7 +22,7 @@ export function useAntigravityParallax() {
           // Calculate displacement: negative Y pos creates upward "float" relative to scroll
           const yPos = -(scrollPosition * speed);
           
-          // translate3d enforces GPU rendering per tsgabrielle™ directives
+          // translate3d enforces GPU rendering per tsgabrielle® directives
           layer.style.transform = `translate3d(0px, ${yPos}px, 0px)`;
         });
       });

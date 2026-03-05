@@ -1,5 +1,5 @@
 import { notFound } from "next/navigation";
-import { ProductClientView } from "@/components/product/ProductClientView";
+import ProductClientView from "@/components/product/ProductClientView";
 import { buildMetadata } from "@/lib/seo";
 import { getProductBySlug, getVariantsByProductId, getProductImages } from "@/lib/store";
 
