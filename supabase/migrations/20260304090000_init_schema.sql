@@ -90,12 +90,15 @@ create table if not exists public.feature_flags (
 
 -- Handle updated_at
 create or replace function public.handle_updated_at()
-returns trigger as $$
+returns trigger
+language plpgsql
+set search_path = public
+as $$
 begin
   new.updated_at = now();
   return new;
 end;
-$$ language plpgsql;
+$$;
 
 create trigger set_updated_at_products
   before update on public.products
@@ -107,13 +110,17 @@ create trigger set_updated_at_feature_flags
 
 -- Sync auth.users to public.users
 create or replace function public.handle_new_user()
-returns trigger as $$
+returns trigger
+language plpgsql
+security definer
+set search_path = public
+as $$
 begin
   insert into public.users (id, email)
   values (new.id, new.email);
   return new;
 end;
-$$ language plpgsql security definer;
+$$;
 
 do $$
 begin

@@ -1,4 +1,5 @@
 import Link from "next/link";
+import { BrandName } from "@/components/BrandName";
 
 
 export function Footer() {
@@ -31,7 +32,7 @@ export function Footer() {
           {/* Column 2 */}
           <div className="flex flex-col gap-6">
             <Link href="/about" className="text-xl md:text-2xl font-light hover:opacity-75 transition-opacity">
-              Discover tsgabrielle®
+              Discover <BrandName />
             </Link>
             <Link href="/about-gabrielle" className="text-xl md:text-2xl font-light hover:opacity-75 transition-opacity">
               About Gabrielle
@@ -72,7 +73,9 @@ export function Footer() {
         
         {/* Minimal Legal Credit */}
         <div className="mt-12 text-[10px] font-light flex flex-col md:flex-row justify-between items-center gap-4 border-t border-white/10 pt-8">
-          <span className="opacity-50">© 2026 tsgabrielle · All Rights Reserved</span>
+          <span className="opacity-50">
+            2023-2026© <BrandName includeSymbol="" /> USA the <BrandName includeSymbol="" /> logo and names and trademarks associated with <BrandName includeSymbol="" /> products are registered trademarks of Peach Phoenix, LLC. and/or its affiliates • All other trademarks are the property of their respective owners.
+          </span>
           <div className="flex gap-8 items-center">
             <div className="group relative">
               <span className="opacity-50 text-[8px] uppercase tracking-widest">© 2026 Peach Phoenix, LLC.</span>

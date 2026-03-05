@@ -3,6 +3,7 @@
 import Link from "next/link";
 import { useState } from "react";
 import { BrandLogo } from "@/components/layout/BrandLogo";
+import { BrandName } from "@/components/BrandName";
 import { MENU_GROUPS } from "@/lib/menu";
 import { useCart } from "@/hooks/useCart";
 
@@ -115,7 +116,7 @@ export function Header() {
                     />
                   ) : (
                     <div className="h-full w-full flex flex-col items-center justify-center p-8 text-center space-y-4">
-                       <span className="text-[10px] uppercase tracking-widest text-[#a932bd]/40">tsgabrielle® Luxury</span>
+                       <BrandName /> Luxury</span>
                        <p className="text-xs font-light text-[#a932bd]/80 leading-relaxed">
                           Discover the essence of inclusive elegance. Hover over an item to preview the collection.
                        </p>
