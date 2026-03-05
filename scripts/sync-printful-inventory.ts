@@ -21,14 +21,16 @@ async function syncInventory() {
   try {
     // 1. Fetch Sync Products from Printful
     const response = await fetch(`${PRINTFUL_API_URL}/sync/products`, { headers: PRINTFUL_HEADERS });
-    const { result: products } = await response.json();
+    const jsonData = await response.json() as { result: any[] };
+    const products = jsonData.result;
 
     for (const pfProduct of products) {
       console.log(`📦 Processing Product: ${pfProduct.name} (${pfProduct.id})`);
 
       // 2. Fetch specific variants for this product
       const variantRes = await fetch(`${PRINTFUL_API_URL}/sync/products/${pfProduct.id}`, { headers: PRINTFUL_HEADERS });
-      const { result: productDetail } = await variantRes.json();
+      const variantData = await variantRes.json() as { result: any };
+      const productDetail = variantData.result;
 
       // 3. Upsert into Supabase products table
       const { data: dbProduct, error: prodError } = await supabase
