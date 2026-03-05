@@ -64,7 +64,7 @@ export default function ProductClientView({ product }: ProductProps) {
   };
 
   // Animation Constants per Directives
-  const easing = [0.165, 0.84, 0.44, 1];
+  const easing = [0.165, 0.84, 0.44, 1] as const;
 
   return (
     <div className="min-h-screen bg-[#fdfcf5] text-[#111] font-light selection:bg-[#a932bd]/20">
