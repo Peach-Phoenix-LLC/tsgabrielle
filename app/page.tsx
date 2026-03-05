@@ -128,7 +128,7 @@ export default async function HomePage() {
                     <div className="h-px w-8 bg-[#a932bd]/30 transition-all duration-500 group-hover:w-16 group-hover:bg-[#a932bd]" />
                     <Link
                       href={category.href}
-                      className="inline-block border border-[#111111] px-8 py-3 text-[9px] uppercase tracking-[0.2em] font-medium transition-all hover:bg-[#111111] hover:text-white"
+                      className="btn-holographic-outline"
                     >
                       Discover
                     </Link>
@@ -165,7 +165,7 @@ export default async function HomePage() {
                     <div className="h-px w-8 bg-[#a932bd]/30 transition-all group-hover:w-16 group-hover:bg-[#a932bd]" />
                     <Link
                       href={collection.href}
-                      className="inline-block border border-[#111111] px-8 py-3 text-[9px] uppercase tracking-[0.2em] font-medium transition-all hover:bg-[#111111] hover:text-white"
+                      className="btn-holographic-outline"
                     >
                       Discover Series
                     </Link>

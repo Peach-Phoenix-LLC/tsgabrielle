@@ -21,13 +21,13 @@ export default function CancelPage() {
       <div className="flex flex-col sm:flex-row gap-4">
         <Link
           href="/checkout"
-          className="inline-flex bg-[#a932bd] px-10 py-4 text-xs font-light uppercase tracking-widest text-white transition-all hover:opacity-90"
+          className="btn-holographic-outline"
         >
           Return to Bag
         </Link>
         <Link
           href="/"
-          className="inline-flex border border-[#e7e7e7] px-10 py-4 text-xs font-light uppercase tracking-widest text-[#555555] transition-all hover:bg-[#f9f9f9]"
+          className="btn-holographic-outline border-[#e7e7e7] text-[#555555]"
         >
           Explore Catalogue
         </Link>

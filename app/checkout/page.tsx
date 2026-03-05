@@ -35,7 +35,7 @@ export default function CheckoutPage() {
         </div>
         <Link
           href="/"
-          className="inline-flex bg-[#a932bd] px-10 py-4 text-xs font-light uppercase tracking-widest text-white transition-all hover:opacity-90"
+          className="btn-holographic-outline !px-12 !py-5"
         >
           Explore Catalogue
         </Link>
@@ -115,7 +115,7 @@ export default function CheckoutPage() {
                 <button
                   onClick={checkout}
                   disabled={loading}
-                  className="w-full bg-[#a932bd] py-5 text-xs font-light uppercase tracking-widest text-white transition-all hover:opacity-90 disabled:opacity-50 disabled:cursor-not-allowed"
+                  className="w-full btn-holographic-outline !py-5 disabled:opacity-50 disabled:cursor-not-allowed"
                 >
                   {loading ? "Processing..." : "Secure Checkout"}
                 </button>

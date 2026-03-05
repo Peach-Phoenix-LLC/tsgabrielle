@@ -60,7 +60,7 @@ function SuccessContent() {
         </div>
         <Link
           href="/contact-tsgabrielle"
-          className="inline-flex border border-[#111111] px-10 py-4 text-xs font-light uppercase tracking-widest text-[#111111] transition-all hover:bg-[#111111] hover:text-white"
+          className="btn-holographic-outline"
         >
           Contact Concierge
         </Link>
@@ -89,13 +89,13 @@ function SuccessContent() {
         <div className="pt-8 grid grid-cols-1 md:grid-cols-2 gap-4">
             <Link
                 href="/"
-                className="inline-flex items-center justify-center bg-[#a932bd] px-8 py-5 text-xs font-light uppercase tracking-widest text-white transition-all hover:opacity-90"
+                className="btn-holographic-outline text-center"
             >
                 Return to Catalogue
             </Link>
             <Link
                 href="/account/orders"
-                className="inline-flex items-center justify-center border border-[#e7e7e7] px-8 py-5 text-xs font-light uppercase tracking-widest text-[#555555] transition-all hover:bg-[#f9f9f9]"
+                className="btn-holographic-outline text-center border-[#e7e7e7] text-[#555555]"
             >
                 View Order Status
             </Link>

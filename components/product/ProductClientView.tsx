@@ -109,7 +109,7 @@ export function ProductClientView({
             type="button"
             disabled={!variant}
             onClick={handleAddToCart}
-            className="w-full bg-[#111111] px-8 py-5 text-xs font-light tracking-[0.2em] text-white uppercase transition-all hover:bg-[#a932bd] disabled:opacity-50"
+            className="w-full btn-holographic-outline text-center flex items-center justify-center !py-5"
           >
             Add to Bag
           </button>
