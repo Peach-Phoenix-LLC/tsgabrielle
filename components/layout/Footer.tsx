@@ -58,9 +58,9 @@ export function Footer() {
         {/* Centered Logo positioned near the wavy top edge */}
         <div className="flex justify-center mb-16 -mt-16 md:-mt-20">
            <img 
-            src="/images/logo-icon.png" 
+            src="/images/tsgabrielle-logo-white.png" 
             alt="ts logo" 
-            className="h-14 md:h-20 w-auto opacity-100 transition-opacity hover:opacity-80" 
+            className="h-10 md:h-14 w-auto opacity-100 transition-opacity hover:opacity-80" 
            />
         </div>
 
