@@ -1,5 +1,6 @@
 import { ContentPage } from "@/components/templates/ContentPage";
 import { buildMetadata } from "@/lib/seo";
+import { getPageContent } from "@/lib/content";
 
 export const metadata = buildMetadata({
   title: "Contact tsgabrielle®",
@@ -7,7 +8,11 @@ export const metadata = buildMetadata({
   path: "/contact-tsgabrielle"
 });
 
-export default function Page() {
-  return <ContentPage title="Contact tsgabrielle®" body="Reach support and collaboration teams." />;
+export default async function Page() {
+  const content = await getPageContent("/contact-tsgabrielle");
+  const title = content.title || "Contact tsgabrielle®";
+  const body = content.body || "Reach support and collaboration teams.";
+
+  return <ContentPage title={title} body={body} />;
 }
 

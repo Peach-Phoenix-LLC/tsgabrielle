@@ -3,14 +3,17 @@
 import { useState } from "react";
 import Link from "next/link";
 import { BrandName } from "@/components/BrandName";
+import { useSettings } from "@/components/providers/SettingsProvider";
 
 
 export function Footer() {
+  const settings = useSettings();
   const [email, setEmail] = useState("");
   const [message, setMessage] = useState("");
   const [loading, setLoading] = useState(false);
 
   async function handleSubscribe(e: React.FormEvent) {
+    // ... same logic
     e.preventDefault();
     setLoading(true);
     setMessage("");
@@ -34,6 +37,17 @@ export function Footer() {
 
     setLoading(false);
   }
+
+  const socialLinks = [
+    { name: "Facebook", url: settings.facebook_url },
+    { name: "Instagram", url: settings.instagram_url },
+    { name: "TikTok", url: settings.tiktok_url },
+    { name: "YouTube", url: settings.youtube_url },
+    { name: "Twitter", url: settings.twitter_url },
+    { name: "Pinterest", url: settings.pinterest_url },
+    { name: "LinkedIn", url: settings.linkedin_url },
+    { name: "Snapchat", url: settings.snapchat_url },
+  ].filter(link => link.url);
 
   return (
     <footer 
@@ -76,8 +90,25 @@ export function Footer() {
           {message && <p className="text-xs mt-4">{message}</p>}
         </div>
 
+        {/* Social Links */}
+        {socialLinks.length > 0 && (
+          <div className="flex justify-center gap-8 mb-16">
+            {socialLinks.map(link => (
+              <a 
+                key={link.name} 
+                href={link.url} 
+                target="_blank" 
+                rel="noopener noreferrer"
+                className="text-[10px] uppercase tracking-[0.2em] font-medium hover:opacity-60 transition-opacity"
+              >
+                {link.name}
+              </a>
+            ))}
+          </div>
+        )}
+
         <div className="grid grid-cols-1 md:grid-cols-3 gap-10 md:gap-x-20 text-center md:text-left">
-          {/* Column 1 */}
+          {/* ... existing columns ... */}
           <div className="flex flex-col gap-6">
             <Link href="/collections" className="text-xl md:text-2xl font-light hover:opacity-75 transition-opacity">
               All Collections
@@ -87,7 +118,6 @@ export function Footer() {
             </Link>
           </div>
 
-          {/* Column 2 */}
           <div className="flex flex-col gap-6">
             <Link href="/about" className="text-xl md:text-2xl font-light hover:opacity-75 transition-opacity">
               Discover <BrandName />
@@ -97,7 +127,6 @@ export function Footer() {
             </Link>
           </div>
 
-          {/* Column 3 */}
           <div className="flex flex-col gap-6">
             <Link href="/account" className="text-xl md:text-2xl font-light hover:opacity-75 transition-opacity">
               Welcome

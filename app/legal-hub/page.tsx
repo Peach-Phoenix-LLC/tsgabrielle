@@ -1,5 +1,6 @@
 import { ContentPage } from "@/components/templates/ContentPage";
 import { buildMetadata } from "@/lib/seo";
+import { getPageContent } from "@/lib/content";
 
 export const metadata = buildMetadata({
   title: "Legal Hub",
@@ -7,7 +8,11 @@ export const metadata = buildMetadata({
   path: "/legal-hub"
 });
 
-export default function Page() {
-  return <ContentPage title="Legal Hub" body="Terms, privacy, and policy documentation." />;
+export default async function Page() {
+  const content = await getPageContent("/legal-hub");
+  const title = content.title || "Legal Hub";
+  const body = content.body || "Terms, privacy, and policy documentation.";
+
+  return <ContentPage title={title} body={body} />;
 }
 

@@ -2,14 +2,7 @@ import Link from "next/link";
 import { buildMetadata } from "@/lib/seo";
 import { getSupabaseServerClient } from "@/lib/supabase/server";
 import { CATEGORIES, COLLECTIONS } from "@/lib/menu";
-
-// ... existing heroSlides mapping ...
-const heroSlides = [
-  "/images/slides/tsgabrielle-Slide1.png",
-  "/images/slides/tsgabrielle-Slide2.png",
-  "/images/slides/tsgabrielle-Slide3.png",
-  "/images/slides/tsgabrielle-Slide4.png"
-];
+import { getPageContent, getHeroSlides } from "@/lib/content";
 
 export const metadata = buildMetadata({
   title: "tsgabrielle® | 2026 Official Catalogue",
@@ -20,6 +13,25 @@ export const metadata = buildMetadata({
 export const dynamic = "force-dynamic";
 
 export default async function HomePage() {
+  const [content, slides] = await Promise.all([
+    getPageContent("/"),
+    getHeroSlides()
+  ]);
+
+  const heroSlides = slides.length > 0 
+    ? slides.map(s => s.image_url) 
+    : [
+        "/images/slides/tsgabrielle-Slide1.png",
+        "/images/slides/tsgabrielle-Slide2.png",
+        "/images/slides/tsgabrielle-Slide3.png",
+        "/images/slides/tsgabrielle-Slide4.png"
+      ];
+
+  const catalogueTitle = content.catalogue_title || "The Catalogue";
+  const catalogueSubtitle = content.catalogue_subtitle || "Selected Works";
+  const etherealTitle = content.ethereal_title || "Ethereal Craftsmanship";
+  const etherealText = content.ethereal_text || "Defining the next era of high-end aesthetics through material innovation and liquid luxury. tsgabrielle® 2026 presents a curated selection of inclusive products designed for the contemporary global citizen.";
+
   let featuredProducts: any[] = [];
   try {
     const supabase = getSupabaseServerClient();
@@ -58,6 +70,21 @@ export default async function HomePage() {
             />
           ))}
         </div>
+        {/* Render overlay text if defined in slides */}
+        {slides.length > 0 && (
+          <div className="relative z-10 text-center text-white pointer-events-none">
+            {slides.map((slide, idx) => (
+              <div 
+                key={slide.id} 
+                className="absolute inset-0 flex flex-col items-center justify-center opacity-0 animate-[liquid_32s_ease-in-out_infinite]"
+                style={{ animationDelay: `${idx * 8}s` }}
+              >
+                <h2 className="text-6xl md:text-8xl font-light uppercase tracking-tighter mb-4">{slide.title}</h2>
+                <p className="text-sm md:text-base uppercase tracking-[0.5em] font-light">{slide.subtitle}</p>
+              </div>
+            ))}
+          </div>
+        )}
       </section>
 
       {/* Featured Products */}
@@ -65,8 +92,8 @@ export default async function HomePage() {
         <div className="container-luxe">
           <div className="mb-20 flex flex-col md:flex-row md:items-end justify-between gap-8 border-b border-[#e7e7e7] pb-12">
             <div>
-              <p className="text-[10px] uppercase tracking-[0.3em] text-[#a932bd] font-medium mb-3">Selected Works</p>
-              <h2 className="text-4xl md:text-6xl font-light tracking-tight text-[#111111]">The Catalogue</h2>
+              <p className="text-[10px] uppercase tracking-[0.3em] text-[#a932bd] font-medium mb-3">{catalogueSubtitle}</p>
+              <h2 className="text-4xl md:text-6xl font-light tracking-tight text-[#111111]">{catalogueTitle}</h2>
             </div>
             <Link href="/categories" className="text-[10px] uppercase tracking-[0.2em] text-[#555555] font-medium hover:text-[#a932bd] transition-colors">
               View All Arrivals
@@ -180,9 +207,9 @@ export default async function HomePage() {
       {/* Visual Identity Section */}
       <section className="bg-[#f9f9f9] py-32 border-t border-[#e7e7e7]">
         <div className="container-luxe text-center max-w-3xl">
-          <h2 className="text-3xl font-light tracking-[0.2em] text-[#111111] uppercase mb-10">Ethereal Craftsmanship</h2>
+          <h2 className="text-3xl font-light tracking-[0.2em] text-[#111111] uppercase mb-10">{etherealTitle}</h2>
           <p className="text-lg font-light leading-relaxed text-[#555555]">
-             Defining the next era of high-end aesthetics through material innovation and liquid luxury. tsgabrielle® 2026 presents a curated selection of inclusive products designed for the contemporary global citizen.
+             {etherealText}
           </p>
           <div className="mt-16 flex justify-center gap-12">
              <div className="h-px w-16 bg-[#a932bd]/40" />

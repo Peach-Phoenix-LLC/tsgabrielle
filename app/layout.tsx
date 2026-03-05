@@ -4,6 +4,7 @@ import { Lato, Space_Grotesk } from "next/font/google";
 import "@/app/globals.css";
 import { AppProviders } from "@/components/providers/AppProviders";
 import { buildMetadata } from "@/lib/seo";
+import { getSiteSettings } from "@/lib/content";
 
 const spaceGrotesk = Space_Grotesk({ subsets: ["latin"], variable: "--font-space-grotesk" });
 const lato = Lato({ subsets: ["latin"], weight: ["300", "400", "700"], variable: "--font-lato" });
@@ -17,7 +18,9 @@ import { SpeedInsights } from "@vercel/speed-insights/next";
 
 import { StoreLayoutWrapper } from "@/components/layout/StoreLayoutWrapper";
 
-export default function RootLayout({ children }: { children: React.ReactNode }) {
+export default async function RootLayout({ children }: { children: React.ReactNode }) {
+  const settings = await getSiteSettings();
+
   return (
     <html lang="en">
       <head>
@@ -50,7 +53,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
             ></iframe>
           </noscript>
         )}
-        <AppProviders>
+        <AppProviders settings={settings}>
           <StoreLayoutWrapper>{children}</StoreLayoutWrapper>
           <SpeedInsights />
         </AppProviders>
