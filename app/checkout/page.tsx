@@ -1,12 +1,40 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useCart } from "@/hooks/useCart";
 import Link from "next/link";
+import { getSupabaseBrowserClient } from "@/lib/supabase/client";
 
 export default function CheckoutPage() {
   const { items, removeItem, totalCents } = useCart();
   const [loading, setLoading] = useState(false);
+  const [userEmail, setUserEmail] = useState<string | null>(null);
+
+  useEffect(() => {
+    const supabase = getSupabaseBrowserClient();
+    supabase.auth.getUser().then(({ data }) => {
+      if (data.user?.email) {
+        setUserEmail(data.user.email);
+        
+        // Track "Started Checkout" event
+        if (items.length > 0) {
+          fetch("/api/klaviyo/track-event", {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({
+              email: data.user.email,
+              eventName: "Started Checkout",
+              properties: {
+                "Total Value": totalCents / 100,
+                "Item Count": items.length,
+                "Product Names": items.map(item => item.title),
+              },
+            }),
+          }).catch(err => console.error("Klaviyo tracking error:", err));
+        }
+      }
+    });
+  }, [items.length]); // Only run when items change (e.g. initial load)
 
   const checkout = async () => {
     if (items.length === 0) return;

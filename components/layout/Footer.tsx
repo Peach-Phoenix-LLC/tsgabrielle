@@ -1,8 +1,40 @@
+"use client";
+
+import { useState } from "react";
 import Link from "next/link";
 import { BrandName } from "@/components/BrandName";
 
 
 export function Footer() {
+  const [email, setEmail] = useState("");
+  const [message, setMessage] = useState("");
+  const [loading, setLoading] = useState(false);
+
+  async function handleSubscribe(e: React.FormEvent) {
+    e.preventDefault();
+    setLoading(true);
+    setMessage("");
+
+    try {
+      const response = await fetch("/api/klaviyo/subscribe", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ email }),
+      });
+
+      if (!response.ok) {
+        throw new Error("Failed to subscribe.");
+      }
+
+      setMessage("Thank you for subscribing!");
+      setEmail("");
+    } catch (error) {
+      setMessage("Subscription failed. Please try again.");
+    }
+
+    setLoading(false);
+  }
+
   return (
     <footer 
       className="relative w-full flex flex-col justify-end overflow-hidden bg-cover bg-top pt-48 pb-16 text-[#ffffff]"
@@ -16,6 +48,32 @@ export function Footer() {
             alt="ts logo" 
             className="h-14 md:h-20 w-auto opacity-100 transition-opacity hover:opacity-80" 
            />
+        </div>
+
+        {/* Newsletter Signup */}
+        <div className="max-w-xl mx-auto text-center mb-16">
+          <h3 className="text-2xl font-light mb-4">Join the Universe</h3>
+          <p className="text-sm opacity-80 mb-6">
+            Subscribe for exclusive updates, new collections, and special offers.
+          </p>
+          <form onSubmit={handleSubscribe} className="flex flex-col sm:flex-row gap-4">
+            <input
+              type="email"
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
+              placeholder="Your email address"
+              required
+              className="flex-grow bg-white/10 border border-white/20 rounded-full px-6 py-3 text-white placeholder-white/50 focus:outline-none focus:border-white/50 text-sm"
+            />
+            <button
+              type="submit"
+              disabled={loading}
+              className="bg-white text-[#bc2ab7] rounded-full px-8 py-3 text-sm font-bold uppercase tracking-wider hover:bg-opacity-90 disabled:opacity-50"
+            >
+              {loading ? "Subscribing..." : "Subscribe"}
+            </button>
+          </form>
+          {message && <p className="text-xs mt-4">{message}</p>}
         </div>
 
         <div className="grid grid-cols-1 md:grid-cols-3 gap-10 md:gap-x-20 text-center md:text-left">

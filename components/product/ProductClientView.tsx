@@ -10,6 +10,8 @@ import { motion, AnimatePresence } from "framer-motion";
 import { useCart } from "@/hooks/useCart";
 import { usePeaches } from "@/hooks/usePeaches";
 
+import { getSupabaseBrowserClient } from "@/lib/supabase/client";
+
 // Types for strict verification
 interface ProductProps {
   product: {
@@ -45,6 +47,14 @@ export default function ProductClientView({ product }: ProductProps) {
   const [isZoomOpen, setIsZoomOpen] = useState(false);
   const [isAdded, setIsAdded] = useState(false);
   const [showShare, setShowShare] = useState(false);
+  const [userEmail, setUserEmail] = useState<string | null>(null);
+
+  useEffect(() => {
+    const supabase = getSupabaseBrowserClient();
+    supabase.auth.getUser().then(({ data }) => {
+      if (data.user?.email) setUserEmail(data.user.email);
+    });
+  }, []);
 
   const handleAddToBag = () => {
     if (!selectedSize) {
@@ -52,12 +62,34 @@ export default function ProductClientView({ product }: ProductProps) {
       return;
     }
 
-    addItem({
+    const item = {
       variantId: selectedSize.variantId,
       title: `${product.title} - ${selectedColor} / ${selectedSize.name}`,
       qty: quantity,
       priceCents: product.price,
-    });
+    };
+
+    addItem(item);
+
+    // Track event with Klaviyo if user is logged in
+    if (userEmail) {
+      fetch("/api/klaviyo/track-event", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          email: userEmail,
+          eventName: "Added to Cart",
+          properties: {
+            "Product Name": product.title,
+            "Product ID": product.id,
+            "Variant ID": item.variantId,
+            "Price": item.priceCents / 100,
+            "Quantity": item.qty,
+            "Image URL": product.images[0],
+          },
+        }),
+      }).catch(err => console.error("Klaviyo tracking error:", err));
+    }
 
     setIsAdded(true);
     setTimeout(() => setIsAdded(false), 2000);
