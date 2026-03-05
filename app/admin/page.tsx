@@ -12,11 +12,11 @@ import ProductSection from "@/components/admin/sections/ProductSection";
 import ThemeSection from "@/components/admin/sections/ThemeSection";
 import CheckoutSection from "@/components/admin/sections/CheckoutSection";
 import NotificationSection from "@/components/admin/sections/NotificationSection";
+import AnalyticsSection from "@/components/admin/sections/AnalyticsSection";
 import { 
   HeroBannerSection, 
   AboutPageSection, 
-  NavigationSection, 
-  SEOAnalyticsSection 
+  NavigationSection
 } from "@/components/admin/sections/ContentSections";
 import SiteSettingsManager from "@/components/admin/SiteSettingsManager";
 import ContentPagesManager from "@/components/admin/ContentPagesManager";
@@ -118,7 +118,7 @@ export default function AdminDashboard() {
           {activeTab === "hero" && <SiteSettingsManager />}
           {activeTab === "about" && <ContentPagesManager />}
           {activeTab === "nav" && <NavigationSection />}
-          {activeTab === "seo" && <SEOAnalyticsSection />}
+          {activeTab === "seo" && <AnalyticsSection />}
           {activeTab === "pages" && <ContentPagesManager />}
           
           {["footer", "categories", "collections"].includes(activeTab) && (
