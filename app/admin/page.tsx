@@ -18,6 +18,8 @@ import {
   NavigationSection, 
   SEOAnalyticsSection 
 } from "@/components/admin/sections/ContentSections";
+import SiteSettingsManager from "@/components/admin/SiteSettingsManager";
+import ContentPagesManager from "@/components/admin/ContentPagesManager";
 
 const SIDEBAR_ITEMS = [
   { id: "dashboard", label: "Dashboard", icon: LayoutDashboard },
@@ -108,17 +110,18 @@ export default function AdminDashboard() {
         {/* Dynamic Section Content */}
         <section className="bg-white rounded-2xl border border-black/5 p-10 shadow-sm mb-12">
           {activeTab === "dashboard" && <DashboardOverview />}
-          {activeTab === "settings" && <SiteSettingsForm />}
+          {activeTab === "settings" && <SiteSettingsManager />}
           {activeTab === "products" && <ProductSection />}
           {activeTab === "design" && <ThemeSection />}
           {activeTab === "checkout" && <CheckoutSection />}
           {activeTab === "notifications" && <NotificationSection />}
-          {activeTab === "hero" && <HeroBannerSection />}
-          {activeTab === "about" && <AboutPageSection />}
+          {activeTab === "hero" && <SiteSettingsManager />}
+          {activeTab === "about" && <ContentPagesManager />}
           {activeTab === "nav" && <NavigationSection />}
           {activeTab === "seo" && <SEOAnalyticsSection />}
+          {activeTab === "pages" && <ContentPagesManager />}
           
-          {["footer", "categories", "collections", "pages"].includes(activeTab) && (
+          {["footer", "categories", "collections"].includes(activeTab) && (
              <div className="py-20 flex flex-col items-center justify-center text-center space-y-4">
                <div className="w-16 h-16 rounded-full bg-[#fdfcf5] flex items-center justify-center text-[#a932bd] animate-bounce">
                   <FileText size={24} />
@@ -163,39 +166,4 @@ function DashboardOverview() {
   );
 }
 
-function SiteSettingsForm() {
-  return (
-    <div className="space-y-10 max-w-2xl">
-      <div className="grid gap-8">
-        <div className="space-y-2">
-          <label className="text-[10px] uppercase tracking-widest font-bold">Brand Name</label>
-          <input type="text" defaultValue="tsgabrielle®" className="w-full bg-[#f8f8f8] border-b border-black/10 px-4 py-3 text-xs focus:border-[#a932bd] transition-colors outline-none" />
-        </div>
-        <div className="space-y-2">
-          <label className="text-[10px] uppercase tracking-widest font-bold">Tagline</label>
-          <input type="text" defaultValue="Transcendent Inclusive Luxury" className="w-full bg-[#f8f8f8] border-b border-black/10 px-4 py-3 text-xs focus:border-[#a932bd] transition-colors outline-none" />
-        </div>
-        <div className="grid grid-cols-2 gap-8">
-           <div className="space-y-2">
-            <label className="text-[10px] uppercase tracking-widest font-bold">Currency</label>
-            <select className="w-full bg-[#f8f8f8] border-b border-black/10 px-4 py-3 text-xs outline-none">
-              <option>USD ($)</option>
-              <option>EUR (€)</option>
-            </select>
-          </div>
-          <div className="space-y-2">
-            <label className="text-[10px] uppercase tracking-widest font-bold">Timezone</label>
-            <select className="w-full bg-[#f8f8f8] border-b border-black/10 px-4 py-3 text-xs outline-none">
-              <option>America/Phoenix</option>
-              <option>Europe/Paris</option>
-            </select>
-          </div>
-        </div>
-      </div>
-      
-      <button className="px-12 py-4 bg-[#a932bd] text-white text-[10px] uppercase tracking-[0.2em] font-bold hover:bg-black transition-all">
-        Save Configuration
-      </button>
-    </div>
-  );
-}
+
