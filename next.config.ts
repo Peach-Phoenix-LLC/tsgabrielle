@@ -10,15 +10,6 @@ const nextConfig: NextConfig = {
       { protocol: "https", hostname: "*.supabase.co" },
       { protocol: "https", hostname: "files.cdn.printful.com" }
     ]
-  },
-  async redirects() {
-    return [
-      {
-        source: "/collections/:slug",
-        destination: "/:slug",
-        permanent: true
-      }
-    ];
   }
 };
 
