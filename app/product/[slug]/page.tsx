@@ -57,7 +57,7 @@ export default async function ProductPage({ params }: { params: Promise<{ slug: 
     stock: variants.reduce((acc, v) => acc + (v.stock || 0), 0),
     tags: ["New", "Luxury", "Inclusive"],
     ribbon: "EXCLUSIVE" as const,
-    gifTitleUrl: product.printful_product_id ? undefined : "" // Placeholder for Admin setting
+    gifTitleUrl: (product as any).printful_product_id ? undefined : "" // Placeholder for Admin setting
   };
 
   return <ProductClientView product={mappedProduct} />;
