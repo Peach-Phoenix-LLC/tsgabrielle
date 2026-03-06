@@ -3,9 +3,9 @@
 import Link from "next/link";
 import { useState } from "react";
 import { BrandLogo } from "@/components/layout/BrandLogo";
-import { BrandName } from "@/components/BrandName";
 import { MENU_GROUPS } from "@/lib/menu";
 import { useCart } from "@/hooks/useCart";
+import { Search, Heart, ShoppingBag, Menu as MenuIcon } from "lucide-react";
 
 export function Header() {
   const [open, setOpen] = useState(false);
@@ -14,8 +14,8 @@ export function Header() {
   const { items } = useCart();
   const itemCount = items.reduce((sum, item) => sum + item.qty, 0);
 
-  const mainNavLeft = MENU_GROUPS.slice(1, 4); // Categories, Collections, Collabs
-  const mainNavRight = MENU_GROUPS.slice(4, 7); // Universe, Meet, Follow
+  const mainNavLeft = MENU_GROUPS.slice(1, 4); // Categories, Collections, The Collabs
+  const mainNavRight = MENU_GROUPS.slice(4, 7); // The Universe, Meet, Follow
 
   return (
     <header 
@@ -25,66 +25,57 @@ export function Header() {
         setHoveredItem(null);
       }}
     >
-      <div className="container-luxe flex items-center justify-between py-6 lg:py-8">
-        {/* Left Nav */}
-        <div className="hidden items-center gap-10 lg:flex flex-1">
-          {mainNavLeft.map((group) => (
-            <div 
-              key={group.label} 
-              className="relative"
-              onMouseEnter={() => setActiveGroup(group.label)}
-            >
-              <Link 
-                href={group.href} 
-                className="text-[11px] font-medium uppercase tracking-[0.25em] transition-opacity hover:opacity-60"
-              >
-                {group.label}
-              </Link>
-            </div>
-          ))}
+      {/* Row 1: Icons & Mobile Toggle */}
+      <div className="container-luxe flex items-center justify-between py-4 lg:py-6">
+        <div className="flex items-center gap-6">
+          <button className="lg:hidden text-[#a932bd] hover:opacity-75 transition-opacity" onClick={() => setOpen((v) => !v)}>
+            <MenuIcon size={24} />
+          </button>
+          <Search size={20} className="cursor-pointer hover:opacity-75 transition-opacity" />
         </div>
+        
+        <Link href="/" className="lg:hidden">
+          <BrandLogo color="purple" className="h-8 w-auto" />
+        </Link>
 
-        {/* Center Logo */}
-        <div className="flex-shrink-0 z-50">
-          <BrandLogo light className="h-10 lg:h-12" />
-        </div>
-
-        {/* Right Nav */}
-        <div className="hidden items-center justify-end gap-10 lg:flex flex-1">
-          {mainNavRight.map((group) => (
-            <div 
-              key={group.label} 
-              className="relative"
-              onMouseEnter={() => setActiveGroup(group.label)}
-            >
-              <Link 
-                href={group.href} 
-                className="text-[11px] font-medium uppercase tracking-[0.25em] transition-opacity hover:opacity-60"
-              >
-                {group.label}
-              </Link>
-            </div>
-          ))}
-          
-          <Link href="/checkout" className="flex items-center gap-2 text-[11px] font-medium uppercase tracking-[0.25em] transition-opacity hover:opacity-60">
-            <span>Bag</span>
-            <span className="flex h-5 w-5 items-center justify-center rounded-full border border-[#a932bd] text-[10px]">
+        <div className="flex items-center gap-6">
+          <Link href="/account/wishlist" className="relative">
+            <Heart size={20} className="hover:opacity-75 transition-opacity" />
+          </Link>
+          <Link href="/checkout" className="relative flex items-center">
+            <ShoppingBag size={20} className="hover:opacity-75 transition-opacity" />
+            <span className="absolute -top-2 -right-2 flex h-4 w-4 items-center justify-center rounded-full bg-[#a932bd] text-[10px] text-white">
               {itemCount}
             </span>
           </Link>
         </div>
+      </div>
 
-        {/* Mobile Actions */}
-        <div className="flex items-center gap-6 lg:hidden">
-            <Link href="/checkout" className="relative">
-                <span className="flex h-5 w-5 items-center justify-center rounded-full border border-[#a932bd] text-[10px]">
-                  {itemCount}
-                </span>
-            </Link>
-            <button className="text-[11px] font-medium uppercase tracking-[0.25em]" onClick={() => setOpen((v) => !v)}>
-              {open ? "Close" : "Menu"}
-            </button>
-        </div>
+      {/* Row 2: Logo (Desktop Only) */}
+      <div className="hidden lg:flex justify-center py-4">
+        <Link href="/">
+          <BrandLogo color="purple" className="h-12 w-auto" />
+        </Link>
+      </div>
+
+      {/* Row 3: Mega Menu Navigation (Desktop Only) */}
+      <div className="hidden lg:flex justify-center border-t border-b border-[#a932bd]/10 py-3">
+        <nav className="flex items-center gap-10">
+          {MENU_GROUPS.map((group) => (
+            <div 
+              key={group.label} 
+              className="relative"
+              onMouseEnter={() => setActiveGroup(group.label)}
+            >
+              <Link 
+                href={group.href} 
+                className="text-[11px] font-medium uppercase tracking-[0.25em] transition-opacity hover:opacity-60"
+              >
+                {group.label}
+              </Link>
+            </div>
+          ))}
+        </nav>
       </div>
 
       {/* Mega Menu Overlay */}
@@ -116,7 +107,6 @@ export function Header() {
                     />
                   ) : (
                     <div className="h-full w-full flex flex-col items-center justify-center p-8 text-center space-y-4">
-                       <span className="text-[10px] uppercase tracking-widest text-[#a932bd]/40"><BrandName /> Luxury</span>
                        <p className="text-xs font-light text-[#a932bd]/80 leading-relaxed">
                           Discover the essence of inclusive elegance. Hover over an item to preview the collection.
                        </p>
@@ -157,7 +147,7 @@ export function Header() {
       {open && (
         <div className="fixed inset-0 top-0 z-[60] flex flex-col bg-white lg:hidden">
           <div className="flex items-center justify-between px-6 py-6 border-b border-[#e7e7e7]">
-            <BrandLogo light />
+            <BrandLogo color="light" />
             <button className="text-[11px] font-medium uppercase tracking-[0.25em] text-[#a932bd]" onClick={() => setOpen(false)}>
               Close
             </button>

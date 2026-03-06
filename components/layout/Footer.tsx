@@ -51,12 +51,21 @@ export function Footer() {
 
   return (
     <footer 
-      className="relative w-full flex flex-col justify-end overflow-hidden bg-cover bg-top pt-48 pb-16 text-[#ffffff]"
-      style={{ backgroundColor: "#bc2ab7", backgroundImage: "url('/images/tsgabrielle-footer.png')" }}
+      className="relative w-full flex flex-col justify-end overflow-hidden pt-0 pb-16 text-[#ffffff]"
+      style={{ backgroundColor: "#bc2ab7" }}
     >
+      {/* Footer Top Image */}
+      <div className="w-full mb-16">
+        <img 
+          src="/images/tsgabrielle-footer.png" 
+          alt="" 
+          className="w-full h-auto object-cover" 
+        />
+      </div>
+
       <div className="container-luxe relative z-10">
-        {/* Centered Logo positioned near the wavy top edge */}
-        <div className="flex justify-center mb-16 -mt-16 md:-mt-20">
+        {/* Centered Logo */}
+        <div className="flex justify-center mb-16">
            <img 
             src="/images/tsgabrielle-logo-white.png" 
             alt="ts logo" 

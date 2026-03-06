@@ -8,30 +8,30 @@ export const CATEGORIES: MenuLink[] = [
   { label: "Accessories", href: "/categories/accessories" },
   { label: "Beauté • Beauty", href: "/categories/beaute-beauty" },
   { label: "Hats", href: "/categories/hats" },
-  { label: "🏡 Home & Décor", href: "/categories/home-decor" },
-  { label: "For Him 👔", href: "/categories/for-him" },
-  { label: "For Her 👗", href: "/categories/for-her" },
+  { label: "Home & Décor", href: "/categories/home-decor" },
+  { label: "For Him", href: "/categories/for-him" },
+  { label: "For Her", href: "/categories/for-her" },
 ];
 
 export const COLLECTIONS: MenuLink[] = [
-  { label: "🌈 Pride 26", href: "/collections/pride-26" },
-  { label: "❄️ Glow in Winter 26", href: "/collections/glow-in-winter-26" },
+  { label: "Pride 26", href: "/collections/pride-26" },
+  { label: "Glow In Winter 26", href: "/collections/glow-in-winter-26" },
   { label: "Good Vibes Only.", href: "/collections/good-vibes-only" },
   { label: "Crystal Skies.", href: "/collections/crystal-skies" },
-  { label: "Unicorn 🦄", href: "/collections/unicorn" },
-  { label: "🌌✨ Édition Spatiale", href: "/collections/edition-spatiale" },
-  { label: "Flamant 🦩 Rose", href: "/collections/flamant-rose" },
+  { label: "Unicorn", href: "/collections/unicorn" },
+  { label: "Édition Spatiale", href: "/collections/edition-spatiale" },
+  { label: "Flamant Rose", href: "/collections/flamant-rose" },
   { label: "Womanizer", href: "/collections/womanizer" },
-  { label: "TransFLOWer™", href: "/collections/transflower" },
+  { label: "TransFLOWER™", href: "/collections/transflower" },
   { label: "TransLove™", href: "/collections/translove" },
   { label: "Made In USA", href: "/collections/made-in-usa" },
-  { label: "Arizona 🌵", href: "/collections/arizona" },
+  { label: "Arizona", href: "/collections/arizona" },
   { label: "Paris", href: "/collections/paris" },
   { label: "Peach Phoenix™", href: "/collections/peach-phoenix" },
 ];
 
 export const THE_COLLABS: MenuLink[] = [
-  { label: "Adidas x tsgabrielle®", href: "/adidas-x-tsgabrielle" },
+  { label: "Adidas X tsgabrielle®", href: "/adidas-x-tsgabrielle" },
   { label: "Champion® Heritage", href: "/champion-heritage" },
   { label: "Columbia Sportswear", href: "/columbia-sportswear" },
   { label: "Under Armour® Performance", href: "/under-armour-performance" },
@@ -43,14 +43,14 @@ export const MENU_GROUPS = [
   { label: "Collections", href: "/collections", children: COLLECTIONS },
   { label: "The Collabs", href: "/the-collabs", children: THE_COLLABS },
   {
-    label: "The Universe of tsgabrielle®",
+    label: "The Universe Of tsgabrielle®",
     href: "/the-universe-of-tsgabrielle",
     children: [
       { label: "Your Inclusive Store", href: "/your-inclusive-store" },
       { label: "About Gabrielle", href: "/about-gabrielle" },
       { label: "Sustainability", href: "/sustainability" },
       { label: "The Blogs", href: "/the-blogs" },
-      { label: "Videos by YouTube", href: "/videos-by-youtube" },
+      { label: "Videos", href: "/videos" },
     ],
   },
   {
@@ -65,7 +65,7 @@ export const MENU_GROUPS = [
     ],
   },
   {
-    label: "📱 Follow tsgabrielle®",
+    label: "Follow tsgabrielle®",
     href: "/follow-tsgabrielle",
     children: [
       { label: "Instagram", href: "https://www.instagram.com/tsgabrielle3" },
@@ -79,7 +79,7 @@ export const MENU_GROUPS = [
     ],
   },
   {
-    label: "👤 My tsgabrielle®",
+    label: "My tsgabrielle®",
     href: "/my-tsgabrielle",
     children: [
       { label: "My Account", href: "/account" },
@@ -89,7 +89,7 @@ export const MENU_GROUPS = [
     ],
   },
   {
-    label: "🌐 tsgabrielle® Worldwide",
+    label: "tsgabrielle® Worldwide",
     href: "/tsgabrielle-worldwide",
     children: [
       { label: "Store Directory.", href: "/store-directory" },

@@ -26,6 +26,9 @@ const nextConfig: NextConfig = {
       { source: '/champion', destination: '/champion-heritage', permanent: true },
       { source: '/columbia', destination: '/columbia-sportswear', permanent: true },
       { source: '/under-armour', destination: '/under-armour-performance', permanent: true },
+
+      // Videos
+      { source: '/videos-by-youtube', destination: '/videos', permanent: true },
     ]
   }
 };

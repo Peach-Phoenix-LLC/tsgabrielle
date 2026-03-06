@@ -1,6 +1,7 @@
 import { ContentPage } from "@/components/templates/ContentPage";
 import { buildMetadata } from "@/lib/seo";
 import { getPageContent } from "@/lib/content";
+import { sanitizeHtml } from "@/lib/sanitize";
 
 export const metadata = buildMetadata({
   title: "The Brand",
@@ -18,7 +19,7 @@ export default async function Page() {
   const brandPhilosophy = (
     <div className="space-y-8">
       {content.body ? (
-        <div dangerouslySetInnerHTML={{ __html: content.body }} />
+        <div dangerouslySetInnerHTML={{ __html: sanitizeHtml(content.body) }} />
       ) : (
         <>
           <p>

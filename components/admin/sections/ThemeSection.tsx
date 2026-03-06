@@ -1,6 +1,7 @@
 "use client";
 
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
+import { Save, Loader2, CheckCircle2 } from "lucide-react";
 
 export default function ThemeSection() {
   const [colors, setColors] = useState({
@@ -11,10 +12,71 @@ export default function ThemeSection() {
     accent: "#fdfcf5",
     button: "#000000",
   });
+  const [loading, setLoading] = useState(true);
+  const [saving, setSaving] = useState(false);
+  const [message, setMessage] = useState<string | null>(null);
+
+  useEffect(() => {
+    fetchTheme();
+  }, []);
+
+  async function fetchTheme() {
+    try {
+      const res = await fetch("/api/admin/settings");
+      const settings = await res.json();
+      if (settings.theme_colors) {
+        setColors(JSON.parse(settings.theme_colors));
+      }
+    } catch (error) {
+      console.error("Error fetching theme:", error);
+    } finally {
+      setLoading(false);
+    }
+  }
+
+  async function handleSave() {
+    setSaving(true);
+    setMessage(null);
+    try {
+      const res = await fetch("/api/admin/settings", {
+        method: "PUT",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          key: "theme_colors",
+          value: JSON.stringify(colors),
+        }),
+      });
+
+      if (!res.ok) throw new Error("Failed to save theme");
+      
+      setMessage("Theme saved successfully!");
+      setTimeout(() => setMessage(null), 3000);
+    } catch (error) {
+      console.error("Error saving theme:", error);
+      alert("Error saving theme");
+    } finally {
+      setSaving(false);
+    }
+  }
+
+  if (loading) {
+    return (
+      <div className="flex items-center justify-center p-12">
+        <Loader2 className="animate-spin" />
+      </div>
+    );
+  }
 
   return (
     <div className="space-y-12 max-w-4xl">
-      <div className="grid grid-cols-2 gap-16">
+      {message && (
+        <div className="p-4 bg-green-50 text-green-700 rounded-lg flex items-center gap-2">
+          <CheckCircle2 size={18} />
+          <span className="text-xs font-medium">{message}</span>
+        </div>
+      )}
+
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-16">
         <div className="space-y-8">
           <h4 className="text-[10px] uppercase tracking-[0.3em] font-bold text-[#a932bd]">Brand Colors</h4>
           <div className="space-y-6">
@@ -66,8 +128,13 @@ export default function ThemeSection() {
         </div>
       </div>
 
-      <button className="px-12 py-4 bg-black text-white text-[10px] uppercase tracking-[0.2em] font-bold hover:bg-[#a932bd] transition-all">
-        Save Theme
+      <button 
+        onClick={handleSave}
+        disabled={saving}
+        className="flex items-center justify-center gap-2 px-12 py-4 bg-black text-white text-[10px] uppercase tracking-[0.2em] font-bold hover:bg-[#a932bd] transition-all disabled:opacity-50"
+      >
+        {saving ? <Loader2 className="animate-spin" size={14} /> : <Save size={14} />}
+        {saving ? "Saving..." : "Save Theme"}
       </button>
     </div>
   );

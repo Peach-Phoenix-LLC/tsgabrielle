@@ -6,14 +6,21 @@ import { useSettings } from "@/components/providers/SettingsProvider";
 type BrandLogoProps = {
   href?: string;
   className?: string;
-  light?: boolean;
+  color?: 'light' | 'dark' | 'purple'; // Added color prop
 };
 
-export function BrandLogo({ href = "/", className = "", light = false }: BrandLogoProps) {
+export function BrandLogo({ href = "/", className = "", color = 'light' }: BrandLogoProps) {
   const settings = useSettings();
   
-  // Use dynamic logo if available, otherwise fallback
-  const defaultLogo = light ? "/images/tsgabrielle-logo-white.png" : "/images/tsgabrielle-logo.png";
+  let defaultLogo: string;
+  if (color === 'purple') {
+    defaultLogo = "/images/tsgabrielle-logo-purple.png";
+  } else if (color === 'dark') {
+    defaultLogo = "/images/tsgabrielle-logo.png";
+  } else {
+    defaultLogo = "/images/tsgabrielle-logo-white.png";
+  }
+
   const logoUrl = settings.site_logo || defaultLogo;
 
   return (

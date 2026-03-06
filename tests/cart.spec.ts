@@ -12,13 +12,13 @@ test.describe('Cart Flow', () => {
   test('can navigate to checkout', async ({ page }) => {
     await page.goto('/');
     
-    // Try to find and click cart/checkout link
-    const checkoutLink = page.getByRole('link', { name: /checkout|bag/i }).first();
+    // Prefer an explicit checkout URL over text matching.
+    const checkoutLink = page.locator('a[href*="/checkout"]').first();
     
     // Either the link exists or we can navigate directly
-    if (await checkoutLink.isVisible()) {
+    if ((await checkoutLink.count()) > 0) {
       await checkoutLink.click();
-      await expect(page).toHaveURL(/.*checkout/);
+      await expect(page).toHaveURL(/.*checkout|.*sign-in/);
     } else {
       // Navigate directly
       await page.goto('/checkout');

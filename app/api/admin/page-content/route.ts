@@ -1,7 +1,10 @@
 import { NextResponse } from "next/server";
 import { getSupabaseServerClient } from "@/lib/supabase/server";
+import { requireAdmin } from "@/lib/admin-auth";
 
 export async function GET(req: Request) {
+  const auth = await requireAdmin();
+  if (auth.error) return auth.error;
   try {
     const { searchParams } = new URL(req.url);
     const pagePath = searchParams.get("page_path");
@@ -26,6 +29,8 @@ export async function GET(req: Request) {
 }
 
 export async function POST(req: Request) {
+  const auth = await requireAdmin();
+  if (auth.error) return auth.error;
   try {
     const supabase = getSupabaseServerClient();
     const body = await req.json();
@@ -64,6 +69,8 @@ export async function POST(req: Request) {
 }
 
 export async function DELETE(req: Request) {
+  const auth = await requireAdmin();
+  if (auth.error) return auth.error;
   try {
     const { searchParams } = new URL(req.url);
     const id = searchParams.get("id");
