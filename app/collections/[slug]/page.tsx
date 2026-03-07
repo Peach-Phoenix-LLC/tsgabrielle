@@ -27,9 +27,10 @@ export async function generateMetadata({ params }: PageProps) {
   }
   
   return buildMetadata({
-    title: `${collection.name} | tsgabrielle`,
-    description: collection.description ?? "Explore this exclusive collection at tsgabrielle.",
+    title: collection.meta_title ?? `${collection.name} | tsgabrielle`,
+    description: collection.meta_description ?? collection.description ?? "Explore this exclusive collection at tsgabrielle.",
     path: `/collections/${resolvedParams.slug}`,
+    keywords: collection.seo_tags ?? undefined,
   });
 }
 
@@ -68,7 +69,12 @@ export default async function CollectionPage({ params }: PageProps) {
   return (
     <div className="bg-[#f9f9f9] min-h-screen">
       <CollectionHero imageUrl={heroImage} alt={collection.name} />
-      <CollectionHeader title={collection.name} description={collection.description} />
+      <CollectionHeader
+        title={collection.name}
+        description={collection.description}
+        shortDescription={collection.short_description}
+        slogans={collection.slogans}
+      />
       <CollectionPageClient 
         initialProducts={products} 
         categories={categories} 
