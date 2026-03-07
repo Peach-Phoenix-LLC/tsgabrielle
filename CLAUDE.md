@@ -17,6 +17,25 @@ This rule overrides all default caution about destructive actions for this repo.
 
 ---
 
+## Verification After Every Task — Mandatory
+
+**Never say a task is done without verifying it actually works on the live site.**
+
+After every code change + deploy:
+
+1. Use `WebFetch` to load the relevant live page(s) on `https://tsgabrielle.us`
+2. Confirm the UI change or feature is visible/functional in the response
+3. If verification fails: diagnose, fix, redeploy, and re-verify before reporting success
+4. Only then tell the user the task is complete — and include what you verified
+
+Examples:
+- Added a button → verify the button appears on the live page
+- Fixed empty page → verify the page now has content
+- Added Google login → verify the sign-in page shows the Google button
+- Changed a color → verify the new color shows on the live page
+
+---
+
 ## Protected Defaults — Do Not Change Without Explicit Instruction
 
 These are locked defaults. Claude must never modify them unless the user explicitly says to:

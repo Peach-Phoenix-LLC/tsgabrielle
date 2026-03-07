@@ -5,7 +5,7 @@ import { useState } from "react";
 import { BrandLogo } from "@/components/layout/BrandLogo";
 import { MENU_GROUPS } from "@/lib/menu";
 import { useCart } from "@/hooks/useCart";
-import { Search, Heart, ShoppingBag, Menu as MenuIcon } from "lucide-react";
+import { Search, Heart, ShoppingBag, Menu as MenuIcon, User } from "lucide-react";
 
 export function Header() {
   const [open, setOpen] = useState(false);
@@ -46,8 +46,11 @@ export function Header() {
           </Link>
         </div>
 
-        {/* Right Section: Wishlist & Cart */}
+        {/* Right Section: Account, Wishlist & Cart */}
         <div className="flex items-center justify-end gap-6 flex-1">
+          <Link href="/auth/sign-in" className="relative" aria-label="Sign in">
+            <User size={22} className="hover:opacity-75 transition-opacity" />
+          </Link>
           <Link href="/account/wishlist" className="relative">
             <Heart size={22} className="hover:opacity-75 transition-opacity" />
           </Link>
