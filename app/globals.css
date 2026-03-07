@@ -41,56 +41,85 @@ body {
   animation: liquid 6s ease-in-out infinite;
 }
 
+/* Ribbons and general small badges */
 .holographic-border {
   position: relative;
   background: #fff;
   background-clip: padding-box;
-  border: 2px solid transparent;
+  border: 1px solid transparent;
   border-radius: 9999px;
+  z-index: 1;
 }
 
 .holographic-border::before {
   content: "";
   position: absolute;
-  inset: 0;
+  inset: -1.5px;
   z-index: -1;
-  margin: -2px;
   border-radius: inherit;
-  background: linear-gradient(to right, #a932bd, #00d2ff, #ff0099);
-  background-size: 200% 100%;
-  animation: iridescent 2s linear infinite;
+  background: linear-gradient(to right, #a932bd, #00d2ff, #ff00b3, #a932bd);
+  background-size: 300% 100%;
+  animation: iridescent 4s linear infinite;
 }
 
+/* Buttons with 15px border radius and holographic borderline */
 .btn-holographic-outline {
-  @apply inline-block border border-[#a932bd] px-8 py-4 text-[10px] uppercase tracking-[0.2em] font-medium text-[#a932bd] transition-all duration-500 relative overflow-hidden bg-white/5;
+  @apply inline-block px-8 py-4 text-[10px] tracking-[0.2em] font-medium text-[#a932bd] transition-all duration-500 relative bg-white;
+  border-radius: 15px;
+  z-index: 1;
 }
 
-.btn-holographic-outline::before {
+.btn-holographic-outline::after {
   content: "";
   position: absolute;
-  top: 0;
-  left: -150%;
-  width: 100%;
-  height: 100%;
-  background: linear-gradient(
-    90deg,
-    transparent,
-    rgba(255, 255, 255, 0.4),
-    rgba(169, 50, 189, 0.2),
-    transparent
-  );
-  transition: all 0.8s ease-in-out;
-  transform: skewX(-20deg);
+  inset: -1.5px;
+  z-index: -1;
+  border-radius: inherit;
+  background: linear-gradient(135deg, #a932bd, #00d2ff, #ff00b3, #a932bd);
+  background-size: 300% 300%;
+  animation: iridescent 4s linear infinite;
+  opacity: 0.6;
+  transition: opacity 0.5s ease;
 }
 
-.btn-holographic-outline:hover::before {
-  left: 150%;
+.btn-holographic-outline:hover::after {
+  opacity: 1;
 }
 
 .btn-holographic-outline:hover {
-  @apply shadow-[0_0_20px_rgba(169,50,189,0.15)] scale-[1.02] border-[#a932bd];
-  background: linear-gradient(90deg, #fff, #fdfcfd);
+  @apply scale-[1.02];
+  box-shadow: 0 0 15px rgba(169, 50, 189, 0.2);
 }
+
+/* Category/Collection Cards with 3rem border radius and holographic borderline */
+.holographic-card-border {
+  position: relative;
+  z-index: 1;
+  background: #fff;
+  transition: all 0.7s cubic-bezier(0.165, 0.84, 0.44, 1);
+}
+
+.holographic-card-border::after {
+  content: "";
+  position: absolute;
+  inset: -2px;
+  z-index: -1;
+  border-radius: inherit;
+  background: linear-gradient(135deg, #a932bd, #00d2ff, #ff00b3, #a932bd);
+  background-size: 300% 300%;
+  animation: iridescent 8s linear infinite;
+  opacity: 0.35;
+  transition: opacity 0.7s ease;
+}
+
+.holographic-card-border:hover::after {
+  opacity: 0.8;
+}
+
+.holographic-card-border:hover {
+  box-shadow: 0 20px 40px rgba(169, 50, 189, 0.12);
+}
+
 @keyframes liquid {
   0% { background-position: 0% 50%; opacity: 0; }
   5% { opacity: 1; }
@@ -107,20 +136,15 @@ body {
   100% { background-position: 0% 50%; }
 }
 
-
 /* Core Antigravity Class for tsgabrielle™ UI Elements */
 .zero-gravity-element {
-  /* Establish 3D space for hardware acceleration */
   transform: translate3d(0, 0, 0);
-  /* Frictionless easing: swift lift, slow settle */
   transition: transform 1.2s cubic-bezier(0.165, 0.84, 0.44, 1),
               box-shadow 1.2s cubic-bezier(0.165, 0.84, 0.44, 1);
   will-change: transform;
 }
 
 .zero-gravity-element:hover {
-  /* Elevate on the Y-axis while scaling slightly */
   transform: translate3d(0, -12px, 0) scale(1.02);
-  /* Diffuse shadow to simulate increased distance from the background */
   box-shadow: 0 20px 40px rgba(0, 0, 0, 0.08);
 }

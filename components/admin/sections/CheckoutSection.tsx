@@ -2,6 +2,7 @@
 
 import React, { useState, useEffect } from "react";
 import { Save, Loader2, CheckCircle2 } from "lucide-react";
+import { ClaudeTextEditor } from "../ClaudeTextEditor";
 
 export default function CheckoutSection() {
   const [settings, setSettings] = useState({
@@ -125,13 +126,11 @@ export default function CheckoutSection() {
           </div>
         </div>
 
-        <div className="space-y-2">
-          <label className="text-[10px] uppercase tracking-widest font-bold">Thank You Message</label>
-          <textarea 
-            rows={4} 
-            value={settings.thank_you_message}
-            onChange={e => setSettings({...settings, thank_you_message: e.target.value})}
-            className="w-full bg-[#f8f8f8] border border-black/10 px-4 py-3 text-xs outline-none focus:border-[#a932bd] resize-none rounded-lg" 
+        <div className="space-y-4">
+          <ClaudeTextEditor
+            label="Thank You Message"
+            initialValue={settings.thank_you_message}
+            onChange={(val: string) => setSettings({...settings, thank_you_message: val})}
           />
         </div>
       </div>

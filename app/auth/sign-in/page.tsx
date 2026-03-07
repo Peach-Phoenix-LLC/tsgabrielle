@@ -1,11 +1,13 @@
 "use client";
 
-import { FormEvent, useState } from "react";
-import { useRouter } from "next/navigation";
+import { FormEvent, useState, Suspense } from "react";
+import { useRouter, useSearchParams } from "next/navigation";
 import { getSupabaseBrowserClient } from "@/lib/supabase/client";
 
-export default function SignInPage() {
+function SignInForm() {
   const router = useRouter();
+  const searchParams = useSearchParams();
+  const redirectTo = searchParams.get("redirect") || "/admin";
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError] = useState<string | null>(null);
@@ -19,8 +21,12 @@ export default function SignInPage() {
     try {
       const supabase = getSupabaseBrowserClient();
       const { error: signInError } = await supabase.auth.signInWithPassword({ email, password });
-      if (signInError) throw signInError;
-      router.push("/account");
+      if (signInError) {
+        console.error('Sign-in error:', signInError);
+        throw signInError;
+      }
+      console.log('Sign-in successful, redirecting');
+      router.push(redirectTo);
       router.refresh();
     } catch (err) {
       setError(err instanceof Error ? err.message : "Sign in failed");
@@ -98,6 +104,14 @@ export default function SignInPage() {
         </form>
       </div>
     </section>
+  );
+}
+
+export default function SignInPage() {
+  return (
+    <Suspense>
+      <SignInForm />
+    </Suspense>
   );
 }
 

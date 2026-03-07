@@ -1,8 +1,8 @@
 const PRINTFUL_API_BASE = "https://api.printful.com";
 
 export async function printfulFetch<T>(path: string, init?: RequestInit): Promise<T> {
-  const token = process.env.PRINTFUL_API_KEY;
-  if (!token) throw new Error("Missing PRINTFUL_API_KEY");
+  const token = process.env.PRINTFUL_API_KEY ?? process.env.PRINTFUL_ACCESS_TOKEN;
+  if (!token) throw new Error("Missing PRINTFUL_API_KEY or PRINTFUL_ACCESS_TOKEN");
 
   const res = await fetch(`${PRINTFUL_API_BASE}${path}`, {
     ...init,

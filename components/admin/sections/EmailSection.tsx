@@ -2,6 +2,7 @@
 
 import { useState } from "react";
 import { Mail, Send, Loader2, AlertCircle, CheckCircle2 } from "lucide-react";
+import { ClaudeTextEditor } from "../ClaudeTextEditor";
 
 export default function EmailSection() {
   const [to, setTo] = useState("");
@@ -78,15 +79,11 @@ export default function EmailSection() {
           />
         </div>
 
-        <div className="space-y-2">
-          <label className="text-[10px] uppercase tracking-widest font-bold">Email Body (HTML Supported)</label>
-          <textarea
-            rows={10}
-            value={body}
-            onChange={(e) => setBody(e.target.value)}
-            placeholder="Write your message here..."
-            required
-            className="w-full bg-white border border-black/10 px-4 py-4 text-xs focus:border-[#a932bd] transition-colors outline-none resize-none rounded-lg"
+        <div className="space-y-4">
+          <ClaudeTextEditor
+            label="Email Body (HTML Supported)"
+            initialValue={body}
+            onChange={(val: string) => setBody(val)}
           />
         </div>
 

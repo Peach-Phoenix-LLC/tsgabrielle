@@ -13,9 +13,13 @@ export function Header() {
   const [hoveredItem, setHoveredItem] = useState<{ label: string; image?: string } | null>(null);
   const { items } = useCart();
   const itemCount = items.reduce((sum, item) => sum + item.qty, 0);
-
-  const mainNavLeft = MENU_GROUPS.slice(1, 4); // Categories, Collections, The Collabs
-  const mainNavRight = MENU_GROUPS.slice(4, 7); // The Universe, Meet, Follow
+  
+  const LABEL_MAP: Record<string, string> = {
+    "The Universe Of tsgabrielle®": "The Universe",
+    "Meet tsgabrielle®": "Meet",
+    "Follow tsgabrielle®": "Follow",
+    "tsgabrielle® Worldwide": "🌐 Worldwide"
+  };
 
   return (
     <header 
@@ -25,25 +29,30 @@ export function Header() {
         setHoveredItem(null);
       }}
     >
-      {/* Row 1: Icons & Mobile Toggle */}
-      <div className="container-luxe flex items-center justify-between py-4 lg:py-6">
-        <div className="flex items-center gap-6">
+      {/* Row 1: Search, Logo (Centered), and Icons */}
+      <div className="container-luxe flex items-center justify-between py-6 lg:py-8">
+        {/* Left Section: Search & Mobile Menu */}
+        <div className="flex items-center gap-6 flex-1">
           <button className="lg:hidden text-[#a932bd] hover:opacity-75 transition-opacity" onClick={() => setOpen((v) => !v)}>
             <MenuIcon size={24} />
           </button>
-          <Search size={20} className="cursor-pointer hover:opacity-75 transition-opacity" />
+          <Search size={22} className="cursor-pointer hover:opacity-75 transition-opacity" />
         </div>
         
-        <Link href="/" className="lg:hidden">
-          <BrandLogo color="purple" className="h-8 w-auto" />
-        </Link>
+        {/* Center Section: Logo (Now primary for all screens) */}
+        <div className="flex justify-center flex-1">
+          <Link href="/">
+            <BrandLogo color="purple" className="h-12 lg:h-[75px] w-auto" />
+          </Link>
+        </div>
 
-        <div className="flex items-center gap-6">
+        {/* Right Section: Wishlist & Cart */}
+        <div className="flex items-center justify-end gap-6 flex-1">
           <Link href="/account/wishlist" className="relative">
-            <Heart size={20} className="hover:opacity-75 transition-opacity" />
+            <Heart size={22} className="hover:opacity-75 transition-opacity" />
           </Link>
           <Link href="/checkout" className="relative flex items-center">
-            <ShoppingBag size={20} className="hover:opacity-75 transition-opacity" />
+            <ShoppingBag size={22} className="hover:opacity-75 transition-opacity" />
             <span className="absolute -top-2 -right-2 flex h-4 w-4 items-center justify-center rounded-full bg-[#a932bd] text-[10px] text-white">
               {itemCount}
             </span>
@@ -51,16 +60,9 @@ export function Header() {
         </div>
       </div>
 
-      {/* Row 2: Logo (Desktop Only) */}
-      <div className="hidden lg:flex justify-center py-4">
-        <Link href="/">
-          <BrandLogo color="purple" className="h-12 w-auto" />
-        </Link>
-      </div>
-
-      {/* Row 3: Mega Menu Navigation (Desktop Only) */}
-      <div className="hidden lg:flex justify-center border-t border-b border-[#a932bd]/10 py-3">
-        <nav className="flex items-center gap-10">
+      {/* Row 2: Mega Menu Navigation (Desktop Only) */}
+      <div className="hidden lg:flex justify-center border-t border-b border-[#a932bd]/10 py-4">
+        <nav className="flex items-center gap-12">
           {MENU_GROUPS.map((group) => (
             <div 
               key={group.label} 
@@ -69,9 +71,9 @@ export function Header() {
             >
               <Link 
                 href={group.href} 
-                className="text-[11px] font-medium uppercase tracking-[0.25em] transition-opacity hover:opacity-60"
+                className="text-[13px] font-display font-light tracking-[0.4em] transition-all duration-500 hover:opacity-60"
               >
-                {group.label}
+                {LABEL_MAP[group.label] || group.label}
               </Link>
             </div>
           ))}
@@ -94,8 +96,8 @@ export function Header() {
             >
               <div className="col-span-1 space-y-8">
                 <div className="space-y-4">
-                  <p className="text-[10px] uppercase tracking-[0.3em] text-[#a932bd]/60">Department</p>
-                  <h2 className="text-4xl font-light tracking-tight text-[#a932bd]">{hoveredItem?.label || group.label}</h2>
+                  <p className="text-[10px] tracking-[0.3em] text-[#a932bd]/60">Department</p>
+                  <h2 className="text-4xl font-light tracking-tight text-[#a932bd]">{hoveredItem?.label || LABEL_MAP[group.label] || group.label}</h2>
                 </div>
                 
                 <div className="aspect-[4/5] w-full bg-[#f9f9f9] overflow-hidden rounded-sm border border-[#a932bd]/5 relative group/img">
@@ -116,7 +118,7 @@ export function Header() {
 
                 <Link 
                   href={group.href}
-                  className="inline-block text-[10px] uppercase tracking-[0.2em] font-medium border-b border-[#a932bd] pb-2 transition-opacity hover:opacity-60"
+                  className="inline-block text-[10px] tracking-[0.2em] font-medium border-b border-[#a932bd] pb-2 transition-opacity hover:opacity-60"
                   onClick={() => setActiveGroup(null)}
                 >
                   Explore All {group.label}
@@ -147,8 +149,8 @@ export function Header() {
       {open && (
         <div className="fixed inset-0 top-0 z-[60] flex flex-col bg-white lg:hidden">
           <div className="flex items-center justify-between px-6 py-6 border-b border-[#e7e7e7]">
-            <BrandLogo color="light" />
-            <button className="text-[11px] font-medium uppercase tracking-[0.25em] text-[#a932bd]" onClick={() => setOpen(false)}>
+            <BrandLogo color="purple" className="h-10 w-auto" />
+            <button className="text-[11px] font-medium tracking-[0.25em] text-[#a932bd]" onClick={() => setOpen(false)}>
               Close
             </button>
           </div>
@@ -157,7 +159,7 @@ export function Header() {
               {MENU_GROUPS.map((group) => (
                 <li key={group.label} className="space-y-6">
                   <Link href={group.href} className="block text-2xl font-light tracking-tight text-[#111111]" onClick={() => setOpen(false)}>
-                    {group.label}
+                    {LABEL_MAP[group.label] || group.label}
                   </Link>
                   {"children" in group && (
                     <ul className="grid grid-cols-1 gap-4 border-l border-[#a932bd]/20 pl-6">

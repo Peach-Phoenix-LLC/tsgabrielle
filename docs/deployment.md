@@ -13,6 +13,7 @@ The production project is named `tsgabrielle-live` under the `tsg3` team scope.
 4. **Webhooks**:
    - PayPal: `https://tsgabrielle.us/api/paypal/webhook`
    - Printful: `https://tsgabrielle.us/api/printful/webhook`
+   - Printful signing key: set `PRINTFUL_WEBHOOK_SECRET` to the webhook `signing_secret_key` returned by Printful when creating the webhook.
 
 ## Supabase
 

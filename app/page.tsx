@@ -35,8 +35,8 @@ export default async function HomePage() {
         "/images/slides/tsgabrielle-Slide4.png"
       ];
 
-  const catalogueTitle = content.catalogue_title || "Welcome";
-  const catalogueSubtitle = content.catalogue_subtitle || "Selected Works";
+  const catalogueTitle = "Exclusive 💎 New";
+  const catalogueSubtitle = "Just In";
   const etherealTitle = content.ethereal_title || "Ethereal Craftsmanship";
   const etherealText = content.ethereal_text || "Defining the next era of high-end aesthetics through material innovation and liquid luxury. tsgabrielle® 2026 presents a curated selection of inclusive products designed for the contemporary global citizen.";
 
@@ -55,6 +55,7 @@ export default async function HomePage() {
         images:product_images(url)
       `)
       .eq("active", true)
+      .order("created_at", { ascending: false })
       .limit(4);
     featuredProducts = data || [];
   } catch (error) {
@@ -149,7 +150,7 @@ export default async function HomePage() {
               const displayImg = category.image || heroSlides[idx % 4];
               return (
                 <div key={idx} className="group flex flex-col gap-6">
-                  <div className="aspect-[3/4] overflow-hidden bg-[#f9f9f9] border border-[#e7e7e7] rounded-[3rem] transition-all duration-700 group-hover:shadow-xl group-hover:border-[#a932bd]/20">
+                  <div className="holographic-card-border aspect-[3/4] overflow-hidden bg-[#f9f9f9] rounded-[3rem]">
                     <img
                       src={displayImg}
                       alt={category.label}
@@ -188,7 +189,7 @@ export default async function HomePage() {
               const displayImg = collection.image || heroSlides[(idx + 2) % 4];
               return (
                 <div key={idx} className="group flex flex-col gap-6">
-                  <div className="aspect-[3/4] overflow-hidden bg-[#f9f9f9] border border-[#e7e7e7] rounded-[3rem] transition-all duration-700 group-hover:shadow-xl group-hover:border-[#a932bd]/20">
+                  <div className="holographic-card-border aspect-[3/4] overflow-hidden bg-[#f9f9f9] rounded-[3rem]">
                     <img
                       src={displayImg}
                       alt={collection.label}
@@ -212,20 +213,6 @@ export default async function HomePage() {
         </div>
       </section>
       
-      {/* Visual Identity Section */}
-      <section className="bg-[#f9f9f9] py-32 border-t border-[#e7e7e7]">
-        <div className="container-luxe text-center max-w-3xl">
-          <h2 className="text-3xl font-light tracking-[0.2em] text-[#111111] uppercase mb-10">{etherealTitle}</h2>
-          <p className="text-lg font-light leading-relaxed text-[#555555]">
-             {etherealText}
-          </p>
-          <div className="mt-16 flex justify-center gap-12">
-             <div className="h-px w-16 bg-[#a932bd]/40" />
-             <div className="h-px w-16 bg-[#a932bd]" />
-             <div className="h-px w-16 bg-[#a932bd]/40" />
-          </div>
-        </div>
-      </section>
     </div>
   );
 }

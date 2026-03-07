@@ -5,29 +5,53 @@ export type MenuLink = {
 };
 
 export const CATEGORIES: MenuLink[] = [
-  { label: "Accessories", href: "/categories/accessories" },
-  { label: "Beauté • Beauty", href: "/categories/beaute-beauty" },
-  { label: "Hats", href: "/categories/hats" },
-  { label: "Home & Décor", href: "/categories/home-decor" },
-  { label: "For Him", href: "/categories/for-him" },
-  { label: "For Her", href: "/categories/for-her" },
+  { label: "Accessories", href: "/categories/accessories", image: "/images/Categories/accessories.png" },
+  { label: "Beauté • Beauty", href: "/categories/beaute-beauty", image: "/images/Categories/beaute-beauty.png" },
+  { label: "Hats", href: "/categories/hats", image: "/images/Categories/hats.png" },
+  { label: "Home & Décor", href: "/categories/home-decor", image: "/images/Categories/home-decor.png" },
+  { label: "For Him", href: "/categories/for-him", image: "/images/Categories/for-him.png" },
+  { label: "For Her", href: "/categories/for-her", image: "/images/Categories/for-her.png" },
 ];
 
 export const COLLECTIONS: MenuLink[] = [
   { label: "Pride 26", href: "/collections/pride-26" },
-  { label: "Glow In Winter 26", href: "/collections/glow-in-winter-26" },
+  {
+    label: "Glow In Winter 26",
+    href: "/collections/glow-in-winter-26",
+    image: "/images/Collections/Glow%20in%20Winter%2026/tsgabrielle-Glow-in-Winter26-new.png",
+  },
   { label: "Good Vibes Only.", href: "/collections/good-vibes-only" },
-  { label: "Crystal Skies.", href: "/collections/crystal-skies" },
+  {
+    label: "Crystal Skies.",
+    href: "/collections/crystal-skies",
+    image: "/images/Collections/Crystal%20Skies/Crystal%20Skies.png",
+  },
   { label: "Unicorn", href: "/collections/unicorn" },
-  { label: "Édition Spatiale", href: "/collections/edition-spatiale" },
-  { label: "Flamant Rose", href: "/collections/flamant-rose" },
-  { label: "Womanizer", href: "/collections/womanizer" },
+  {
+    label: "Édition Spatiale",
+    href: "/collections/edition-spatiale",
+    image: "/images/Collections/%C3%89dition%20Spatiale/%C3%89dition-Spatiale-by-tsgabrielle.png",
+  },
+  {
+    label: "Flamant Rose",
+    href: "/collections/flamant-rose",
+    image: "/images/Collections/Flamant%20Rose/Flamant-Rose.png",
+  },
+  {
+    label: "Womanizer",
+    href: "/collections/womanizer",
+    image: "/images/Collections/Womanizer/Womanizer.png",
+  },
   { label: "TransFLOWER™", href: "/collections/transflower" },
   { label: "TransLove™", href: "/collections/translove" },
   { label: "Made In USA", href: "/collections/made-in-usa" },
   { label: "Arizona", href: "/collections/arizona" },
-  { label: "Paris", href: "/collections/paris" },
-  { label: "Peach Phoenix™", href: "/collections/peach-phoenix" },
+  { label: "Paris", href: "/collections/paris", image: "/images/slides/tsgabrielle-Slide4.png" },
+  {
+    label: "Peach Phoenix™",
+    href: "/collections/peach-phoenix",
+    image: "/images/Collections/Peach%20Phoenix/Peach_Phienix.PNG",
+  },
 ];
 
 export const THE_COLLABS: MenuLink[] = [
@@ -59,7 +83,7 @@ export const MENU_GROUPS = [
     children: [
       { label: "The Brand", href: "/the-brand" },
       { label: "Peaches", href: "/peaches" },
-      { label: "FAQ", href: "/faq" },
+      { label: "Faq", href: "/faq" },
       { label: "Contact tsgabrielle®", href: "/contact-tsgabrielle" },
       { label: "Legal Hub", href: "/legal-hub" },
     ],
@@ -69,32 +93,22 @@ export const MENU_GROUPS = [
     href: "/follow-tsgabrielle",
     children: [
       { label: "Instagram", href: "https://www.instagram.com/tsgabrielle3" },
-      { label: "TikTok", href: "https://www.tiktok.com/@tsgabrielle3" },
-      { label: "YouTube", href: "https://www.youtube.com/@tsgabrielle3" },
+      { label: "Tiktok", href: "https://www.tiktok.com/@tsgabrielle3" },
+      { label: "Youtube", href: "https://www.youtube.com/@tsgabrielle3" },
       { label: "Facebook", href: "https://www.facebook.com/tsgabrielle3" },
       { label: "X (Twitter)", href: "https://x.com/tsgabrielle3" },
       { label: "Pinterest", href: "https://www.pinterest.com/tsgabrielle3/" },
-      { label: "LinkedIn", href: "https://www.linkedin.com/company/tsgabrielle/" },
+      { label: "Linkedin", href: "https://www.linkedin.com/company/tsgabrielle/" },
       { label: "Snapchat", href: "https://www.snapchat.com/@tsgabrielle3" },
-    ],
-  },
-  {
-    label: "My tsgabrielle®",
-    href: "/my-tsgabrielle",
-    children: [
-      { label: "My Account", href: "/account" },
-      { label: "My Orders", href: "/account/orders" },
-      { label: "My Wishlist", href: "/account/wishlist" },
-      { label: "My Settings", href: "/account/settings" },
     ],
   },
   {
     label: "tsgabrielle® Worldwide",
     href: "/tsgabrielle-worldwide",
     children: [
-      { label: "Store Directory.", href: "/store-directory" },
+      { label: "Store Directory", href: "/store-directory" },
       { label: "Stores Directory", href: "/stores-directory" },
-      { label: "USA", href: "/usa" },
+      { label: "Usa", href: "/usa" },
     ],
   },
 ] as const;

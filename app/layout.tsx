@@ -5,6 +5,8 @@ import "@/app/globals.css";
 import { AppProviders } from "@/components/providers/AppProviders";
 import { buildMetadata } from "@/lib/seo";
 import { getSiteSettings } from "@/lib/content";
+import { SpeedInsights } from "@vercel/speed-insights/next";
+import { StoreLayoutWrapper } from "@/components/layout/StoreLayoutWrapper";
 
 const spaceGrotesk = Space_Grotesk({ subsets: ["latin"], variable: "--font-space-grotesk" });
 const lato = Lato({ subsets: ["latin"], weight: ["300", "400", "700"], variable: "--font-lato" });
@@ -13,10 +15,6 @@ export const metadata: Metadata = buildMetadata({
   title: "tsgabrielle | Inclusive Luxury Ecommerce",
   description: "Luxury ecommerce platform with short collection URLs and inclusive products."
 });
-
-import { SpeedInsights } from "@vercel/speed-insights/next";
-
-import { StoreLayoutWrapper } from "@/components/layout/StoreLayoutWrapper";
 
 export default async function RootLayout({ children }: { children: React.ReactNode }) {
   const settings = await getSiteSettings();
@@ -40,6 +38,24 @@ export default async function RootLayout({ children }: { children: React.ReactNo
             }}
           />
         )}
+        {/* Google Analytics - G-02TDH8YYHB */}
+        <Script
+          id="google-analytics"
+          strategy="afterInteractive"
+          src={`https://www.googletagmanager.com/gtag/js?id=G-02TDH8YYHB`}
+        />
+        <Script
+          id="google-analytics-config"
+          strategy="afterInteractive"
+          dangerouslySetInnerHTML={{
+            __html: `
+              window.dataLayer = window.dataLayer || [];
+              function gtag(){dataLayer.push(arguments);}
+              gtag('js', new Date());
+              gtag('config', 'G-02TDH8YYHB');
+            `,
+          }}
+        />
       </head>
       <body className={`${spaceGrotesk.variable} ${lato.variable}`}>
         {/* GTM noscript */}

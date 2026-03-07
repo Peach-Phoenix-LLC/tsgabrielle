@@ -2,6 +2,7 @@
 
 import React, { useState, useEffect } from "react";
 import { Plus, Trash2, Edit } from "lucide-react";
+import { ClaudeTextEditor } from "../ClaudeTextEditor";
 
 export function HeroBannerSection() {
   return (
@@ -50,9 +51,15 @@ export function AboutPageSection() {
             <label className="text-[10px] uppercase tracking-widest font-bold">About Title</label>
             <input type="text" defaultValue="Transcending Boundaries" className="w-full bg-[#f8f8f8] border-b border-black/10 px-4 py-3 text-xs outline-none" />
           </div>
-          <div className="space-y-2">
-            <label className="text-[10px] uppercase tracking-widest font-bold">Our Mission</label>
-            <textarea rows={4} className="w-full bg-[#f8f8f8] border border-black/10 px-4 py-3 text-xs outline-none resize-none" defaultValue="To build a universe of inclusive luxury where every individual feels seen, heard, and transcendent." />
+          <div className="space-y-4">
+            <ClaudeTextEditor
+              label="Our Mission"
+              initialValue="To build a universe of inclusive luxury where every individual feels seen, heard, and transcendent."
+              onChange={(val: string) => {
+                // In a real app, we'd update some state here
+                console.log("Mission updated:", val);
+              }}
+            />
           </div>
         </div>
         <div className="space-y-6">

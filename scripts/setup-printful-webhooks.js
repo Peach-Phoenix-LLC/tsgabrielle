@@ -1,4 +1,4 @@
-require('dotenv').config({ path: require('path').resolve(__dirname, '../.env.local') });
+require("dotenv").config({ path: require("path").resolve(__dirname, "../.env.local") });
 
 const PRINTFUL_API_BASE = "https://api.printful.com/v2";
 
@@ -40,6 +40,19 @@ async function setupWebhooks() {
     }
 
     console.log("Successfully setup webhook:", JSON.stringify(data, null, 2));
+    const signingSecret =
+      data?.result?.signing_secret_key ??
+      data?.result?.signingSecretKey ??
+      data?.signing_secret_key;
+
+    if (typeof signingSecret === "string" && signingSecret.length > 0) {
+      console.log("\nSave this value as PRINTFUL_WEBHOOK_SECRET:");
+      console.log(signingSecret);
+    } else {
+      console.warn(
+        "Webhook created, but no signing_secret_key was returned. Verify response shape in Printful API docs.",
+      );
+    }
   } catch (error) {
     console.error("Error setting up webhook:", error);
     process.exit(1);

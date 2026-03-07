@@ -11,18 +11,28 @@ type Product = {
   product_images?: { url: string }[];
 };
 
-export default function ProductGrid({ products }: { products: Product[] }) {
+type Theme = {
+  backgroundColor?: string;
+  textColor?: string;
+  accentColor?: string;
+};
+
+export default function ProductGrid({ products, theme = {} }: { products: Product[]; theme?: Theme }) {
+  const bg = theme.backgroundColor || "#ffffff";
+  const text = theme.textColor || "#111111";
+  const accent = theme.accentColor || "#a932bd";
+
   if (products.length === 0) {
     return (
       <section className="container-luxe py-20 text-center">
-        <h2 className="text-2xl font-light text-[#111111]">No creations found</h2>
-        <p className="mt-4 text-[#555555]">We couldn't find any items matching your filters.</p>
+        <h2 className="text-2xl font-light" style={{ color: text }}>No creations found</h2>
+        <p className="mt-4" style={{ color: text }}>We couldn't find any items matching your filters.</p>
       </section>
     );
   }
 
   return (
-    <section className="container-luxe py-12">
+    <section className="container-luxe py-12" style={{ backgroundColor: bg }}>
       <ul className="grid gap-6 sm:grid-cols-2 md:grid-cols-3">
         {products.map((p) => {
           const defaultImage = p.product_images?.[0]?.url || "/images/placeholder.jpg";
@@ -43,12 +53,12 @@ export default function ProductGrid({ products }: { products: Product[] }) {
                 </div>
                 <div className="p-6 text-center flex-grow flex flex-col justify-between">
                   <div>
-                    <h2 className="font-light text-lg text-[#111111]">{p.title}</h2>
-                    <p className="mt-2 text-[#a932bd] font-light">
+                    <h2 className="font-light text-lg" style={{ color: text }}>{p.title}</h2>
+                    <p className="mt-2 font-light" style={{ color: accent }}>
                       ${(p.price_cents / 100).toFixed(2)}
                     </p>
                   </div>
-                  <button className="mt-6 w-full bg-[#a932bd] text-white py-3 text-sm uppercase tracking-widest font-light hover:bg-[#921fa6] transition-colors rounded">
+                  <button className="mt-6 w-full text-white py-3 text-sm uppercase tracking-widest font-light transition-colors rounded" style={{ backgroundColor: accent }}>
                     Discover
                   </button>
                 </div>

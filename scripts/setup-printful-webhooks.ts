@@ -3,7 +3,7 @@ import path from "path";
 
 dotenv.config({ path: path.resolve(process.cwd(), ".env.local") });
 
-const PRINTFUL_API_BASE = "https://api.printful.com";
+const PRINTFUL_API_BASE = "https://api.printful.com/v2";
 
 async function setupWebhooks() {
   const token = process.env.PRINTFUL_API_KEY;
@@ -43,6 +43,19 @@ async function setupWebhooks() {
     }
 
     console.log("Successfully setup webhook:", data);
+    const signingSecret =
+      data?.result?.signing_secret_key ??
+      data?.result?.signingSecretKey ??
+      data?.signing_secret_key;
+
+    if (typeof signingSecret === "string" && signingSecret.length > 0) {
+      console.log("\nSave this value as PRINTFUL_WEBHOOK_SECRET:");
+      console.log(signingSecret);
+    } else {
+      console.warn(
+        "Webhook created, but no signing_secret_key was returned. Verify response shape in Printful API docs.",
+      );
+    }
   } catch (error) {
     console.error("Error setting up webhook:", error);
     process.exit(1);

@@ -3,6 +3,7 @@
 import { useState, useEffect } from "react";
 import { createClient } from "@supabase/supabase-js";
 import { Upload, Save, Loader2, Trash2, Plus, Edit2 } from "lucide-react";
+import { ClaudeTextEditor } from "./ClaudeTextEditor";
 
 const supabase = createClient(
   process.env.NEXT_PUBLIC_SUPABASE_URL!,
@@ -268,16 +269,11 @@ export default function ContentPagesManager() {
             />
           </div>
         ) : (
-          <div className="space-y-2">
-            <label className="text-xs uppercase tracking-widest text-[#555555] font-light">
-              {editingItem?.content_type === "html" ? "HTML Content" : "Text Content"}
-            </label>
-            <textarea
-              rows={editingItem?.content_type === "html" ? 6 : 3}
-              value={editingItem?.content_value || ""}
-              onChange={(e) => setEditingItem({ ...editingItem!, content_value: e.target.value } as PageContent)}
-              className="w-full border border-[#e7e7e7] p-3 text-base font-light"
-              placeholder={editingItem?.content_type === "html" ? "<p>HTML content here...</p>" : "Enter text content..."}
+          <div className="space-y-4">
+            <ClaudeTextEditor
+              label={editingItem?.content_type === "html" ? "HTML Content" : "Text Content"}
+              initialValue={editingItem?.content_value || ""}
+              onChange={(val: string) => setEditingItem({ ...editingItem!, content_value: val } as PageContent)}
             />
           </div>
         )}
