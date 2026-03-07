@@ -33,9 +33,9 @@ export function buildMetadata({
       description,
     },
     icons: {
-      icon: "/favicon.png",
-      shortcut: "/favicon.png",
-      apple: "/favicon.png",
+      icon: "/images/tsgabrielle-new-icon.png",
+      shortcut: "/images/tsgabrielle-new-icon.png",
+      apple: "/images/tsgabrielle-new-icon.png",
     },
   };
 }
