@@ -1,10 +1,10 @@
 "use client";
 
 import React, { useState, useEffect } from "react";
-import { 
-  LayoutDashboard, Settings, Image, Users, Menu, 
-  Layers, FileText, ShoppingBag, Palette, CreditCard, 
-  BarChart3, Bell, LogOut, ChevronRight, Mail, Loader2
+import {
+  LayoutDashboard, Settings, Image, Users, Menu,
+  Layers, FileText, ShoppingBag, Palette, CreditCard,
+  BarChart3, Bell, LogOut, ChevronRight, Mail, Loader2, Languages
 } from "lucide-react";
 
 // Sections
@@ -17,13 +17,13 @@ import EmailSection from "@/components/admin/sections/EmailSection";
 import CategorySection from "@/components/admin/sections/CategorySection";
 import CollectionSection from "@/components/admin/sections/CollectionSection";
 import FooterSection from "@/components/admin/sections/FooterSection";
+import OrderSection from "@/components/admin/sections/OrderSection";
 import { 
-  HeroBannerSection, 
-  AboutPageSection, 
   NavigationSection
 } from "@/components/admin/sections/ContentSections";
 import SiteSettingsManager from "@/components/admin/SiteSettingsManager";
 import ContentPagesManager from "@/components/admin/ContentPagesManager";
+import TranslationSection from "@/components/admin/sections/TranslationSection";
 
 const SIDEBAR_ITEMS = [
   { id: "dashboard", label: "Dashboard", icon: LayoutDashboard },
@@ -42,6 +42,7 @@ const SIDEBAR_ITEMS = [
   { id: "seo", label: "SEO & Analytics", icon: BarChart3 },
   { id: "notifications", label: "Notifications", icon: Bell },
   { id: "email", label: "Email Center", icon: Mail },
+  { id: "translations", label: "Translations", icon: Languages },
 ];
 
 export default function AdminDashboard() {
@@ -118,6 +119,7 @@ export default function AdminDashboard() {
           {activeTab === "dashboard" && <DashboardOverview />}
           {activeTab === "settings" && <SiteSettingsManager />}
           {activeTab === "products" && <ProductSection />}
+          {activeTab === "orders" && <OrderSection />}
           {activeTab === "design" && <ThemeSection />}
           {activeTab === "checkout" && <CheckoutSection />}
           {activeTab === "notifications" && <NotificationSection />}
@@ -130,6 +132,7 @@ export default function AdminDashboard() {
           {activeTab === "collections" && <CollectionSection />}
           {activeTab === "seo" && <AnalyticsSection />}
           {activeTab === "pages" && <ContentPagesManager />}
+          {activeTab === "translations" && <TranslationSection />}
           
           {false && (
              <div className="py-20 flex flex-col items-center justify-center text-center space-y-4">
@@ -172,7 +175,7 @@ function DashboardOverview() {
     <div className="space-y-12">
       <div className="grid grid-cols-4 gap-8">
         {stats?.map((stat: any, i: number) => (
-          <div key={i} className="p-6 border border-black/5 rounded-xl bg-[#fdfcf5]/50">
+          <div key={i} className="p-6 border border-black/5 rounded-xl bg-[#fdfcf5]/50 hover:shadow-md transition-shadow">
             <p className="text-[8px] uppercase tracking-widest text-black/40 mb-2">{stat.label}</p>
             <p className="text-2xl font-serif">{stat.value}</p>
             <p className={`text-[8px] mt-2 font-bold ${stat.change.startsWith("+") ? "text-green-600" : "text-red-600"}`}>
@@ -182,8 +185,73 @@ function DashboardOverview() {
         ))}
       </div>
       
-      <div className="h-64 bg-black/[0.02] border border-dashed border-black/10 rounded-2xl flex items-center justify-center">
-        <p className="text-[10px] uppercase tracking-[0.3em] text-black/20 italic">Visual Analytics Mapping (Active Real-time Feed)</p>
+      <div className="space-y-6">
+        <div className="flex justify-between items-center">
+          <h3 className="text-[10px] uppercase tracking-[0.3em] font-bold text-[#a932bd]">Mapa Mundi Live Connections</h3>
+          <div className="flex items-center gap-2">
+             <div className="w-2 h-2 rounded-full bg-[#a932bd] animate-ping" />
+             <span className="text-[9px] uppercase tracking-widest text-[#a932bd] font-bold">12 Active Visitors</span>
+          </div>
+        </div>
+        
+        <div className="relative aspect-[21/9] w-full bg-[#fdfcf5] border border-black/5 rounded-2xl overflow-hidden shadow-inner group">
+          {/* World Map Background */}
+          <img 
+            src="/images/world-map-minimalist.png" 
+            alt="World Map" 
+            className="absolute inset-0 w-full h-full object-contain opacity-20 group-hover:opacity-30 transition-opacity duration-700"
+          />
+          
+          {/* Connection Lines & Points Simulation */}
+          <div className="absolute inset-0">
+             {[
+               { id: 1, city: "Paris", flag: "🇫🇷", x: "48%", y: "30%" },
+               { id: 2, city: "New York", flag: "🇺🇸", x: "24%", y: "38%" },
+               { id: 3, city: "London", flag: "🇬🇧", x: "47%", y: "26%" },
+               { id: 4, city: "Tokyo", flag: "🇯🇵", x: "88%", y: "42%" },
+               { id: 5, city: "São Paulo", flag: "🇧🇷", x: "32%", y: "68%" },
+               { id: 6, city: "Sydney", flag: "🇦🇺", x: "87%", y: "78%" },
+               { id: 7, city: "Dubai", flag: "🇦🇪", x: "62%", y: "46%" },
+               { id: 8, city: "Miami", flag: "🇺🇸", x: "26%", y: "48%" },
+             ].map((node) => (
+               <div 
+                key={node.id}
+                className="absolute flex flex-col items-center group/node"
+                style={{ left: node.x, top: node.y }}
+               >
+                 <div className="relative">
+                   <div className="w-3 h-3 bg-[#a932bd] rounded-full shadow-[0_0_10px_#a932bd] relative z-10" />
+                   <div className="absolute inset-0 bg-[#a932bd] rounded-full animate-ping opacity-40" />
+                 </div>
+                 
+                 <div className="mt-2 bg-white/90 backdrop-blur-sm border border-[#a932bd]/20 px-2 py-1 rounded shadow-xl opacity-0 group-hover/node:opacity-100 transition-opacity duration-300 pointer-events-none translate-y-2 group-hover/node:translate-y-0">
+                    <p className="text-[9px] whitespace-nowrap font-bold flex items-center gap-2">
+                       <span>{node.flag}</span>
+                       <span>{node.city}</span>
+                    </p>
+                 </div>
+               </div>
+             ))}
+          </div>
+
+          {/* Grid Overlay */}
+          <div className="absolute inset-0 pointer-events-none border-[0.5px] border-black/5 grid grid-cols-12 grid-rows-6" />
+        </div>
+        
+        <div className="flex justify-center space-x-12 pt-4">
+           <div className="text-center">
+              <p className="text-[14px] font-serif text-[#a932bd]">2.4s</p>
+              <p className="text-[7px] uppercase tracking-widest text-black/40 mt-1">Avg Load Time</p>
+           </div>
+           <div className="text-center">
+              <p className="text-[14px] font-serif text-[#a932bd]">84%</p>
+              <p className="text-[7px] uppercase tracking-widest text-black/40 mt-1">Mobile Traffic</p>
+           </div>
+           <div className="text-center">
+              <p className="text-[14px] font-serif text-[#a932bd]">15</p>
+              <p className="text-[7px] uppercase tracking-widest text-black/40 mt-1">Open Sessions</p>
+           </div>
+        </div>
       </div>
     </div>
   );

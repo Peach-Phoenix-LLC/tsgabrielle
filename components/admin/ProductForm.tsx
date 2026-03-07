@@ -2,6 +2,7 @@
 
 import { useState, useRef } from "react";
 import { useRouter } from "next/navigation";
+import { ClaudeTextEditor } from "./ClaudeTextEditor";
 import { createClient } from "@supabase/supabase-js";
 
 type Option = { id: string; name: string };
@@ -149,14 +150,11 @@ export function ProductForm({ categories, collections }: ProductFormProps) {
           </div>
         </div>
 
-        <div className="space-y-2">
-          <label className="text-xs uppercase tracking-widest text-[#555555] font-light">Description</label>
-          <textarea 
-            required
+        <div className="space-y-4">
+          <ClaudeTextEditor
+            label="Description"
             name="description"
-            rows={4}
-            className="w-full border border-[#e7e7e7] p-3 text-base font-light text-[#111111] focus:border-[#a932bd] focus:outline-none"
-            placeholder="Product description and details..."
+            initialValue=""
           />
         </div>
       </div>

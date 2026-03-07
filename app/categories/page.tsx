@@ -22,7 +22,7 @@ export default function CategoriesIndexPage() {
             const displayImg = category.image || `/images/slides/tsgabrielle-Slide${(idx % 4) + 1}.png`;
             return (
               <div key={idx} className="group flex flex-col gap-6">
-                <div className="aspect-[3/4] overflow-hidden bg-[#f9f9f9] border border-[#e7e7e7] rounded-[3rem] transition-all duration-700 group-hover:shadow-xl group-hover:border-[#a932bd]/20">
+                <div className="holographic-card-border aspect-[3/4] overflow-hidden bg-[#f9f9f9] border border-[#e7e7e7] rounded-[3rem] transition-all duration-700 group-hover:shadow-xl group-hover:border-[#a932bd]/20">
                   <img
                     src={displayImg}
                     alt={category.label}

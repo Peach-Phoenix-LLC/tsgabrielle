@@ -1,0 +1,402 @@
+# Page snapshot
+
+```yaml
+- generic [active] [ref=e1]:
+  - banner [ref=e2]:
+    - generic [ref=e3]:
+      - img [ref=e5] [cursor=pointer]
+      - link "logo" [ref=e9] [cursor=pointer]:
+        - /url: /
+        - link "logo" [ref=e10]:
+          - /url: /
+          - img "logo" [ref=e11]
+      - generic [ref=e12]:
+        - link [ref=e13] [cursor=pointer]:
+          - /url: /account/wishlist
+          - img [ref=e14]
+        - link "0" [ref=e16] [cursor=pointer]:
+          - /url: /checkout
+          - img [ref=e17]
+          - generic [ref=e20]: "0"
+    - navigation [ref=e22]:
+      - link "Welcome" [ref=e24] [cursor=pointer]:
+        - /url: /
+      - link "Categories" [ref=e26] [cursor=pointer]:
+        - /url: /categories
+      - link "Collections" [ref=e28] [cursor=pointer]:
+        - /url: /collections
+      - link "The Collabs" [ref=e30] [cursor=pointer]:
+        - /url: /the-collabs
+      - link "The Universe" [ref=e32] [cursor=pointer]:
+        - /url: /the-universe-of-tsgabrielle
+      - link "Meet" [ref=e34] [cursor=pointer]:
+        - /url: /meet-tsgabrielle
+      - link "Follow" [ref=e36] [cursor=pointer]:
+        - /url: /follow-tsgabrielle
+      - link "🌐 Worldwide" [ref=e38] [cursor=pointer]:
+        - /url: /tsgabrielle-worldwide
+  - main [ref=e39]:
+    - generic [ref=e40]:
+      - generic [ref=e41]:
+        - generic:
+          - generic:
+            - heading [level=2]
+            - paragraph: Welcome
+          - generic:
+            - heading [level=2]
+            - paragraph: Welcome
+          - generic:
+            - heading [level=2]
+            - paragraph: Welcome
+          - generic:
+            - heading [level=2]
+            - paragraph: Welcome
+      - generic [ref=e48]:
+        - generic [ref=e49]:
+          - generic [ref=e50]:
+            - paragraph [ref=e51]: Just In
+            - heading "Exclusive 💎 New" [level=2] [ref=e52]
+          - link "View All Arrivals" [ref=e53] [cursor=pointer]:
+            - /url: /categories
+        - generic [ref=e54]:
+          - link "tsgabrielle® • Paris- The Louvre Pyramid • Eco Raglan Hoodie tsgabrielle® • Paris- The Louvre Pyramid • Eco Raglan Hoodie $135.00" [ref=e55] [cursor=pointer]:
+            - /url: /product/tsgabrielle-paris-the-louvre-pyramid-eco-raglan-hoodie
+            - img "tsgabrielle® • Paris- The Louvre Pyramid • Eco Raglan Hoodie" [ref=e57]
+            - generic [ref=e58]:
+              - heading "tsgabrielle® • Paris- The Louvre Pyramid • Eco Raglan Hoodie" [level=3] [ref=e59]
+              - paragraph [ref=e60]: $135.00
+          - link "tsgabrielle® • Édition Spatiale • Cosmic Edition • Bodycon Dress tsgabrielle® • Édition Spatiale • Cosmic Edition • Bodycon Dress $45.00" [ref=e61] [cursor=pointer]:
+            - /url: /product/tsgabrielle-dition-spatiale-cosmic-edition-bodycon-dress
+            - img "tsgabrielle® • Édition Spatiale • Cosmic Edition • Bodycon Dress" [ref=e63]
+            - generic [ref=e64]:
+              - heading "tsgabrielle® • Édition Spatiale • Cosmic Edition • Bodycon Dress" [level=3] [ref=e65]
+              - paragraph [ref=e66]: $45.00
+          - link "tsgabrielle® • For Her • Socks • Black Peach tsgabrielle® • For Her • Socks • Black Peach $14.50" [ref=e67] [cursor=pointer]:
+            - /url: /product/530
+            - img "tsgabrielle® • For Her • Socks • Black Peach" [ref=e69]
+            - generic [ref=e70]:
+              - heading "tsgabrielle® • For Her • Socks • Black Peach" [level=3] [ref=e71]
+              - paragraph [ref=e72]: $14.50
+          - link "tsgabrielle® • For Her 👗 • TransFLOWer • Legging tsgabrielle® • For Her 👗 • TransFLOWer • Legging $33.99" [ref=e73] [cursor=pointer]:
+            - /url: /product/tsgabrielle-for-her-transflower-legging
+            - img "tsgabrielle® • For Her 👗 • TransFLOWer • Legging" [ref=e75]
+            - generic [ref=e76]:
+              - heading "tsgabrielle® • For Her 👗 • TransFLOWer • Legging" [level=3] [ref=e77]
+              - paragraph [ref=e78]: $33.99
+      - generic [ref=e80]:
+        - generic [ref=e81]:
+          - paragraph [ref=e82]: Shop by Department
+          - heading "The Elements" [level=2] [ref=e83]
+        - generic [ref=e84]:
+          - generic [ref=e85]:
+            - img "Accessories" [ref=e87]
+            - generic [ref=e88]:
+              - heading "Accessories" [level=3] [ref=e89]
+              - link "Discover" [ref=e91] [cursor=pointer]:
+                - /url: /categories/accessories
+          - generic [ref=e92]:
+            - img "Beauté • Beauty" [ref=e94]
+            - generic [ref=e95]:
+              - heading "Beauté • Beauty" [level=3] [ref=e96]
+              - link "Discover" [ref=e98] [cursor=pointer]:
+                - /url: /categories/beaute-beauty
+          - generic [ref=e99]:
+            - img "Hats" [ref=e101]
+            - generic [ref=e102]:
+              - heading "Hats" [level=3] [ref=e103]
+              - link "Discover" [ref=e105] [cursor=pointer]:
+                - /url: /categories/hats
+          - generic [ref=e106]:
+            - img "Home & Décor" [ref=e108]
+            - generic [ref=e109]:
+              - heading "Home & Décor" [level=3] [ref=e110]
+              - link "Discover" [ref=e112] [cursor=pointer]:
+                - /url: /categories/home-decor
+          - generic [ref=e113]:
+            - img "For Him" [ref=e115]
+            - generic [ref=e116]:
+              - heading "For Him" [level=3] [ref=e117]
+              - link "Discover" [ref=e119] [cursor=pointer]:
+                - /url: /categories/for-him
+          - generic [ref=e120]:
+            - img "For Her" [ref=e122]
+            - generic [ref=e123]:
+              - heading "For Her" [level=3] [ref=e124]
+              - link "Discover" [ref=e126] [cursor=pointer]:
+                - /url: /categories/for-her
+      - generic [ref=e128]:
+        - generic [ref=e129]:
+          - paragraph [ref=e130]: Curated Series
+          - heading "The Collections" [level=2] [ref=e131]
+        - generic [ref=e132]:
+          - generic [ref=e133]:
+            - img "Pride 26" [ref=e135]
+            - generic [ref=e136]:
+              - heading "Pride 26" [level=3] [ref=e137]
+              - link "Discover Series" [ref=e139] [cursor=pointer]:
+                - /url: /collections/pride-26
+          - generic [ref=e140]:
+            - img "Glow In Winter 26" [ref=e142]
+            - generic [ref=e143]:
+              - heading "Glow In Winter 26" [level=3] [ref=e144]
+              - link "Discover Series" [ref=e146] [cursor=pointer]:
+                - /url: /collections/glow-in-winter-26
+          - generic [ref=e147]:
+            - img "Good Vibes Only." [ref=e149]
+            - generic [ref=e150]:
+              - heading "Good Vibes Only." [level=3] [ref=e151]
+              - link "Discover Series" [ref=e153] [cursor=pointer]:
+                - /url: /collections/good-vibes-only
+          - generic [ref=e154]:
+            - img "Crystal Skies." [ref=e156]
+            - generic [ref=e157]:
+              - heading "Crystal Skies." [level=3] [ref=e158]
+              - link "Discover Series" [ref=e160] [cursor=pointer]:
+                - /url: /collections/crystal-skies
+          - generic [ref=e161]:
+            - img "Unicorn" [ref=e163]
+            - generic [ref=e164]:
+              - heading "Unicorn" [level=3] [ref=e165]
+              - link "Discover Series" [ref=e167] [cursor=pointer]:
+                - /url: /collections/unicorn
+          - generic [ref=e168]:
+            - img "Édition Spatiale" [ref=e170]
+            - generic [ref=e171]:
+              - heading "Édition Spatiale" [level=3] [ref=e172]
+              - link "Discover Series" [ref=e174] [cursor=pointer]:
+                - /url: /collections/edition-spatiale
+          - generic [ref=e175]:
+            - img "Flamant Rose" [ref=e177]
+            - generic [ref=e178]:
+              - heading "Flamant Rose" [level=3] [ref=e179]
+              - link "Discover Series" [ref=e181] [cursor=pointer]:
+                - /url: /collections/flamant-rose
+          - generic [ref=e182]:
+            - img "Womanizer" [ref=e184]
+            - generic [ref=e185]:
+              - heading "Womanizer" [level=3] [ref=e186]
+              - link "Discover Series" [ref=e188] [cursor=pointer]:
+                - /url: /collections/womanizer
+          - generic [ref=e189]:
+            - img "TransFLOWER™" [ref=e191]
+            - generic [ref=e192]:
+              - heading "TransFLOWER™" [level=3] [ref=e193]
+              - link "Discover Series" [ref=e195] [cursor=pointer]:
+                - /url: /collections/transflower
+  - contentinfo [ref=e196]:
+    - generic [ref=e198]:
+      - generic [ref=e199]:
+        - heading "Join the Universe" [level=3] [ref=e200]
+        - paragraph [ref=e201]: Subscribe for exclusive updates, new collections, and special offers.
+        - generic [ref=e202]:
+          - textbox "Your email address" [ref=e203]
+          - button "Subscribe" [ref=e204] [cursor=pointer]
+      - generic [ref=e205]:
+        - link "Facebook" [ref=e206] [cursor=pointer]:
+          - /url: https://facebook.com/tsgabrielle3
+        - link "Instagram" [ref=e207] [cursor=pointer]:
+          - /url: https://instagram.com/tsgabrielle3
+        - link "TikTok" [ref=e208] [cursor=pointer]:
+          - /url: https://tiktok.com/@tsgabrielle3
+        - link "YouTube" [ref=e209] [cursor=pointer]:
+          - /url: https://youtube.com/@tsgabrielle3
+        - link "Twitter" [ref=e210] [cursor=pointer]:
+          - /url: https://x.com/tsgabrielle3
+        - link "Pinterest" [ref=e211] [cursor=pointer]:
+          - /url: https://pinterest.com/tsgabrielle3
+        - link "LinkedIn" [ref=e212] [cursor=pointer]:
+          - /url: https://linkedin.com/company/tsgabrielle
+        - link "Snapchat" [ref=e213] [cursor=pointer]:
+          - /url: https://snapchat.com/add/tsgabrielle3
+      - generic [ref=e214]:
+        - generic [ref=e215]:
+          - generic [ref=e216]:
+            - link "Categories" [ref=e217] [cursor=pointer]:
+              - /url: /categories
+            - list [ref=e218]:
+              - listitem [ref=e219]:
+                - link "Accessories" [ref=e220] [cursor=pointer]:
+                  - /url: /categories/accessories
+              - listitem [ref=e221]:
+                - link "Beauté • Beauty" [ref=e222] [cursor=pointer]:
+                  - /url: /categories/beaute-beauty
+              - listitem [ref=e223]:
+                - link "Hats" [ref=e224] [cursor=pointer]:
+                  - /url: /categories/hats
+              - listitem [ref=e225]:
+                - link "Home & Décor" [ref=e226] [cursor=pointer]:
+                  - /url: /categories/home-decor
+              - listitem [ref=e227]:
+                - link "For Him" [ref=e228] [cursor=pointer]:
+                  - /url: /categories/for-him
+              - listitem [ref=e229]:
+                - link "For Her" [ref=e230] [cursor=pointer]:
+                  - /url: /categories/for-her
+          - generic [ref=e231]:
+            - link "Meet tsgabrielle®" [ref=e232] [cursor=pointer]:
+              - /url: /meet-tsgabrielle
+            - list [ref=e233]:
+              - listitem [ref=e234]:
+                - link "The Brand" [ref=e235] [cursor=pointer]:
+                  - /url: /the-brand
+              - listitem [ref=e236]:
+                - link "Peaches" [ref=e237] [cursor=pointer]:
+                  - /url: /peaches
+              - listitem [ref=e238]:
+                - link "Faq" [ref=e239] [cursor=pointer]:
+                  - /url: /faq
+              - listitem [ref=e240]:
+                - link "Contact tsgabrielle®" [ref=e241] [cursor=pointer]:
+                  - /url: /contact-tsgabrielle
+              - listitem [ref=e242]:
+                - link "Legal Hub" [ref=e243] [cursor=pointer]:
+                  - /url: /legal-hub
+        - generic [ref=e244]:
+          - generic [ref=e245]:
+            - link "Collections" [ref=e246] [cursor=pointer]:
+              - /url: /collections
+            - list [ref=e247]:
+              - listitem [ref=e248]:
+                - link "Pride 26" [ref=e249] [cursor=pointer]:
+                  - /url: /collections/pride-26
+              - listitem [ref=e250]:
+                - link "Glow In Winter 26" [ref=e251] [cursor=pointer]:
+                  - /url: /collections/glow-in-winter-26
+              - listitem [ref=e252]:
+                - link "Good Vibes Only." [ref=e253] [cursor=pointer]:
+                  - /url: /collections/good-vibes-only
+              - listitem [ref=e254]:
+                - link "Crystal Skies." [ref=e255] [cursor=pointer]:
+                  - /url: /collections/crystal-skies
+              - listitem [ref=e256]:
+                - link "Unicorn" [ref=e257] [cursor=pointer]:
+                  - /url: /collections/unicorn
+              - listitem [ref=e258]:
+                - link "Édition Spatiale" [ref=e259] [cursor=pointer]:
+                  - /url: /collections/edition-spatiale
+              - listitem [ref=e260]:
+                - link "Flamant Rose" [ref=e261] [cursor=pointer]:
+                  - /url: /collections/flamant-rose
+              - listitem [ref=e262]:
+                - link "Womanizer" [ref=e263] [cursor=pointer]:
+                  - /url: /collections/womanizer
+              - listitem [ref=e264]:
+                - link "TransFLOWER™" [ref=e265] [cursor=pointer]:
+                  - /url: /collections/transflower
+              - listitem [ref=e266]:
+                - link "TransLove™" [ref=e267] [cursor=pointer]:
+                  - /url: /collections/translove
+              - listitem [ref=e268]:
+                - link "Made In USA" [ref=e269] [cursor=pointer]:
+                  - /url: /collections/made-in-usa
+              - listitem [ref=e270]:
+                - link "Arizona" [ref=e271] [cursor=pointer]:
+                  - /url: /collections/arizona
+              - listitem [ref=e272]:
+                - link "Paris" [ref=e273] [cursor=pointer]:
+                  - /url: /collections/paris
+              - listitem [ref=e274]:
+                - link "Peach Phoenix™" [ref=e275] [cursor=pointer]:
+                  - /url: /collections/peach-phoenix
+          - generic [ref=e276]:
+            - link "Follow tsgabrielle®" [ref=e277] [cursor=pointer]:
+              - /url: /follow-tsgabrielle
+            - list [ref=e278]:
+              - listitem [ref=e279]:
+                - link "Instagram" [ref=e280] [cursor=pointer]:
+                  - /url: https://www.instagram.com/tsgabrielle3
+              - listitem [ref=e281]:
+                - link "Tiktok" [ref=e282] [cursor=pointer]:
+                  - /url: https://www.tiktok.com/@tsgabrielle3
+              - listitem [ref=e283]:
+                - link "Youtube" [ref=e284] [cursor=pointer]:
+                  - /url: https://www.youtube.com/@tsgabrielle3
+              - listitem [ref=e285]:
+                - link "Facebook" [ref=e286] [cursor=pointer]:
+                  - /url: https://www.facebook.com/tsgabrielle3
+              - listitem [ref=e287]:
+                - link "X (Twitter)" [ref=e288] [cursor=pointer]:
+                  - /url: https://x.com/tsgabrielle3
+              - listitem [ref=e289]:
+                - link "Pinterest" [ref=e290] [cursor=pointer]:
+                  - /url: https://www.pinterest.com/tsgabrielle3/
+              - listitem [ref=e291]:
+                - link "Linkedin" [ref=e292] [cursor=pointer]:
+                  - /url: https://www.linkedin.com/company/tsgabrielle/
+              - listitem [ref=e293]:
+                - link "Snapchat" [ref=e294] [cursor=pointer]:
+                  - /url: https://www.snapchat.com/@tsgabrielle3
+        - generic [ref=e295]:
+          - generic [ref=e296]:
+            - link "The Collabs" [ref=e297] [cursor=pointer]:
+              - /url: /the-collabs
+            - list [ref=e298]:
+              - listitem [ref=e299]:
+                - link "Adidas X tsgabrielle®" [ref=e300] [cursor=pointer]:
+                  - /url: /adidas-x-tsgabrielle
+              - listitem [ref=e301]:
+                - link "Champion® Heritage" [ref=e302] [cursor=pointer]:
+                  - /url: /champion-heritage
+              - listitem [ref=e303]:
+                - link "Columbia Sportswear" [ref=e304] [cursor=pointer]:
+                  - /url: /columbia-sportswear
+              - listitem [ref=e305]:
+                - link "Under Armour® Performance" [ref=e306] [cursor=pointer]:
+                  - /url: /under-armour-performance
+          - generic [ref=e307]:
+            - link "tsgabrielle® Worldwide" [ref=e308] [cursor=pointer]:
+              - /url: /tsgabrielle-worldwide
+            - list [ref=e309]:
+              - listitem [ref=e310]:
+                - link "Store Directory" [ref=e311] [cursor=pointer]:
+                  - /url: /store-directory
+              - listitem [ref=e312]:
+                - link "Stores Directory" [ref=e313] [cursor=pointer]:
+                  - /url: /stores-directory
+              - listitem [ref=e314]:
+                - link "Usa" [ref=e315] [cursor=pointer]:
+                  - /url: /usa
+        - generic [ref=e317]:
+          - link "The Universe Of tsgabrielle®" [ref=e318] [cursor=pointer]:
+            - /url: /the-universe-of-tsgabrielle
+          - list [ref=e319]:
+            - listitem [ref=e320]:
+              - link "Your Inclusive Store" [ref=e321] [cursor=pointer]:
+                - /url: /your-inclusive-store
+            - listitem [ref=e322]:
+              - link "About Gabrielle" [ref=e323] [cursor=pointer]:
+                - /url: /about-gabrielle
+            - listitem [ref=e324]:
+              - link "Sustainability" [ref=e325] [cursor=pointer]:
+                - /url: /sustainability
+            - listitem [ref=e326]:
+              - link "The Blogs" [ref=e327] [cursor=pointer]:
+                - /url: /the-blogs
+            - listitem [ref=e328]:
+              - link "Videos" [ref=e329] [cursor=pointer]:
+                - /url: /videos
+      - link [ref=e331] [cursor=pointer]:
+        - /url: /checkout
+        - img [ref=e333]
+      - generic [ref=e336]:
+        - link "logo" [ref=e337] [cursor=pointer]:
+          - /url: /
+          - img "logo" [ref=e338]
+        - generic [ref=e339]:
+          - generic [ref=e340]:
+            - img "Apple Pay" [ref=e341]
+            - img "Google Pay" [ref=e342]
+            - img "PayPal" [ref=e343]
+            - img "Venmo" [ref=e344]
+          - generic [ref=e345]:
+            - img "Visa" [ref=e346]
+            - img "Mastercard" [ref=e347]
+            - img "Amex" [ref=e348]
+      - generic [ref=e349]:
+        - generic [ref=e350]: 2023-2026© tsgabrielle USA the tsgabrielle logo and names and trademarks associated with tsgabrielle products are registered trademarks of Peach Phoenix, LLC. and/or its affiliates • All other trademarks are the property of their respective owners.
+        - generic [ref=e352]:
+          - generic [ref=e353]: © 2026 Peach Phoenix, LLC.
+          - link "Admin" [ref=e354] [cursor=pointer]:
+            - /url: /admin
+  - alert [ref=e355]
+```

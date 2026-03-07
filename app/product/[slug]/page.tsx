@@ -45,8 +45,10 @@ export default async function ProductPage({ params }: { params: Promise<{ slug: 
     title: product.title,
     price: product.price_cents || 0,
     description: product.description || "",
-    details: ["Premium craftsmanship", "Inclusive sizing", "Authentic design", "Sustainably sourced", "Peach Phoenix, LLC guaranteed"],
-    care: "Dry clean only. Handle with care to maintain the zero-gravity finish.",
+    details: product.metafields?.["Premium Features"] 
+      ? (product.metafields["Premium Features"] as string).split("\n").filter(Boolean)
+      : ["Premium craftsmanship", "Inclusive sizing", "Authentic design", "Sustainably sourced", "Peach Phoenix, LLC guaranteed"],
+    care: (product.metafields?.["Care Instructions"] as string) || "Dry clean only. Handle with care to maintain the zero-gravity finish.",
     shipping: "Free worldwide shipping on all orders over $150. Dispatched within 24 hours.",
     images: images && images.length > 0 ? images.map(img => img.url) : ["/images/placeholder.jpg"],
     colors: [{ name: "Noir", hex: "#111111" }],
@@ -55,9 +57,10 @@ export default async function ProductPage({ params }: { params: Promise<{ slug: 
     reviewCount: 42,
     soldCount: 128,
     stock: variants.reduce((acc, v) => acc + (v.stock || 0), 0),
-    tags: ["New", "Luxury", "Inclusive"],
-    ribbon: "EXCLUSIVE" as const,
-    gifTitleUrl: (product as any).printful_product_id ? undefined : "" // Placeholder for Admin setting
+    tags: (product.metafields?.["Tags"] as string)?.split(",").map(t => t.trim()) || ["New", "Luxury", "Inclusive"],
+    ribbon: (product.metafields?.["Ribbon"] as any) || "EXCLUSIVE",
+    gifTitleUrl: (product as any).printful_product_id ? undefined : "",
+    metafields: product.metafields
   };
 
   return <ProductClientView product={mappedProduct} />;

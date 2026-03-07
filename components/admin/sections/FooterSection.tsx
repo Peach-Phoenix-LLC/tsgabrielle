@@ -2,6 +2,7 @@
 
 import React, { useState, useEffect } from "react";
 import { Save, Loader2, CheckCircle2 } from "lucide-react";
+import { ClaudeTextEditor } from "../ClaudeTextEditor";
 
 export default function FooterSection() {
   const [settings, setSettings] = useState({
@@ -71,13 +72,11 @@ export default function FooterSection() {
             className="w-full h-10 rounded-lg cursor-pointer border-none" 
           />
         </div>
-        <div className="space-y-2">
-          <label className="text-[10px] uppercase tracking-widest font-bold">Legal Text</label>
-          <textarea 
-            rows={4} 
-            value={settings.footer_text}
-            onChange={e => setSettings({...settings, footer_text: e.target.value})}
-            className="w-full bg-[#f8f8f8] border border-black/10 px-4 py-3 text-xs outline-none focus:border-[#a932bd] resize-none rounded-lg" 
+        <div className="space-y-4">
+          <ClaudeTextEditor
+            label="Legal Text"
+            initialValue={settings.footer_text}
+            onChange={(val: string) => setSettings({...settings, footer_text: val})}
           />
         </div>
         <div className="space-y-2">

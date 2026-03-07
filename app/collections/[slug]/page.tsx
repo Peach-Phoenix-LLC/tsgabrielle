@@ -27,9 +27,10 @@ export async function generateMetadata({ params }: PageProps) {
   }
   
   return buildMetadata({
-    title: `${collection.name} | tsgabrielle`,
-    description: collection.description ?? "Explore this exclusive collection at tsgabrielle.",
+    title: collection.seo_title || `${collection.name} | tsgabrielle`,
+    description: collection.seo_description || collection.description || "Explore this exclusive collection at tsgabrielle.",
     path: `/collections/${resolvedParams.slug}`,
+    keywords: collection.tags || []
   });
 }
 
@@ -62,16 +63,37 @@ export default async function CollectionPage({ params }: PageProps) {
     c => c.href === `/${resolvedParams.slug}` || c.href === `/collections/${resolvedParams.slug}`
   );
   
-  // Choose image: we assume hero_image is on the collection object, or fallback to menu.ts image
-  const heroImage = collection.hero_image || menuLookup?.image || undefined;
+  const heroImages = [collection.hero_image_1, collection.hero_image_2, collection.hero_image_3].filter(Boolean);
+  const heroImage = heroImages[0] || menuLookup?.image || undefined;
+  const heroDescriptions = 
+    collection.slogans?.length 
+      ? collection.slogans 
+      : [collection.hero_description_1, collection.hero_description_2, collection.hero_description_3].filter(Boolean);
+  const backgroundColor = collection.background_color || "#f9f9f9";
+  const textColor = collection.text_color || "#111111";
 
   return (
-    <div className="bg-[#f9f9f9] min-h-screen">
-      <CollectionHero imageUrl={heroImage} alt={collection.name} />
-      <CollectionHeader title={collection.name} description={collection.description} />
+    <div className="min-h-screen" style={{ backgroundColor }}>
+      <CollectionHero
+        imageUrl={heroImage}
+        alt={collection.title || collection.name}
+        overlayColor={collection.hero_overlay_color || "rgba(0,0,0,0.1)"}
+        descriptions={heroDescriptions}
+      />
+      <CollectionHeader
+        title={collection.title || collection.name}
+        subtitle={collection.subtitle}
+        description={collection.description}
+        textColor={textColor}
+      />
       <CollectionPageClient 
         initialProducts={products} 
         categories={categories} 
+        gridTheme={{
+          backgroundColor: collection.product_grid_background_color || "#ffffff",
+          textColor: collection.product_grid_text_color || textColor,
+          accentColor: collection.product_grid_accent_color || "#a932bd",
+        }}
       />
     </div>
   );

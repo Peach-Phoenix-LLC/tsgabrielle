@@ -31,9 +31,17 @@ export async function generateMetadata({ params }: PageProps) {
     });
   }
 
-  const title = content.seo_title || `${category.name} | tsgabrielle`;
-  const description = content.seo_description || category.description || `Explore our exclusive ${category.name} selection at tsgabrielle.`;
-  const keywords = content.keywords ? content.keywords.split(',').map(k => k.trim()) : undefined;
+  const title = category.seo_title || content.seo_title || `${category.name} | tsgabrielle`;
+  const description =
+    category.seo_description ||
+    content.seo_description ||
+    category.description ||
+    `Explore our exclusive ${category.name} selection at tsgabrielle.`;
+  const keywords = Array.isArray(category.tags) && category.tags.length > 0
+    ? category.tags
+    : content.keywords
+      ? content.keywords.split(",").map(k => k.trim())
+      : undefined;
   
   return buildMetadata({
     title,
@@ -71,23 +79,45 @@ export default async function CategoryPage({ params }: PageProps) {
     return notFound();
   }
 
-  // Use dynamic description from page_content if available
-  const displayDescription = content.description || category.description;
+  const displayDescription = category.description || content.description;
 
   // Fallback to menu image if the DB doesn't have a hero image mapping
   const menuLookup = CATEGORIES.find(
     c => c.href === `/${resolvedParams.slug}` || c.href === `/categories/${resolvedParams.slug}`
   );
   
-  const heroImage = content.hero_image || category.hero_image || menuLookup?.image || undefined;
+  const heroImages = [category.hero_image_1, category.hero_image_2, category.hero_image_3].filter(Boolean);
+  const heroImage = heroImages[0] || content.hero_image || category.hero_image || menuLookup?.image || undefined;
+  const heroDescriptions = [
+    category.hero_description_1,
+    category.hero_description_2,
+    category.hero_description_3,
+  ].filter(Boolean);
+  const backgroundColor = category.background_color || "#f9f9f9";
+  const textColor = category.text_color || "#111111";
 
   return (
-    <div className="bg-[#f9f9f9] min-h-screen">
-      <CollectionHero imageUrl={heroImage} alt={category.name} />
-      <CollectionHeader title={category.name} description={displayDescription} />
+    <div className="min-h-screen" style={{ backgroundColor }}>
+      <CollectionHero
+        imageUrl={heroImage}
+        alt={category.title || category.name}
+        overlayColor={category.hero_overlay_color || "rgba(0,0,0,0.1)"}
+        descriptions={heroDescriptions}
+      />
+      <CollectionHeader
+        title={category.title || category.name}
+        subtitle={category.subtitle}
+        description={displayDescription}
+        textColor={textColor}
+      />
       <CollectionPageClient 
         initialProducts={products} 
         categories={categories} 
+        gridTheme={{
+          backgroundColor: category.product_grid_background_color || "#ffffff",
+          textColor: category.product_grid_text_color || textColor,
+          accentColor: category.product_grid_accent_color || "#a932bd",
+        }}
       />
     </div>
   );

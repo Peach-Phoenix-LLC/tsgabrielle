@@ -2,14 +2,49 @@ export type Category = {
   id: string;
   name: string;
   slug: string;
+  title?: string | null;
+  subtitle?: string | null;
   description?: string | null;
+  seo_title?: string | null;
+  seo_description?: string | null;
+  tags?: string[] | null;
+  hero_image_1?: string | null;
+  hero_image_2?: string | null;
+  hero_image_3?: string | null;
+  hero_description_1?: string | null;
+  hero_description_2?: string | null;
+  hero_description_3?: string | null;
+  background_color?: string | null;
+  text_color?: string | null;
+  product_grid_background_color?: string | null;
+  product_grid_text_color?: string | null;
+  product_grid_accent_color?: string | null;
+  hero_overlay_color?: string | null;
 };
 
 export type Collection = {
   id: string;
   name: string;
   slug: string;
+  title?: string | null;
   description?: string | null;
+  subtitle?: string | null;
+  tags?: string[] | null;
+  hero_image_1?: string | null;
+  hero_image_2?: string | null;
+  hero_image_3?: string | null;
+  hero_description_1?: string | null;
+  hero_description_2?: string | null;
+  hero_description_3?: string | null;
+  background_color?: string | null;
+  text_color?: string | null;
+  product_grid_background_color?: string | null;
+  product_grid_text_color?: string | null;
+  product_grid_accent_color?: string | null;
+  hero_overlay_color?: string | null;
+  seo_title?: string | null;
+  seo_description?: string | null;
+  slogans?: string[] | null;
 };
 
 export type Product = {
@@ -22,6 +57,7 @@ export type Product = {
   price_cents: number;
   currency: string;
   active: boolean;
+  metafields?: Record<string, any> | null;
 };
 
 export type ProductImage = {

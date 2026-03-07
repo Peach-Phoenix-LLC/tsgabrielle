@@ -19,9 +19,14 @@ type Category = { id: string; name: string };
 type Props = {
   initialProducts: Product[];
   categories: Category[];
+  gridTheme?: {
+    backgroundColor?: string;
+    textColor?: string;
+    accentColor?: string;
+  };
 };
 
-export default function CollectionPageClient({ initialProducts, categories }: Props) {
+export default function CollectionPageClient({ initialProducts, categories, gridTheme }: Props) {
   const [sort, setSort] = useState("title");
   const [filter, setFilter] = useState("");
 
@@ -57,7 +62,7 @@ export default function CollectionPageClient({ initialProducts, categories }: Pr
         onSortChange={setSort}
         onFilterChange={setFilter}
       />
-      <ProductGrid products={filtered} />
+      <ProductGrid products={filtered} theme={gridTheme} />
     </>
   );
 }

@@ -21,14 +21,14 @@ export function BrandLogo({ href = "/", className = "", color = 'light' }: Brand
     defaultLogo = "/images/tsgabrielle-logo-white.png";
   }
 
-  const logoUrl = settings.site_logo || defaultLogo;
+  const logoUrl = (color === 'purple' || color === 'dark') ? defaultLogo : (settings?.site_logo || defaultLogo);
 
   return (
     <Link href={href} className={`inline-flex items-center ${className}`.trim()}>
       <img 
         src={logoUrl} 
         alt="logo" 
-        className="h-10 w-auto object-contain"
+        className="h-full w-auto object-contain"
         onError={(e) => {
           // If the dynamic logo fails, try the default one once
           if (e.currentTarget.src !== window.location.origin + defaultLogo) {
