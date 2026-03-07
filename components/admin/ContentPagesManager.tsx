@@ -1,8 +1,8 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import { useState, useEffect, useCallback } from "react";
 import { createClient } from "@supabase/supabase-js";
-import { Upload, Save, Loader2, Trash2, Plus, Edit2 } from "lucide-react";
+import { Upload, Save, Loader2, Edit2 } from "lucide-react";
 
 const supabase = createClient(
   process.env.NEXT_PUBLIC_SUPABASE_URL!,
@@ -49,11 +49,7 @@ export default function ContentPagesManager() {
   const [message, setMessage] = useState<{ type: "success" | "error"; text: string } | null>(null);
   const [editingItem, setEditingItem] = useState<PageContent | null>(null);
 
-  useEffect(() => {
-    fetchContents();
-  }, [selectedPage]);
-
-  async function fetchContents() {
+  const fetchContents = useCallback(async () => {
     setLoading(true);
     try {
       const res = await fetch(`/api/admin/page-content?page_path=${selectedPage}`);
@@ -64,7 +60,11 @@ export default function ContentPagesManager() {
     } finally {
       setLoading(false);
     }
-  }
+  }, [selectedPage]);
+
+  useEffect(() => {
+    fetchContents();
+  }, [fetchContents]);
 
   async function uploadImage(file: File): Promise<string> {
     const fileExt = file.name.split(".").pop();

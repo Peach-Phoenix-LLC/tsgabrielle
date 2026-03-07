@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useEffect, useRef } from "react";
+import { useState, useEffect } from "react";
 import { createClient } from "@supabase/supabase-js";
 import { Upload, Save, Loader2, Trash2, Plus, GripVertical } from "lucide-react";
 

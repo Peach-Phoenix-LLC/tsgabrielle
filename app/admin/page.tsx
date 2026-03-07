@@ -17,9 +17,7 @@ import EmailSection from "@/components/admin/sections/EmailSection";
 import CategorySection from "@/components/admin/sections/CategorySection";
 import CollectionSection from "@/components/admin/sections/CollectionSection";
 import FooterSection from "@/components/admin/sections/FooterSection";
-import { 
-  HeroBannerSection, 
-  AboutPageSection, 
+import {
   NavigationSection
 } from "@/components/admin/sections/ContentSections";
 import SiteSettingsManager from "@/components/admin/SiteSettingsManager";

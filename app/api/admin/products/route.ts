@@ -38,7 +38,7 @@ function normalizeVariants(rawVariants: unknown, defaultPriceCents: number): Var
 function normalizeImages(rawImages: unknown): ImageInput[] {
   if (!Array.isArray(rawImages)) return [];
   return rawImages
-    .map((image, index) => image as ImageInput)
+    .map((image, _index) => image as ImageInput)
     .filter((image) => Boolean(image?.url))
     .map((image, index) => ({
       id: image.id,

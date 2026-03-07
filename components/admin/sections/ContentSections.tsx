@@ -1,7 +1,7 @@
 "use client";
 
 import React, { useState, useEffect } from "react";
-import { Plus, Trash2, Edit } from "lucide-react";
+import { Plus, Trash2 } from "lucide-react";
 
 export function HeroBannerSection() {
   return (
