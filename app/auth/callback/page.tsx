@@ -4,6 +4,8 @@ import { useEffect } from "react";
 import { useRouter, useSearchParams } from "next/navigation";
 import { getSupabaseBrowserClient } from "@/lib/supabase/client";
 
+const ADMIN_EMAILS = ["contact@tsgabrielle.us"];
+
 export default function AuthCallbackPage() {
   const router = useRouter();
   const searchParams = useSearchParams();
@@ -17,7 +19,11 @@ export default function AuthCallbackPage() {
       }
       const supabase = getSupabaseBrowserClient();
       await supabase.auth.exchangeCodeForSession(code);
-      router.replace("/account");
+      const { data: { user } } = await supabase.auth.getUser();
+      const isAdmin =
+        user?.app_metadata?.role === "admin" ||
+        ADMIN_EMAILS.includes(user?.email ?? "");
+      router.replace(isAdmin ? "/admin" : "/account");
       router.refresh();
     };
     exchange();
