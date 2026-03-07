@@ -13,6 +13,11 @@ These are locked defaults. Claude must never modify them unless the user explici
 | **Cart localStorage key** | Always `tsgabrielle_cart_v1` — never rename |
 | **Tailwind brand colors** | `primary`, `peach`, `phoenix`, `night`, `champagne` — never alter hex values |
 | **Font families** | `font-sans` = Lato (body), `font-display` = Space Grotesk (headings) — do not swap |
+| **Brand spec (`lib/brand.ts`)** | All values are frozen brand constants — never change colors, typography, slogan, embroidery specs, or animation timing without explicit approval |
+| **Brand primary color** | Always `#a932bd` (Royal Orchid) — never alter |
+| **Brand slogan** | Always `"The French Trans Touch™"` — never rephrase or remove ™ |
+| **Brand name** | Always `tsgabrielle®` (lowercase, with ®) — never capitalize or remove ® |
+| **Brand typography** | Primary: Lato Bold Italic · Secondary: Lato Regular · Editorial: Playfair Display Italic — do not swap |
 | **Supabase client usage** | Server components → `lib/supabase/server.ts` only; Client components → `lib/supabase/client.ts` only |
 | **Admin auth pattern** | Always use `requireAdmin()` from `lib/admin-auth.ts` on every admin API route |
 | **Security headers** | Never remove or weaken headers set in `middleware.ts` |
