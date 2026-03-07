@@ -7,7 +7,7 @@ import { getSupabaseBrowserClient } from "@/lib/supabase/client";
 function SignInForm() {
   const router = useRouter();
   const searchParams = useSearchParams();
-  const redirectTo = searchParams.get("redirect") || "/account";
+  const redirectTo = searchParams.get("redirect") || "/admin";
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError] = useState<string | null>(null);
@@ -20,7 +20,11 @@ function SignInForm() {
     try {
       const supabase = getSupabaseBrowserClient();
       const { error: signInError } = await supabase.auth.signInWithPassword({ email, password });
-      if (signInError) throw signInError;
+      if (signInError) {
+        console.error('Sign-in error:', signInError);
+        throw signInError;
+      }
+      console.log('Sign-in successful, redirecting');
       router.push(redirectTo);
       router.refresh();
     } catch (err) {

@@ -26,9 +26,13 @@ export async function generateMetadata({ params }: PageProps) {
     });
   }
   
+  const isParis = resolvedParams.slug === "paris";
+  const seoTitle = isParis ? "Paris Collection • tsgabrielle®" : (collection.seo_title || `${collection.name} | tsgabrielle`);
+  const seoDesc = isParis ? "Discover Paris by tsgabrielle® — a luxury streetwear collection blending French elegance, identity, and modern design. The French Trans Touch™ at its finest." : (collection.seo_description || collection.description || "Explore this exclusive collection at tsgabrielle.");
+
   return buildMetadata({
-    title: collection.seo_title || `${collection.name} | tsgabrielle`,
-    description: collection.seo_description || collection.description || "Explore this exclusive collection at tsgabrielle.",
+    title: seoTitle,
+    description: seoDesc,
     path: `/collections/${resolvedParams.slug}`,
     keywords: collection.tags || []
   });
@@ -65,10 +69,22 @@ export default async function CollectionPage({ params }: PageProps) {
   
   const heroImages = [collection.hero_image_1, collection.hero_image_2, collection.hero_image_3].filter(Boolean);
   const heroImage = heroImages[0] || menuLookup?.image || undefined;
-  const heroDescriptions = 
-    collection.slogans?.length 
-      ? collection.slogans 
-      : [collection.hero_description_1, collection.hero_description_2, collection.hero_description_3].filter(Boolean);
+  const isParis = resolvedParams.slug === "paris";
+  const parisSlogans = [
+    "Paris. Reimagined by The French Trans Touch™.",
+    "Elegance, unboxed with an edge.",
+    "Born in Paris. Defined by you.",
+    "Luxury that whispers in lower-case.",
+    "Where couture finds its courage.",
+    "Purple-powered Parisian attitude.",
+    "The city of light, brilliantly rewritten."
+  ];
+
+  const heroDescriptions = isParis 
+    ? parisSlogans 
+    : (collection.slogans?.length 
+        ? collection.slogans 
+        : [collection.hero_description_1, collection.hero_description_2, collection.hero_description_3].filter(Boolean));
   const backgroundColor = collection.background_color || "#f9f9f9";
   const textColor = collection.text_color || "#111111";
 

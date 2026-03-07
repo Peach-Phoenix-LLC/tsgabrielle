@@ -16,17 +16,6 @@ const PARIS_CONTENT = {
   title: "Paris Collection",
   subtitle: "Parisian elegance redefined for the modern age, fused with luxury streetwear. Refined, bold, and unmistakably tsgabrielle®.",
   description: `The Paris collection isn't just clothing; it's the very soul of tsgabrielle® rendered tangible. It's where the timeless allure of French elegance, the defiant courage of trans identity, and our signature meticulous craftsmanship converge. Drawing inspiration from the profound intimacy of Paris at twilight, the ethereal shimmer of streetlights on rain-kissed cobblestones, and the innate, effortless confidence of true Parisian style, this collection channels our iconic royal-purple identity into wearable poetry.\n\nEvery sculpted silhouette and intentional detail is a direct reflection of The French Trans Touch™ philosophy: an insistence on elegance without fear, identity without apology, and luxury without compromise.\n\nParis seamlessly marries minimalist couture lines with the dynamic structure of modern streetwear, resulting in pieces that are at once timelessly chic and futuristically daring — a true reflection of the city itself. Soft, grounding neutrals provide a sophisticated canvas for our iconic purple spectrum, while subtle holographic accents weave in the digital glow and transformative spirit central to the tsgabrielle® universe.\n\nThis is far beyond a collection. It is an audacious declaration of presence. A profound love letter to authenticity. A potent reminder that true elegance is not inherited — it is always chosen.\n\nAdorn yourself in Paris, and effortlessly carry the city’s inherent fire, its delicate softness, its unwavering rebellion, and its undeniable beauty in every single step.`,
-  seo_title: "Paris Collection • tsgabrielle®",
-  seo_description: "Discover Paris by tsgabrielle® — a luxury streetwear collection blending French elegance, identity, and modern design. The French Trans Touch™ at its finest.",
-  slogans: [
-    "Paris. Reimagined by The French Trans Touch™.",
-    "Elegance, unboxed with an edge.",
-    "Born in Paris. Defined by you.",
-    "Luxury that whispers in lower-case.",
-    "Where couture finds its courage.",
-    "Purple-powered Parisian attitude.",
-    "The city of light, brilliantly rewritten."
-  ],
   tags: [
     "tsgabrielle paris", "paris streetwear", "french luxury fashion", "parisian style clothing", 
     "trans designer brand", "luxury purple apparel", "french trans touch", "paris couture streetwear", 
