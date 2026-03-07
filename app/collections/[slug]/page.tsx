@@ -31,6 +31,10 @@ export async function generateMetadata({ params }: PageProps) {
   const seoDesc = isParis ? "Discover Paris by tsgabrielle® — a luxury streetwear collection blending French elegance, identity, and modern design. The French Trans Touch™ at its finest." : (collection.seo_description || collection.description || "Explore this exclusive collection at tsgabrielle.");
 
   return buildMetadata({
+    title: collection.meta_title ?? `${collection.name} | tsgabrielle`,
+    description: collection.meta_description ?? collection.description ?? "Explore this exclusive collection at tsgabrielle.",
+    path: `/collections/${resolvedParams.slug}`,
+    keywords: collection.seo_tags ?? undefined,
     title: seoTitle,
     description: seoDesc,
     path: `/collections/${resolvedParams.slug}`,
@@ -89,6 +93,13 @@ export default async function CollectionPage({ params }: PageProps) {
   const textColor = collection.text_color || "#111111";
 
   return (
+    <div className="bg-[#f9f9f9] min-h-screen">
+      <CollectionHero imageUrl={heroImage} alt={collection.name} />
+      <CollectionHeader
+        title={collection.name}
+        description={collection.description}
+        shortDescription={collection.short_description}
+        slogans={collection.slogans}
     <div className="min-h-screen" style={{ backgroundColor }}>
       <CollectionHero
         imageUrl={heroImage}
