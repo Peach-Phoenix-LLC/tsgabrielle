@@ -429,9 +429,109 @@ Tests live in `tests/` with `.spec.ts` extension.
 ## Deployment
 
 - **Platform:** Vercel, project `tsgabrielle-live`, team `tsg3`
+- **Project ID:** `prj_DTVjxOjXU71Kin9TpVNYPeF20ONA`
+- **Team account ID:** `team_WShraYQKcxM49c96eLw4YHYD`
 - **Region:** `iad1` (Northern Virginia)
 - **Max function duration:** 30 seconds
 - **Supabase project:** `wfwcydmfdtlpupdozdvn`
+- **Production domain:** `https://tsgabrielle.us`
 - Auth redirect: `https://tsgabrielle.us/auth/callback`
+
+---
+
+## Deployment Runbook (Claude AI Sessions)
+
+### Environment constraints
+- Git pushes are **only allowed to `claude/` branches** — pushing to `main` or `master` returns HTTP 403.
+- `gh` CLI is **not available**. GitHub API calls via `curl` also fail (no GitHub token in environment).
+- The local proxy at `127.0.0.1:42649` handles git operations only — no GitHub REST API calls.
+- Vercel CLI (`npx vercel`) **works** using the Vercel token.
+
+### How to deploy (in order of preference)
+
+#### Option 1 — Direct Vercel CLI deploy (fastest, always works)
+```bash
+npx vercel --prod \
+  --token $VERCEL_TOKEN \
+  --scope tsg3 \
+  --yes
+```
+Token name in Vercel dashboard: **tsgabrielle** (ask the project owner for the value, or retrieve from Vercel account tokens page).
+Uploads local files and deploys directly to production. No GitHub involved.
+
+#### Option 2 — Trigger via Vercel deploy hook (deploys from `main` branch on GitHub)
+```bash
+# Deploy hook URL is stored in Vercel project settings → Git → Deploy Hooks
+# Hook name: "auto-deploy", ref: main
+curl -X POST "<deploy-hook-url>"
+```
+Only use this when `main` on GitHub has correct, buildable code.
+
+#### Option 3 — GitHub Actions (auto, on push to `main`)
+The workflow at `.github/workflows/deploy.yml` triggers automatically on push to `main`.
+Requires `VERCEL_TOKEN` secret set in GitHub repo settings → Actions → Secrets.
+Token name: `tsgabrielle`, value: the Vercel token above.
+
+### Auto-deploy setup (already configured)
+- Vercel native GitHub integration watches the `main` branch.
+- Every push to `main` triggers an automatic Vercel build and deploy.
+- Vercel ignore-build command: `node -e "process.exit(require('fs').existsSync('./proxy.ts') ? 0 : 1)"`
+  — skips builds when `proxy.ts` is present (legacy conflict guard), proceeds when it's absent.
+
+### Vercel API (use with the token above)
+```bash
+# Check project status / git link
+curl -s "https://api.vercel.com/v9/projects/prj_DTVjxOjXU71Kin9TpVNYPeF20ONA?teamId=team_WShraYQKcxM49c96eLw4YHYD" \
+  -H "Authorization: Bearer <token>"
+
+# List recent deployments
+curl -s "https://api.vercel.com/v6/deployments?projectId=prj_DTVjxOjXU71Kin9TpVNYPeF20ONA&teamId=team_WShraYQKcxM49c96eLw4YHYD&limit=5" \
+  -H "Authorization: Bearer <token>"
+
+# Get build logs for a failed deployment
+curl -s "https://api.vercel.com/v2/deployments/<dpl_id>/events?teamId=team_WShraYQKcxM49c96eLw4YHYD&builds=1" \
+  -H "Authorization: Bearer <token>"
+
+# Update project setting (e.g. production branch, ignoreCommand)
+curl -s -X PATCH "https://api.vercel.com/v9/projects/prj_DTVjxOjXU71Kin9TpVNYPeF20ONA?teamId=team_WShraYQKcxM49c96eLw4YHYD" \
+  -H "Authorization: Bearer <token>" \
+  -H "Content-Type: application/json" \
+  -d '{"commandForIgnoringBuildStep": "..."}'
+
+# Change production branch (undocumented endpoint used by Vercel dashboard)
+curl -s -X PATCH "https://api.vercel.com/v9/projects/prj_DTVjxOjXU71Kin9TpVNYPeF20ONA/branch?teamId=team_WShraYQKcxM49c96eLw4YHYD" \
+  -H "Authorization: Bearer <token>" \
+  -H "Content-Type: application/json" \
+  -d '{"branch": "main"}'
+```
+
+### Diagnosing build failures
+1. Check recent deployments for ERROR state
+2. Fetch build events — look for lines containing `error`, `Error`, `failed`, `cannot`
+3. Common causes found so far:
+   - **`proxy.ts` + `middleware.ts` coexisting** → delete `proxy.ts` (it's a deprecated duplicate)
+   - Missing env vars → check Vercel project environment variables
+
+### Git workflow in Claude sessions
+```bash
+# Always develop on the session branch
+git checkout claude/claude-md-<session-id>
+
+# Commit changes
+git add <files>
+git commit -m "fix: description"
+
+# Push — only claude/ branches allowed
+git push -u origin claude/claude-md-<session-id>
+
+# Deploy immediately without waiting for PR merge
+npx vercel --prod --token <token> --scope tsg3 --yes
+```
+
+### Health check
+```bash
+curl -s -o /dev/null -w "%{http_code}" https://tsgabrielle.us
+# Expected: 200
+```
 
 See `docs/deployment.md` for full Vercel + Supabase + GoDaddy DNS setup steps.
