@@ -34,4 +34,4 @@ jobs:
         run: npm run typecheck
 
       - name: Deploy to Vercel
-        run: npx vercel --prod --token ${{ secrets.VERCEL_TOKEN }} --scope tsg3 --yes
+        run: npx vercel --prod --token ${{ secrets.VERCEL_TOKEN }} --scope tsg3 --project tsgabrielle-live --yes
