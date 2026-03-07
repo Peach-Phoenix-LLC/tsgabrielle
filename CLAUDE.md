@@ -4,6 +4,29 @@ Comprehensive guide for AI assistants working in this codebase.
 
 ---
 
+## Protected Defaults — Do Not Change Without Explicit Instruction
+
+These are locked defaults. Claude must never modify them unless the user explicitly says to:
+
+| What | Rule |
+|---|---|
+| **Cart localStorage key** | Always `tsgabrielle_cart_v1` — never rename |
+| **Tailwind brand colors** | `primary`, `peach`, `phoenix`, `night`, `champagne` — never alter hex values |
+| **Font families** | `font-sans` = Lato (body), `font-display` = Space Grotesk (headings) — do not swap |
+| **Supabase client usage** | Server components → `lib/supabase/server.ts` only; Client components → `lib/supabase/client.ts` only |
+| **Admin auth pattern** | Always use `requireAdmin()` from `lib/admin-auth.ts` on every admin API route |
+| **Security headers** | Never remove or weaken headers set in `middleware.ts` |
+| **Image component** | Always use Next.js `<Image>` — never raw `<img>` tags |
+| **Server vs Client components** | Default to Server Components; only add `'use client'` when hooks/events/browser APIs are needed |
+| **External API calls** | Always go through wrapper modules in `lib/` — never call PayPal/Printful/Klaviyo/Resend directly in pages or components |
+| **Migrations** | Always create a new migration file — never edit existing ones in `supabase/migrations/` |
+| **Rate limiting** | Public API routes must use `lib/rate-limit.ts` |
+| **HTML rendering** | Always sanitize with `lib/sanitize.ts` before rendering user-supplied HTML |
+| **TypeScript** | Strict mode must remain enabled in `tsconfig.json` |
+| **3D Hero** | Must remain feature-flagged via `enable_3d_hero` and loaded with `dynamic(..., { ssr: false })` |
+
+---
+
 ## Project Overview
 
 **tsgabrielle** is a luxury brand e-commerce storefront built on:
