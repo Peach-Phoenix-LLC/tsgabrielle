@@ -86,6 +86,9 @@ export const MENU_GROUPS = [
       { label: "Faq", href: "/faq" },
       { label: "Contact tsgabrielle®", href: "/contact-tsgabrielle" },
       { label: "Legal Hub", href: "/legal-hub" },
+      { label: "Privacy Policy", href: "/privacy-policy" },
+      { label: "Terms of Service", href: "/terms-of-service" },
+      { label: "Refund Policy", href: "/refund-policy" },
     ],
   },
   {

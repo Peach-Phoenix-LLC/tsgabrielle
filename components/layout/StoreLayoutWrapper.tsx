@@ -3,6 +3,7 @@
 import { usePathname } from "next/navigation";
 import { Header } from "./Header";
 import { Footer } from "./Footer";
+import { Breadcrumbs } from "./Breadcrumbs";
 
 export function StoreLayoutWrapper({ children }: { children: React.ReactNode }) {
   const pathname = usePathname();
@@ -15,7 +16,10 @@ export function StoreLayoutWrapper({ children }: { children: React.ReactNode }) 
   return (
     <>
       <Header />
-      <main className="pt-24">{children}</main>
+      <main className="pt-24">
+        <Breadcrumbs />
+        {children}
+      </main>
       <Footer />
     </>
   );

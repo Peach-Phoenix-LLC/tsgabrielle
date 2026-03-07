@@ -26,7 +26,13 @@ function SignInForm() {
         throw signInError;
       }
       console.log('Sign-in successful, redirecting');
-      router.push(redirectTo);
+      // Check if the signed-in user is the admin email
+      const { data: { user } } = await supabase.auth.getUser();
+      if (user?.email?.toLowerCase() === "contact@tsgabrielle.us") {
+        router.push("/admin");
+      } else {
+        router.push(redirectTo);
+      }
       router.refresh();
     } catch (err) {
       setError(err instanceof Error ? err.message : "Sign in failed");

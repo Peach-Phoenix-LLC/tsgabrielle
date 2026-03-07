@@ -190,6 +190,12 @@ export function Footer() {
             <div className="flex items-center gap-4">
               <span className="text-[8px] uppercase tracking-widest">© 2026 Peach Phoenix, LLC.</span>
               <Link 
+                href="/privacy/do-not-sell" 
+                className="text-[8px] text-white/40 hover:text-white transition-colors uppercase tracking-widest whitespace-nowrap"
+              >
+                Do Not Sell or Share My Personal Information
+              </Link>
+              <Link 
                 href="/admin" 
                 className="text-[8px] text-white/10 hover:text-white/40 transition-colors uppercase tracking-widest"
               >

@@ -7,6 +7,7 @@ import { buildMetadata } from "@/lib/seo";
 import { getSiteSettings } from "@/lib/content";
 import { SpeedInsights } from "@vercel/speed-insights/next";
 import { StoreLayoutWrapper } from "@/components/layout/StoreLayoutWrapper";
+import CookieConsent from "@/components/layout/CookieConsent";
 
 const spaceGrotesk = Space_Grotesk({ subsets: ["latin"], variable: "--font-space-grotesk" });
 const lato = Lato({ subsets: ["latin"], weight: ["300", "400", "700"], variable: "--font-lato" });
@@ -52,12 +53,25 @@ export default async function RootLayout({ children }: { children: React.ReactNo
               window.dataLayer = window.dataLayer || [];
               function gtag(){dataLayer.push(arguments);}
               gtag('js', new Date());
+
+              // Handle Global Privacy Control (GPC)
+              if (navigator.globalPrivacyControl === true || navigator.globalPrivacyControl === '1') {
+                gtag('set', 'restricted_data_processing', true);
+              }
+
+              // Handle manual opt-out from localStorage
+              const consent = localStorage.getItem('cookie-consent');
+              if (consent === 'rejected') {
+                gtag('set', 'restricted_data_processing', true);
+              }
+
               gtag('config', 'G-02TDH8YYHB');
             `,
           }}
         />
       </head>
       <body className={`${spaceGrotesk.variable} ${lato.variable}`}>
+        <CookieConsent />
         {/* GTM noscript */}
         {process.env.NEXT_PUBLIC_GTM_ID && (
           <noscript>
