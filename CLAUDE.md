@@ -534,4 +534,45 @@ curl -s -o /dev/null -w "%{http_code}" https://tsgabrielle.us
 # Expected: 200
 ```
 
+### GitHub API access from Claude sessions
+Public GitHub API endpoints (read-only) work unauthenticated through the egress proxy:
+```bash
+curl -s https://api.github.com/repos/Peach-Phoenix-LLC/tsgabrielle
+```
+Authenticated endpoints (creating PRs, setting secrets, merging) require a GitHub PAT.
+The git proxy at `127.0.0.1:42649` holds a GitHub token internally but does not expose it —
+it only handles `git push/fetch/clone` operations to `claude/` prefixed branches.
+
+**With GitHub MCP connected** (via Claude.ai MCP connectors), all GitHub operations become
+available as tools: `create_pull_request`, `merge_pull_request`, `create_or_update_secret`, etc.
+
+---
+
+## MCP Integration
+
+Project MCP config is at `.mcp.json` in the repo root. It defines three servers:
+
+| Server | Package | Purpose |
+|---|---|---|
+| `github` | `@modelcontextprotocol/server-github` | PRs, issues, branches, secrets |
+| `supabase` | `@supabase/mcp-server-supabase` | DB queries, migrations, RLS |
+| `vercel` | `mcp-server-vercel` | Deployments, env vars, domains |
+
+### Required environment variables for MCP
+```bash
+GITHUB_TOKEN=<github-pat-with-repo-scope>
+SUPABASE_ACCESS_TOKEN=<supabase-personal-access-token>
+VERCEL_TOKEN=vcp_...   # already known — see Vercel dashboard, token name: tsgabrielle
+```
+
+### What GitHub MCP unlocks
+Once `GITHUB_TOKEN` is set and GitHub MCP is active, Claude can autonomously:
+- Create and merge PRs (e.g. merging the `claude/` fix branches into `main`)
+- Set GitHub Actions secrets (e.g. `VERCEL_TOKEN`) — eliminating the last manual step
+- Create issues, review code, manage branch protection
+
+### Activating MCP servers
+MCP servers in `.mcp.json` activate automatically when Claude Code starts in this directory.
+Set the env vars above in your shell or in a `.env.local` (never commit tokens).
+
 See `docs/deployment.md` for full Vercel + Supabase + GoDaddy DNS setup steps.
