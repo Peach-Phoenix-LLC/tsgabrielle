@@ -34,10 +34,6 @@ const config: Config = {
         body: ["var(--font-lato)", "sans-serif"]
       },
       keyframes: {
-        liquid: {
-          "0%, 100%": { backgroundPosition: "0% 50%" },
-          "50%": { backgroundPosition: "100% 50%" }
-        },
         iridescent: {
           "0%": { backgroundPosition: "0% 50%" },
           "100%": { backgroundPosition: "200% 50%" }
