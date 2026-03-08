@@ -71,6 +71,24 @@ export default async function RootLayout({ children }: { children: React.ReactNo
         />
       </head>
       <body className={`${spaceGrotesk.variable} ${lato.variable}`}>
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{
+             __html: JSON.stringify({
+              "@context": "https://schema.org/",
+              "@type": "ImageObject",
+              "contentUrl": "https://tsgabrielle.us/images/tsgabrielle-logo-purple.png",
+              "license": "https://tsgabrielle.us/copyright-trademark",
+              "acquireLicensePage": "https://tsgabrielle.us/contact-tsgabrielle",
+              "creditText": "Peach Phoenix, LLC",
+              "creator": {
+                "@type": "Organization",
+                "name": "tsgabrielle"
+              },
+              "copyrightNotice": "Peach Phoenix, LLC"
+            })
+          }}
+        />
         <CookieConsent />
         {/* GTM noscript */}
         {process.env.NEXT_PUBLIC_GTM_ID && (

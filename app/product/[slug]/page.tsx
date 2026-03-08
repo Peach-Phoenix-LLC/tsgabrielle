@@ -63,7 +63,27 @@ export default async function ProductPage({ params }: { params: Promise<{ slug: 
     metafields: product.metafields
   };
 
-  return <ProductClientView product={mappedProduct} />;
+  const schemaOrgImages = mappedProduct.images.map(url => ({
+    "@context": "https://schema.org/",
+    "@type": "ImageObject",
+    "contentUrl": url.startsWith('http') ? url : `https://tsgabrielle.us${url}`,
+    "license": "https://tsgabrielle.us/copyright-trademark",
+    "acquireLicensePage": "https://tsgabrielle.us/contact-tsgabrielle",
+    "creditText": "Peach Phoenix, LLC",
+    "creator": {
+      "@type": "Organization",
+      "name": "tsgabrielle"
+    },
+    "copyrightNotice": "Peach Phoenix, LLC"
+  }));
+
+  return (
+    <>
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(schemaOrgImages) }}
+      />
+      <ProductClientView product={mappedProduct} />
+    </>
+  );
 }
-
-

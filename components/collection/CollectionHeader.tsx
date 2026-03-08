@@ -1,3 +1,5 @@
+import Breadcrumbs from "@/components/layout/Breadcrumbs";
+
 export default function CollectionHeader({
   title,
   subtitle,
@@ -10,18 +12,21 @@ export default function CollectionHeader({
   textColor?: string;
 }) {
   return (
-    <header className="container-luxe py-16 text-center">
-      {subtitle && (
+    <>
+      <Breadcrumbs textColor={textColor} />
+      <header className="container-luxe py-8 text-center">
+        {subtitle && (
         <p className="text-[10px] uppercase tracking-[0.3em] mb-4" style={{ color: textColor }}>
           {subtitle}
         </p>
       )}
-      <h1 className="font-light text-5xl tracking-wide" style={{ color: textColor }}>{title}</h1>
+      <h1 className="font-light text-5xl tracking-wide capitalize" style={{ color: textColor }}>{title}</h1>
       {description && (
         <p className="mt-6 max-w-2xl mx-auto text-lg font-light leading-relaxed" style={{ color: textColor }}>
           {description}
         </p>
       )}
-    </header>
+      </header>
+    </>
   );
 }
