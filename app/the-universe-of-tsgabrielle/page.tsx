@@ -1,3 +1,4 @@
+import Link from "next/link";
 import { ContentPage } from "@/components/templates/ContentPage";
 import { buildMetadata } from "@/lib/seo";
 
@@ -11,22 +12,27 @@ export default function Page() {
   const sections = [
     {
       title: "Your Inclusive Store",
+      href: "/your-inclusive-store",
       content: "A space where creativity meets accessibility. Your Inclusive Store brings together thoughtfully curated products that embody the brand’s philosophy: expressive design, intentional choices, and a commitment to making everyone feel welcome, seen, and valued."
     },
     {
       title: "About Gabrielle",
+      href: "/about-gabrielle",
       content: "Discover the story behind the brand. This section shares Gabrielle’s journey as a French trans creator and entrepreneur living in the United States — a story shaped by resilience, vision, and a dedication to building a universe where inclusivity and authenticity are foundational."
     },
     {
       title: "Sustainability",
+      href: "/sustainability",
       content: "A commitment to mindful creation and long‑term impact. Here, tsgabrielle® highlights its approach to sustainability, grounded in responsible choices, environmental awareness, and a desire to contribute to a better, more conscious future."
     },
     {
       title: "The Blogs",
+      href: "/the-blogs",
       content: "A home for ideas, reflections, and knowledge. The blog gathers articles exploring creativity, business, identity, innovation, and the evolving landscape that shapes the tsgabrielle® universe."
     },
     {
       title: "Videos",
+      href: "/videos",
       content: "A dynamic window into the brand. The video section offers visual stories, insights, and creative content that bring the world of tsgabrielle® to life through movement, expression, and inclusive storytelling."
     }
   ];
@@ -59,9 +65,17 @@ export default function Page() {
               </div>
               <h3 className="text-3xl font-light tracking-tight text-[#111111] uppercase">{section.title}</h3>
             </div>
-            <p className="text-xl leading-relaxed text-[#555555] font-light pl-2 pt-2 border-l border-[#a932bd]/20">
-              {section.content}
-            </p>
+            <div className="flex flex-col gap-8 items-start">
+              <p className="text-xl leading-relaxed text-[#555555] font-light pl-6 pt-2 border-l border-[#a932bd]/20">
+                {section.content}
+              </p>
+              <Link 
+                href={section.href}
+                className="btn-holographic-outline ml-6"
+              >
+                Discover
+              </Link>
+            </div>
           </div>
         ))}
       </div>
