@@ -42,9 +42,7 @@ export function Header() {
         
         {/* Center Section: Logo (Now primary for all screens) */}
         <div className="flex justify-center flex-1">
-          <Link href="/">
-            <BrandLogo color="purple" className="h-12 lg:h-[75px] w-auto" />
-          </Link>
+          <BrandLogo color="purple" className="h-12 lg:h-[75px] w-auto" />
         </div>
 
         {/* Right Section: Wishlist & Cart */}
