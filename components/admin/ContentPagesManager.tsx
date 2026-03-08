@@ -1,6 +1,7 @@
 "use client";
 
 import { useState, useEffect } from "react";
+import Image from "next/image";
 import { createClient } from "@supabase/supabase-js";
 import { Upload, Save, Loader2, Trash2, Plus, Edit2 } from "lucide-react";
 import { ClaudeTextEditor } from "./ClaudeTextEditor";
@@ -189,7 +190,13 @@ export default function ContentPagesManager() {
                     </div>
                     {item.content_type === "image" ? (
                       <div className="w-32 h-32 bg-gray-100 rounded overflow-hidden">
-                        <img src={item.content_value} alt={item.content_key} className="w-full h-full object-cover" />
+                        <Image 
+                          src={item.content_value} 
+                          alt={item.content_key} 
+                          width={128} 
+                          height={128} 
+                          className="w-full h-full object-cover" 
+                        />
                       </div>
                     ) : (
                       <p className="text-sm line-clamp-3">{item.content_value}</p>
@@ -251,7 +258,13 @@ export default function ContentPagesManager() {
             <div className="flex items-center gap-4">
               {editingItem?.content_value && (
                 <div className="w-32 h-32 bg-gray-100 rounded overflow-hidden">
-                  <img src={editingItem.content_value} alt="Preview" className="w-full h-full object-cover" />
+                  <Image 
+                    src={editingItem.content_value} 
+                    alt="Preview" 
+                    width={128} 
+                    height={128} 
+                    className="w-full h-full object-cover" 
+                  />
                 </div>
               )}
               <label className="cursor-pointer flex items-center gap-2 px-4 py-2 bg-[#a932bd] text-white text-xs uppercase tracking-widest rounded hover:bg-[#921fa6]">

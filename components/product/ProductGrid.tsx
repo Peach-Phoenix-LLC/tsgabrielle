@@ -1,4 +1,5 @@
 import Link from "next/link";
+import Image from "next/image";
 import type { Product } from "@/lib/types";
 
 export function ProductGrid({ products }: { products: any[] }) {
@@ -18,9 +19,10 @@ export function ProductGrid({ products }: { products: any[] }) {
         return (
           <Link key={product.id} href={`/product/${product.slug}`} className="group flex flex-col gap-6">
             <div className="aspect-[3/4] w-full overflow-hidden bg-[#f9f9f9]">
-              <img
+              <Image
                 src={imageUrl}
                 alt={product.title}
+                fill
                 className="h-full w-full object-cover transition-transform duration-1000 group-hover:scale-110"
               />
             </div>

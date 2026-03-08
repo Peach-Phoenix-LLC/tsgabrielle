@@ -1,6 +1,7 @@
 "use client";
 
 import Link from "next/link";
+import Image from "next/image";
 import { useSettings } from "@/components/providers/SettingsProvider";
 
 type BrandLogoProps = {
@@ -25,9 +26,11 @@ export function BrandLogo({ href = "/", className = "", color = 'light' }: Brand
 
   return (
     <Link href={href} className={`inline-flex items-center ${className}`.trim()}>
-      <img 
+      <Image 
         src={logoUrl} 
         alt="logo" 
+        width={150} 
+        height={50} 
         className="h-full w-auto object-contain"
         onError={(e) => {
           // If the dynamic logo fails, try the default one once
