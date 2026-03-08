@@ -2,6 +2,7 @@
 
 import { useState } from "react";
 import Link from "next/link";
+import Image from "next/image";
 import { BrandName } from "@/components/BrandName";
 import { BrandLogo } from "./BrandLogo";
 import { useSettings } from "@/components/providers/SettingsProvider";
@@ -167,16 +168,16 @@ export function Footer() {
           
           <div className="flex flex-wrap justify-center items-center gap-x-12 gap-y-8 brightness-0 invert opacity-100 transition-all duration-1000">
             <div className="flex items-center gap-10">
-              <img src="https://upload.wikimedia.org/wikipedia/commons/b/b0/Apple_Pay_logo.svg" alt="Apple Pay" className="h-7 w-auto" />
-              <img src="https://upload.wikimedia.org/wikipedia/commons/f/f2/Google_Pay_Logo.svg" alt="Google Pay" className="h-5 w-auto" />
-              <img src="https://upload.wikimedia.org/wikipedia/commons/b/b5/PayPal.svg" alt="PayPal" className="h-5 w-auto" />
-              <img src="https://upload.wikimedia.org/wikipedia/commons/5/5a/Venmo_logo.svg" alt="Venmo" className="h-7 w-auto" />
+              <Image src="https://upload.wikimedia.org/wikipedia/commons/b/b0/Apple_Pay_logo.svg" alt="Apple Pay" width={28} height={28} className="h-7 w-auto" />
+              <Image src="https://upload.wikimedia.org/wikipedia/commons/f/f2/Google_Pay_Logo.svg" alt="Google Pay" width={20} height={20} className="h-5 w-auto" />
+              <Image src="https://upload.wikimedia.org/wikipedia/commons/b/b5/PayPal.svg" alt="PayPal" width={20} height={20} className="h-5 w-auto" />
+              <Image src="https://upload.wikimedia.org/wikipedia/commons/5/5a/Venmo_logo.svg" alt="Venmo" width={28} height={28} className="h-7 w-auto" />
             </div>
             
             <div className="flex items-center gap-8 border-l border-white/20 pl-12 h-6 hidden md:flex">
-               <img src="https://upload.wikimedia.org/wikipedia/commons/5/5e/Visa_Inc._logo.svg" alt="Visa" className="h-4 w-auto" />
-               <img src="https://upload.wikimedia.org/wikipedia/commons/2/2a/Mastercard-logo.svg" alt="Mastercard" className="h-5 w-auto" />
-               <img src="https://upload.wikimedia.org/wikipedia/commons/b/b5/American_Express_logo_%282018%29.svg" alt="Amex" className="h-5 w-auto" />
+               <Image src="https://upload.wikimedia.org/wikipedia/commons/5/5e/Visa_Inc._logo.svg" alt="Visa" width={16} height={16} className="h-4 w-auto" />
+               <Image src="https://upload.wikimedia.org/wikipedia/commons/2/2a/Mastercard-logo.svg" alt="Mastercard" width={20} height={20} className="h-5 w-auto" />
+               <Image src="https://upload.wikimedia.org/wikipedia/commons/b/b5/American_Express_logo_%282018%29.svg" alt="Amex" width={20} height={20} className="h-5 w-auto" />
             </div>
           </div>
         </div>

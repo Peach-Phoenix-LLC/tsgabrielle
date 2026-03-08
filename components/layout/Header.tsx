@@ -1,6 +1,7 @@
 "use client";
 
 import Link from "next/link";
+import Image from "next/image";
 import { useState } from "react";
 import { BrandLogo } from "@/components/layout/BrandLogo";
 import { MENU_GROUPS } from "@/lib/menu";
@@ -102,9 +103,10 @@ export function Header() {
                 
                 <div className="aspect-[4/5] w-full bg-[#f9f9f9] overflow-hidden rounded-sm border border-[#a932bd]/5 relative group/img">
                   {hoveredItem?.image ? (
-                    <img 
+                    <Image 
                       src={hoveredItem.image} 
                       alt={hoveredItem.label}
+                      fill
                       className="h-full w-full object-cover transition-transform duration-700 group-hover/img:scale-110"
                     />
                   ) : (

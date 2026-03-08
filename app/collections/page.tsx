@@ -1,4 +1,5 @@
 import Link from "next/link";
+import Image from "next/image";
 import { COLLECTIONS } from "@/lib/menu";
 import { buildMetadata } from "@/lib/seo";
 
@@ -23,9 +24,10 @@ export default function CollectionsIndexPage() {
             return (
               <div key={idx} className="group flex flex-col gap-6">
                 <div className="holographic-card-border aspect-[3/4] overflow-hidden bg-[#f9f9f9] border border-[#e7e7e7] rounded-[3rem] transition-all duration-700 group-hover:shadow-xl group-hover:border-[#a932bd]/20">
-                  <img
+                  <Image
                     src={displayImg}
                     alt={collection.label}
+                    fill
                     className="h-full w-full object-cover transition-transform duration-1000 group-hover:scale-110"
                   />
                 </div>

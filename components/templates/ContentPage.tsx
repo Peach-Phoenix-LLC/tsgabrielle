@@ -1,4 +1,5 @@
 import React from "react";
+import Image from "next/image";
 
 interface ContentPageProps {
   title: string;
@@ -13,9 +14,10 @@ export function ContentPage({ title, subtitle, heroImage, body }: ContentPagePro
       {heroImage ? (
         <section className="relative flex h-[70vh] items-center justify-center overflow-hidden -mt-[100px] lg:-mt-[112px]">
           <div className="absolute inset-0">
-            <img
+            <Image
               src={heroImage}
               alt={title}
+              fill
               className="h-full w-full object-cover"
             />
             <div className="absolute inset-0 bg-black/40" />

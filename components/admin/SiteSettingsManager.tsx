@@ -1,6 +1,7 @@
 "use client";
 
 import { useState, useEffect, useRef } from "react";
+import Image from "next/image";
 import { createClient } from "@supabase/supabase-js";
 import { Upload, Save, Loader2, Trash2, Plus, GripVertical } from "lucide-react";
 
@@ -280,7 +281,7 @@ export default function SiteSettingsManager() {
             <label className="text-xs uppercase tracking-widest text-[#555555] font-light">Site Logo</label>
             <div className="flex items-center gap-4">
               {settings.site_logo && (
-                <img src={settings.site_logo} alt="Logo" className="h-16 w-auto object-contain" />
+                <Image src={settings.site_logo} alt="Logo" width={128} height={64} className="h-16 w-auto object-contain" />
               )}
               <label className="cursor-pointer flex items-center gap-2 px-4 py-2 bg-[#a932bd] text-white text-xs uppercase tracking-widest rounded hover:bg-[#921fa6]">
                 {uploading ? <Loader2 className="animate-spin" /> : <Upload size={16} />}
@@ -301,7 +302,7 @@ export default function SiteSettingsManager() {
             <label className="text-xs uppercase tracking-widest text-[#555555] font-light">Favicon</label>
             <div className="flex items-center gap-4">
               {settings.site_favicon && (
-                <img src={settings.site_favicon} alt="Favicon" className="h-8 w-8 object-contain" />
+                <Image src={settings.site_favicon} alt="Favicon" width={32} height={32} className="h-8 w-8 object-contain" />
               )}
               <label className="cursor-pointer flex items-center gap-2 px-4 py-2 bg-[#a932bd] text-white text-xs uppercase tracking-widest rounded hover:bg-[#921fa6]">
                 {uploading ? <Loader2 className="animate-spin" /> : <Upload size={16} />}
@@ -418,7 +419,7 @@ export default function SiteSettingsManager() {
             <div key={slide.id || index} className="border border-[#e7e7e7] p-4 rounded-lg">
               <div className="flex gap-4">
                 <div className="w-32 h-20 bg-gray-100 rounded flex-shrink-0 overflow-hidden">
-                  {slide.image_url && <img src={slide.image_url} alt={slide.title} className="w-full h-full object-cover" />}
+                  {slide.image_url && <Image src={slide.image_url} alt={slide.title} width={128} height={80} className="w-full h-full object-cover" />}
                 </div>
                 <div className="flex-1 space-y-2">
                   <div className="flex items-center gap-2">
@@ -502,9 +503,10 @@ export default function SiteSettingsManager() {
           <div className="grid gap-4">
             <div className="flex items-center gap-4">
               <div className="w-32 h-20 bg-gray-100 rounded flex-shrink-0 overflow-hidden flex items-center justify-center">
-                {newSlide.image_url ? (
-                  <img src={newSlide.image_url} alt="Preview" className="w-full h-full object-cover" />
-                ) : (
+                  {newSlide.image_url ? (
+                    <Image src={newSlide.image_url} alt="Preview" width={128} height={80} className="w-full h-full object-cover" />
+                  ) : (
+
                   <Upload size={24} className="text-gray-400" />
                 )}
               </div>

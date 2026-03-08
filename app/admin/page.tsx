@@ -2,10 +2,12 @@
 
 import React, { useState, useEffect } from "react";
 import {
-  LayoutDashboard, Settings, Image, Users, Menu,
+  LayoutDashboard, Settings, Image as ImageIcon, Users, Menu,
   Layers, FileText, ShoppingBag, Palette, CreditCard,
   BarChart3, Bell, LogOut, ChevronRight, Mail, Loader2, Languages
 } from "lucide-react";
+import Image from "next/image";
+
 
 // Sections
 import ProductSection from "@/components/admin/sections/ProductSection";
@@ -28,7 +30,7 @@ import TranslationSection from "@/components/admin/sections/TranslationSection";
 const SIDEBAR_ITEMS = [
   { id: "dashboard", label: "Dashboard", icon: LayoutDashboard },
   { id: "settings", label: "Site Settings", icon: Settings },
-  { id: "hero", label: "Hero Banner", icon: Image },
+  { id: "hero", label: "Hero Banner", icon: ImageIcon },
   { id: "about", label: "About Page", icon: Users },
   { id: "nav", label: "Navigation", icon: Menu },
   { id: "footer", label: "Footer", icon: Layers },
@@ -196,9 +198,10 @@ function DashboardOverview() {
         
         <div className="relative aspect-[21/9] w-full bg-[#fdfcf5] border border-black/5 rounded-2xl overflow-hidden shadow-inner group">
           {/* World Map Background */}
-          <img 
+          <Image 
             src="/images/world-map-minimalist.png" 
             alt="World Map" 
+            fill
             className="absolute inset-0 w-full h-full object-contain opacity-20 group-hover:opacity-30 transition-opacity duration-700"
           />
           

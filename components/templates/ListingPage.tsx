@@ -1,4 +1,5 @@
 import { ProductGrid } from "@/components/product/ProductGrid";
+import Image from "next/image";
 import { getProductsByCategorySlug, getProductsByCollectionSlug } from "@/lib/store";
 import { CATEGORIES, COLLECTIONS } from "@/lib/menu";
 import Link from "next/link";
@@ -20,9 +21,10 @@ export async function CategoryPageTemplate({
     <div className="bg-white pb-32">
       <section className="relative flex h-[70vh] items-center justify-center overflow-hidden -mt-[100px] lg:-mt-[112px]">
         <div className="absolute inset-0">
-          <img
+          <Image
             src={heroImage}
             alt={title}
+            fill
             className="h-full w-full object-cover"
           />
           <div className="absolute inset-0 bg-black/30" />
@@ -66,9 +68,10 @@ export async function CollectionPageTemplate({
     <div className="bg-white pb-32">
       <section className="relative flex h-[70vh] items-center justify-center overflow-hidden -mt-[100px] lg:-mt-[112px]">
         <div className="absolute inset-0">
-          <img
+          <Image
             src={heroImage}
             alt={title}
+            fill
             className="h-full w-full object-cover"
           />
           <div className="absolute inset-0 bg-black/30" />

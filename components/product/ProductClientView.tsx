@@ -1,6 +1,7 @@
 "use client";
 
 import React, { useState, useEffect } from "react";
+import Image from "next/image";
 import { 
   Heart, Share2, ChevronLeft, ChevronRight, Maximize2, 
   Minus, Plus, ShieldCheck, Truck, RefreshCw, Award, 
@@ -112,8 +113,9 @@ export default function ProductClientView({ product }: ProductProps) {
             transition={{ duration: 1.5, ease: "easeOut" }}
             className="absolute inset-0"
           >
-            <img 
+            <Image 
               src={product.images[currentImg]} 
+              fill
               className="h-full w-full object-cover" 
               alt={product.title}
             />
@@ -246,10 +248,10 @@ export default function ProductClientView({ product }: ProductProps) {
 
               {/* Security Logos */}
               <div className="pt-6 border-t border-[#f0f0f0] flex justify-between items-center px-4 grayscale opacity-40 hover:grayscale-0 hover:opacity-100 transition-all duration-1000">
-                <img src="https://upload.wikimedia.org/wikipedia/commons/b/b0/Apple_Pay_logo.svg" alt="Apple Pay" className="h-6 w-auto" />
-                <img src="https://upload.wikimedia.org/wikipedia/commons/f/f2/Google_Pay_Logo.svg" alt="Google Pay" className="h-5 w-auto" />
-                <img src="https://upload.wikimedia.org/wikipedia/commons/b/b5/PayPal.svg" alt="PayPal" className="h-5 w-auto" />
-                <img src="https://upload.wikimedia.org/wikipedia/commons/5/5a/Venmo_logo.svg" alt="Venmo" className="h-6 w-auto" />
+                <Image src="https://upload.wikimedia.org/wikipedia/commons/b/b0/Apple_Pay_logo.svg" alt="Apple Pay" width={24} height={24} className="h-6 w-auto" />
+                <Image src="https://upload.wikimedia.org/wikipedia/commons/f/f2/Google_Pay_Logo.svg" alt="Google Pay" width={20} height={20} className="h-5 w-auto" />
+                <Image src="https://upload.wikimedia.org/wikipedia/commons/b/b5/PayPal.svg" alt="PayPal" width={20} height={20} className="h-5 w-auto" />
+                <Image src="https://upload.wikimedia.org/wikipedia/commons/5/5a/Venmo_logo.svg" alt="Venmo" width={24} height={24} className="h-6 w-auto" />
               </div>
             </div>
           </div>
@@ -338,11 +340,13 @@ export default function ProductClientView({ product }: ProductProps) {
               return (
                 <div key={idx} className="group flex flex-col gap-6">
                   <div className="holographic-card-border aspect-[3/4] overflow-hidden bg-[#f9f9f9] rounded-[3rem]">
-                    <img
-                      src={category.image || "/images/placeholder.jpg"}
-                      alt={category.label}
-                      className="h-full w-full object-cover transition-transform duration-1000 group-hover:scale-110"
-                    />
+                  <Image
+                    src={category.image || "/images/placeholder.jpg"}
+                    alt={category.label}
+                    fill
+                    className="h-full w-full object-cover transition-transform duration-1000 group-hover:scale-110"
+                  />
+
                   </div>
                   
                   <div className="flex flex-col items-center gap-4 text-center">
@@ -380,14 +384,21 @@ export default function ProductClientView({ product }: ProductProps) {
             </div>
             
             <div className="flex-1 relative flex items-center justify-center p-4 md:p-12 overflow-hidden">
-              <motion.img 
+              <motion.div 
                 key={currentImg}
-                src={product.images[currentImg]}
                 initial={{ opacity: 0, scale: 0.9 }}
                 animate={{ opacity: 1, scale: 1 }}
                 exit={{ opacity: 0, scale: 0.9 }}
-                className="max-w-full max-h-full object-contain"
-              />
+                className="relative max-w-full max-h-full"
+              >
+                  <Image 
+                    src={product.images[currentImg]} 
+                    alt={product.title}
+                    width={800}
+                    height={800}
+                    className="object-contain"
+                  />
+              </motion.div>
             </div>
           </motion.div>
         )}

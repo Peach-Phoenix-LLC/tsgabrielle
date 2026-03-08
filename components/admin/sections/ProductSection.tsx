@@ -1,6 +1,7 @@
 "use client";
 
 import React, { useEffect, useMemo, useState } from "react";
+import Image from "next/image";
 import { AlertCircle, ArrowLeft, Edit, Loader2, Plus, Trash2 } from "lucide-react";
 import { ClaudeTextEditor } from "../ClaudeTextEditor";
 
@@ -368,7 +369,13 @@ export default function ProductSection() {
                     <tr key={product.id} className="border-b border-black/5 hover:bg-black/[0.02] transition-colors group">
                       <td className="py-4">
                         <div className="w-12 h-16 bg-gray-100 rounded overflow-hidden">
-                          <img src={primaryImg} alt="" className="w-full h-full object-cover" />
+                          <Image 
+                            src={primaryImg} 
+                            alt={product.title} 
+                            width={48} 
+                            height={64} 
+                            className="w-full h-full object-cover" 
+                          />
                         </div>
                       </td>
                       <td className="py-4">

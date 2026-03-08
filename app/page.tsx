@@ -1,4 +1,5 @@
 import Link from "next/link";
+import Image from "next/image";
 import { buildMetadata } from "@/lib/seo";
 import { getSupabaseServerClient } from "@/lib/supabase/server";
 import { CATEGORIES, COLLECTIONS } from "@/lib/menu";
@@ -114,9 +115,10 @@ export default async function HomePage() {
               featuredProducts.map((product) => (
                 <Link key={product.id} href={`/product/${product.slug}`} className="group flex flex-col gap-6">
                   <div className="aspect-[3/4] overflow-hidden bg-[#f9f9f9]">
-                    <img
+                    <Image
                       src={product.images?.[0]?.url || "/images/logo-icon.png"}
                       alt={product.title}
+                      fill
                       className="h-full w-full object-cover transition-transform duration-1000 group-hover:scale-110"
                     />
                   </div>
@@ -151,9 +153,10 @@ export default async function HomePage() {
               return (
                 <div key={idx} className="group flex flex-col gap-6">
                   <div className="holographic-card-border aspect-[3/4] overflow-hidden bg-[#f9f9f9] rounded-[3rem]">
-                    <img
+                  <Image
                       src={displayImg}
                       alt={category.label}
+                      fill
                       className="h-full w-full object-cover transition-transform duration-1000 group-hover:scale-110"
                     />
                   </div>
@@ -190,9 +193,10 @@ export default async function HomePage() {
               return (
                 <div key={idx} className="group flex flex-col gap-6">
                   <div className="holographic-card-border aspect-[3/4] overflow-hidden bg-[#f9f9f9] rounded-[3rem]">
-                    <img
+                  <Image
                       src={displayImg}
                       alt={collection.label}
+                      fill
                       className="h-full w-full object-cover transition-transform duration-1000 group-hover:scale-110"
                     />
                   </div>

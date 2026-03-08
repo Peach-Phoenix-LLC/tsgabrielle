@@ -2,6 +2,7 @@
 
 import { useState, useRef } from "react";
 import { useRouter } from "next/navigation";
+import Image from "next/image";
 import { ClaudeTextEditor } from "./ClaudeTextEditor";
 import { createClient } from "@supabase/supabase-js";
 
@@ -218,7 +219,13 @@ export function ProductForm({ categories, collections }: ProductFormProps) {
               />
               {imagePreview && (
                 <div className="mt-4">
-                  <img src={imagePreview} alt="Preview" className="h-32 w-auto object-contain" />
+                  <Image 
+                    src={imagePreview} 
+                    alt="Preview" 
+                    width={128} 
+                    height={128} 
+                    className="h-32 w-auto object-contain" 
+                  />
                 </div>
               )}
             </div>
