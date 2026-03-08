@@ -1,6 +1,7 @@
 "use client";
 
 import { useState } from "react";
+import { usePostHog } from "posthog-js/react";
 import { useCart } from "@/hooks/useCart";
 import type { ProductVariant } from "@/lib/types";
 
@@ -10,6 +11,7 @@ export function AddToCart({
   variants: ProductVariant[];
 }) {
   const { addItem } = useCart();
+  const posthog = usePostHog();
   const [selected, setSelected] = useState(variants[0]?.id ?? "");
 
   if (variants.length === 0) {
@@ -52,14 +54,20 @@ export function AddToCart({
       <button
         type="button"
         className="w-full max-w-md bg-[#a932bd] px-8 py-5 text-base font-light tracking-widest text-white transition-all hover:bg-[#921fa6] active:scale-[0.98]"
-        onClick={() =>
+        onClick={() => {
           addItem({
             variantId: variant.id,
             title: variant.title,
             qty: 1,
             priceCents: variant.price_cents
-          })
-        }
+          });
+          posthog?.capture("product_added_to_cart", {
+            variant_id: variant.id,
+            product_title: variant.title,
+            price: variant.price_cents / 100,
+            currency: "USD",
+          });
+        }}
       >
         ADD TO BAG — ${(variant.price_cents / 100).toFixed(2)}
       </button>

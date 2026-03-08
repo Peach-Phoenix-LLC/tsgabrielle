@@ -3,9 +3,9 @@ require("dotenv").config({ path: require("path").resolve(__dirname, "../.env.loc
 const PRINTFUL_API_BASE = "https://api.printful.com/v2";
 
 async function setupWebhooks() {
-  const token = process.env.PRINTFUL_API_KEY;
+  const token = process.env.PRINTFUL_API_KEY || process.env.PRINTFUL_ACCESS_TOKEN;
   if (!token) {
-    console.error("Missing PRINTFUL_API_KEY in .env.local");
+    console.error("Missing PRINTFUL_API_KEY or PRINTFUL_ACCESS_TOKEN in .env.local");
     process.exit(1);
   }
 
@@ -20,14 +20,14 @@ async function setupWebhooks() {
         "Content-Type": "application/json",
       },
       body: JSON.stringify({
-        url: webhookUrl,
-        types: [
-          "package_shipped",
-          "package_returned",
-          "order_failed",
-          "order_cancelled",
-          "order_put_hold",
-          "order_remove_hold"
+        default_url: webhookUrl,
+        events: [
+          { type: "shipment_sent" },
+          { type: "shipment_returned" },
+          { type: "order_failed" },
+          { type: "order_canceled" },
+          { type: "order_put_hold" },
+          { type: "order_remove_hold" }
         ],
       }),
     });

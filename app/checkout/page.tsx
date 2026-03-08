@@ -1,12 +1,14 @@
 "use client";
 
 import { useState, useEffect } from "react";
+import { usePostHog } from "posthog-js/react";
 import { useCart } from "@/hooks/useCart";
 import Link from "next/link";
 import { getSupabaseBrowserClient } from "@/lib/supabase/client";
 
 export default function CheckoutPage() {
   const { items, removeItem, totalCents } = useCart();
+  const posthog = usePostHog();
   const [loading, setLoading] = useState(false);
   const [userEmail, setUserEmail] = useState<string | null>(null);
 
@@ -15,9 +17,16 @@ export default function CheckoutPage() {
     supabase.auth.getUser().then(({ data }) => {
       if (data.user?.email) {
         setUserEmail(data.user.email);
-        
+        posthog?.identify(data.user.id, { email: data.user.email });
+
         // Track "Started Checkout" event
         if (items.length > 0) {
+          posthog?.capture("checkout_started", {
+            total_value: totalCents / 100,
+            item_count: items.length,
+            product_names: items.map(item => item.title),
+            currency: "USD",
+          });
           fetch("/api/klaviyo/track-event", {
             method: "POST",
             headers: { "Content-Type": "application/json" },
@@ -34,21 +43,60 @@ export default function CheckoutPage() {
         }
       }
     });
-  }, [items.length]); // Only run when items change (e.g. initial load)
+  }, [items.length]);
 
   const checkout = async () => {
     if (items.length === 0) return;
     setLoading(true);
+
+    const checkoutData = {
+      items: items.map((item) => ({ variantId: item.variantId, quantity: item.qty })),
+      total: totalCents / 100,
+      email: userEmail
+    };
+
     try {
       const res = await fetch("/api/paypal/create-order", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
-          items: items.map((item) => ({ variantId: item.variantId, quantity: item.qty }))
+          items: checkoutData.items
         })
       });
-      const data = (await res.json()) as { approveUrl?: string };
-      if (data.approveUrl) window.location.href = data.approveUrl;
+
+      if (!res.ok) {
+        throw new Error(`Checkout failed: ${res.statusText}`);
+      }
+
+      const data = (await res.json()) as { approveUrl?: string; error?: string };
+      
+      if (data.error) throw new Error(data.error);
+
+      if (data.approveUrl) {
+        posthog?.capture("checkout_redirected_to_paypal", {
+          total: totalCents / 100,
+          item_count: items.length,
+        });
+        window.location.href = data.approveUrl;
+      } else {
+        throw new Error("No approval URL provided");
+      }
+    } catch (err: any) {
+      console.error("Checkout error:", err);
+      posthog?.capture("checkout_error", { error: err.message });
+
+      // Real-time monitoring trigger
+      fetch("/api/monitor/checkout", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          event: "checkout_error",
+          error: err.message,
+          data: checkoutData
+        })
+      }).catch(() => {});
+
+      alert("We encountered an issue processing your selection. Please try again or contact support.");
     } finally {
       setLoading(false);
     }
@@ -76,7 +124,6 @@ export default function CheckoutPage() {
       <section className="container-luxe py-12 md:py-24">
         <div className="flex flex-col lg:flex-row lg:items-start gap-16">
           
-          {/* Left: Bag Items */}
           <div className="flex-1 space-y-10">
             <header className="space-y-2">
               <p className="text-[10px] tracking-widest text-[#a932bd] uppercase font-light">Shopping Bag</p>
@@ -87,7 +134,6 @@ export default function CheckoutPage() {
               {items.map((item) => (
                 <div key={item.variantId} className="flex gap-6 py-8">
                   <div className="h-32 w-24 flex-shrink-0 bg-[#f9f9f9] overflow-hidden">
-                    {/* Image placeholder or fetch if we had product images in the cart object */}
                     <div className="h-full w-full border border-[#e7e7e7] flex items-center justify-center">
                          <span className="text-[8px] uppercase tracking-tighter text-[#555555]">tsgabrielle®</span>
                     </div>
@@ -118,7 +164,6 @@ export default function CheckoutPage() {
             </div>
           </div>
 
-          {/* Right: Summary */}
           <div className="w-full lg:w-[400px] sticky top-32">
             <div className="bg-[#f9f9f9] p-8 space-y-8 border border-[#e7e7e7]">
               <h2 className="text-xs font-light tracking-widest text-[#111111] uppercase">Order Summary</h2>

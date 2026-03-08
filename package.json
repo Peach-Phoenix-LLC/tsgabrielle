@@ -23,6 +23,8 @@
     "googleapis": "^171.4.0",
     "isomorphic-dompurify": "^3.0.0",
     "lucide-react": "^0.577.0",
+    "posthog-js": "^1.359.1",
+    "posthog-node": "^5.28.0",
     "react-dom": "^19.2.4",
     "resend": "^6.9.3",
     "three": "^0.181.1",
