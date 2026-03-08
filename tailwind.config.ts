@@ -44,7 +44,6 @@ const config: Config = {
         }
       },
       animation: {
-        liquid: "liquid 8s ease-in-out infinite",
         iridescent: "iridescent 3s linear infinite",
         float: "float 6s ease-in-out infinite"
       }
