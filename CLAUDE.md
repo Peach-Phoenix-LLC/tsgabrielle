@@ -42,6 +42,7 @@ These are locked defaults. Claude must never modify them unless the user explici
 | **HTML rendering** | Always sanitize with `lib/sanitize.ts` before rendering user-supplied HTML |
 | **TypeScript** | Strict mode must remain enabled in `tsconfig.json` |
 | **3D Hero** | Must remain feature-flagged via `enable_3d_hero` and loaded with `dynamic(..., { ssr: false })` |
+| **Live Site URL** | Always `https://tsgabrielle.us` — never use `.com` or other TLDs in production code/docs |
 
 ---
 

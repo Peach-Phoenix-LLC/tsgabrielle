@@ -2,7 +2,8 @@
 
 ## Project Overview
 
-This is a Next.js 14+ (App Router) e-commerce application for tsgabrielle, a luxury brand. The project uses TypeScript, Tailwind CSS, Supabase for backend/Auth, and Playwright for testing.
+This is a Next.js 14+ (App Router) e-commerce application for tsgabrielle, a luxury brand. The live site is exclusively **https://tsgabrielle.us**.
+The project uses TypeScript, Tailwind CSS, Supabase for backend/Auth, and Playwright for testing.
 
 ## Build / Lint / Test Commands
 
