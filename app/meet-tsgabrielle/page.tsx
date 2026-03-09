@@ -46,7 +46,7 @@ export default function Page() {
     <div className="space-y-16">
       <div className="space-y-8">
         <p className="text-2xl font-light leading-relaxed text-[#111111]">
-          Welcome to <strong>Meet tsgabrielle®</strong>, the gateway to understanding the essence of the brand — 
+          A gateway to understanding the essence of the brand — 
           its philosophy, identity, and the ideas that shape its expanding universe.
         </p>
         <p className="text-[#555555]">

@@ -13,7 +13,7 @@ export default function Page() {
       {/* Intro section */}
       <div className="space-y-8">
         <p className="text-2xl font-light leading-relaxed text-[#111111]">
-          Welcome to <strong>Your Store Inclusive</strong>, the commercial heart of the tsgabrielle® universe. 
+          Welcome to the commercial heart of the tsgabrielle® universe. 
           This is more than a marketplace — it is a radiant nexus where visionary ideas and intentional products 
           converge to form new constellations.
         </p>
@@ -49,7 +49,7 @@ export default function Page() {
 
       {/* Transitional text */}
       <p className="text-center text-2xl font-light italic py-12 border-y border-[#e7e7e7]">
-        Your Store Inclusive is an ever‑expanding ecosystem, created to empower our community to dream without limits 
+        This hub is an ever‑expanding ecosystem, created to empower our community to dream without limits 
         and to explore the infinite possibilities of self‑expression.
       </p>
 
@@ -68,7 +68,7 @@ export default function Page() {
               tapestry of shared stories and lived wisdom.
             </p>
             <p>
-              When you support Your Store Inclusive, you are investing in a vision that champions equality, 
+              When you shop with us, you are investing in a vision that champions equality, 
               visibility, and the unshakable right to shine.
             </p>
           </div>
@@ -84,7 +84,7 @@ export default function Page() {
 
       {/* Pillars Section */}
       <div className="bg-[#f9f9f9] -mx-6 md:-mx-10 p-12 md:p-20 rounded-[3rem]">
-        <h2 className="text-4xl font-light tracking-tight text-[#111111] capitalize text-center mb-16">The Pillars of Our Nexus</h2>
+        <h2 className="text-4xl font-light tracking-tight text-[#111111] capitalize text-center mb-16">The Brand Pillars</h2>
         <div className="grid grid-cols-1 md:grid-cols-3 gap-12">
           <div className="space-y-4">
             <h3 className="text-xl font-medium text-[#a932bd] capitalize tracking-wider">Accessible Innovation</h3>

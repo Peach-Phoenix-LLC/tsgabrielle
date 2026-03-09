@@ -49,14 +49,9 @@ export function ContentPage({ title, subtitle, heroImage, heroVideo, body }: Con
             ) : null}
           </div>
         </section>
-      ) : (
-        <section className="pt-40 lg:pt-56 pb-16 text-center px-4">
-           {subtitle && <p className="text-[11px] uppercase tracking-[0.4em] text-[#a932bd] font-medium mb-6">{subtitle}</p>}
-           <h1 className="text-5xl md:text-7xl font-light tracking-tight text-[#111111]">{title}</h1>
-        </section>
-      )}
+      ) : null}
 
-      <section className="container-luxe max-w-4xl mx-auto relative z-20 py-24">
+      <section className={`container-luxe max-w-4xl mx-auto relative z-20 px-4 ${(!heroImage && !heroVideo) ? 'pt-48 pb-24' : 'py-24'}`}>
         <div className="text-center mb-16">
           {subtitle && (
             <p className="text-[11px] uppercase tracking-[0.4em] text-[#a932bd] font-medium mb-4">

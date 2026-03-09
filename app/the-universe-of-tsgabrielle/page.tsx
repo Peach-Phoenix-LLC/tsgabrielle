@@ -40,12 +40,12 @@ export default function Page() {
   const bodyContent = (
     <div className="space-y-16">
       <div className="space-y-8">
-        <p>
-          Welcome to <strong>The Universe of tsgabrielle®</strong> — a space where creativity, identity, and purpose come together. 
+        <p className="text-2xl font-light leading-relaxed text-[#111111]">
+          A space where creativity, identity, and purpose come together. 
           This universe reflects the heart of the brand: building something meaningful through innovation, curiosity, and inclusive entrepreneurship.
         </p>
         <p>
-          More than a brand environment, <strong>The Universe of tsgabrielle®</strong> is a living ecosystem of projects, stories, and ideas 
+          More than a brand environment, this is a living ecosystem of projects, stories, and ideas 
           designed to inspire, inform, and connect. Every section represents a different facet of the journey — from values and products 
           to knowledge, expression, and community.
         </p>
