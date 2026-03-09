@@ -32,7 +32,7 @@ export default async function Page() {
   const hubBody = (
     <div className="space-y-12">
       <p className="text-xl font-light">
-        Welcome to the tsgabrielle® Legal Hub. Transparency and trust are the foundation of our universe. 
+        Transparency and trust are the foundation of our universe. 
         Below you will find our comprehensive policies designed to protect our community and ensure a transcendent experience for all members.
       </p>
       
