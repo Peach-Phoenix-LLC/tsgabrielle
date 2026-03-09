@@ -22,19 +22,16 @@ export const metadata = buildMetadata({
 export const dynamic = "force-dynamic";
 
 export default async function HomePage() {
-  const [content, slides] = await Promise.all([
-    getPageContent("/"),
-    getHeroSlides()
+  const [content] = await Promise.all([
+    getPageContent("/")
   ]);
 
-  const heroSlides = slides.length > 0 
-    ? slides.map(s => s.image_url) 
-    : [
-        "/images/slides/tsgabrielle-Slide1.png",
-        "/images/slides/tsgabrielle-Slide2.png",
-        "/images/slides/tsgabrielle-Slide3.png",
-        "/images/slides/tsgabrielle-Slide4.png"
-      ];
+  const heroSlides = [
+    "/images/slides/tsgabrielle-Slide1.png",
+    "/images/slides/tsgabrielle-Slide2.png",
+    "/images/slides/tsgabrielle-Slide3.png",
+    "/images/slides/tsgabrielle-Slide4.png"
+  ];
 
   const catalogueTitle = "Exclusive 💎 New";
   const catalogueSubtitle = "Just In";
