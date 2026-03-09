@@ -3,10 +3,10 @@ import Image from "next/image";
 import { buildMetadata } from "@/lib/seo";
 import { getSupabaseServerClient } from "@/lib/supabase/server";
 import { CATEGORIES, COLLECTIONS } from "@/lib/menu";
-import { getPageContent, getHeroSlides } from "@/lib/content";
+import { getPageContent } from "@/lib/content";
 
 export const metadata = buildMetadata({
-  title: "Welcome to tsgabrielle® USA • The French Trans Touchr™",
+  title: "Welcome to tsgabrielle® USA • The French Trans Touch™",
   description: "Discover curated lifestyle essentials at tsgabrielle® • Shop our exclusive collections of fashion accessories, luxury beauty, home décor, and apparel for him and her.",
   keywords: [
     "tsgabrielle", "lifestyle brand", "premium fashion", "home decor", "beauty essentials", 
@@ -26,6 +26,7 @@ export default async function HomePage() {
     getPageContent("/")
   ]);
 
+  // Static hero slides as requested
   const heroSlides = [
     "/images/slides/tsgabrielle-Slide1.png",
     "/images/slides/tsgabrielle-Slide2.png",
@@ -35,14 +36,10 @@ export default async function HomePage() {
 
   const catalogueTitle = "Exclusive 💎 New";
   const catalogueSubtitle = "Just In";
-  const etherealTitle = content.ethereal_title || "Ethereal Craftsmanship";
-  const etherealText = content.ethereal_text || "Defining the next era of high-end aesthetics through material innovation and liquid luxury. tsgabrielle® 2026 presents a curated selection of inclusive products designed for the contemporary global citizen.";
-
+  
   let featuredProducts: any[] = [];
   try {
     const supabase = getSupabaseServerClient();
-    
-    // Fetch featured products
     const { data } = await supabase
       .from("products")
       .select(`
@@ -60,24 +57,29 @@ export default async function HomePage() {
     console.warn("Could not fetch featured products:", error);
   }
 
-  // We use the imported CATEGORIES and COLLECTIONS for the main grid to ensure premium imagery
-  // we take up to 9 for the 3x3 grid
   const displayCategories = CATEGORIES.slice(0, 9);
   const displayCollections = COLLECTIONS.slice(0, 9);
 
   return (
     <div className="-mt-[100px] lg:-mt-[112px]">
-      <section className="relative flex h-screen items-center justify-center overflow-hidden">
-        <div className="absolute inset-0">
-          {heroSlides.map((src, index) => (
-            <div
-              key={src}
-              className="absolute inset-0 bg-cover bg-center opacity-0 animate-[liquid_32s_ease-in-out_infinite]"
-              style={{ backgroundImage: `url(${src})`, animationDelay: `${index * 8}s` }}
+      {/* Hero Section with optimized transition */}
+      <section className="relative h-screen w-full overflow-hidden bg-white">
+        {heroSlides.map((src, index) => (
+          <div
+            key={src}
+            className="absolute inset-0 opacity-0 animate-[liquid_32s_ease-in-out_infinite]"
+            style={{ animationDelay: `${index * 8}s` }}
+          >
+            <Image
+              src={src}
+              alt={`Slide ${index + 1}`}
+              fill
+              priority={index === 0}
+              quality={90}
+              className="object-cover"
             />
-          ))}
-        </div>
-        {/* Text overlay removed to fulfill fullscreen visible requirement */}
+          </div>
+        ))}
       </section>
 
       {/* Featured Products */}
@@ -122,7 +124,7 @@ export default async function HomePage() {
         </div>
       </section>
 
-      {/* Categories Section - 3x3 Grid */}
+      {/* Categories Section */}
       <section className="bg-[#f9f9f9] py-32 border-t border-[#e7e7e7]">
         <div className="container-luxe">
           <div className="mb-24 text-center space-y-4">
@@ -136,22 +138,17 @@ export default async function HomePage() {
               return (
                 <div key={idx} className="group flex flex-col gap-6">
                   <div className="holographic-card-border aspect-[3/4] overflow-hidden bg-[#f9f9f9] rounded-[3rem]">
-                  <Image
+                    <Image
                       src={displayImg}
                       alt={category.label}
                       fill
                       className="h-full w-full object-cover transition-transform duration-1000 group-hover:scale-110"
                     />
                   </div>
-                  
-                  {/* Name & Button Outside */}
                   <div className="flex flex-col items-center gap-4 text-center">
                     <h3 className="text-xl font-light tracking-wide text-[#111111] capitalize">{category.label}</h3>
                     <div className="h-px w-8 bg-[#a932bd]/30 transition-all duration-500 group-hover:w-16 group-hover:bg-[#a932bd]" />
-                    <Link
-                      href={category.href}
-                      className="btn-holographic-outline"
-                    >
+                    <Link href={category.href} className="btn-holographic-outline">
                       Discover
                     </Link>
                   </div>
@@ -162,7 +159,7 @@ export default async function HomePage() {
         </div>
       </section>
 
-      {/* Collections Section - 3x3 Grid */}
+      {/* Collections Section */}
       <section className="bg-white py-32">
         <div className="container-luxe">
           <div className="mb-20 text-center space-y-4">
@@ -176,20 +173,17 @@ export default async function HomePage() {
               return (
                 <div key={idx} className="group flex flex-col gap-6">
                   <div className="holographic-card-border aspect-[3/4] overflow-hidden bg-[#f9f9f9] rounded-[3rem]">
-                  <Image
+                    <Image
                       src={displayImg}
                       alt={collection.label}
                       fill
                       className="h-full w-full object-cover transition-transform duration-1000 group-hover:scale-110"
                     />
                   </div>
-                  <div className="flex flex-col items-center gap-4">
+                  <div className="flex flex-col items-center gap-4 text-center">
                     <h3 className="text-xl font-light tracking-wide text-[#111111] capitalize">{collection.label}</h3>
                     <div className="h-px w-8 bg-[#a932bd]/30 transition-all group-hover:w-16 group-hover:bg-[#a932bd]" />
-                    <Link
-                      href={collection.href}
-                      className="btn-holographic-outline"
-                    >
+                    <Link href={collection.href} className="btn-holographic-outline">
                       Discover Series
                     </Link>
                   </div>
@@ -199,9 +193,6 @@ export default async function HomePage() {
           </div>
         </div>
       </section>
-      
     </div>
   );
 }
-
-
