@@ -149,7 +149,7 @@ export default async function HomePage() {
                   
                   {/* Name & Button Outside */}
                   <div className="flex flex-col items-center gap-4 text-center">
-                    <h3 className="text-xl font-light tracking-wide text-[#111111] uppercase">{category.label}</h3>
+                    <h3 className="text-xl font-light tracking-wide text-[#111111] capitalize">{category.label}</h3>
                     <div className="h-px w-8 bg-[#a932bd]/30 transition-all duration-500 group-hover:w-16 group-hover:bg-[#a932bd]" />
                     <Link
                       href={category.href}
@@ -187,7 +187,7 @@ export default async function HomePage() {
                     />
                   </div>
                   <div className="flex flex-col items-center gap-4">
-                    <h3 className="text-xl font-light tracking-wide text-[#111111] uppercase">{collection.label}</h3>
+                    <h3 className="text-xl font-light tracking-wide text-[#111111] capitalize">{collection.label}</h3>
                     <div className="h-px w-8 bg-[#a932bd]/30 transition-all group-hover:w-16 group-hover:bg-[#a932bd]" />
                     <Link
                       href={collection.href}

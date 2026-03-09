@@ -81,7 +81,7 @@ export default async function Page() {
           <div key={idx} className="space-y-12">
             <div className="flex items-center gap-4 pb-4 border-b border-[#a932bd]/10">
               <span className="text-3xl">{section.emoji}</span>
-              <h2 className="text-3xl font-light tracking-tight text-[#111111] uppercase">{section.title}</h2>
+              <h2 className="text-3xl font-light tracking-tight text-[#111111] capitalize">{section.title}</h2>
             </div>
             
             <div className="grid gap-12">

@@ -63,7 +63,7 @@ export function ContentPage({ title, subtitle, heroImage, heroVideo, body }: Con
               {subtitle}
             </p>
           )}
-          <h1 className="text-5xl md:text-7xl font-light tracking-tight text-[#111111] uppercase">
+          <h1 className="text-5xl md:text-7xl font-light tracking-tight text-[#111111] capitalize">
             {title}
           </h1>
         </div>

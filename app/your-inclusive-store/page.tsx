@@ -33,7 +33,7 @@ export default function Page() {
           />
         </div>
         <div className="space-y-6">
-          <h2 className="text-4xl font-light tracking-tight text-[#111111] uppercase">Our Mission Statement</h2>
+          <h2 className="text-4xl font-light tracking-tight text-[#111111] capitalize">Our Mission Statement</h2>
           <div className="space-y-4 text-[#555555]">
             <p>
               At tsgabrielle®, our mission is to illuminate the meeting point between bold innovation and conscious living. 
@@ -56,7 +56,7 @@ export default function Page() {
       {/* LGBTQ+ Section */}
       <div className="group grid grid-cols-1 md:grid-cols-2 gap-12 items-center">
         <div className="space-y-6 md:order-1">
-          <h2 className="text-4xl font-light tracking-tight text-[#111111] uppercase">Proudly LGBTQ+ Business Owned</h2>
+          <h2 className="text-4xl font-light tracking-tight text-[#111111] capitalize">Proudly LGBTQ+ Business Owned</h2>
           <div className="space-y-4 text-[#555555]">
             <p>
               Inclusion is not an accessory at tsgabrielle® — it is our origin, our compass, and our commitment. 
@@ -84,22 +84,22 @@ export default function Page() {
 
       {/* Pillars Section */}
       <div className="bg-[#f9f9f9] -mx-6 md:-mx-10 p-12 md:p-20 rounded-[3rem]">
-        <h2 className="text-4xl font-light tracking-tight text-[#111111] uppercase text-center mb-16">The Pillars of Our Nexus</h2>
+        <h2 className="text-4xl font-light tracking-tight text-[#111111] capitalize text-center mb-16">The Pillars of Our Nexus</h2>
         <div className="grid grid-cols-1 md:grid-cols-3 gap-12">
           <div className="space-y-4">
-            <h3 className="text-xl font-medium text-[#a932bd] uppercase tracking-wider">Accessible Innovation</h3>
+            <h3 className="text-xl font-medium text-[#a932bd] capitalize tracking-wider">Accessible Innovation</h3>
             <p className="text-[#555555]">
               We believe exceptional design should be within reach for all who seek it — creativity without gatekeeping.
             </p>
           </div>
           <div className="space-y-4">
-            <h3 className="text-xl font-medium text-[#a932bd] uppercase tracking-wider">Intentional Curation</h3>
+            <h3 className="text-xl font-medium text-[#a932bd] capitalize tracking-wider">Intentional Curation</h3>
             <p className="text-[#555555]">
               No filler, no noise. Every product serves a purpose, guiding you along your personal journey.
             </p>
           </div>
           <div className="space-y-4">
-            <h3 className="text-xl font-medium text-[#a932bd] uppercase tracking-wider">Radical Authenticity</h3>
+            <h3 className="text-xl font-medium text-[#a932bd] capitalize tracking-wider">Radical Authenticity</h3>
             <p className="text-[#555555]">
               Rooted in our LGBTQ+ identity, we operate with transparency, integrity, and a commitment to truth in every decision.
             </p>

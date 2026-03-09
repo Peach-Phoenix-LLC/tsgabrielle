@@ -292,12 +292,12 @@ export default function ProductClientView({ product }: ProductProps) {
                <div className="grid grid-cols-2 gap-8 py-10 border-t border-[#f0f0f0]">
                   <div className="flex flex-col gap-3">
                     <RefreshCw className="text-[#a932bd]" size={20} />
-                    <h4 className="text-[10px] font-bold uppercase tracking-widest">Ethereal Returns</h4>
+                    <h4 className="text-[10px] font-bold capitalize tracking-widest">Ethereal Returns</h4>
                     <p className="text-[10px] text-black/50 leading-relaxed uppercase">Returns accepted within 14 cycles of arrival.</p>
                   </div>
                   <div className="flex flex-col gap-3">
                     <ShieldCheck className="text-[#a932bd]" size={20} />
-                    <h4 className="text-[10px] font-bold uppercase tracking-widest">Secured Core</h4>
+                    <h4 className="text-[10px] font-bold capitalize tracking-widest">Secured Core</h4>
                     <p className="text-[10px] text-black/50 leading-relaxed uppercase">Quantum encryption for every acquisition.</p>
                   </div>
                </div>
@@ -329,7 +329,7 @@ export default function ProductClientView({ product }: ProductProps) {
                   </div>
                   
                   <div className="flex flex-col items-center gap-4 text-center">
-                    <h3 className="text-xl font-light tracking-wide text-[#111111] uppercase">{category.label}</h3>
+                    <h3 className="text-xl font-light tracking-wide text-[#111111] capitalize">{category.label}</h3>
                     <div className="h-px w-8 bg-[#a932bd]/30 transition-all duration-500 group-hover:w-16 group-hover:bg-[#a932bd]" />
                     <Link
                       href={category.href}

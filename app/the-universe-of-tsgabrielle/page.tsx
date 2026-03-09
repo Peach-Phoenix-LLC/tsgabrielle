@@ -63,7 +63,7 @@ export default function Page() {
                   className="w-full h-full object-contain"
                 />
               </div>
-              <h3 className="text-3xl font-light tracking-tight text-[#111111] uppercase">{section.title}</h3>
+              <h3 className="text-3xl font-light tracking-tight text-[#111111] capitalize">{section.title}</h3>
             </div>
             <div className="flex flex-col gap-8 items-start">
               <p className="text-xl leading-relaxed text-[#555555] font-light pl-6 pt-2 border-l border-[#a932bd]/20">

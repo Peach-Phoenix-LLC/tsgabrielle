@@ -68,7 +68,7 @@ export default async function Page() {
 
       <div className="mt-20 p-12 bg-white rounded-[3rem] border border-black/5 text-center shadow-sm relative overflow-hidden">
          <div className="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-transparent via-[#a932bd]/20 to-transparent" />
-         <h3 className="text-[10px] uppercase tracking-[0.4em] font-bold text-[#a932bd] mb-6">Questions regarding our policies?</h3>
+         <h3 className="text-[10px] capitalize tracking-[0.4em] font-bold text-[#a932bd] mb-6">Questions regarding our policies?</h3>
          <p className="text-base font-light text-black/60 mb-10 max-w-xl mx-auto italic">Our dedicated support team is here to assist you with any legal, compliance, or privacy concerns you may have throughout your journey.</p>
          <a 
           href="mailto:contact@tsgabrielle.us" 

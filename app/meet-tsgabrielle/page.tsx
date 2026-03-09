@@ -75,7 +75,7 @@ export default function Page() {
                       className="w-full h-full object-contain opacity-40 group-hover:opacity-100 transition-opacity"
                     />
                   </div>
-                  <h3 className="text-3xl font-light tracking-tight text-[#111111] uppercase">{section.title}</h3>
+                  <h3 className="text-3xl font-light tracking-tight text-[#111111] capitalize">{section.title}</h3>
                 </div>
                 <p className="text-xl leading-relaxed text-[#555555] font-light pl-6 border-l border-[#a932bd]/20">
                   {section.content}
