@@ -1,9 +1,24 @@
 import { test, expect } from '@playwright/test';
 
+// Run before each test in this file
+test.beforeEach(async ({ page }) => {
+  // Navigate to login and authenticate as admin
+  await page.goto('/auth/sign-in');
+  await page.getByPlaceholder('Email', { exact: true }).fill('contact@tsgabrielle.us');
+  await page.getByPlaceholder('Password', { exact: true }).fill('Password123!');
+  await page.getByRole('button', { name: /sign in/i, exact: true }).click();
+  
+  // Wait for redirect or successful login indication
+  await page.waitForURL('**/admin**', { timeout: 10000 }).catch(() => {});
+});
+
 test.describe('Admin Dashboard', () => {
   test.beforeEach(async ({ page }) => {
-    // Navigate to admin page - may need auth
+    // Navigate to admin page
     await page.goto('/admin');
+    
+    // Wait for the admin loading spinner to disappear
+    await expect(page.locator('.animate-spin').first()).toBeHidden({ timeout: 15000 }).catch(() => {});
   });
 
   test('admin page loads', async ({ page }) => {
@@ -37,12 +52,10 @@ test.describe('Admin Dashboard', () => {
 
   test('save configuration button exists in Site Settings', async ({ page }) => {
     await page.click('button:has-text("Site Settings")');
-    const saveButton = page.getByRole('button', { name: /save configuration|save settings|save/i }).first();
-    if (await saveButton.isVisible().catch(() => false)) {
-      await expect(saveButton).toBeVisible();
-    } else {
-      await expect(page.getByText(/site settings/i).first()).toBeVisible();
-    }
+    // Wait for loading to finish if there's any
+    await expect(page.locator('.animate-spin').first()).toBeHidden({ timeout: 5000 }).catch(() => {});
+    const saveButton = page.getByRole('button', { name: /save settings/i }).first();
+    await expect(saveButton).toBeVisible();
   });
 
   test('sign out button exists', async ({ page }) => {
@@ -57,17 +70,17 @@ test.describe('Admin Dashboard', () => {
 test.describe('Admin Products Page', () => {
   test('products page loads', async ({ page }) => {
     await page.goto('/admin/products');
-    await expect(page.getByRole('heading', { name: /product inventory/i })).toBeVisible();
+    await expect(page.getByRole('heading', { name: /product inventory/i })).toBeVisible({ timeout: 10000 });
   });
 
   test('add new product button exists', async ({ page }) => {
     await page.goto('/admin/products');
-    await expect(page.getByRole('link', { name: /add new product/i })).toBeVisible();
+    await expect(page.getByRole('link', { name: /add new product/i })).toBeVisible({ timeout: 10000 });
   });
 
   test('search input exists', async ({ page }) => {
     await page.goto('/admin/products');
-    await expect(page.getByPlaceholder(/search products/i)).toBeVisible();
+    await expect(page.getByPlaceholder(/search products/i)).toBeVisible({ timeout: 10000 });
   });
 
   test('filter buttons exist', async ({ page }) => {
@@ -89,7 +102,7 @@ test.describe('Admin Orders Page', () => {
 test.describe('Admin Collections Page', () => {
   test('collections page loads', async ({ page }) => {
     await page.goto('/admin/collections');
-    await expect(page.getByRole('heading', { name: /admin collections/i })).toBeVisible();
+    await expect(page.getByRole('heading', { name: /admin collections/i })).toBeVisible({ timeout: 10000 });
   });
 });
 

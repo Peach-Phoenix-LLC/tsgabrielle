@@ -67,7 +67,7 @@ export default async function HomePage() {
         {heroSlides.map((src, index) => (
           <div
             key={src}
-            className="absolute inset-0 opacity-0 animate-[liquid_32s_ease-in-out_infinite]"
+            className="absolute inset-0 opacity-0 animate-slideShowFade"
             style={{ animationDelay: `${index * 8}s` }}
           >
             <Image

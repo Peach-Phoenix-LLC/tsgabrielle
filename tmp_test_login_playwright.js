@@ -12,7 +12,7 @@ const { chromium } = require('playwright');
   
   console.log("Filling form...");
   await page.fill('input[type="email"]', 'contact@tsgabrielle.us');
-  await page.fill('input[type="password"]', 'wrongpassword123');
+  await page.fill('input[type="password"]', 'Password123!');
   
   console.log("Clicking Sign In...");
   await page.click('button:has-text("Sign In")');

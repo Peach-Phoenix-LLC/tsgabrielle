@@ -20,14 +20,14 @@ function SignInForm() {
     setError(null);
     try {
       const supabase = getSupabaseBrowserClient();
-      const { error: signInError } = await supabase.auth.signInWithPassword({ email, password });
+      const { data, error: signInError } = await supabase.auth.signInWithPassword({ email, password });
       if (signInError) {
         console.error('Sign-in error:', signInError);
         throw signInError;
       }
       console.log('Sign-in successful, redirecting');
       // Check if the signed-in user is the admin email
-      const { data: { user } } = await supabase.auth.getUser();
+      const user = data.user;
       if (user?.email?.toLowerCase() === "contact@tsgabrielle.us") {
         router.push("/admin");
       } else {

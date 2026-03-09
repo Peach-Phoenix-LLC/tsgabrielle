@@ -41,11 +41,17 @@ const config: Config = {
         float: {
           "0%, 100%": { transform: "translateY(0)" },
           "50%": { transform: "translateY(-10px)" }
+        },
+        slideShowFade: {
+          "0%, 100%": { opacity: "0" },
+          "5%, 25%": { opacity: "1" },
+          "30%": { opacity: "0" }
         }
       },
       animation: {
         iridescent: "iridescent 3s linear infinite",
-        float: "float 6s ease-in-out infinite"
+        float: "float 6s ease-in-out infinite",
+        slideShowFade: "slideShowFade 32s ease-in-out infinite"
       }
     }
   },

@@ -1,5 +1,5 @@
 import { NextResponse } from "next/server";
-import { createClient } from "@supabase/supabase-js";
+import { createServerClient } from "@supabase/ssr";
 import { cookies } from "next/headers";
 
 /**
@@ -13,27 +13,27 @@ export async function requireAdmin(): Promise<
   | { user: { id: string; email?: string }; error?: never }
   | { user?: never; error: NextResponse }
 > {
-  const url = process.env.NEXT_PUBLIC_SUPABASE_URL;
-  const anonKey = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY;
-
-  if (!url || !anonKey) {
-    return {
-      error: NextResponse.json(
-        { error: "Server configuration error" },
-        { status: 500 }
-      ),
-    };
-  }
-
-  // Create a client that reads the user's auth cookie
   const cookieStore = await cookies();
-  const supabase = createClient(url, anonKey, {
-    global: {
-      headers: {
-        cookie: cookieStore.toString(),
+  const supabase = createServerClient(
+    process.env.NEXT_PUBLIC_SUPABASE_URL!,
+    process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!,
+    {
+      cookies: {
+        getAll() {
+          return cookieStore.getAll();
+        },
+        setAll(cookiesToSet) {
+          try {
+            cookiesToSet.forEach(({ name, value, options }) =>
+              cookieStore.set(name, value, options)
+            );
+          } catch {
+            // Unhandled cookie settings in RSC
+          }
+        },
       },
-    },
-  });
+    }
+  );
 
   const {
     data: { user },

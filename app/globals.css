@@ -120,6 +120,14 @@ body {
   box-shadow: 0 20px 40px rgba(169, 50, 189, 0.12);
 }
 
+@keyframes slideShowFade {
+  0% { opacity: 0; }
+  5% { opacity: 1; }
+  25% { opacity: 1; }
+  30% { opacity: 0; }
+  100% { opacity: 0; }
+}
+
 @keyframes liquid {
   0% { background-position: 0% 50%; opacity: 0; }
   5% { opacity: 1; }
