@@ -14,7 +14,7 @@ export default async function Page() {
   const body = (
     <div className="space-y-8">
       <p className="text-xl font-light leading-relaxed">
-        The <strong>Contact tsgabrielle®</strong> section provides a direct channel to connect with the brand. 
+        Providing a direct channel to connect with the brand. 
         Whether you’re reaching out for collaborations, inquiries, feedback, or conversation, 
         this space opens the door to meaningful engagement.
       </p>

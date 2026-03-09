@@ -23,7 +23,6 @@ export default async function Page() {
       ) : (
         <>
           <p>
-            <strong className="text-xl text-[#111111] block mb-4">tsgabrielle&reg; &mdash; The Brand</strong>
             tsgabrielle&reg; is a modern fashion brand created to celebrate freedom, elegance, and self-expression.
           </p>
           

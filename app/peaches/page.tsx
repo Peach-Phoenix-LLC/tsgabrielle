@@ -11,7 +11,7 @@ export default function Page() {
   const content = (
     <div className="space-y-8">
       <p className="text-xl font-light leading-relaxed">
-        <strong>Peaches</strong> is the symbolic heartbeat of tsgabrielle® — a playful, expressive element that brings 
+        The symbolic heartbeat of tsgabrielle® — a playful, expressive element that brings 
         lightness and imagination into the universe. It represents the softer, more whimsical side of the brand, 
         where aesthetics, storytelling, and creative energy intertwine.
       </p>

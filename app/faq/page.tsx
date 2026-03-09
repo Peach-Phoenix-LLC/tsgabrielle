@@ -68,8 +68,7 @@ export default async function Page() {
     <div className="space-y-20 max-w-4xl mx-auto">
       <div className="space-y-8 text-center md:text-left">
         <p className="text-2xl font-light leading-relaxed text-[#111111]">
-          Welcome to the <strong>tsgabrielle® FAQ</strong>, your celestial guide to navigating our store, 
-          products, and community values.
+          A celestial guide to navigating our store, products, and community values.
         </p>
         <p className="text-[#555555]">
           This space is designed to ensure your journey is smooth, transparent, and empowering.
