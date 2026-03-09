@@ -119,32 +119,11 @@ export default function ProductClientView({ product }: ProductProps) {
               className="h-full w-full object-cover" 
               alt={product.title}
             />
-            <div className="absolute inset-0 bg-gradient-to-b from-black/20 via-transparent to-black/40" />
+            {/* Dark overlay removed to fulfill visibility requirement */}
           </motion.div>
         </AnimatePresence>
-
-        {/* Hero Overlay Overlay */}
-        <div className="absolute inset-0 flex flex-col items-center justify-center text-center pointer-events-none p-6">
-          <motion.p 
-            initial={{ y: 20, opacity: 0 }}
-            animate={{ y: 0, opacity: 1 }}
-            transition={{ delay: 0.5 }}
-            className="text-[10px] uppercase tracking-[0.6em] text-white/80 mb-6"
-          >
-            The Edition Spatiale
-          </motion.p>
-          <motion.h1 
-            initial={{ y: 30, opacity: 0 }}
-            animate={{ y: 0, opacity: 1 }}
-            transition={{ delay: 0.7 }}
-            className={`text-6xl md:text-8xl font-light text-white tracking-tighter mix-blend-difference ${product.gifTitleUrl ? "holographic-text" : ""}`}
-            style={product.gifTitleUrl ? { backgroundImage: `url(${product.gifTitleUrl})` } : {}}
-          >
-            {product.title}
-          </motion.h1>
-        </div>
-
-        {/* Navigation Contols */}
+        
+        {/* Navigation Controls */}
         <div className="absolute bottom-12 left-0 right-0 z-20 container-luxe flex justify-between items-end">
           <div className="flex gap-4">
              {product.images.map((_, i) => (

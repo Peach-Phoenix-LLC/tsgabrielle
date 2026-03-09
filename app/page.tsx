@@ -80,21 +80,7 @@ export default async function HomePage() {
             />
           ))}
         </div>
-        {/* Render overlay text if defined in slides */}
-        {slides.length > 0 && (
-          <div className="relative z-10 text-center text-white pointer-events-none">
-            {slides.map((slide, idx) => (
-              <div
-                key={slide.id}
-                className="absolute inset-0 flex flex-col items-center justify-center opacity-0 animate-[liquid_32s_ease-in-out_infinite]"
-                style={{ animationDelay: `${idx * 8}s` }}
-              >
-                <h2 className="text-6xl md:text-8xl font-light uppercase tracking-tighter mb-4">{slide.title}</h2>
-                <p className="text-sm md:text-base uppercase tracking-[0.5em] font-light">{slide.subtitle}</p>
-              </div>
-            ))}
-          </div>
-        )}
+        {/* Text overlay removed to fulfill fullscreen visible requirement */}
       </section>
 
       {/* Featured Products */}

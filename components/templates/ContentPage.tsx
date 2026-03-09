@@ -28,7 +28,7 @@ export function ContentPage({ title, subtitle, heroImage, heroVideo, body }: Con
   return (
     <div className="bg-white pb-32">
       {(heroImage || heroVideo) ? (
-        <section className="relative flex h-[70vh] items-center justify-center overflow-hidden -mt-[100px] lg:-mt-[112px]">
+        <section className="relative flex h-screen items-center justify-center overflow-hidden -mt-[100px] lg:-mt-[112px]">
           <div className="absolute inset-0">
             {heroVideo ? (
               <video
@@ -47,11 +47,6 @@ export function ContentPage({ title, subtitle, heroImage, heroVideo, body }: Con
                 className="h-full w-full object-cover"
               />
             ) : null}
-            <div className="absolute inset-0 bg-black/40" />
-          </div>
-          <div className="relative z-10 text-center text-white space-y-6 px-4 max-w-4xl mx-auto">
-             {subtitle && <p className="text-[11px] uppercase tracking-[0.4em] font-light">{subtitle}</p>}
-             <h1 className="text-5xl md:text-7xl font-light tracking-wide uppercase">{title}</h1>
           </div>
         </section>
       ) : (
@@ -61,9 +56,19 @@ export function ContentPage({ title, subtitle, heroImage, heroVideo, body }: Con
         </section>
       )}
 
-      <section className="container-luxe max-w-4xl mx-auto relative z-20">
-        <div className={`bg-white ${heroImage ? '-mt-16 p-10 md:p-16 shadow-2xl rounded-sm' : ''} text-[#555555] space-y-8 text-lg font-light leading-[2] tracking-wide`}>
-          {typeof body === 'string' ? renderContent(body) : body}
+      <section className="container-luxe max-w-4xl mx-auto relative z-20 py-24">
+        <div className="text-center mb-16">
+          {subtitle && (
+            <p className="text-[11px] uppercase tracking-[0.4em] text-[#a932bd] font-medium mb-4">
+              {subtitle}
+            </p>
+          )}
+          <h1 className="text-5xl md:text-7xl font-light tracking-tight text-[#111111] uppercase">
+            {title}
+          </h1>
+        </div>
+        <div className="text-[#555555] space-y-8 text-lg font-light leading-[2] tracking-wide">
+          {typeof body === "string" ? renderContent(body) : body}
         </div>
       </section>
     </div>

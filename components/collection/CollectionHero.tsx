@@ -18,12 +18,12 @@ export default function CollectionHero({
   if (!imageUrl) return null; // Or return a fallback container, but omitting the hero if no image looks cleaner
 
   return (
-    <section className="relative h-[60vh] md:h-[80vh] w-full overflow-hidden bg-transparent">
+    <section className="relative h-screen w-full overflow-hidden bg-transparent -mt-[100px] lg:-mt-[112px]">
       <Image
         src={imageUrl}
         alt={alt}
         fill
-        className="object-contain object-center"
+        className="object-cover object-center"
         priority
       />
     </section>
