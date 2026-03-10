@@ -60,7 +60,7 @@ export default async function HomePage() {
   const displayCollections = COLLECTIONS.slice(0, 9);
 
   return (
-    <div className="-mt-[100px] lg:-mt-[112px]">
+    <div>
       {/* Hero Section with optimized transition */}
       <section className="relative h-screen w-full overflow-hidden bg-white">
         {heroSlides.map((src, index) => (

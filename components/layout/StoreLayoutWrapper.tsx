@@ -14,12 +14,20 @@ export function StoreLayoutWrapper({ children }: { children: React.ReactNode }) 
     return <>{children}</>;
   }
 
+  const isHomePage = pathname === "/";
+  // Exact matches for collection and category indexes don't have heros.
+  // We only target specific collection/category items which have a slug.
+  const isCategorySlug = pathname?.startsWith("/categories/") && pathname.length > "/categories/".length;
+  const isCollectionSlug = pathname?.startsWith("/collections/") && pathname.length > "/collections/".length;
+  
+  const hasFullscreenHero = isHomePage || isCategorySlug || isCollectionSlug;
+
   return (
     <>
       <VisualBuilderProvider>
         <Header />
-        <main className="pt-24">
-          <Breadcrumbs />
+        <main className={hasFullscreenHero ? "" : "pt-24"}>
+          {!hasFullscreenHero && <Breadcrumbs />}
           {children}
         </main>
         <Footer />
