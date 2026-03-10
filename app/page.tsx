@@ -75,6 +75,7 @@ export default async function HomePage() {
               fill
               priority={index === 0}
               quality={90}
+              unoptimized
               className="object-contain"
             />
           </div>
