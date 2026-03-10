@@ -82,7 +82,11 @@ export default function SiteSettingsManager() {
     try {
       const res = await fetch("/api/admin/hero-slides");
       const data = await res.json();
-      setSlides(data);
+      if (Array.isArray(data)) {
+        setSlides(data);
+      } else {
+        setSlides([]);
+      }
     } catch (error) {
       console.error("Error fetching slides:", error);
     }

@@ -81,8 +81,12 @@ export default function CollectionSection() {
   async function fetchItems() {
     try {
       const res = await fetch("/api/admin/collections");
-      const data = (await res.json()) as CollectionItem[];
-      setItems(data);
+      const data = await res.json();
+      if (Array.isArray(data)) {
+        setItems(data as CollectionItem[]);
+      } else {
+        setItems([]);
+      }
     } catch {
       // noop
     } finally {

@@ -87,8 +87,12 @@ export default function CategorySection() {
   async function fetchItems() {
     try {
       const res = await fetch("/api/admin/categories");
-      const data = (await res.json()) as CategoryItem[];
-      setItems(data);
+      const data = await res.json();
+      if (Array.isArray(data)) {
+        setItems(data as CategoryItem[]);
+      } else {
+        setItems([]);
+      }
     } catch {
       // noop
     } finally {

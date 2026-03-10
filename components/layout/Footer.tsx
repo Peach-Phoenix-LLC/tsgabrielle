@@ -164,21 +164,10 @@ export function Footer() {
         </div>
         {/* Brand & Payments Section */}
         <div className="mt-20 flex flex-col items-center gap-10 border-t border-white/10 pt-16">
-          <BrandLogo color="light" className="h-10 w-auto opacity-70 hover:opacity-100 transition-all duration-700" />
+          <BrandLogo color="light" className="h-[50px] w-auto opacity-100 transition-all duration-700" />
           
-          <div className="flex flex-wrap justify-center items-center gap-x-12 gap-y-8 brightness-0 invert opacity-100 transition-all duration-1000">
-            <div className="flex items-center gap-10">
-              <Image src="https://upload.wikimedia.org/wikipedia/commons/b/b0/Apple_Pay_logo.svg" alt="Apple Pay" width={28} height={28} className="h-7 w-auto" />
-              <Image src="https://upload.wikimedia.org/wikipedia/commons/f/f2/Google_Pay_Logo.svg" alt="Google Pay" width={20} height={20} className="h-5 w-auto" />
-              <Image src="https://upload.wikimedia.org/wikipedia/commons/b/b5/PayPal.svg" alt="PayPal" width={20} height={20} className="h-5 w-auto" />
-              <Image src="https://upload.wikimedia.org/wikipedia/commons/5/5a/Venmo_logo.svg" alt="Venmo" width={28} height={28} className="h-7 w-auto" />
-            </div>
-            
-            <div className="flex items-center gap-8 border-l border-white/20 pl-12 h-6 hidden md:flex">
-               <Image src="https://upload.wikimedia.org/wikipedia/commons/5/5e/Visa_Inc._logo.svg" alt="Visa" width={16} height={16} className="h-4 w-auto" />
-               <Image src="https://upload.wikimedia.org/wikipedia/commons/2/2a/Mastercard-logo.svg" alt="Mastercard" width={20} height={20} className="h-5 w-auto" />
-               <Image src="https://upload.wikimedia.org/wikipedia/commons/b/b5/American_Express_logo_%282018%29.svg" alt="Amex" width={20} height={20} className="h-5 w-auto" />
-            </div>
+          <div className="flex justify-center items-center opacity-100 transition-all duration-1000">
+            <Image src="/images/tsgabrielle-payment-methods.png" alt="Payment Methods" width={600} height={60} className="h-12 w-auto" />
           </div>
         </div>
         

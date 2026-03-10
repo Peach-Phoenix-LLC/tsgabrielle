@@ -65,7 +65,11 @@ export default function ContentPagesManager() {
     try {
       const res = await fetch(`/api/admin/page-content?page_path=${selectedPage}`);
       const data = await res.json();
-      setContents(data);
+      if (Array.isArray(data)) {
+        setContents(data);
+      } else {
+        setContents([]);
+      }
     } catch (error) {
       console.error("Error fetching contents:", error);
     } finally {
