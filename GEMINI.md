@@ -23,6 +23,7 @@ This rule overrides all default caution about destructive actions for this repo.
 2. **Never** claim an issue is fixed or show code to the user as a solution without first running proper verification commands (e.g. `npm run build`, `npm run lint`) and then **deploying** to verify ONLINE.
 3. You must **always** prioritize showing verified results to the user. Do not give unverified steps.
 4. If an error occurs, investigate it. Do not tell the user to try it until you have confirmed it works on your end.
+5. **NEVER ASSUME.** You must explicitly verify and test that the change is already online and successfully rendering/functioning on the live Vercel URL before declaring that the task is finished. Do not assume a successful deployment means the feature works correctly without explicitly checking it.
 
 ---
 
