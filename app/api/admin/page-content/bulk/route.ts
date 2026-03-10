@@ -1,16 +1,17 @@
 import { NextResponse } from "next/server";
+import { getSupabaseServerClient } from "@/lib/supabase/server";
 import { createClient } from "@supabase/supabase-js";
-
-const supabase = createClient(
-  process.env.NEXT_PUBLIC_SUPABASE_URL!,
-  process.env.SUPABASE_SERVICE_ROLE_KEY! // Use service key for admin writes
-);
 
 export async function POST(req: Request) {
   try {
     // In a real app, verify authentication here
     // We are trusting the admin visually for now or you'd check cookies/headers
     
+    const supabase = createClient(
+      process.env.NEXT_PUBLIC_SUPABASE_URL!,
+      process.env.SUPABASE_SERVICE_ROLE_KEY! // Use service key for admin writes
+    );
+
     const body = await req.json();
     const { updates } = body;
 
