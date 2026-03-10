@@ -8,7 +8,7 @@ import NewArrivals from '@/components/Update/NewArrivals';
 import Newsletter from '@/components/Update/Newsletter';
 
 export const metadata = {
-  title: 'Update | Wear the Shift',
+  title: 'tsgabrielle® | Wear the Shift',
   description: 'Holographic essentials for the modern existence. Crafting high-end organic apparel with a transformational perspective.',
 };
 

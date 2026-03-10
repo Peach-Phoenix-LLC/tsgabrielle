@@ -2,7 +2,7 @@ import { test, expect } from '@playwright/test';
 
 test.describe('Production Smoke Tests', () => {
 
-    test.use({ baseURL: 'https://tsgabrielle.us' });
+    // Use baseURL from global config (Cloud Run URL)
 
     test('User Flow: Homepage to Collection to Product to Cart', async ({ page }) => {
         // 1. Visit Homepage
@@ -10,7 +10,8 @@ test.describe('Production Smoke Tests', () => {
         await expect(page).toHaveTitle(/tsgabrielle/i);
 
         // 2. Click "Shop" or go to the primary Product Details Page
-        await page.goto('/product/tsg-acc-001');
+        // Using real SKU from DB
+        await page.goto('/product/TSG-MUG-ETB-001');
 
         // Wait for PDP to load and confirm we see standard PDP headers like "Add to Bag"
         await expect(page.locator('h1')).toBeVisible();
@@ -48,7 +49,7 @@ test.describe('Production Smoke Tests', () => {
 
 // Verify that the Google OAuth login button redirects to Google's auth page with correct client ID
 test('Google OAuth login redirects correctly', async ({ page }) => {
-    await page.goto('https://tsgabrielle.us/login');
+    await page.goto('/login');
     const googleButton = page.getByRole('button', { name: /continue with google/i });
     await expect(googleButton).toBeVisible();
     await googleButton.click();

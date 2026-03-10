@@ -56,42 +56,114 @@
 
     <body class="bg-background-light text-text-main antialiased min-h-screen flex flex-col">
         <!-- Header -->
-        <header class="sticky top-0 z-50 w-full bg-surface-light/90 backdrop-blur-md border-b border-[#f1e7f3]">
-            <div class="px-6 md:px-12 lg:px-20 py-4 flex items-center justify-between max-w-7xl mx-auto">
-                <div class="flex items-center gap-3">
-                    <a class="flex items-center gap-3 group" href="/">
-                        <div class="size-8 text-primary">
-                            <svg class="w-full h-full" fill="none" viewbox="0 0 48 48"
-                                xmlns="http://www.w3.org/2000/svg">
-                                <path clip-rule="evenodd"
-                                    d="M24 0.757355L47.2426 24L24 47.2426L0.757355 24L24 0.757355ZM21 35.7574V12.2426L9.24264 24L21 35.7574Z"
-                                    fill="currentColor" fill-rule="evenodd"></path>
-                            </svg>
+        <header class="fixed top-0 left-0 right-0 z-50 glass-header px-8 py-4 flex items-center justify-between">
+            <a href="#" class="flex items-center gap-3 cursor-pointer hover:opacity-80 transition-opacity">
+                <img src="https://storage.googleapis.com/tsgabrielle-media-prod/images/logo-white.png" alt="tsgabrielle logo" class="h-12 w-auto">
+            </a>
+
+            <nav class="hidden md:flex items-center gap-12">
+                <a href="#" class="text-sm text-white font-light hover:text-white/80 transition-colors">WELCOME</a>
+                <div class="group relative">
+                    <button class="text-sm text-white font-light hover:text-white/80 transition-colors">Menu</button>
+                    <div class="absolute top-full left-1/2 -translate-x-1/2 w-screen max-w-5xl p-8 bg-primary text-white font-light opacity-0 group-hover:opacity-100 transition-opacity duration-300 pointer-events-none group-hover:pointer-events-auto">
+                        <div class="grid grid-cols-5 gap-8">
+                            <div>
+                                <h3 class="font-bold mb-4">Categories</h3>
+                                <ul class="space-y-2">
+                                    <li><a href="#" class="hover:text-white/80">Beauté Beauty</a></li>
+                                    <li><a href="#" class="hover:text-white/80">Accessories</a></li>
+                                    <li><a href="#" class="hover:text-white/80">Hats</a></li>
+                                    <li><a href="#" class="hover:text-white/80">For Him 👔 / For Her 👗</a></li>
+                                    <li><a href="#" class="hover:text-white/80">🏡 Home & Décor</a></li>
+                                </ul>
+                            </div>
+                            <div>
+                                <h3 class="font-bold mb-4">Collections</h3>
+                                <ul class="space-y-2">
+                                    <li><a href="#" class="hover:text-white/80">Peach Phoenix™</a></li>
+                                    <li><a href="#" class="hover:text-white/80">Paris</a></li>
+                                    <li><a href="#" class="hover:text-white/80">Arizona 🌵</a></li>
+                                    <li><a href="#" class="hover:text-white/80">Made In USA</a></li>
+                                    <li><a href="#" class="hover:text-white/80">TransLove™</a></li>
+                                    <li><a href="#" class="hover:text-white/80">TransFLOWer™</a></li>
+                                    <li><a href="#" class="hover:text-white/80">Womanizer</a></li>
+                                    <li><a href="#" class="hover:text-white/80">Flamant 🦩 Rose</a></li>
+                                    <li><a href="#" class="hover:text-white/80">🌌✨ Édition Spatiale</a></li>
+                                    <li><a href="#" class="hover:text-white/80">Unicorn 🦄</a></li>
+                                    <li><a href="#" class="hover:text-white/80">Crystal Skies.</a></li>
+                                    <li><a href="#" class="hover:text-white/80">🌈 Pride 26</a></li>
+                                    <li><a href="#" class="hover:text-white/80">❄️ Glow in Winter 26</a></li>
+                                    <li><a href="#" class="hover:text-white/80">Good Vibes Only.</a></li>
+                                </ul>
+                            </div>
+                            <div>
+                                <h3 class="font-bold mb-4">The Collabs</h3>
+                                <ul class="space-y-2">
+                                    <li><a href="#" class="hover:text-white/80">Adidas x tsgabrielle®</a></li>
+                                    <li><a href="#" class="hover:text-white/80">Champion® Heritage</a></li>
+                                    <li><a href="#" class="hover:text-white/80">Columbia Sportswear</a></li>
+                                    <li><a href="#" class="hover:text-white/80">Under Armour® Performance</a></li>
+                                </ul>
+                                <h3 class="font-bold mt-8 mb-4">The Universe of tsgabrielle®</h3>
+                                <ul class="space-y-2">
+                                    <li><a href="#" class="hover:text-white/80">Your Inclusive Store</a></li>
+                                    <li><a href="#" class="hover:text-white/80">About Gabrielle</a></li>
+                                    <li><a href="#" class="hover:text-white/80">Sustainability</a></li>
+                                    <li><a href="#" class="hover:text-white/80">The Blogs</a></li>
+                                    <li><a href="#" class="hover:text-white/80">Videos by YouTube</a></li>
+                                    <li><a href="#" class="hover:text-white/80">Meet tsgabrielle®</a></li>
+                                </ul>
+                            </div>
+                            <div>
+                                <h3 class="font-bold mb-4">The Brand:</h3>
+                                <ul class="space-y-2">
+                                    <li><a href="#" class="hover:text-white/80">Peaches</a></li>
+                                    <li><a href="#" class="hover:text-white/80">FAQ</a></li>
+                                    <li><a href="#" class="hover:text-white/80">Contact tsgabrielle®</a></li>
+                                    <li><a href="#" class="hover:text-white/80">Legal Hub</a></li>
+                                </ul>
+                                <h3 class="font-bold mt-8 mb-4">📱 Follow tsgabrielle®</h3>
+                                <ul class="space-y-2">
+                                    <li><a href="#" class="hover:text-white/80">Instagram</a></li>
+                                    <li><a href="#" class="hover:text-white/80">TikTok</a></li>
+                                    <li><a href="#" class="hover:text-white/80">YouTube</a></li>
+                                    <li><a href="#" class="hover:text-white/80">Facebook</a></li>
+                                    <li><a href="#" class="hover:text-white/80">X (Twitter)</a></li>
+                                    <li><a href="#" class="hover:text-white/80">Pinterest</a></li>
+                                    <li><a href="#" class="hover:text-white/80">LinkedIn</a></li>
+                                    <li><a href="#" class="hover:text-white/80">Snapchat</a></li>
+                                </ul>
+                            </div>
+                            <div>
+                                <h3 class="font-bold mb-4">👤 My tsgabrielle®</h3>
+                                <ul class="space-y-2">
+                                    <li><a href="#" class="hover:text-white/80">My Account</a></li>
+                                    <li><a href="#" class="hover:text-white/80">My Orders</a></li>
+                                    <li><a href="#" class="hover:text-white/80">My Wishlist</a></li>
+                                    <li><a href="#" class="hover:text-white/80">My Settings</a></li>
+                                </ul>
+                                <h3 class="font-bold mt-8 mb-4">👤 tsgabrielle® Worldwide</h3>
+                                <ul class="space-y-2">
+                                    <li><a href="#" class="hover:text-white/80">Store Directory.</a></li>
+                                    <li><a href="#" class="hover:text-white/80">Stores Directory</a></li>
+                                    <li><a href="#" class="hover:text-white/80">USA</a></li>
+                                </ul>
+                            </div>
                         </div>
-                        <span
-                            class="text-xl font-bold tracking-tight text-text-main group-hover:text-primary transition-colors">tsgabrielle®</span>
-                    </a>
+                    </div>
                 </div>
-                <nav class="hidden md:flex items-center gap-8">
-                    <a class="text-sm font-semibold text-text-main hover:text-primary transition-colors"
-                        href="#">Shop</a>
-                    <a class="text-sm font-semibold text-text-main hover:text-primary transition-colors"
-                        href="#">Collections</a>
-                    <a class="text-sm font-semibold text-text-main hover:text-primary transition-colors"
-                        href="#">About</a>
-                </nav>
-                <div class="flex items-center gap-3">
-                    <button
-                        class="p-2 rounded-lg hover:bg-primary-light text-text-main hover:text-primary transition-colors">
-                        <span class="material-symbols-outlined">person</span>
-                    </button>
-                    <button
-                        class="p-2 rounded-lg hover:bg-primary-light text-text-main hover:text-primary transition-colors relative">
-                        <span class="material-symbols-outlined">shopping_bag</span>
-                        <span
-                            class="absolute top-1.5 right-1.5 size-2 bg-primary rounded-full ring-2 ring-surface-light"></span>
-                    </button>
-                </div>
+            </nav>
+
+            <div class="flex items-center gap-6 text-white">
+                <span
+                    class="material-symbols-outlined font-light cursor-pointer hover:text-white/80 transition-colors">search</span>
+                <span
+                    class="material-symbols-outlined font-light cursor-pointer hover:text-white/80 transition-colors relative">
+                    shopping_bag
+                    <span class="absolute -top-1 -right-1 size-2 bg-primary rounded-full"></span>
+                </span>
+                <span
+                    class="material-symbols-outlined font-light cursor-pointer hover:text-white/80 transition-colors">person</span>
             </div>
         </header>
 
@@ -202,44 +274,42 @@
             </div>
         </main>
 
-        <footer class="bg-background-dark text-white pt-16 pb-8">
-            <div class="max-w-7xl mx-auto px-6 md:px-12 lg:px-20">
-                <div
-                    class="flex flex-col md:flex-row justify-between items-start gap-12 border-b border-white/10 pb-12">
-                    <div class="max-w-md">
-                        <div class="flex items-center gap-3 mb-6">
-                            <div class="size-8 text-primary">
-                                <svg class="w-full h-full" fill="none" viewbox="0 0 48 48"
-                                    xmlns="http://www.w3.org/2000/svg">
-                                    <path clip-rule="evenodd"
-                                        d="M24 0.757355L47.2426 24L24 47.2426L0.757355 24L24 0.757355ZM21 35.7574V12.2426L9.24264 24L21 35.7574Z"
-                                        fill="currentColor" fill-rule="evenodd"></path>
-                                </svg>
-                            </div>
-                            <span class="text-2xl font-bold tracking-tight">tsgabrielle®</span>
-                        </div>
-                        <p class="text-gray-400 mb-6 font-medium">Join our newsletter for exclusive access to new
-                            collections and private sales.</p>
-                        <div class="flex gap-2">
-                            <input
-                                class="bg-white/5 border border-white/10 rounded-lg px-4 py-3 text-white placeholder-gray-500 focus:outline-none focus:border-primary flex-grow"
-                                placeholder="Your email address" type="email" />
-                            <button
-                                class="bg-primary hover:bg-primary-dark text-white px-6 py-3 rounded-lg font-bold transition-colors">Subscribe</button>
-                        </div>
-                    </div>
-                </div>
-                <div class="pt-8 flex flex-col md:flex-row justify-between items-center gap-4 text-sm text-gray-500">
-                    <p>© 2026 tsgabrielle®. All rights reserved.</p>
-                    <div class="flex gap-6">
-                        <a class="hover:text-white transition-colors underline"
-                            href="/tsgabrielle®_privacy_policy/code.html">Privacy Policy</a>
-                        <a class="hover:text-white transition-colors underline"
-                            href="/tsgabrielle®_terms_of_service/code.html">Terms of Service</a>
-                    </div>
-                </div>
-            </div>
-        </footer>
+        <section class="bg-white">
+          <img src="https://storage.googleapis.com/tsgabrielle-media-prod/images/tsgabrielle-footer.png" alt="tsgabrielle footer image" class="w-full">
+        </section>
+        <footer class="bg-primary text-white pt-20 pb-10">
+<div class="max-w-6xl mx-auto px-6">
+<div class="flex flex-col md:flex-row justify-between items-start md:items-center gap-12 mb-20">
+<div class="space-y-4">
+<div class="flex items-center gap-2">
+<img src="https://storage.googleapis.com/tsgabrielle-media-prod/images/logo-white.png" alt="tsgabrielle logo" class="h-12 w-auto">
+</div>
+<p class="text-white/70 max-w-xs">High-end fashion for the modern era. Redefining luxury through the French Trans Touch aesthetic.</p>
+</div>
+<div class="flex flex-col md:flex-row gap-12 md:gap-24">
+<nav class="flex flex-col gap-4">
+<h4 class="text-xs uppercase tracking-[0.2em] font-bold">Discover</h4>
+<a class="text-white/80 hover:text-white transition-colors" href="#">Collections</a>
+<a class="text-white/80 hover:text-white transition-colors" href="#">Atelier</a>
+<a class="text-white/80 hover:text-white transition-colors" href="#">The 2026 Edit</a>
+</nav>
+<nav class="flex flex-col gap-4">
+<h4 class="text-xs uppercase tracking-[0.2em] font-bold">Connect</h4>
+<a class="text-white/80 hover:text-white transition-colors flex items-center gap-2" href="#">Instagram <span class="material-symbols-outlined text-sm">north_east</span></a>
+<a class="text-white/80 hover:text-white transition-colors flex items-center gap-2" href="#">LinkedIn <span class="material-symbols-outlined text-sm">north_east</span></a>
+<a class="text-white/80 hover:text-white transition-colors flex items-center gap-2" href="#">X / Twitter <span class="material-symbols-outlined text-sm">north_east</span></a>
+</nav>
+</div>
+</div>
+<div class="pt-10 border-t border-white/10 flex flex-col md:flex-row justify-between items-center gap-6 text-xs text-white/50 tracking-widest uppercase">
+<p>© 2026 tsgabrielle. All rights reserved.</p>
+<div class="flex gap-8">
+<a class="hover:text-white transition-colors" href="#">Privacy Policy</a>
+<a class="hover:text-white transition-colors" href="#">Terms of Service</a>
+</div>
+</div>
+</div>
+</footer>
     </body>
 
 </html>

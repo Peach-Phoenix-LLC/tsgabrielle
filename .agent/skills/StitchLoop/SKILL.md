@@ -1,5 +1,5 @@
 ---
-repository: github.com/Peach-Phoenix-LLC/ts
+repository: 
 name: stitch-loop
 description: Teaches agents to iteratively build websites using Stitch with an autonomous baton-passing loop pattern
 allowed-tools:
@@ -171,7 +171,7 @@ The loop can be driven by different orchestration layers:
 
 | Method | How it works |
 |--------|--------------|
-| **CI/CD** | GitHub Actions triggers on `next-prompt.md` changes |
+| **CI/CD** | Internal Actions triggers on `next-prompt.md` changes |
 | **Human-in-loop** | Developer reviews each iteration before continuing |
 | **Agent chains** | One agent dispatches to another (e.g., Jules API) |
 | **Manual** | Developer runs the agent repeatedly with the same repo |
@@ -202,3 +202,4 @@ This skill works best with the `design-md` skill:
 | Inconsistent styles | Ensure DESIGN.md is up-to-date and copied correctly |
 | Loop stalls | Verify `next-prompt.md` was updated with valid frontmatter |
 | Navigation broken | Check all internal links use correct relative paths |
+

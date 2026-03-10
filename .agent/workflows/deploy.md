@@ -48,19 +48,21 @@ Open [http://localhost:3000](http://localhost:3000) to verify collections, cart,
 
 All secrets must be configured in your local `.env` and in the **Google Cloud Run** service environment variables.
 
-Navigate to: **[Google Cloud Console → Cloud Run → tsgabrielle-storefront → Edit & Deploy New Revision → Environment Variables](https://console.cloud.google.com/run)**
+Navigate to: **[Google Cloud Console → Cloud Run → tsgabrielle-site → Edit & Deploy New Revision → Environment Variables](https://console.cloud.google.com/run/detail/us-central1/tsgabrielle-site/vars)**
 
-| Variable | Where to get it |
+| Variable | Source of Truth |
 |---|---|
-| `DATABASE_URL` | Supabase → Project → Settings → Database → Connection String |
-| `NEXT_PUBLIC_SUPABASE_URL` | Supabase → Project → Settings → API → Project URL |
-| `NEXT_PUBLIC_SUPABASE_ANON_KEY` | Supabase → Project → Settings → API → anon public key |
-| `SUPABASE_SERVICE_ROLE_KEY` | Supabase → Project → Settings → API → service_role key |
-| `GOOGLE_CLIENT_ID` | [Google Cloud Console](https://console.cloud.google.com/) → Credentials |
-| `GOOGLE_CLIENT_SECRET` | Google Cloud Console → Credentials |
-| `NEXTAUTH_URL` | Set to: `https://tsgabrielle.us` |
-| `NEXTAUTH_SECRET` | Any secure random string (32+ chars) |
+| `DATABASE_URL` | Cloud SQL → `postgresql://postgres:[PASSWORD]@localhost/tsgabrielle?host=/cloudsql/tsgabrielle-sql-prod:us-central1:tsgabrielle-db` |
+| `NEXTAUTH_URL` | `https://tsgabrielle.us` |
+| `NEXTAUTH_SECRET` | 32+ character random string |
+| `GOOGLE_CLIENT_ID` | GCP Credentials console |
+| `GOOGLE_CLIENT_SECRET` | GCP Credentials console |
+| `GA4_PROPERTY_ID` | `13411409612` |
+| `NEXT_PUBLIC_GA4_MEASUREMENT_ID` | `G-3FPYVZPK13` |
 | `ADMIN_EMAIL` | `yridoutt@gmail.com` |
+| `OPENAI_API_KEY` | Provided by user (currently in Cloud Run) |
+
+> 🔑 **Note**: Keep `DATABASE_URL` local and in GCP consistent. Local uses IP, Production uses the Cloud SQL Auth Proxy socket.
 
 > ⚠️ **CRITICAL**: `NEXTAUTH_URL` must be `https://tsgabrielle.us` in production.
 
@@ -86,43 +88,38 @@ Navigate to: **[Google Cloud Console → Cloud Run → tsgabrielle-storefront �
 
 ---
 
-## Phase 4 — Push to GitHub (triggers Cloud Build CI/CD) 🐙
+## Phase 4 — Build & Deploy via GCloud CLI 🛠️
 
-Cloud Build auto-deploys to Cloud Run on every push to main.
+This method uses the stable 3-step process to ensure all static assets are served via Cloud Storage.
 
-### Step 1: Stage your changes
+### Step 1: Submit Build to Google Cloud Build
+Build the container and push it to the registry.
 
 ```powershell
-git add -A
+gcloud builds submit --tag gcr.io/tsgabrielle-sql-prod/tsgabrielle-site .
 ```
 
-### Step 2: Commit with a descriptive message
+### Step 2: Sync Static Assets to Cloud Storage
+Synchronize the local `public` directory to the production bucket.
 
 ```powershell
-git commit -m "feat: your change description"
+gcloud storage rsync ./public gs://dynamic-web-app-with-javascript-bucket-565b65b17cf0 --recursive
 ```
 
-### Step 3: Push to GitHub (triggers Cloud Build → Cloud Run deploy)
+### Step 3: Deploy to Cloud Run
+Deploy the newly built image to production with public access.
 
 ```powershell
-git push origin main
+gcloud run deploy tsgabrielle-site --image gcr.io/tsgabrielle-sql-prod/tsgabrielle-site --project tsgabrielle-sql-prod --region us-central1 --allow-unauthenticated
 ```
 
-> ⚡ Cloud Build picks up the push, builds the Docker container, and deploys to Cloud Run automatically.
-
----
-
-## Phase 5 — Manual Deploy via gcloud CLI (Alternative) 🛠️
-
-If you need to force a deploy manually:
-
-```powershell
-gcloud run deploy tsgabrielle-storefront --source . --region us-central1 --project tsgabrielle-storefront-357687079974
+> [!NOTE]
+> If you are deploying the administrative backend, replace `tsgabrielle-site` with `tsgabrielle-admin` in the tag and deployment names.
 ```
 
 ---
 
-## Phase 6 — Post-Deploy Verification 🧪
+## Phase 5 — Post-Deploy Verification 🧪
 
 After deployment completes (usually 3-5 minutes):
 
@@ -131,7 +128,7 @@ After deployment completes (usually 3-5 minutes):
 3. **Test Google OAuth sign-in** — should redirect correctly and create a user session.
 4. **Test the cart** — add products, remove products, verify totals.
 5. **Test admin access** — log in as `yridoutt@gmail.com` and verify `/admin` is accessible.
-6. **Check Cloud Run logs**: [Google Cloud Console → Cloud Run → tsgabrielle-storefront → Logs](https://console.cloud.google.com/run)
+6. **Check Cloud Run logs**: [Google Cloud Console → Cloud Run → tsgabrielle-site → Logs](https://console.cloud.google.com/run)
 
 ---
 
@@ -139,8 +136,8 @@ After deployment completes (usually 3-5 minutes):
 
 | Issue | Fix |
 |---|---|
-| Build fails with Prisma error | Run `npx prisma generate` locally first, then push |
+| Build fails with Prisma error | Run `npx prisma generate` locally first, then deploy |
 | Google Sign-In fails on production | Verify the redirect URI is in Google Cloud Console |
-| 500 error on collection pages | Check Supabase env vars are set in Cloud Run environment variables |
+| 500 error on collection pages | Check the Cloud SQL Proxy `host=` parameter in `DATABASE_URL` |
 | `NEXTAUTH_SECRET` error | Ensure it's set in Cloud Run environment variables |
-| Image not showing | Ensure the image is in `public/images/` and committed to git |
+| Image not showing | Ensure the image is in `public/images/` |

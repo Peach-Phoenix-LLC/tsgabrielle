@@ -5,13 +5,13 @@ steps:
       [
         'build',
         '-t',
-        'gcr.io/$PROJECT_ID/tsgabrielle-storefront:$COMMIT_SHA',
+        'gcr.io/$PROJECT_ID/tsgabrielle-site:$COMMIT_SHA',
         '.',
       ]
 
   # Push the container image to Container Registry
   - name: 'gcr.io/cloud-builders/docker'
-    args: ['push', 'gcr.io/$PROJECT_ID/tsgabrielle-storefront:$COMMIT_SHA']
+    args: ['push', 'gcr.io/$PROJECT_ID/tsgabrielle-site:$COMMIT_SHA']
 
   # Deploy container image to Cloud Run
   - name: 'gcr.io/google.com/cloudsdktool/cloud-sdk'
@@ -19,9 +19,9 @@ steps:
     args:
       - 'run'
       - 'deploy'
-      - 'tsgabrielle-storefront'
+      - 'tsgabrielle-site'
       - '--image'
-      - 'gcr.io/$PROJECT_ID/tsgabrielle-storefront:$COMMIT_SHA'
+      - 'gcr.io/$PROJECT_ID/tsgabrielle-site:$COMMIT_SHA'
       - '--region'
       - 'us-central1'
       - '--quiet'
@@ -30,4 +30,4 @@ options:
   logging: CLOUD_LOGGING_ONLY
 
 images:
-  - 'gcr.io/$PROJECT_ID/tsgabrielle-storefront:$COMMIT_SHA'
+  - 'gcr.io/$PROJECT_ID/tsgabrielle-site:$COMMIT_SHA'

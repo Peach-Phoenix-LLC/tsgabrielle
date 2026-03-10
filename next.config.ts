@@ -2,6 +2,7 @@ import type { NextConfig } from "next";
 
 const nextConfig: NextConfig = {
   output: "standalone",
+  assetPrefix: process.env.ASSET_PREFIX || undefined,
   images: {
     remotePatterns: [
       {
@@ -19,6 +20,10 @@ const nextConfig: NextConfig = {
       {
         protocol: 'https',
         hostname: 'storage.googleapis.com',
+      },
+      {
+        protocol: 'https',
+        hostname: 'dynamic-web-app-with-javascript-bucket-565b65b17cf0.storage.googleapis.com',
       },
     ],
   },

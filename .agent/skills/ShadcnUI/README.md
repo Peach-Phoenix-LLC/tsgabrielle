@@ -235,7 +235,7 @@ Check your `tsconfig.json` includes path aliases:
 ## Further Reading
 
 - [Official Documentation](https://ui.shadcn.com)
-- [Component Source](https://github.com/Peach-Phoenix-LLC/ts)
+- [Component Source]()
 - [Radix UI Docs](https://www.radix-ui.com)
 - [Tailwind CSS Docs](https://tailwindcss.com)
 
@@ -246,3 +246,4 @@ Contributions to improve this skill are welcome! See the root [CONTRIBUTING.md](
 ## License
 
 See [LICENSE](../../LICENSE) in the repository root.
+

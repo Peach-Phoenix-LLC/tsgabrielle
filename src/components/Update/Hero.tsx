@@ -7,90 +7,84 @@ import Link from 'next/link';
 const Hero = () => {
     const [currentSlide, setCurrentSlide] = useState(0);
 
+    const BUCKET_URL = "https://storage.googleapis.com/tsgabrielle-media-prod";
     const slides = [
-        "https://storage.googleapis.com/tsgabrielle-media-prod/images/slides/slide1.png",
-        "https://storage.googleapis.com/tsgabrielle-media-prod/images/slides/slide2.png",
-        "https://storage.googleapis.com/tsgabrielle-media-prod/images/slides/slide3.png",
-        "https://storage.googleapis.com/tsgabrielle-media-prod/images/slides/slide4.png"
+        `${BUCKET_URL}/images/slides/slide1.png`,
+        `${BUCKET_URL}/images/slides/slide2.png`,
+        `${BUCKET_URL}/images/slides/slide3.png`,
+        `${BUCKET_URL}/images/slides/slide4.png`
     ];
 
     useEffect(() => {
         const timer = setInterval(() => {
             setCurrentSlide((prev) => (prev + 1) % slides.length);
-        }, 5000);
+        }, 8000); // 8 seconds per slide for a slower pace
         return () => clearInterval(timer);
     }, []);
+
     return (
-        <section className="relative w-full h-screen overflow-hidden bg-white flex items-center">
-            {/* Background Blob */}
-            <div className="absolute inset-0 flex items-center justify-center opacity-[0.08] pointer-events-none">
-                <motion.svg
-                    viewBox="0 0 200 200"
-                    xmlns="http://www.w3.org/2000/svg"
-                    className="w-[80%] h-[80%]"
-                    animate={{
-                        scale: [1, 1.1, 1],
-                        rotate: [0, 5, 0],
-                    }}
-                    transition={{
-                        duration: 20,
-                        repeat: Infinity,
-                        ease: "easeInOut"
-                    }}
-                >
-                    <path
-                        fill="#a932bd"
-                        d="M44.7,-76.4C58.1,-69.2,69.2,-58.1,76.4,-44.7C83.7,-31.3,87.1,-15.7,85.2,-0.9C83.4,13.8,76.3,27.6,67.6,39.6C58.8,51.6,48.5,61.8,36.2,68.9C23.9,76,9.6,79.9,-4.6,87.9C-18.8,95.9,-32.9,107.9,-46,108.9C-59.1,109.9,-71.2,100,-78.9,87.2C-86.7,74.5,-90.1,59,-90.7,44.1C-91.3,29.1,-89,14.6,-86.6,0.3C-84.2,-14,-81.7,-28,-74.6,-40.1C-67.5,-52.2,-55.8,-62.4,-42.6,-69.8C-29.4,-77.2,-14.7,-81.9,0.5,-82.7C15.7,-83.5,31.3,-80.5,44.7,-76.4Z"
-                        transform="translate(100 100)"
-                    />
-                </motion.svg>
+        <section className="relative w-full h-screen overflow-hidden bg-black flex items-center justify-center">
+            {/* Fullscreen Background Slideshow */}
+            <div className="absolute inset-0 z-0">
+                <AnimatePresence mode="wait">
+                    <motion.div
+                        key={currentSlide}
+                        initial={{ opacity: 0, scale: 1.1 }}
+                        animate={{ opacity: 0.6, scale: 1 }}
+                        exit={{ opacity: 0, scale: 0.95 }}
+                        transition={{
+                            duration: 3, // 3 second cross-fade transition
+                            ease: [0.43, 0.13, 0.23, 0.96]
+                        }}
+                        className="absolute inset-0"
+                    >
+                        <img
+                            src={slides[currentSlide]}
+                            alt={`Background Slide ${currentSlide + 1}`}
+                            className="w-full h-full object-cover filter brightness-75 contrast-125"
+                        />
+                        {/* Dynamic Overlay Gradient */}
+                        <div className="absolute inset-0 bg-gradient-to-b from-black/40 via-transparent to-black/60" />
+                    </motion.div>
+                </AnimatePresence>
             </div>
 
-            <div className="max-w-[1280px] mx-auto px-6 w-full grid grid-cols-1 md:grid-cols-2 items-center gap-12 z-10">
-                {/* Left Content */}
+            {/* Static Content Layer */}
+            <div className="relative z-10 max-w-[1280px] mx-auto px-6 w-full text-center">
                 <motion.div
-                    initial={{ x: -50, opacity: 0 }}
-                    animate={{ x: 0, opacity: 1 }}
-                    transition={{ duration: 1, ease: "easeOut" }}
+                    initial={{ y: 30, opacity: 0 }}
+                    animate={{ y: 0, opacity: 1 }}
+                    transition={{ duration: 1.5, ease: "easeOut", delay: 0.5 }}
+                    className="flex flex-col items-center"
                 >
-                    <h1 className="text-[clamp(56px,8vw,96px)] font-light text-[#1a1a1a] leading-[1.1] uppercase tracking-[0.08em] mb-6">
-                        wear the<br />shift
+                    <h1 className="text-[clamp(48px,12vw,140px)] font-light text-white leading-[0.9] uppercase tracking-[0.15em] mb-4 drop-shadow-[0_10px_30px_rgba(0,0,0,0.5)]">
+                        wear the<br />
+                        <span className="text-[#a932bd]">shift</span>
                     </h1>
-                    <p className="text-[16px] font-light text-[#888888] tracking-widest uppercase mb-10 max-w-[420px]">
-                        holographic perspective on modern essentials. crafted for those who embrace transformation.
+
+                    <motion.div
+                        initial={{ width: 0 }}
+                        animate={{ width: "120px" }}
+                        transition={{ duration: 1, delay: 1.5 }}
+                        className="h-[1px] bg-[#a932bd] mb-8"
+                    />
+
+                    <p className="text-[14px] md:text-[16px] font-light text-white/80 tracking-[0.3em] uppercase mb-12 max-w-[500px] leading-relaxed drop-shadow-md">
+                        a holographic perspective on modern existence. crafted for those who embrace transformation.
                     </p>
+
                     <Link
                         href="/shop"
-                        className="inline-block px-12 py-4 bg-[#a932bd] text-white text-[13px] font-light tracking-[0.15em] uppercase rounded-full hover:scale-105 transition-all duration-300 shadow-[0_10px_30px_rgba(169,50,189,0.3)] hover:shadow-[0_15px_40px_rgba(169,50,189,0.4)]"
+                        className="group relative inline-flex items-center justify-center px-16 py-5 overflow-hidden font-light tracking-[0.2em] text-white uppercase transition-all duration-300 bg-transparent border border-white/30 rounded-full hover:border-[#a932bd] active:scale-95"
                     >
-                        EXPLORE
+                        <span className="absolute inset-0 w-full h-full bg-[#a932bd] origin-left transform scale-x-0 transition-transform duration-500 ease-out group-hover:scale-x-100" />
+                        <span className="relative z-10">EXPLORE THE COLLECTION</span>
                     </Link>
                 </motion.div>
-
-                {/* Right Product Slideshow */}
-                <motion.div
-                    className="relative flex justify-center items-center w-full h-[60vh] md:h-auto"
-                    initial={{ x: 50, opacity: 0 }}
-                    animate={{ x: 0, opacity: 1 }}
-                    transition={{ duration: 1, ease: "easeOut", delay: 0.2 }}
-                >
-                    <div className="relative w-full md:w-[90%] aspect-[4/5] md:aspect-square animate-float holo-shimmer rounded-2xl overflow-hidden shadow-2xl">
-                        <AnimatePresence mode="wait">
-                            <motion.img
-                                key={currentSlide}
-                                src={slides[currentSlide]}
-                                alt={`Featured Slide ${currentSlide + 1}`}
-                                className="absolute inset-0 w-full h-full object-cover"
-                                initial={{ opacity: 0, scale: 1.05 }}
-                                animate={{ opacity: 1, scale: 1 }}
-                                exit={{ opacity: 0 }}
-                                transition={{ duration: 0.8, ease: "easeInOut" }}
-                            />
-                        </AnimatePresence>
-                        {/* Shimmer Overlay (Handled by .holo-shimmer in globals.css) */}
-                    </div>
-                </motion.div>
             </div>
+
+            {/* Subtle Animated Particles or Grain Overlay if needed */}
+            <div className="absolute inset-0 pointer-events-none opacity-20 mix-blend-overlay z-20 bg-[url('https://www.transparenttextures.com/patterns/carbon-fibre.png')]" />
         </section>
     );
 };

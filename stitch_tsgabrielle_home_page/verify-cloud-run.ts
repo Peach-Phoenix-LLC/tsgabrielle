@@ -1,6 +1,6 @@
 import * as https from 'https';
 
-const SERVICE_URL = 'https://tsgabrielle-storefront-357687079974.us-central1.run.app';
+const SERVICE_URL = 'https://tsgabrielle.us';
 
 function verifyService() {
     console.log(`Checking status of: ${SERVICE_URL}`);

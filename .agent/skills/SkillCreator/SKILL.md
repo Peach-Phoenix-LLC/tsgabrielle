@@ -1,5 +1,5 @@
 ---
-repository: github.com/Peach-Phoenix-LLC/ts
+repository: 
 name: SkillCreator
 description: A specialized skill for creating, improving, and benchmarking new skills within the .agent/skills directory.
 ---
@@ -39,3 +39,4 @@ To ensure the agent can autonomously expand its toolkit with high-quality, stand
 ## Resources
 
 - [Skill Template](file:///c:/Users/ChrisWork/Documents/tsg-us/.agent/skills/SkillCreator/resources/skill_template.md)
+

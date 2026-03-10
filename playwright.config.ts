@@ -8,7 +8,7 @@ export default defineConfig({
     workers: undefined,
     reporter: [['list'], ['html']],
     use: {
-        baseURL: 'http://localhost:3000',
+        baseURL: 'https://tsgabrielle.us',
         trace: 'on',
     },
     projects: [

@@ -6,90 +6,96 @@ import { Search, ShoppingBag, User, X, Home, Compass, ChevronDown } from 'lucide
 import { motion, AnimatePresence } from 'framer-motion';
 import { useCartStore } from '@/lib/store';
 
-const headMenuData = [
-    {
-        id: "I",
-        title: "WELCOME",
-        description: "The high-fashion portal. The entry point to the 2026 \"Glow\" aesthetic.",
-        links: [
-            { label: "Home", url: "/" }
-        ]
-    },
-    {
-        id: "II",
-        title: "Categories",
-        description: "Defined by craftsmanship and lifestyle extension.",
-        links: [
-            { label: "Beauté Beauty", url: "/categories/beauty" },
-            { label: "Accessories", url: "/categories/accessories" },
-            { label: "Hats", url: "/categories/hats" },
-            { label: "For Him 👔 / For Her 👗", url: "/categories/gender" },
-            { label: "🏡 Home & Décor", url: "/categories/home-decor" }
-        ]
-    },
-    {
-        id: "III",
-        title: "Collections",
-        description: "Your intellectual and spiritual property. Each link represents a distinct movement.",
-        links: [
-            { label: "Peach Phoenix™", url: "/collections/peach-phoenix" },
-            { label: "Paris", url: "/collections/paris" },
-            { label: "Arizona 🌵", url: "/collections/arizona" },
-            { label: "Made In USA", url: "/collections/made-in-usa" },
-            { label: "TransLove™", url: "/collections/translove" },
-            { label: "TransFLOWer™", url: "/collections/transflower" },
-            { label: "Womanizer", url: "/collections/womanizer" },
-            { label: "Flamant 🦩 Rose", url: "/collections/flamant-rose" },
-            { label: "🌌✨ Édition Spatiale", url: "/collections/edition-spatiale" },
-            { label: "Unicorn 🦄", url: "/collections/unicorn" },
-            { label: "Crystal Skies.", url: "/collections/crystal-skies" },
-            { label: "🌈 Pride 26", url: "/collections/pride26" },
-            { label: "❄️ Glow in Winter 26", url: "/collections/glow-winter26" },
-            { label: "Good Vibes Only.", url: "/collections/good-vibes-only" }
-        ]
-    },
-    {
-        id: "IV",
-        title: "The Collabs",
-        description: "The intersection of performance and luxury.",
-        links: [
-            { label: "Adidas x tsgabrielle®", url: "/collabs/adidas" },
-            { label: "Champion® Heritage", url: "/collabs/champion" },
-            { label: "Columbia Sportswear", url: "/collabs/columbia" },
-            { label: "Under Armour® Performance", url: "/collabs/under-armour" }
-        ]
-    },
-    {
-        id: "V",
-        title: "The Universe of tsgabrielle®",
-        description: "The brand’s expansive ecosystem.",
-        links: [
-            { label: "Your Inclusive Store", url: "/store" },
-            { label: "About Gabrielle", url: "/about" },
-            { label: "Sustainability", url: "/sustainability" },
-            { label: "The Blogs", url: "/blog" },
-            { label: "Videos by YouTube", url: "/videos" }
-        ]
-    },
-    {
-        id: "VI",
-        title: "Meet tsgabrielle®",
-        description: "The human and operational side of the house.",
-        links: [
-            { label: "The Brand", url: "/brand" },
-            { label: "Peaches", url: "/community/peaches" },
-            { label: "FAQ / Contact tsgabrielle®", url: "/contact" },
-            { label: "Legal Hub", url: "/legal" }
-        ]
-    }
-];
+interface NavigationProps {
+    config?: any;
+}
 
-export default function Navigation() {
+export default function Navigation({ config }: NavigationProps) {
     const [isScrolled, setIsScrolled] = useState(false);
     const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
     const [isSearchOpen, setIsSearchOpen] = useState(false);
     const [activeMegaMenu, setActiveMegaMenu] = useState<string | null>(null);
     const [mobileOpenSection, setMobileOpenSection] = useState<string | null>(null);
+
+    const menuData = config?.header?.mega_menu || [
+        {
+            id: "I",
+            title: "WELCOME",
+            description: "The high-fashion portal. The entry point to the 2026 \"Glow\" aesthetic.",
+            links: [
+                { label: "Home", url: "/" }
+            ]
+        },
+        {
+            id: "II",
+            title: "Categories",
+            description: "Defined by craftsmanship and lifestyle extension.",
+            links: [
+                { label: "Beauté Beauty", url: "/categories/beauty" },
+                { label: "Accessories", url: "/categories/accessories" },
+                { label: "Hats", url: "/categories/hats" },
+                { label: "For Him 👔 / For Her 👗", url: "/categories/gender" },
+                { label: "🏡 Home & Décor", url: "/categories/home-decor" }
+            ]
+        },
+        {
+            id: "III",
+            title: "Collections",
+            description: "Your intellectual and spiritual property. Each link represents a distinct movement.",
+            links: [
+                { label: "Peach Phoenix™", url: "/collections/peach-phoenix" },
+                { label: "Paris", url: "/collections/paris" },
+                { label: "Arizona 🌵", url: "/collections/arizona" },
+                { label: "Made In USA", url: "/collections/made-in-usa" },
+                { label: "TransLove™", url: "/collections/translove" },
+                { label: "TransFLOWer™", url: "/collections/transflower" },
+                { label: "Womanizer", url: "/collections/womanizer" },
+                { label: "Flamant 🦩 Rose", url: "/collections/flamant-rose" },
+                { label: "🌌✨ Édition Spatiale", url: "/collections/edition-spatiale" },
+                { label: "Unicorn 🦄", url: "/collections/unicorn" },
+                { label: "Crystal Skies.", url: "/collections/crystal-skies" },
+                { label: "🌈 Pride 26", url: "/collections/pride26" },
+                { label: "❄️ Glow in Winter 26", url: "/collections/glow-winter26" },
+                { label: "Good Vibes Only.", url: "/collections/good-vibes-only" }
+            ]
+        },
+        {
+            id: "IV",
+            title: "The Collabs",
+            description: "The intersection of performance and luxury.",
+            links: [
+                { label: "Adidas x tsgabrielle®", url: "/collabs/adidas" },
+                { label: "Champion® Heritage", url: "/collabs/champion" },
+                { label: "Columbia Sportswear", url: "/collabs/columbia" },
+                { label: "Under Armour® Performance", url: "/collabs/under-armour" }
+            ]
+        },
+        {
+            id: "V",
+            title: "The Universe of tsgabrielle®",
+            description: "The brand’s expansive ecosystem.",
+            links: [
+                { label: "Your Inclusive Store", url: "/store" },
+                { label: "About Gabrielle", url: "/about" },
+                { label: "Sustainability", url: "/sustainability" },
+                { label: "The Blogs", url: "/blog" },
+                { label: "Videos by YouTube", url: "/videos" }
+            ]
+        },
+        {
+            id: "VI",
+            title: "Meet tsgabrielle®",
+            description: "The human and operational side of the house.",
+            links: [
+                { label: "The Brand", url: "/brand" },
+                { label: "Peaches", url: "/community/peaches" },
+                { label: "FAQ / Contact tsgabrielle®", url: "/contact" },
+                { label: "Legal Hub", url: "/legal" }
+            ]
+        }
+    ];
+
+    const announcement = config?.announcement;
 
     const { getUniqueItemCount } = useCartStore();
     const cartCount = getUniqueItemCount();
@@ -102,21 +108,38 @@ export default function Navigation() {
         return () => window.removeEventListener('scroll', handleScroll);
     }, []);
 
-    const leftLinks = headMenuData.slice(0, 3);
-    const rightLinks = headMenuData.slice(3, 6);
+    const leftLinks = menuData.slice(0, 3);
+    const rightLinks = menuData.slice(3, 6);
 
     return (
         <>
+            {/* Announcement Bar */}
+            {announcement?.is_active && (
+                <div
+                    className="fixed top-0 left-0 w-full z-[60] py-2 px-4 shadow-sm"
+                    style={{ backgroundColor: announcement.bg_color || '#a932bd' }}
+                >
+                    <div className="max-w-[1440px] mx-auto text-center">
+                        <span
+                            className="text-[10px] font-bold tracking-[0.2em] uppercase"
+                            style={{ color: announcement.text_color || '#ffffff' }}
+                        >
+                            {announcement.text}
+                        </span>
+                    </div>
+                </div>
+            )}
+
             {/* Desktop Navigation */}
             <nav
-                className={`fixed top-0 left-0 w-full z-50 transition-all duration-700 ease-in-out px-4 xl:px-8 ${isScrolled ? 'bg-white/80 backdrop-blur-2xl border-b border-[#e7e7e7] py-3' : 'bg-transparent py-6'}`}
+                className={`fixed left-0 w-full z-50 transition-all duration-700 ease-in-out px-4 xl:px-8 ${announcement?.is_active ? 'top-[36px]' : 'top-0'} ${isScrolled ? 'bg-white/80 backdrop-blur-2xl border-b border-[#e7e7e7] py-3' : 'bg-transparent py-6'}`}
                 onMouseLeave={() => setActiveMegaMenu(null)}
             >
                 <div className="max-w-[1440px] mx-auto flex items-center justify-between">
 
                     {/* Left: Menu Links */}
                     <div className="hidden lg:flex items-center space-x-6 xl:space-x-10 h-full">
-                        {leftLinks.map((section) => (
+                        {leftLinks.map((section: any) => (
                             <div
                                 key={section.title}
                                 className="h-full flex items-center cursor-pointer relative group py-4"
@@ -145,7 +168,7 @@ export default function Navigation() {
                     {/* Right: Menu Links & Tools */}
                     <div className="flex items-center space-x-6 xl:space-x-10 h-full">
                         <div className="hidden lg:flex items-center space-x-6 xl:space-x-10 h-full">
-                            {rightLinks.map((section) => (
+                            {rightLinks.map((section: any) => (
                                 <div
                                     key={section.title}
                                     className="h-full flex items-center cursor-pointer relative group py-4"
@@ -195,7 +218,7 @@ export default function Navigation() {
                             className="absolute top-full left-0 w-full bg-white/95 backdrop-blur-3xl border-b border-[#e7e7e7] shadow-2xl py-12 px-8 overflow-hidden z-40"
                         >
                             <div className="max-w-[1440px] mx-auto">
-                                {headMenuData.map((section) => (
+                                {menuData.map((section: any) => (
                                     section.title === activeMegaMenu && (
                                         <div key={section.title} className="flex gap-24">
                                             {/* Mega Menu Left Text */}
@@ -206,7 +229,7 @@ export default function Navigation() {
 
                                             {/* Mega Menu Links Grid */}
                                             <div className="w-2/3 grid grid-cols-2 lg:grid-cols-3 gap-y-6 gap-x-12">
-                                                {section.links.map((link) => (
+                                                {section.links.map((link: { label: string, url: string }) => (
                                                     <Link
                                                         key={link.label}
                                                         href={link.url}
@@ -307,7 +330,7 @@ export default function Navigation() {
                         </div>
 
                         <div className="flex flex-col space-y-2 relative z-10 pb-32">
-                            {headMenuData.map((section, i) => (
+                            {menuData.map((section: any, i: number) => (
                                 <motion.div
                                     key={section.title}
                                     initial={{ x: -20, opacity: 0 }}
@@ -339,7 +362,7 @@ export default function Navigation() {
                                             >
                                                 <div className="flex flex-col space-y-4 pb-8 pl-4 border-l border-[#a932bd]/20 ml-2">
                                                     <p className="text-[11px] text-[#888888] mb-2">{section.description}</p>
-                                                    {section.links.map((link) => (
+                                                    {section.links.map((link: any) => (
                                                         <Link
                                                             key={link.label}
                                                             href={link.url}

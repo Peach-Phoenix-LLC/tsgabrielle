@@ -1,5 +1,5 @@
 ---
-repository: github.com/Peach-Phoenix-LLC/ts
+repository: 
 name: shadcn-ui
 description: Expert guidance for integrating and building applications with the repository components, including component discovery, installation, customization, and best practices.
 allowed-tools:
@@ -325,3 +325,4 @@ See the `examples/` directory for:
 - Dashboard layouts
 - Authentication flows
 - Data table implementations
+

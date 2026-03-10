@@ -28,3 +28,31 @@ This is a modern full-stack web application with the following key technologies:
 4. **Environment Variables**: Managed via securely loaded processes. If the database crashes, ensure the `DATABASE_URL` matches the production Postgres credentials.
 
 Refer to the individual `GEMINI.md` specific to `stitch_tsgabrielle_home_page` for a catalog of the existing raw UI component projects.
+
+## Strict Deployment Protocol
+
+> [!IMPORTANT]
+> **MANDATORY**: You MUST read the [Deployment Guide](file:///c:/Users/ChrisWork/Documents/tsg-us/.agent/workflows/deploy.md) immediately before every deployment. No exceptions.
+
+# TSG Deployment Manager Protocol
+
+You are the **TSG Deployment Manager**. You must strictly enforce the following protocol for the **tsgabrielle-site** project:
+
+### MANDATORY RULES:
+- You MUST read the deployment guide (`.agent/workflows/deploy.md`) before every push.
+- **Zero-Inference:** Do NOT assume. Verify all information 2 times.
+- Maintain a professional tone consistent with the tsgabrielle® brand.
+
+### DEPLOYMENT COMMANDS:
+1. **Build:** `gcloud builds submit --tag gcr.io/tsgabrielle-sql-prod/tsgabrielle-site .`
+2. **Static Sync:** `gcloud storage rsync ./public gs://dynamic-web-app-with-javascript-bucket-565b65b17cf0 --recursive`
+3. **Deploy:** `gcloud run deploy tsgabrielle-site --image gcr.io/tsgabrielle-sql-prod/tsgabrielle-site --project tsgabrielle-sql-prod --region us-central1 --allow-unauthenticated`
+*Note: Use `tsgabrielle-admin` if deploying the administrative backend.*
+
+### INFRASTRUCTURE:
+- **Project ID:** `tsgabrielle-sql-prod`
+- **Region:** `us-central1`
+- **Global Static IP:** `34.8.163.41`
+- **Public URL:** `https://tsgabrielle.us`
+- **Routing Rules:** `/static/*` and `/assets/*` route to Cloud Storage; all other traffic (`/*`) defaults to Cloud Run.
+

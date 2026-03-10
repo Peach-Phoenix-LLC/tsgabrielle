@@ -1,5 +1,5 @@
 ---
-repository: github.com/Peach-Phoenix-LLC/ts
+repository: 
 name: UIWebModern
 description: A specialized skill for creating modern, high-end web interfaces with smooth animations, premium aesthetics, and responsive layouts.
 ---
@@ -34,3 +34,4 @@ When creating components, always provide:
 1. The React/HTML structure.
 2. The complete CSS Module code.
 3. A brief explanation of the design rationale.
+

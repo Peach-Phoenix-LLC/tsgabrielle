@@ -46,9 +46,10 @@ stitch-loop/
 ## Works With
 
 - **`design-md` skill**: Generate `DESIGN.md` from existing Stitch screens
-- **CI/CD**: GitHub Actions can trigger new iterations on push
+- **CI/CD**: Internal Actions can trigger new iterations on push
 - **Agent chains**: Dispatch to other agents (Jules, etc.)
 
 ## Learn More
 
 See [SKILL.md](./SKILL.md) for complete instructions.
+

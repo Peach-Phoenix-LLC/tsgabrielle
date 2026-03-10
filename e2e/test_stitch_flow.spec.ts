@@ -13,8 +13,9 @@ test('Stitch Design User Journey: Home -> Product -> Cart -> Checkout -> Thank Y
     // using getByText is fine here as "Discover" or "Explore" is used
     await expect(page.getByText(/Fashion that empowers/i).first()).toBeVisible();
 
-    // 2. Navigate to Product Page (using a real ID from the database)
-    await page.goto('/product/8ccaa6e2-017f-4d74-abff-1c8cfd172516');
+    // 2. Navigate to Product Page via Homepage
+    const productCard = page.getByText(/Tee/i).first();
+    await productCard.click();
 
     // Verify Product Page Details
     await expect(page.getByRole('heading').first()).toBeVisible();

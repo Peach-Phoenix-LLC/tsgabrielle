@@ -5,33 +5,35 @@ import Link from 'next/link';
 import { ChevronDown, Instagram, Twitter, Youtube, Facebook, Linkedin } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
 
-const socialNav = [
-    { label: "Instagram", url: "https://instagram.com/tsgabrielle" },
-    { label: "TikTok", url: "https://tiktok.com/@tsgabrielle" },
-    { label: "YouTube", url: "https://youtube.com/tsgabrielle" },
-    { label: "Facebook", url: "https://facebook.com/tsgabrielle" },
-    { label: "X (Twitter)", url: "https://x.com/tsgabrielle" },
-    { label: "Pinterest", url: "https://pinterest.com/tsgabrielle" },
-    { label: "LinkedIn", url: "https://linkedin.com/company/tsgabrielle" },
-    { label: "Snapchat", url: "https://snapchat.com/add/tsgabrielle" }
-];
+interface FooterProps {
+    config?: any;
+}
 
-const userAccountNav = [
-    { label: "My Account", url: "/my-account" },
-    { label: "My Orders", url: "/my-orders" },
-    { label: "My Wishlist", url: "/my-wishlist" },
-    { label: "My Settings", url: "/my-settings" }
-];
-
-export default function Footer() {
+export default function Footer({ config }: FooterProps) {
     const [openSection, setOpenSection] = useState<string | null>(null);
 
     const toggleSection = (section: string) => {
         setOpenSection(openSection === section ? null : section);
     };
 
-    const footerLinks = {
-        "Private Suite": userAccountNav,
+    const socialNav = config?.social_nav || [
+        { label: "Instagram", url: "https://instagram.com/tsgabrielle" },
+        { label: "TikTok", url: "https://tiktok.com/@tsgabrielle" },
+        { label: "YouTube", url: "https://youtube.com/tsgabrielle" },
+        { label: "Facebook", url: "https://facebook.com/tsgabrielle" },
+        { label: "X (Twitter)", url: "https://x.com/tsgabrielle" },
+        { label: "Pinterest", url: "https://pinterest.com/tsgabrielle" },
+        { label: "LinkedIn", url: "https://linkedin.com/company/tsgabrielle" },
+        { label: "Snapchat", url: "https://snapchat.com/add/tsgabrielle" }
+    ];
+
+    const footerLinks = config?.link_groups || {
+        "Private Suite": [
+            { label: "My Account", url: "/my-account" },
+            { label: "My Orders", url: "/my-orders" },
+            { label: "My Wishlist", url: "/my-wishlist" },
+            { label: "My Settings", url: "/my-settings" }
+        ],
         "Support": [
             { label: 'Shipping & Returns', url: '/shipping-returns' },
             { label: 'Privacy Policy', url: '/privacy-policy' },
@@ -40,6 +42,11 @@ export default function Footer() {
         ]
     };
 
+    const brandDescription = config?.brand_description || "The high-fashion portal. The entry point to the 2026 \"Glow\" aesthetic. Experience the intersection of performance and luxury.";
+    const newsletterTitle = config?.newsletter_title || "The 2026 Pulse";
+    const newsletterDescription = config?.newsletter_description || "Join the glow. Receive early access and exclusive drops.";
+
+    const MEDIA_BUCKET_URL = "https://storage.googleapis.com/tsgabrielle-media-prod";
     return (
         <footer className="bg-white border-t border-[#e7e7e7] pt-32 pb-12 relative overflow-hidden">
             {/* Subtle Gradient Glow in Footer */}
@@ -51,10 +58,10 @@ export default function Footer() {
                     <div className="lg:col-span-2 space-y-12">
                         <div className="space-y-4">
                             <h3 className="text-[#a932bd] text-[24px] font-light tracking-[0.3em] uppercase">
-                                tsgabrielle®
+                                <img src={`${MEDIA_BUCKET_URL}/images/logo-white.png`} alt="tsgabrielle logo" className="h-12 w-auto brightness-0" />
                             </h3>
                             <p className="text-[14px] font-light text-[#888888] leading-relaxed max-w-[380px]">
-                                The high-fashion portal. The entry point to the 2026 "Glow" aesthetic. Experience the intersection of performance and luxury.
+                                {brandDescription}
                             </p>
                         </div>
 
@@ -63,7 +70,7 @@ export default function Footer() {
                                 The Social Ecosystem
                             </h4>
                             <div className="flex flex-wrap gap-x-8 gap-y-4 max-w-[400px]">
-                                {socialNav.map((link) => (
+                                {socialNav.map((link: any) => (
                                     <a
                                         key={link.label}
                                         href={link.url}
@@ -85,7 +92,7 @@ export default function Footer() {
                                 {title === "Private Suite" ? "My tsgabrielle®" : title}
                             </h4>
                             <div className="flex flex-col space-y-5">
-                                {links.map((link) => (
+                                {(links as any[]).map((link: any) => (
                                     <Link
                                         key={link.label}
                                         href={link.url}
@@ -123,7 +130,7 @@ export default function Footer() {
                                             className="overflow-hidden"
                                         >
                                             <div className="flex flex-col space-y-5 pb-8 pl-2 border-l border-[#a932bd]/20 ml-2">
-                                                {links.map((link) => (
+                                                {(links as any[]).map((link: any) => (
                                                     <Link
                                                         key={link.label}
                                                         href={link.url}
@@ -147,8 +154,8 @@ export default function Footer() {
                 <div className="py-20 border-y border-[#e7e7e7] mb-12 grid grid-cols-1 lg:grid-cols-2 gap-12 items-center relative overflow-hidden">
                     <div className="absolute top-1/2 right-10 w-[200px] h-[200px] bg-[#a932bd] blur-[120px] rounded-full opacity-[0.04] pointer-events-none -translate-y-1/2" />
                     <div className="space-y-4 relative z-10">
-                        <h4 className="text-[12px] font-light text-[#a932bd] uppercase tracking-[0.4em]">The 2026 Pulse</h4>
-                        <p className="text-[20px] font-light text-[#1a1a1a] max-w-sm">Join the glow. Receive early access and exclusive drops.</p>
+                        <h4 className="text-[12px] font-light text-[#a932bd] uppercase tracking-[0.4em]">{newsletterTitle}</h4>
+                        <p className="text-[20px] font-light text-[#1a1a1a] max-w-sm">{newsletterDescription}</p>
                     </div>
                     <form className="flex gap-4 relative z-10" onSubmit={(e) => e.preventDefault()}>
                         <input
@@ -181,3 +188,4 @@ export default function Footer() {
         </footer>
     );
 }
+

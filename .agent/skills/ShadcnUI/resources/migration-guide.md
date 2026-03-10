@@ -451,7 +451,7 @@ While the repository is accessible by default, custom modifications can break th
 ## Getting Help
 
 - **Discord**: [the repository Discord](https://discord.com/invite/vNvTqVaWm6)
-- **GitHub Discussions**: [Repository](https://github.com/Peach-Phoenix-LLC/ts)
+- **Internal Discussions**: [Repository]()
 - **Documentation**: [ui.shadcn.com](https://ui.shadcn.com)
 
 ## Next Steps
@@ -461,3 +461,4 @@ After migration:
 2. Explore the [Component Catalog](./component-catalog.md)
 3. Check out [Examples](../examples/)
 4. Consider building a component library on top of the repository
+

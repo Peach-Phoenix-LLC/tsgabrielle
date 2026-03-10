@@ -24,7 +24,7 @@ Only the following technologies are approved. Do not introduce anything outside 
 | Layer                    | Technology                                                 |
 | ------------------------ | ---------------------------------------------------------- |
 | Hosting & Deployment     | Google Cloud Run                                           |
-| Source Control           | [github.com/Peach-Phoenix-LLC/ts](https://github.com/Peach-Phoenix-LLC/ts) |
+| Source Control           | []() |
 | Database & Auth Backend  | Supabase                                                   |
 | Authentication           | Google OAuth via Supabase Auth                             |
 | UI Design                | Google Stitch                                              |
@@ -209,7 +209,7 @@ When updating these rules:
 
 1. Add the date and a short description of what changed at the bottom of this file
 
-2. Commit the updated file to GitHub with message: `docs: update antigravity rules — [reason]`
+2. Commit the updated file to Internal with message: `docs: update antigravity rules — [reason]`
 3. Notify all contributors
 
 ---
@@ -220,3 +220,4 @@ When updating these rules:
 | ---------- | ------------------------------------------------------ |
 | 2026-02-21 | Initial rules created for Antigravity / tsgabrielle.us |
 | 2026-02-21 | Added formatting fixes and linting corrections         |
+

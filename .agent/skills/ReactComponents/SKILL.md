@@ -1,5 +1,5 @@
 ---
-repository: github.com/Peach-Phoenix-LLC/ts
+repository: 
 name: react:components
 description: Converts Stitch designs into modular Vite and React components using system-level networking and AST-based validation.
 allowed-tools:
@@ -46,3 +46,4 @@ You are a frontend engineer focused on transforming designs into clean React cod
 ## Troubleshooting
 * **Fetch errors**: Ensure the URL is quoted in the bash command to prevent shell errors.
 * **Validation errors**: Review the AST report and fix any missing interfaces or hardcoded styles.
+

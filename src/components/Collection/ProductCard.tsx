@@ -34,7 +34,7 @@ const ShareModal = ({ isOpen, onClose, product }: { isOpen: boolean, onClose: ()
     const [copied, setCopied] = useState(false);
     if (!isOpen) return null;
 
-    const shareUrl = `https://tsgabriell.us/${product.peach_number}`;
+    const shareUrl = `https://tsgabrielle.us/${product.peach_number}`;
 
     const handleCopy = () => {
         navigator.clipboard.writeText(shareUrl);

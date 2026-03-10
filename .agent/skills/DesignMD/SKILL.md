@@ -1,5 +1,5 @@
 ---
-repository: github.com/Peach-Phoenix-LLC/ts
+repository: 
 name: design-md
 description: Analyze Stitch projects and synthesize a semantic design system into DESIGN.md files
 allowed-tools:
@@ -171,3 +171,4 @@ To use this skill for the Furniture Collection project:
 - ❌ Forgetting to explain functional roles of design elements
 - ❌ Being too vague in atmosphere descriptions
 - ❌ Ignoring subtle design details like shadows or spacing patterns
+

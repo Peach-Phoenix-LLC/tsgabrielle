@@ -1,5 +1,5 @@
 ---
-repository: github.com/Peach-Phoenix-LLC/ts
+repository: 
 name: ArchitectProtocol
 description: A strict 6-phase development protocol for software architecture, product design, and QA.
 ---
@@ -75,3 +75,4 @@ This protocol is designed to ensure high-quality software delivery by following 
 
 - For **complex requests**: Execute Phases 1-3, then notify the user for approval.
 - For **simple requests**: Execute all 6 phases consecutively, clearly labeling headers.
+

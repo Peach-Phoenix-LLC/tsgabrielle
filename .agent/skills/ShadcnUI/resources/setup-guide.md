@@ -408,5 +408,6 @@ Components will be added to `src/components/ui/` by default.
 
 - [Official Documentation](https://ui.shadcn.com)
 - [Component Examples](https://ui.shadcn.com/examples)
-- [GitHub Repository](https://github.com/Peach-Phoenix-LLC/ts)
+- [Internal Repository]()
 - [Tailwind CSS Docs](https://tailwindcss.com/docs)
+
