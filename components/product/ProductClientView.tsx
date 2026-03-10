@@ -13,6 +13,7 @@ import { usePeaches } from "@/hooks/usePeaches";
 import { getSupabaseBrowserClient } from "@/lib/supabase/client";
 import { CATEGORIES, COLLECTIONS } from "@/lib/menu";
 import Link from "next/link";
+import Breadcrumbs from "@/components/layout/Breadcrumbs";
 
 interface ProductProps {
   product: {
@@ -116,7 +117,7 @@ export default function ProductClientView({ product }: ProductProps) {
             <Image 
               src={product.images[currentImg]} 
               fill
-              className="h-full w-full object-cover" 
+              className="h-full w-full object-contain" 
               alt={product.title}
             />
             {/* Dark overlay removed to fulfill visibility requirement */}
@@ -151,6 +152,11 @@ export default function ProductClientView({ product }: ProductProps) {
         </div>
       </section>
 
+      {/* Breadcrumbs after Hero Image */}
+      <div className="bg-white">
+        <Breadcrumbs />
+      </div>
+
       {/* Purchase & Details Section */}
       <section className="bg-white border-b border-[#e7e7e7]">
         <div className="container-luxe py-24 lg:grid lg:grid-cols-2 gap-24 items-start">
@@ -158,7 +164,7 @@ export default function ProductClientView({ product }: ProductProps) {
           <div className="space-y-12">
             <div className="space-y-4">
               <span className="text-[10px] uppercase tracking-[0.4em] text-[#a932bd] font-medium">Curated Masterpiece</span>
-              <h2 className="text-4xl md:text-5xl font-light tracking-tight">{product.title}</h2>
+              <h2 className="text-4xl md:text-5xl font-light tracking-tight capitalize">{product.title}</h2>
               <div className="flex items-center gap-6 py-2 border-y border-[#f0f0f0]">
                 <p className="text-3xl font-light text-[#a932bd]">${(product.price / 100).toFixed(2)}</p>
                 <div className="h-4 w-px bg-[#e7e7e7]" />

@@ -23,7 +23,7 @@ export default function CollectionHero({
         src={imageUrl}
         alt={alt}
         fill
-        className="object-cover object-center"
+        className="object-contain object-center"
         priority
       />
     </section>

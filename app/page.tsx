@@ -75,7 +75,7 @@ export default async function HomePage() {
               fill
               priority={index === 0}
               quality={90}
-              className="object-cover"
+              className="object-contain"
             />
           </div>
         ))}
@@ -96,7 +96,7 @@ export default async function HomePage() {
                 contentKey="home_featured_title" 
                 initialValue={content.home_featured_title || "Exclusive 💎 New"} 
                 as="h2" 
-                className="text-4xl md:text-6xl font-light tracking-tight text-[#111111] block" 
+                className="text-4xl md:text-6xl font-light tracking-tight text-[#111111] block capitalize" 
               />
             </div>
             <Link href="/categories" className="text-[10px] uppercase tracking-[0.2em] text-[#555555] font-medium hover:text-[#a932bd] transition-colors">
@@ -147,7 +147,7 @@ export default async function HomePage() {
               contentKey="home_categories_title"
               initialValue={content.home_categories_title || "The Elements"}
               as="h2"
-              className="text-4xl md:text-5xl font-light tracking-tight text-[#111111] block"
+              className="text-4xl md:text-5xl font-light tracking-tight text-[#111111] block capitalize"
             />
           </div>
           
@@ -192,7 +192,7 @@ export default async function HomePage() {
               contentKey="home_collections_title"
               initialValue={content.home_collections_title || "The Collections"}
               as="h2"
-              className="text-4xl md:text-5xl font-light tracking-tight text-[#111111] block"
+              className="text-4xl md:text-5xl font-light tracking-tight text-[#111111] block capitalize"
             />
           </div>
           
