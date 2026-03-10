@@ -5,6 +5,8 @@ import { getSupabaseServerClient } from "@/lib/supabase/server";
 import { CATEGORIES, COLLECTIONS } from "@/lib/menu";
 import { getPageContent } from "@/lib/content";
 
+import { EditableText } from "@/components/builder/EditableText";
+
 export const metadata = buildMetadata({
   title: "Welcome to tsgabrielle® USA • The French Trans Touch™",
   description: "Discover curated lifestyle essentials at tsgabrielle® • Shop our exclusive collections of fashion accessories, luxury beauty, home décor, and apparel for him and her.",
@@ -34,9 +36,6 @@ export default async function HomePage() {
     "/images/slides/tsgabrielle-Slide4.png"
   ];
 
-  const catalogueTitle = "Exclusive 💎 New";
-  const catalogueSubtitle = "Just In";
-  
   let featuredProducts: any[] = [];
   try {
     const supabase = getSupabaseServerClient();
@@ -87,8 +86,18 @@ export default async function HomePage() {
         <div className="container-luxe">
           <div className="mb-20 flex flex-col md:flex-row md:items-end justify-between gap-8 border-b border-[#e7e7e7] pb-12">
             <div>
-              <p className="text-[10px] uppercase tracking-[0.3em] text-[#a932bd] font-medium mb-3">{catalogueSubtitle}</p>
-              <h2 className="text-4xl md:text-6xl font-light tracking-tight text-[#111111]">{catalogueTitle}</h2>
+              <EditableText 
+                contentKey="home_featured_subtitle" 
+                initialValue={content.home_featured_subtitle || "Just In"} 
+                as="p" 
+                className="text-[10px] uppercase tracking-[0.3em] text-[#a932bd] font-medium mb-3 block" 
+              />
+              <EditableText 
+                contentKey="home_featured_title" 
+                initialValue={content.home_featured_title || "Exclusive 💎 New"} 
+                as="h2" 
+                className="text-4xl md:text-6xl font-light tracking-tight text-[#111111] block" 
+              />
             </div>
             <Link href="/categories" className="text-[10px] uppercase tracking-[0.2em] text-[#555555] font-medium hover:text-[#a932bd] transition-colors">
               View All Arrivals
@@ -128,8 +137,18 @@ export default async function HomePage() {
       <section className="bg-[#f9f9f9] py-32 border-t border-[#e7e7e7]">
         <div className="container-luxe">
           <div className="mb-24 text-center space-y-4">
-            <p className="text-[10px] uppercase tracking-[0.4em] text-[#a932bd] font-medium">Shop by Department</p>
-            <h2 className="text-4xl md:text-5xl font-light tracking-tight text-[#111111]">The Elements</h2>
+            <EditableText
+              contentKey="home_categories_subtitle"
+              initialValue={content.home_categories_subtitle || "Shop by Department"}
+              as="p"
+              className="text-[10px] uppercase tracking-[0.4em] text-[#a932bd] font-medium block"
+            />
+            <EditableText
+              contentKey="home_categories_title"
+              initialValue={content.home_categories_title || "The Elements"}
+              as="h2"
+              className="text-4xl md:text-5xl font-light tracking-tight text-[#111111] block"
+            />
           </div>
           
           <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
@@ -163,8 +182,18 @@ export default async function HomePage() {
       <section className="bg-white py-32">
         <div className="container-luxe">
           <div className="mb-20 text-center space-y-4">
-            <p className="text-[10px] uppercase tracking-[0.4em] text-[#a932bd] font-medium">Curated Series</p>
-            <h2 className="text-4xl md:text-5xl font-light tracking-tight text-[#111111]">The Collections</h2>
+             <EditableText
+              contentKey="home_collections_subtitle"
+              initialValue={content.home_collections_subtitle || "Curated Series"}
+              as="p"
+              className="text-[10px] uppercase tracking-[0.4em] text-[#a932bd] font-medium block"
+            />
+            <EditableText
+              contentKey="home_collections_title"
+              initialValue={content.home_collections_title || "The Collections"}
+              as="h2"
+              className="text-4xl md:text-5xl font-light tracking-tight text-[#111111] block"
+            />
           </div>
           
           <div className="grid grid-cols-1 md:grid-cols-3 gap-8">

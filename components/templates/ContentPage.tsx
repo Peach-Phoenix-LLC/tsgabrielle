@@ -1,7 +1,10 @@
+"use client";
+
 import React from "react";
 import Image from "next/image";
 import { marked } from "marked";
 import DOMPurify from "isomorphic-dompurify";
+import { EditableText } from "../builder/EditableText";
 
 interface ContentPageProps {
   title: string;
@@ -54,16 +57,32 @@ export function ContentPage({ title, subtitle, heroImage, heroVideo, body }: Con
       <section className={`container-luxe max-w-4xl mx-auto relative z-20 px-4 ${(!heroImage && !heroVideo) ? 'pt-48 pb-24' : 'py-24'}`}>
         <div className="text-center mb-16">
           {subtitle && (
-            <p className="text-[11px] uppercase tracking-[0.4em] text-[#a932bd] font-medium mb-4">
-              {subtitle}
-            </p>
+            <EditableText
+              contentKey="content_subtitle"
+              initialValue={subtitle}
+              as="p"
+              className="text-[11px] uppercase tracking-[0.4em] text-[#a932bd] font-medium mb-4 block"
+            />
           )}
-          <h1 className="text-5xl md:text-7xl font-light tracking-tight text-[#111111] capitalize">
-            {title}
-          </h1>
+          <EditableText
+            contentKey="content_title"
+            initialValue={title}
+            as="h1"
+            className="text-5xl md:text-7xl font-light tracking-tight text-[#111111] capitalize block"
+          />
         </div>
         <div className="text-[#555555] space-y-8 text-lg font-light leading-[2] tracking-wide">
-          {typeof body === "string" ? renderContent(body) : body}
+          <EditableText
+            contentKey="content_body"
+            initialValue={typeof body === "string" ? body : ""}
+            as="div"
+            multiline={true}
+            className="w-full min-h-[500px]"
+          />
+          <div className="mt-8 border-t border-[#e7e7e7] pt-8">
+            <p className="text-xs uppercase tracking-widest text-black/50 mb-4 bg-gray-50 inline-block px-3 py-1 rounded">Preview Render:</p>
+            {typeof body === "string" ? renderContent(body) : body}
+          </div>
         </div>
       </section>
     </div>

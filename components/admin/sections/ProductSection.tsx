@@ -2,8 +2,9 @@
 
 import React, { useEffect, useMemo, useState } from "react";
 import Image from "next/image";
-import { AlertCircle, ArrowLeft, Edit, Loader2, Plus, Trash2 } from "lucide-react";
+import { AlertCircle, ArrowLeft, Edit, Loader2, Plus, Trash2, DownloadCloud, UploadCloud, CheckCircle2 } from "lucide-react";
 import { RichTextEditor } from "../RichTextEditor";
+import { getSupabaseBrowserClient } from "@/lib/supabase/client";
 
 type Option = {
   id: string;
@@ -80,6 +81,11 @@ type ProductEditorState = {
   directWebUrl: string;
   tag13: string;
   tag50: string;
+  premiumFeature1: string;
+  premiumFeature2: string;
+  premiumFeature3: string;
+  premiumFeature4: string;
+  premiumFeature5: string;
   customMetafieldsJson: string;
 };
 
@@ -118,6 +124,11 @@ const EMPTY_EDITOR: ProductEditorState = {
   directWebUrl: "",
   tag13: "",
   tag50: "",
+  premiumFeature1: "",
+  premiumFeature2: "",
+  premiumFeature3: "",
+  premiumFeature4: "",
+  premiumFeature5: "",
   customMetafieldsJson: "{}",
 };
 
@@ -152,6 +163,11 @@ const KNOWN_META_KEYS = new Set([
   "Direct_Web_URL",
   "Tag 13",
   "Tag 50",
+  "Premium Feature 1",
+  "Premium Feature 2",
+  "Premium Feature 3",
+  "Premium Feature 4",
+  "Premium Feature 5",
 ]);
 
 function fromProduct(product: ProductRecord): ProductEditorState {
@@ -201,6 +217,11 @@ function fromProduct(product: ProductRecord): ProductEditorState {
     directWebUrl: getMetafieldString(meta, "Direct_Web_URL"),
     tag13: getMetafieldString(meta, "Tag 13"),
     tag50: getMetafieldString(meta, "Tag 50"),
+    premiumFeature1: getMetafieldString(meta, "Premium Feature 1"),
+    premiumFeature2: getMetafieldString(meta, "Premium Feature 2"),
+    premiumFeature3: getMetafieldString(meta, "Premium Feature 3"),
+    premiumFeature4: getMetafieldString(meta, "Premium Feature 4"),
+    premiumFeature5: getMetafieldString(meta, "Premium Feature 5"),
     customMetafieldsJson: JSON.stringify(
       Object.fromEntries(
         Object.entries(meta).filter(([key]) => !KNOWN_META_KEYS.has(key))
@@ -238,6 +259,11 @@ function buildMetafields(state: ProductEditorState): Record<string, string> {
     ["Direct_Web_URL", state.directWebUrl],
     ["Tag 13", state.tag13],
     ["Tag 50", state.tag50],
+    ["Premium Feature 1", state.premiumFeature1],
+    ["Premium Feature 2", state.premiumFeature2],
+    ["Premium Feature 3", state.premiumFeature3],
+    ["Premium Feature 4", state.premiumFeature4],
+    ["Premium Feature 5", state.premiumFeature5],
   ];
 
   for (const [key, value] of mappings) {
@@ -265,6 +291,7 @@ function buildMetafields(state: ProductEditorState): Record<string, string> {
 
 export default function ProductSection() {
   const [view, setView] = useState<"list" | "edit" | "new">("list");
+  const [showImportModal, setShowImportModal] = useState(false);
   const [products, setProducts] = useState<ProductRecord[]>([]);
   const [editingProduct, setEditingProduct] = useState<ProductRecord | null>(null);
   const [loading, setLoading] = useState(true);
@@ -318,15 +345,23 @@ export default function ProductSection() {
     <div className="space-y-8">
       <div className="flex justify-between items-center">
         <h3 className="text-xl font-light">Product Inventory</h3>
-        <button
-          onClick={() => {
-            setEditingProduct(null);
-            setView("new");
-          }}
-          className="flex items-center gap-2 px-6 py-2 bg-[#a932bd] text-white text-[10px] uppercase tracking-widest font-bold hover:bg-black transition-all"
-        >
-          <Plus size={14} /> Add Product
-        </button>
+        <div className="flex items-center gap-3">
+          <button
+            onClick={() => setShowImportModal(true)}
+            className="flex items-center gap-2 px-6 py-2 bg-white border border-black/10 text-black text-[10px] uppercase tracking-widest font-bold hover:bg-black/5 transition-all"
+          >
+            <DownloadCloud size={14} /> Import from Printful
+          </button>
+          <button
+            onClick={() => {
+              setEditingProduct(null);
+              setView("new");
+            }}
+            className="flex items-center gap-2 px-6 py-2 bg-[#a932bd] text-white text-[10px] uppercase tracking-widest font-bold hover:bg-black transition-all"
+          >
+            <Plus size={14} /> Add Product
+          </button>
+        </div>
       </div>
 
       {error && (
@@ -407,6 +442,16 @@ export default function ProductSection() {
           </table>
         </div>
       )}
+
+      {showImportModal && (
+        <PrintfulImportModal 
+          onClose={() => setShowImportModal(false)}
+          onSuccess={() => {
+            setShowImportModal(false);
+            fetchProducts();
+          }}
+        />
+      )}
     </div>
   );
 }
@@ -416,6 +461,7 @@ function ProductEditor({ product, onBack }: { product: ProductRecord | null; onB
   const [categories, setCategories] = useState<Option[]>([]);
   const [collections, setCollections] = useState<Option[]>([]);
   const [saving, setSaving] = useState(false);
+  const [uploadingImage, setUploadingImage] = useState<number | null>(null);
 
   useEffect(() => {
     fetchOptions();
@@ -435,6 +481,35 @@ function ProductEditor({ product, onBack }: { product: ProductRecord | null; onB
       setCollections(colData);
     } catch {
       // noop
+    }
+  }
+
+  async function uploadImage(file: File, index: number) {
+    if (!file) return;
+    setUploadingImage(index);
+    try {
+      const supabase = getSupabaseBrowserClient();
+      const fileExt = file.name.split('.').pop();
+      const fileName = `${Math.random().toString(36).substring(2)}.${fileExt}`;
+      const filePath = `products/${fileName}`;
+
+      const { error: uploadError } = await supabase.storage
+        .from('images')
+        .upload(filePath, file);
+
+      if (uploadError) throw uploadError;
+
+      const { data: { publicUrl } } = supabase.storage
+        .from('images')
+        .getPublicUrl(filePath);
+
+      const next = [...state.images];
+      next[index] = { ...next[index], url: publicUrl };
+      update("images", next);
+    } catch (err: any) {
+      alert(`Image upload failed: ${err.message}`);
+    } finally {
+      setUploadingImage(null);
     }
   }
 
@@ -544,7 +619,13 @@ function ProductEditor({ product, onBack }: { product: ProductRecord | null; onB
                     }}
                   />
                 </div>
-                <div className="col-span-1 pb-2">
+                <div className="col-span-1 pb-2 flex gap-1 items-center">
+                  <label className={`p-2 border border-black/10 rounded cursor-pointer transition-colors ${uploadingImage === index ? "opacity-50" : "hover:text-[#a932bd]"}`}>
+                    {uploadingImage === index ? <Loader2 size={12} className="animate-spin" /> : <UploadCloud size={12} />}
+                    <input type="file" className="hidden" accept="image/*" onChange={(e) => {
+                      if (e.target.files?.[0]) uploadImage(e.target.files[0], index);
+                    }} />
+                  </label>
                   <button
                     type="button"
                     onClick={() => {
@@ -646,7 +727,16 @@ function ProductEditor({ product, onBack }: { product: ProductRecord | null; onB
           </div>
 
           <div className="bg-white p-8 border border-black/5 rounded-2xl shadow-sm space-y-6">
-            <h4 className="text-[10px] uppercase tracking-widest font-bold text-[#a932bd]">SEO & Attributes</h4>
+            <h4 className="text-[10px] uppercase tracking-widest font-bold text-[#a932bd]">Premium Features</h4>
+            <div className="grid grid-cols-1 gap-4">
+              <TextField label="Premium Feature 1" value={state.premiumFeature1} onChange={(value) => update("premiumFeature1", value)} />
+              <TextField label="Premium Feature 2" value={state.premiumFeature2} onChange={(value) => update("premiumFeature2", value)} />
+              <TextField label="Premium Feature 3" value={state.premiumFeature3} onChange={(value) => update("premiumFeature3", value)} />
+              <TextField label="Premium Feature 4" value={state.premiumFeature4} onChange={(value) => update("premiumFeature4", value)} />
+              <TextField label="Premium Feature 5" value={state.premiumFeature5} onChange={(value) => update("premiumFeature5", value)} />
+            </div>
+            
+            <h4 className="text-[10px] uppercase tracking-widest font-bold text-[#a932bd] pt-6">SEO & Attributes</h4>
             <TextField label="SEO Title" value={state.seoTitle} onChange={(value) => update("seoTitle", value)} />
             <TextField label="SEO Description" value={state.seoDescription} onChange={(value) => update("seoDescription", value)} />
             <div className="grid grid-cols-2 gap-4">
@@ -800,6 +890,154 @@ function NumberField({
         onChange={(e) => onChange(Number(e.target.value) || 0)}
         className="w-full bg-[#f8f8f8] border-b border-black/10 px-4 py-3 text-xs outline-none focus:border-[#a932bd] transition-colors"
       />
+    </div>
+  );
+}
+
+function PrintfulImportModal({ onClose, onSuccess }: { onClose: () => void; onSuccess: () => void }) {
+  const [status, setStatus] = useState<"verifying" | "connected" | "error" | "importing">("verifying");
+  const [message, setMessage] = useState("");
+  const [categories, setCategories] = useState<Option[]>([]);
+  const [collections, setCollections] = useState<Option[]>([]);
+  const [selectedCat, setSelectedCat] = useState("");
+  const [selectedCol, setSelectedCol] = useState("");
+
+  useEffect(() => {
+    verifyConnection();
+    fetchOptions();
+  }, []);
+
+  async function verifyConnection() {
+    try {
+      const res = await fetch("/api/admin/printful/verify");
+      const data = await res.json();
+      if (!res.ok || !data.connected) {
+        setStatus("error");
+        setMessage(data.error || "Failed to connect to Printful");
+      } else {
+        setStatus("connected");
+        setMessage(data.store?.name ? `Connected to ${data.store.name}` : "Connected & Active");
+      }
+    } catch (e: any) {
+      setStatus("error");
+      setMessage(e.message);
+    }
+  }
+
+  async function fetchOptions() {
+    try {
+      const [catRes, colRes] = await Promise.all([
+        fetch("/api/admin/categories"),
+        fetch("/api/admin/collections"),
+      ]);
+      const [catData, colData] = await Promise.all([
+        catRes.json() as Promise<Option[]>,
+        colRes.json() as Promise<Option[]>,
+      ]);
+      setCategories(catData);
+      setCollections(colData);
+    } catch {
+      // noop
+    }
+  }
+
+  async function handleImport() {
+    setStatus("importing");
+    try {
+      const res = await fetch("/api/admin/printful/import", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          category_id: selectedCat || null,
+          collection_id: selectedCol || null
+        })
+      });
+      const data = await res.json();
+      if (!res.ok) throw new Error(data.error);
+      alert(`Success! Imported ${data.count} products.`);
+      onSuccess();
+    } catch (e: any) {
+      setStatus("error");
+      setMessage(e.message);
+    }
+  }
+
+  return (
+    <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/50 p-4">
+      <div className="bg-white rounded-2xl p-8 max-w-md w-full space-y-6 shadow-xl relative">
+        <header>
+          <h3 className="text-xl font-light">Import from Printful</h3>
+          <p className="text-[10px] uppercase tracking-widest text-black/50 mt-1">Sync your print-on-demand inventory</p>
+        </header>
+
+        {status === "verifying" && (
+          <div className="flex items-center gap-2 p-4 bg-gray-50 text-gray-600 rounded-lg text-xs">
+            <Loader2 className="animate-spin" size={16} /> Verifying Printful Connection...
+          </div>
+        )}
+
+        {status === "error" && (
+          <div className="flex items-center gap-2 p-4 bg-red-50 text-red-600 rounded-lg text-xs">
+            <AlertCircle size={16} /> {message}
+          </div>
+        )}
+
+        {(status === "connected" || status === "importing") && (
+          <div className="space-y-6">
+            <div className="flex items-center gap-2 p-4 bg-green-50 text-green-700 rounded-lg text-xs font-medium">
+              <CheckCircle2 size={16} /> {message}
+            </div>
+            
+            <div className="space-y-4">
+              <div className="space-y-2">
+                <label className="text-[10px] uppercase tracking-widest font-bold">Assign Category (Optional)</label>
+                <select
+                  value={selectedCat}
+                  onChange={(e) => setSelectedCat(e.target.value)}
+                  className="w-full bg-white border border-black/10 px-4 py-3 text-xs outline-none focus:border-[#a932bd] rounded-lg"
+                >
+                  <option value="">Do not assign</option>
+                  {categories.map((c) => (
+                    <option key={c.id} value={c.id}>{c.name}</option>
+                  ))}
+                </select>
+              </div>
+
+              <div className="space-y-2">
+                <label className="text-[10px] uppercase tracking-widest font-bold">Assign Collection (Optional)</label>
+                <select
+                  value={selectedCol}
+                  onChange={(e) => setSelectedCol(e.target.value)}
+                  className="w-full bg-white border border-black/10 px-4 py-3 text-xs outline-none focus:border-[#a932bd] rounded-lg"
+                >
+                  <option value="">Do not assign</option>
+                  {collections.map((c) => (
+                    <option key={c.id} value={c.id}>{c.name}</option>
+                  ))}
+                </select>
+              </div>
+            </div>
+
+            <div className="flex gap-4 pt-4">
+              <button 
+                onClick={onClose}
+                disabled={status === "importing"}
+                className="flex-1 py-3 border border-black/10 text-[10px] uppercase tracking-widest font-bold hover:bg-black/5 transition-all text-black"
+              >
+                Cancel
+              </button>
+              <button
+                onClick={handleImport}
+                disabled={status === "importing"}
+                className="flex-1 py-3 bg-[#a932bd] text-white text-[10px] uppercase tracking-widest font-bold hover:bg-black transition-all flex justify-center items-center gap-2"
+              >
+                {status === "importing" ? <Loader2 className="animate-spin" size={14} /> : <DownloadCloud size={14} />}
+                Import
+              </button>
+            </div>
+          </div>
+        )}
+      </div>
     </div>
   );
 }

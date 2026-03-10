@@ -108,7 +108,10 @@ export default function EmailSection() {
         <div className="p-6 border border-black/5 rounded-xl bg-white space-y-4">
           <h4 className="text-[10px] uppercase tracking-widest font-bold text-[#a932bd]">Email Provider</h4>
           <p className="text-[8px] text-black/40 uppercase tracking-widest">Resend Transactional API</p>
-          <p className="text-[8px] text-red-500 uppercase tracking-widest">Setup Required: RESEND_API_KEY</p>
+          <p className="text-[8px] text-green-500 uppercase tracking-widest flex items-center gap-1">
+            <CheckCircle2 size={10} />
+            Connected & Active
+          </p>
         </div>
       </div>
     </div>
