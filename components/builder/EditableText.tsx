@@ -2,7 +2,8 @@
 
 import React, { useState, useEffect } from "react";
 import { useVisualBuilder } from "./VisualBuilderProvider";
-import { Edit2 } from "lucide-react";
+import { Edit2, Check } from "lucide-react";
+import { ClaudeTextEditor } from "@/components/admin/ClaudeTextEditor";
 
 interface EditableTextProps {
   contentKey: string;
@@ -33,8 +34,7 @@ export function EditableText({
     }
   }, [pendingChanges, contentKey, initialValue]);
 
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
-    const val = e.target.value;
+  const handleChange = (val: string) => {
     setLocalValue(val);
     setPendingChanges((prev) => ({
       ...prev,
@@ -44,35 +44,30 @@ export function EditableText({
 
   if (!isEditMode) {
     // Standard view mode
-    return <Component className={className}>{localValue}</Component>;
+    return <Component className={className} dangerouslySetInnerHTML={{ __html: localValue }} />;
   }
 
   // Edit Mode - Active Editing State
   if (isEditing) {
     return (
-      <div className="relative inline-block w-full">
-        {multiline ? (
-          <textarea
-            autoFocus
-            value={localValue}
+      <div className="relative inline-block w-full z-50">
+        <div className="absolute top-0 left-0 bg-white p-2 rounded-xl border-2 border-[#a932bd] shadow-2xl min-w-[300px] sm:min-w-[400px]">
+          <div className="flex justify-between items-center mb-2 px-1">
+            <span className="text-[10px] uppercase tracking-widest font-bold text-[#a932bd]">Visual Editor</span>
+            <button 
+              onClick={() => setIsEditing(false)} 
+              className="flex items-center gap-1 bg-[#111] hover:bg-[#a932bd] text-white text-[10px] uppercase tracking-widest font-bold px-3 py-1.5 rounded-md transition-all"
+            >
+              <Check size={12} /> Done
+            </button>
+          </div>
+          <ClaudeTextEditor 
+            initialValue={localValue || ""}
             onChange={handleChange}
-            onBlur={() => setIsEditing(false)}
-            className={`w-full bg-white text-black border-2 border-[#a932bd] rounded p-2 outline-none shadow-lg ${className}`}
-            rows={5}
           />
-        ) : (
-          <input
-            type="text"
-            autoFocus
-            value={localValue}
-            onChange={handleChange}
-            onBlur={() => setIsEditing(false)}
-            onKeyDown={(e) => {
-              if (e.key === "Enter") setIsEditing(false);
-            }}
-            className={`w-full bg-white text-black border-2 border-[#a932bd] rounded px-2 py-1 outline-none shadow-lg ${className}`}
-          />
-        )}
+        </div>
+        {/* Placeholder sizing based on current content safely */}
+        <Component className={`${className} opacity-0`} dangerouslySetInnerHTML={{ __html: localValue }} />
       </div>
     );
   }
@@ -81,12 +76,8 @@ export function EditableText({
   return (
     <Component
       onClick={() => setIsEditing(true)}
-      className={`relative cursor-pointer transition-all hover:ring-2 hover:ring-[#a932bd] hover:bg-[#a932bd]/10 group rounded rounded-sm ${className}`}
-    >
-      {localValue || <span className="text-gray-400 italic">Empty text</span>}
-      <div className="absolute -top-2 -right-2 bg-[#a932bd] text-white p-1 rounded-full opacity-0 group-hover:opacity-100 transition-opacity z-10">
-        <Edit2 size={12} />
-      </div>
-    </Component>
+      className={`relative cursor-pointer transition-all hover:ring-2 hover:ring-[#a932bd] hover:bg-[#a932bd]/10 group rounded-sm ${className}`}
+      dangerouslySetInnerHTML={{ __html: localValue || '<span class="text-gray-400 italic">Empty text</span>' }}
+    />
   );
 }
