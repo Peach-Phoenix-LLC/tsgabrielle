@@ -1,16 +1,16 @@
 import { NextResponse } from "next/server";
 import { getSupabaseServerClient } from "@/lib/supabase/server";
+import { requireAdmin } from "@/lib/admin-auth";
 
 export async function POST(req: Request) {
   try {
-    const supabase = getSupabaseServerClient();
-    
-    // Verify user is admin
-    const { data: { user } } = await supabase.auth.getUser();
-    if (!user || user.app_metadata?.role !== "admin") {
-      return NextResponse.json({ error: "Unauthorized" }, { status: 403 });
+    const authResult = await requireAdmin();
+    if (authResult.error) {
+      return authResult.error;
     }
 
+    const supabase = getSupabaseServerClient();
+    
     const { category_id, collection_id } = await req.json();
 
     const apiKey = process.env.PRINTFUL_API_KEY;

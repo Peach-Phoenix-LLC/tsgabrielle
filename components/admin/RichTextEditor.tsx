@@ -1,22 +1,7 @@
 "use client";
 
-import React, { useMemo } from "react";
-import dynamic from "next/dynamic";
-import "react-quill-new/dist/quill.snow.css";
-
-// Create a safe, SSR-disabled dynamic import
-const ReactQuill = dynamic(
-  async () => {
-    const { default: RQ } = await import("react-quill-new");
-    return function ForwardedQuill(props: any) {
-      return <RQ {...props} />;
-    };
-  },
-  {
-    ssr: false,
-    loading: () => <div className="min-h-[200px] border border-gray-200 animate-pulse bg-gray-50 rounded-xl" />
-  }
-);
+import React, { useEffect, useRef, useState } from "react";
+import "quill/dist/quill.snow.css";
 
 interface RichTextEditorProps {
   initialValue: string;
@@ -25,32 +10,97 @@ interface RichTextEditorProps {
   label?: string;
 }
 
-export function RichTextEditor({ initialValue, onChange, label }: RichTextEditorProps) {
-  const modules = useMemo(
-    () => ({
-      toolbar: [
-        [{ header: [1, 2, 3, 4, 5, 6, false] }],
-        ["bold", "italic", "underline", "strike", "blockquote"],
-        [
-          { list: "ordered" },
-          { list: "bullet" },
-          { indent: "-1" },
-          { indent: "+1" },
-        ],
-        ["link", "image", "video"],
-        [{ color: [] }, { background: [] }],
-        [{ align: [] }],
-        ["clean"],
-      ],
-    }),
-    []
-  );
+export function RichTextEditor({ initialValue, onChange, label, name }: RichTextEditorProps) {
+  const containerRef = useRef<HTMLDivElement>(null);
+  const editorRef = useRef<HTMLDivElement>(null);
+  const quillRef = useRef<any>(null);
+  const [isLoaded, setIsLoaded] = useState(false);
 
-  const formats = [
-    "header", "bold", "italic", "underline", "strike", "blockquote",
-    "list", "bullet", "indent", "link", "image", "video",
-    "color", "background", "align",
-  ];
+  useEffect(() => {
+    if (typeof window === "undefined" || !editorRef.current) return;
+
+    let Quill: any;
+    
+    const initQuill = async () => {
+      try {
+        const mod = await import("quill");
+        Quill = mod.default || mod;
+
+        if (!editorRef.current) return;
+
+        if (!quillRef.current) {
+          quillRef.current = new Quill(editorRef.current, {
+            theme: "snow",
+            modules: {
+              toolbar: [
+                [{ header: [1, 2, 3, 4, 5, 6, false] }],
+                ["bold", "italic", "underline", "strike", "blockquote"],
+                [
+                  { list: "ordered" },
+                  { list: "bullet" },
+                  { indent: "-1" },
+                  { indent: "+1" },
+                ],
+                ["link", "image", "video"],
+                [{ color: [] }, { background: [] }],
+                [{ align: [] }],
+                ["clean"],
+              ],
+            },
+          });
+
+          // Set initial value
+          if (initialValue) {
+            const clipboard = quillRef.current.getModule("clipboard");
+            clipboard.dangerouslyPasteHTML(initialValue);
+          }
+
+          quillRef.current.on("text-change", () => {
+            let html = quillRef.current.root.innerHTML;
+            if (html === "<p><br></p>") html = "";
+            onChange(html);
+          });
+          
+          setIsLoaded(true);
+        }
+      } catch (err) {
+        console.error("Failed to load Quill", err);
+      }
+    };
+
+    initQuill();
+
+    return () => {
+      // Cleanup for StrictMode
+      if (containerRef.current) {
+        const toolbar = containerRef.current.querySelector(".ql-toolbar");
+        if (toolbar) {
+          toolbar.remove();
+        }
+      }
+      if (editorRef.current) {
+        editorRef.current.innerHTML = "";
+      }
+      quillRef.current = null;
+    };
+  }, []);
+
+  // Sync value changes if they come from outside the editor (e.g., reset form)
+  useEffect(() => {
+    if (quillRef.current && initialValue !== undefined) {
+      const currentHtml = quillRef.current.root.innerHTML;
+      if (initialValue !== currentHtml && initialValue !== "<p><br></p>") {
+        // Prevent setting empty initialValue from overwriting user typing
+        // if we just loaded or something
+        if (initialValue) {
+            const clipboard = quillRef.current.getModule("clipboard");
+            clipboard.dangerouslyPasteHTML(initialValue);
+        } else if (currentHtml !== "<p><br></p>" && currentHtml !== "") {
+            quillRef.current.setText('');
+        }
+      }
+    }
+  }, [initialValue]);
 
   return (
     <div className="rounded-xl overflow-hidden border border-[#e7e7e7] bg-white">
@@ -59,15 +109,11 @@ export function RichTextEditor({ initialValue, onChange, label }: RichTextEditor
           {label}
         </label>
       )}
-      <div className="rich-text-container">
-        <ReactQuill
-          theme="snow"
-          value={initialValue}
-          onChange={onChange}
-          modules={modules}
-          formats={formats}
-          className="bg-white min-h-[200px]"
-        />
+      <div className="rich-text-container" ref={containerRef}>
+        {!isLoaded && (
+            <div className="min-h-[200px] border-b border-gray-200 animate-pulse bg-gray-50 pointer-events-none" />
+        )}
+        <div ref={editorRef} className={`bg-white min-h-[200px] ${!isLoaded ? 'hidden' : ''}`} />
       </div>
       <style jsx global>{`
         .rich-text-container .ql-container { min-height: 200px; font-family: inherit; }

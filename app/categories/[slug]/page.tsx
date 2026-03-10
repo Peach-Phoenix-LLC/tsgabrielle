@@ -87,7 +87,7 @@ export default async function CategoryPage({ params }: PageProps) {
   );
   
   const heroImages = [category.hero_image_1, category.hero_image_2, category.hero_image_3].filter(Boolean);
-  const heroImage = heroImages[0] || content.hero_image || category.hero_image || menuLookup?.image || undefined;
+  const heroImage = heroImages[0] || content.hero_image || category.hero_image || menuLookup?.heroImage || menuLookup?.image || undefined;
   const heroDescriptions = [
     category.hero_description_1,
     category.hero_description_2,
