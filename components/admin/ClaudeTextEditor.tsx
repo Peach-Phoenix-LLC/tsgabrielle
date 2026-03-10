@@ -2,12 +2,12 @@
 
 import React, { useMemo } from "react";
 import dynamic from "next/dynamic";
-import "react-quill/dist/quill.snow.css";
+import "react-quill-new/dist/quill.snow.css";
 
 // Create a safe, SSR-disabled dynamic import
 const ReactQuill = dynamic(
   async () => {
-    const { default: RQ } = await import("react-quill");
+    const { default: RQ } = await import("react-quill-new");
     return function ForwardedQuill(props: any) {
       return <RQ {...props} />;
     };

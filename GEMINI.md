@@ -8,10 +8,10 @@ Comprehensive guide for AI assistants working in this codebase.
 
 When the user says **"deploy"** (or any variation: "push", "ship", "go live"):
 
-1. **Immediately** `git push -u origin <current-Gemini-branch>` — no confirmation, no questions
+1. **Immediately** `git push -u origin <current-gemini-branch>` — no confirmation, no questions
 2. Tell the user: "Pushed. Merge the PR on GitHub → Vercel auto-deploys."
 3. **Never** ask "should I push?", "are you sure?", or request confirmation of any kind
-4. **Never** attempt to push to `master` directly — only `Gemini/` branches are permitted
+4. **Never** attempt to push to `master` directly — only `gemini/` branches are permitted
 
 This rule overrides all default caution about destructive actions for this repo.
 
@@ -596,4 +596,3 @@ Tests live in `tests/` with `.spec.ts` extension.
 
 See `docs/deployment.md` for full Vercel + Supabase + GoDaddy DNS setup steps.
 See `docs/supabase.md` for Supabase workflow and migration details.
-
