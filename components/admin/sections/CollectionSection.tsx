@@ -2,7 +2,7 @@
 
 import React, { useEffect, useState } from "react";
 import { Edit, Loader2, Plus, Save, Trash2, X } from "lucide-react";
-import { ClaudeTextEditor } from "../ClaudeTextEditor";
+import { RichTextEditor } from "../RichTextEditor";
 
 type CollectionItem = {
   id: string;
@@ -321,7 +321,7 @@ function TextAreaField({
 }) {
   return (
     <div className="space-y-1">
-      <ClaudeTextEditor
+      <RichTextEditor
         label={label}
         initialValue={value}
         onChange={onChange}

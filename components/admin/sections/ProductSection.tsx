@@ -3,7 +3,7 @@
 import React, { useEffect, useMemo, useState } from "react";
 import Image from "next/image";
 import { AlertCircle, ArrowLeft, Edit, Loader2, Plus, Trash2 } from "lucide-react";
-import { ClaudeTextEditor } from "../ClaudeTextEditor";
+import { RichTextEditor } from "../RichTextEditor";
 
 type Option = {
   id: string;
@@ -510,7 +510,7 @@ function ProductEditor({ product, onBack }: { product: ProductRecord | null; onB
             <TextField label="Product Title" value={state.title} onChange={(value) => update("title", value)} required />
             <TextField label="URL Slug" value={state.slug} onChange={(value) => update("slug", value)} required />
             <div className="space-y-4">
-              <ClaudeTextEditor
+              <RichTextEditor
                 label="Description"
                 initialValue={state.description}
                 onChange={(value: string) => update("description", value)}

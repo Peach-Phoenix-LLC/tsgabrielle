@@ -4,15 +4,16 @@ import React, { useMemo } from "react";
 import dynamic from "next/dynamic";
 import "react-quill/dist/quill.snow.css";
 
+// Dynamically import react-quill to avoid SSR issues
 const ReactQuill = dynamic(() => import("react-quill"), { ssr: false });
 
-interface ClaudeTextEditorProps {
+interface RichTextEditorProps {
   initialValue: string;
-  onChange?: (value: string) => void;
+  onChange: (value: string) => void;
   label?: string;
 }
 
-export function ClaudeTextEditor({ initialValue, onChange, label }: ClaudeTextEditorProps) {
+export function RichTextEditor({ initialValue, onChange, label }: RichTextEditorProps) {
   const modules = useMemo(
     () => ({
       toolbar: [
@@ -62,7 +63,7 @@ export function ClaudeTextEditor({ initialValue, onChange, label }: ClaudeTextEd
         <ReactQuill
           theme="snow"
           value={initialValue}
-          onChange={onChange || (() => {})}
+          onChange={onChange}
           modules={modules}
           formats={formats}
           className="bg-white min-h-[200px]"
@@ -76,6 +77,7 @@ export function ClaudeTextEditor({ initialValue, onChange, label }: ClaudeTextEd
         .rich-text-container .ql-editor {
           min-height: 200px;
         }
+        /* Custom tweaks to match the theme */
         .rich-text-container .ql-toolbar.ql-snow {
           border-right: none;
           border-left: none;

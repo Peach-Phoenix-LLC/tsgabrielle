@@ -4,7 +4,7 @@ import { useState, useEffect } from "react";
 import Image from "next/image";
 import { createClient } from "@supabase/supabase-js";
 import { Upload, Save, Loader2, Trash2, Plus, Edit2 } from "lucide-react";
-import { ClaudeTextEditor } from "./ClaudeTextEditor";
+import { RichTextEditor } from "./RichTextEditor";
 
 const supabase = createClient(
   process.env.NEXT_PUBLIC_SUPABASE_URL!,
@@ -288,7 +288,7 @@ export default function ContentPagesManager() {
           </div>
         ) : (
           <div className="space-y-4">
-            <ClaudeTextEditor
+            <RichTextEditor
               label={editingItem?.content_type === "html" ? "HTML Content" : "Text Content"}
               initialValue={editingItem?.content_value || ""}
               onChange={(val: string) => setEditingItem({ ...editingItem!, content_value: val } as PageContent)}
