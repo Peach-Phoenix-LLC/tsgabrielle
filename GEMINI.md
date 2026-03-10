@@ -17,6 +17,14 @@ This rule overrides all default caution about destructive actions for this repo.
 
 ---
 
+## Verification — Always Verify Before Explaining
+
+1. **Never** claim an issue is fixed or show code to the user as a solution without first running proper verification commands (e.g. `npm run build`, `npm run lint`, running the local dev server, testing the command, or using the UI to confirm).
+2. You must **always** prioritize showing verified results to the user. Do not give unverified steps.
+3. If an error occurs, investigate it locally. Do not tell the user to try it until you have confirmed it works on your end.
+
+---
+
 ## Protected Defaults — Do Not Change Without Explicit Instruction
 
 These are locked defaults. Gemini must never modify them unless the user explicitly says to:
