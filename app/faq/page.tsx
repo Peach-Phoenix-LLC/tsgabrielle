@@ -51,7 +51,7 @@ export default async function Page() {
       emoji: "💳",
       items: [
         { q: "What payment methods are accepted?", a: "We accept major credit/debit cards and secure digital wallets. Availability varies by region to ensure the most seamless experience for you." },
-        { q: "Is my data secure?", a: "Yes. All transactions are processed through encrypted, industry-standard systems within our Google Cloud infrastructure to protect your financial integrity." }
+        { q: "Is my data secure?", a: "Yes. All transactions are processed through encrypted, industry-standard systems within our secure infrastructure to protect your financial integrity." }
       ]
     },
     {

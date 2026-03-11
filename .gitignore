@@ -19,7 +19,6 @@ supabase/.temp
 
 
 # Unrelated nested projects
-ground-platform/
 .agents/
 
 # Build artifacts
