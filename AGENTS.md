@@ -20,11 +20,20 @@ This rule overrides all default caution about destructive actions for this repo.
 
 ## Verification — Always Verify Before Declaring Done
 
-1. **Never use the local dev server** (`npm run dev`) to verify changes. Always check the live Vercel URL.
+1. **Mandatory Deploy-Then-Verify Loop:** Never verify changes on the local development server. Every change must be pushed to GitHub and deployed to Vercel (Preview or Production) before verification. After deployment, explicitly verify functionality on the live URL. If it fails, iterate: fix, redeploy, and verify again until the goal is reached. This is a non-negotiable priority.
 2. **Never** claim an issue is fixed without first running `npm run build` and `npm run lint`, then **deploying** and verifying the change is live.
 3. Always show verified results. Do not give the user unverified steps or assume it works.
 4. If an error occurs, investigate and fix it — do not ask the user to try it themselves until you have confirmed it works.
 5. **Never assume** a successful deployment means the feature works correctly. Explicitly check the live URL at `https://tsgabrielle.us` before declaring the task finished.
+
+---
+
+## Skills
+
+### Verification Skill
+- **Goal:** Guaranteed production-grade quality through post-deployment validation.
+- **Workflow:** Implement → Build/Lint → Deploy → Verify Live → Success (or Iterate).
+- **Rule:** Silence is only acceptable after a verified live result is shared with the user.
 
 ---
 
