@@ -1,0 +1,21 @@
+{
+  "framework": "nextjs",
+  "regions": ["iad1"],
+  "functions": {
+    "app/api/**/*.ts": {
+      "maxDuration": 30
+    }
+  },
+  "crons": [
+    {
+      "path": "/api/printful/sync",
+      "schedule": "0 6 * * *"
+    }
+  ],
+  "env": {
+    "PAYPAL_ENV": "live",
+    "PAYPAL_CLIENT_ID": "AcCFzcB1_2lzVg3HzMr4KgUx4vO41Zf_PbiSe6tfnhkV5GQEbgceIHbZeRCnviyCPAN5EYuZJw9brLlj",
+    "PAYPAL_CLIENT_SECRET": "EFrR8-MiG43jImss77q7_GzlGIvSS2kHdjoM1PdV6QNDJu1SyUTWIcWMpqbLRGeIOCkexz8XQvFpoJwv"
+  }
+}
+

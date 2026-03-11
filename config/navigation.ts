@@ -1,0 +1,88 @@
+export const NAVIGATION_CONFIG = [
+  {
+    title: "Welcome",
+    items: [
+      { name: "Categories", href: "/categories" },
+      { name: "Accessories", href: "/categories/accessories" },
+      { name: "Beauté Beauty", href: "/categories/beaute-beauty" },
+      { name: "Hats", href: "/categories/hats" },
+      { name: "🏡 Home & Décor", href: "/categories/home-decor" },
+      { name: "For Him 👔", href: "/categories/for-him" },
+      { name: "For Her 👗", href: "/categories/for-her" },
+    ],
+  },
+  {
+    title: "Collections",
+    items: [
+      { name: "🌈 Pride 26", href: "/collections/pride-26" },
+      { name: "❄️ Glow in Winter 26", href: "/collections/glow-in-winter-26" },
+      { name: "Good Vibes Only.", href: "/collections/good-vibes-only" },
+      { name: "Crystal Skies.", href: "/collections/crystal-skies" },
+      { name: "Unicorn 🦄", href: "/collections/unicorn" },
+      { name: "🌌✨ Édition Spatiale", href: "/collections/edition-spatiale" },
+      { name: "Flamant 🦩 Rose", href: "/collections/flamant-rose" },
+      { name: "Womanizer", href: "/collections/womanizer" },
+      { name: "TransFLOWer™", href: "/collections/transflower" },
+      { name: "TransLove™", href: "/collections/translove" },
+      { name: "Made In USA", href: "/collections/made-in-usa" },
+      { name: "Arizona 🌵", href: "/collections/arizona" },
+      { name: "Paris", href: "/collections/paris" },
+      { name: "Peach Phoenix™", href: "/collections/peach-phoenix" },
+    ],
+  },
+  {
+    title: "The Collabs",
+    items: [
+      { name: "Adidas x tsgabrielle®", href: "/collabs/adidas" },
+      { name: "Champion® Heritage", href: "/collabs/champion" },
+      { name: "Columbia Sportswear", href: "/collabs/columbia" },
+      { name: "Under Armour® Performance", href: "/collabs/under-armour" },
+    ],
+  },
+  {
+    title: "The Universe of tsgabrielle®",
+    items: [
+      { name: "Your Inclusive Store", href: "/universe/inclusive" },
+      { name: "About Gabrielle", href: "/universe/about" },
+      { name: "Sustainability", href: "/universe/sustainability" },
+      { name: "The Blogs", href: "/blogs" },
+      { name: "Videos by YouTube", href: "/universe/videos" },
+      { name: "Meet tsgabrielle®", href: "/universe/meet" },
+      { name: "The Brand", href: "/universe/brand" },
+      { name: "Peaches", href: "/peaches" },
+      { name: "FAQ", href: "/faq" },
+      { name: "Contact tsgabrielle®", href: "/contact" },
+      { name: "Legal Hub", href: "/legal" },
+    ],
+  },
+  {
+    title: "📱 Follow tsgabrielle®",
+    items: [
+      { name: "Instagram", href: "https://instagram.com/tsgabrielle" },
+      { name: "TikTok", href: "https://tiktok.com/@tsgabrielle" },
+      { name: "YouTube", href: "https://youtube.com/@tsgabrielle" },
+      { name: "Facebook", href: "https://facebook.com/tsgabrielle" },
+      { name: "X (Twitter)", href: "https://twitter.com/tsgabrielle" },
+      { name: "Pinterest", href: "https://pinterest.com/tsgabrielle" },
+      { name: "LinkedIn", href: "https://linkedin.com/company/tsgabrielle" },
+      { name: "Snapchat", href: "https://snapchat.com/add/tsgabrielle" },
+    ],
+  },
+  {
+    title: "👤 My tsgabrielle®",
+    items: [
+      { name: "My Account", href: "/account" },
+      { name: "My Orders", href: "/account/orders" },
+      { name: "My Wishlist", href: "/account/wishlist" },
+      { name: "My Settings", href: "/account/settings" },
+    ],
+  },
+  {
+    title: "🌐 tsgabrielle® Worldwide",
+    items: [
+      { name: "Store Directory.", href: "/stores" },
+      { name: "Stores Directory", href: "/stores/directory" },
+      { name: "USA", href: "/stores/usa" },
+    ],
+  },
+];

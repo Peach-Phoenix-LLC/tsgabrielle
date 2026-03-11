@@ -1,44 +1,25 @@
-# Update Storefront
+# tsgabrielle Ecommerce Platform
 
-"wear the shift"
+Full-stack Next.js App Router ecommerce scaffold with:
 
-## Tech Stack
-- **Framework**: Next.js 14 (App Router)
-- **Styling**: Tailwind CSS + Framer Motion
-- **Database**: PostgreSQL + Prisma ORM
-- **Deployment**: Google Cloud Run
-- **Storage**: Google Cloud Storage
-- **Integrations**: Printful, Klaviyo, Peaches API, Gemini AI
+- TypeScript + Tailwind CSS
+- Supabase (DB/Auth/Storage-ready)
+- Printful sync + webhook endpoints
+- PayPal checkout + capture + webhook endpoints
+- 3D hero via react-three-fiber + drei
+- Admin + client dashboards
+- Short collection URLs + legacy redirect support
 
-## Setup Instructions
+## Quick Start
 
-1.  **Environment Variables**:
-    - Copy `.env.example` to `.env`
-    - Fill in the required API keys and database URLs.
+1. Copy `.env.example` to `.env.local` and fill values.
+2. Initialize and link Supabase:
+   - `npx supabase link --project-ref <project-ref>`
+   - `npx supabase db push`
+3. Install deps and run:
+   - `npm install`
+   - `npm run dev`
 
-2.  **Install Dependencies**:
-    ```bash
-    npm install
-    ```
+## Deployment
 
-3.  **Database Migration**:
-    ```bash
-    npx prisma migrate dev
-    ```
-
-4.  **Run Locally**:
-    ```bash
-    npm run dev
-    ```
-
-5.  **Build & Test**:
-    ```bash
-    npm run build
-    npm test
-    ```
-
-## Design System
-- **Colors**: White/Cream (#ffffff / #e7e7e7) backgrounds, Purple accent (#a932bd).
-- **Typography**: Lato Light (300).
-- **Shapes**: Organic SVG blobs, minimum 16px border-radius.
-- **Animations**: Holographic iridescent shimmer on hover.
+See `docs/deployment.md` for Vercel + GoDaddy steps.
