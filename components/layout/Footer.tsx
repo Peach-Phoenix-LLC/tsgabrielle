@@ -133,9 +133,9 @@ export function Footer() {
         <Image
           src="/images/tsgabrielle-icon.png"
           alt="tsgabrielle"
-          width={240}
-          height={240}
-          className="w-[240px] h-[240px] object-contain"
+          width={100}
+          height={100}
+          className="w-[100px] h-[100px] object-contain"
         />
       </div>
 
@@ -242,13 +242,13 @@ export function Footer() {
         <div className="mt-20 flex flex-col items-center gap-10 border-t border-white/10 pt-16">
           <BrandLogo color="light" className="h-[50px] w-auto opacity-100 transition-all duration-700" />
           
-          <div className="flex justify-center items-center">
+          <div className="flex justify-center items-center w-full">
             <Image
               src="/images/tsgabrielle-payment-methods.png"
               alt="Accepted Payment Methods"
-              width={800}
-              height={80}
-              className="h-16 md:h-20 w-auto max-w-full"
+              width={4000}
+              height={400}
+              className="h-[320px] md:h-[400px] w-auto max-w-full object-contain"
             />
           </div>
         </div>
