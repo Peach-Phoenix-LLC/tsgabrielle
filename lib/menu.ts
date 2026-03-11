@@ -15,42 +15,42 @@ export const CATEGORIES: MenuLink[] = [
 ];
 
 export const COLLECTIONS: MenuLink[] = [
-  { label: "Pride 26", href: "/collections/pride-26" },
+  { label: "Pride 26", href: "/pride" },
   {
     label: "Glow In Winter 26",
-    href: "/collections/glow-in-winter-26",
+    href: "/glow",
     image: "/images/Collections/Glow%20in%20Winter%2026/tsgabrielle-Glow-in-Winter26-new.png",
   },
-  { label: "Good Vibes Only.", href: "/collections/good-vibes-only" },
+  { label: "Good Vibes Only.", href: "/good" },
   {
     label: "Crystal Skies.",
-    href: "/collections/crystal-skies",
+    href: "/crystal",
     image: "/images/Collections/Crystal%20Skies/Crystal%20Skies.png",
   },
-  { label: "Unicorn", href: "/collections/unicorn" },
+  { label: "Unicorn", href: "/unicorn" },
   {
     label: "Édition Spatiale",
-    href: "/collections/edition-spatiale",
+    href: "/edition",
     image: "/images/Collections/%C3%89dition%20Spatiale/%C3%89dition-Spatiale-by-tsgabrielle.png",
   },
   {
     label: "Flamant Rose",
-    href: "/collections/flamant-rose",
+    href: "/flamant-rose",
     image: "/images/Collections/Flamant%20Rose/Flamant-Rose.png",
   },
   {
     label: "Womanizer",
-    href: "/collections/womanizer",
+    href: "/womanizer",
     image: "/images/Collections/Womanizer/Womanizer.png",
   },
-  { label: "TransFLOWER™", href: "/collections/transflower" },
-  { label: "TransLove™", href: "/collections/translove" },
-  { label: "Made In USA", href: "/collections/made-in-usa" },
-  { label: "Arizona", href: "/collections/arizona" },
-  { label: "Paris", href: "/collections/paris", image: "/images/slides/tsgabrielle-Slide4.png" },
+  { label: "TransFLOWER™", href: "/transflower" },
+  { label: "TransLove™", href: "/translove" },
+  { label: "Made In USA", href: "/made-in-usa" },
+  { label: "Arizona", href: "/arizona" },
+  { label: "Paris", href: "/paris", image: "/images/slides/tsgabrielle-Slide4.png" },
   {
     label: "Peach Phoenix™",
-    href: "/collections/peach-phoenix",
+    href: "/peach",
     image: "/images/Collections/Peach%20Phoenix/Peach_Phienix.PNG",
   },
 ];

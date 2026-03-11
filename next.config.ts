@@ -22,9 +22,13 @@ const nextConfig: NextConfig = {
       { source: '/him', destination: '/categories/for-him', permanent: true },
       { source: '/her', destination: '/categories/for-her', permanent: true },
 
-      // Collections
-      { source: '/pride', destination: '/collections/pride-26', permanent: true },
-      { source: '/winter', destination: '/collections/glow-in-winter-26', permanent: true },
+      // Old Collection Slugs to Short URLs
+      { source: '/pride-26', destination: '/pride', permanent: true },
+      { source: '/glow-in-winter-26', destination: '/glow', permanent: true },
+      { source: '/good-vibes-only', destination: '/good', permanent: true },
+      { source: '/crystal-skies', destination: '/crystal', permanent: true },
+      { source: '/edition-spatiale', destination: '/edition', permanent: true },
+      { source: '/peach-phoenix', destination: '/peach', permanent: true },
 
       // Collabs
       { source: '/adidas', destination: '/adidas-x-tsgabrielle', permanent: true },

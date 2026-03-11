@@ -55,10 +55,16 @@ export async function CategoryPageTemplate({
 
 export async function CollectionPageTemplate({
   title,
-  slug
+  slug,
+  description,
+  longDescription,
+  slogans
 }: {
   title: string;
   slug: string;
+  description?: string;
+  longDescription?: string;
+  slogans?: string[];
 }) {
   const products = await getProductsByCollectionSlug(slug);
   const collectionData = COLLECTIONS.find(c => c.href.includes(slug));
@@ -66,7 +72,7 @@ export async function CollectionPageTemplate({
 
   return (
     <div className="bg-white pb-32">
-      <section className="relative flex h-[70vh] items-center justify-center overflow-hidden -mt-[100px] lg:-mt-[112px]">
+      <section className="relative flex min-h-[70vh] items-center justify-center overflow-hidden -mt-[100px] lg:-mt-[112px] pt-32 pb-16">
         <div className="absolute inset-0">
           <Image
             src={heroImage}
@@ -74,11 +80,22 @@ export async function CollectionPageTemplate({
             fill
             className="h-full w-full object-cover"
           />
-          <div className="absolute inset-0 bg-black/30" />
+          <div className="absolute inset-0 bg-black/40" />
         </div>
-        <div className="relative z-10 text-center text-white space-y-4 px-4">
+        <div className="relative z-10 text-center text-white space-y-6 px-4 max-w-4xl mx-auto">
            <p className="text-[10px] uppercase tracking-[0.4em] font-light">Curated Series</p>
-           <h1 className="text-5xl md:text-7xl font-light tracking-wide uppercase">{title}</h1>
+           <h1 className="text-4xl md:text-6xl font-light tracking-wide uppercase">{title}</h1>
+           {description && <p className="text-lg md:text-xl font-light opacity-90">{description}</p>}
+           {longDescription && <p className="text-sm md:text-base opacity-80 leading-relaxed text-justify md:text-center mt-4">{longDescription}</p>}
+           {slogans && slogans.length > 0 && (
+             <div className="mt-8 flex flex-wrap justify-center gap-3">
+               {slogans.map((slogan, idx) => (
+                 <span key={idx} className="text-xs uppercase tracking-widest border border-white/30 px-4 py-2 bg-black/20 backdrop-blur-sm rounded-sm">
+                   {slogan}
+                 </span>
+               ))}
+             </div>
+           )}
         </div>
       </section>
 
