@@ -11,13 +11,27 @@ export default function AuthCallbackPage() {
   useEffect(() => {
     const exchange = async () => {
       const code = searchParams.get("code");
+      const nextPath = searchParams.get("next");
+      
       if (!code) {
         router.replace("/auth/sign-in");
         return;
       }
+      
       const supabase = getSupabaseBrowserClient();
       await supabase.auth.exchangeCodeForSession(code);
-      router.replace("/account");
+      
+      const { data: { user } } = await supabase.auth.getUser();
+      const isAdmin = user?.email?.toLowerCase() === "contact@tsgabrielle.us" || user?.app_metadata?.role === "admin";
+      
+      if (nextPath) {
+        router.replace(nextPath);
+      } else if (isAdmin) {
+        router.replace("/admin");
+      } else {
+        router.replace("/account");
+      }
+      
       router.refresh();
     };
     exchange();

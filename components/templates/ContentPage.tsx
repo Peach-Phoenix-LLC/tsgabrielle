@@ -1,7 +1,10 @@
+"use client";
+
 import React from "react";
 import Image from "next/image";
 import { marked } from "marked";
 import DOMPurify from "isomorphic-dompurify";
+import { EditableText } from "../builder/EditableText";
 
 interface ContentPageProps {
   title: string;
@@ -28,7 +31,7 @@ export function ContentPage({ title, subtitle, heroImage, heroVideo, body }: Con
   return (
     <div className="bg-white pb-32">
       {(heroImage || heroVideo) ? (
-        <section className="relative flex h-[70vh] items-center justify-center overflow-hidden -mt-[100px] lg:-mt-[112px]">
+        <section className="relative flex h-screen items-center justify-center overflow-hidden -mt-[100px] lg:-mt-[112px]">
           <div className="absolute inset-0">
             {heroVideo ? (
               <video
@@ -47,23 +50,39 @@ export function ContentPage({ title, subtitle, heroImage, heroVideo, body }: Con
                 className="h-full w-full object-cover"
               />
             ) : null}
-            <div className="absolute inset-0 bg-black/40" />
-          </div>
-          <div className="relative z-10 text-center text-white space-y-6 px-4 max-w-4xl mx-auto">
-             {subtitle && <p className="text-[11px] uppercase tracking-[0.4em] font-light">{subtitle}</p>}
-             <h1 className="text-5xl md:text-7xl font-light tracking-wide uppercase">{title}</h1>
           </div>
         </section>
-      ) : (
-        <section className="pt-40 lg:pt-56 pb-16 text-center px-4">
-           {subtitle && <p className="text-[11px] uppercase tracking-[0.4em] text-[#a932bd] font-medium mb-6">{subtitle}</p>}
-           <h1 className="text-5xl md:text-7xl font-light tracking-tight text-[#111111]">{title}</h1>
-        </section>
-      )}
+      ) : null}
 
-      <section className="container-luxe max-w-4xl mx-auto relative z-20">
-        <div className={`bg-white ${heroImage ? '-mt-16 p-10 md:p-16 shadow-2xl rounded-sm' : ''} text-[#555555] space-y-8 text-lg font-light leading-[2] tracking-wide`}>
-          {typeof body === 'string' ? renderContent(body) : body}
+      <section className={`container-luxe max-w-4xl mx-auto relative z-20 px-4 ${(!heroImage && !heroVideo) ? 'pt-48 pb-24' : 'py-24'}`}>
+        <div className="text-center mb-16">
+          {subtitle && (
+            <EditableText
+              contentKey="content_subtitle"
+              initialValue={subtitle}
+              as="p"
+              className="text-[11px] uppercase tracking-[0.4em] text-[#a932bd] font-medium mb-4 block"
+            />
+          )}
+          <EditableText
+            contentKey="content_title"
+            initialValue={title}
+            as="h1"
+            className="text-5xl md:text-7xl font-light tracking-tight text-[#111111] capitalize block"
+          />
+        </div>
+        <div className="text-[#555555] space-y-8 text-lg font-light leading-[2] tracking-wide">
+          <EditableText
+            contentKey="content_body"
+            initialValue={typeof body === "string" ? body : ""}
+            as="div"
+            multiline={true}
+            className="w-full min-h-[500px]"
+          />
+          <div className="mt-8 border-t border-[#e7e7e7] pt-8">
+            <p className="text-xs uppercase tracking-widest text-black/50 mb-4 bg-gray-50 inline-block px-3 py-1 rounded">Preview Render:</p>
+            {typeof body === "string" ? renderContent(body) : body}
+          </div>
         </div>
       </section>
     </div>

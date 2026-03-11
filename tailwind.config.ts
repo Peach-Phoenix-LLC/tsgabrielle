@@ -34,10 +34,6 @@ const config: Config = {
         body: ["var(--font-lato)", "sans-serif"]
       },
       keyframes: {
-        liquid: {
-          "0%, 100%": { backgroundPosition: "0% 50%" },
-          "50%": { backgroundPosition: "100% 50%" }
-        },
         iridescent: {
           "0%": { backgroundPosition: "0% 50%" },
           "100%": { backgroundPosition: "200% 50%" }
@@ -45,12 +41,17 @@ const config: Config = {
         float: {
           "0%, 100%": { transform: "translateY(0)" },
           "50%": { transform: "translateY(-10px)" }
+        },
+        slideShowFade: {
+          "0%, 100%": { opacity: "0" },
+          "5%, 25%": { opacity: "1" },
+          "30%": { opacity: "0" }
         }
       },
       animation: {
-        liquid: "liquid 8s ease-in-out infinite",
         iridescent: "iridescent 3s linear infinite",
-        float: "float 6s ease-in-out infinite"
+        float: "float 6s ease-in-out infinite",
+        slideShowFade: "slideShowFade 32s ease-in-out infinite"
       }
     }
   },

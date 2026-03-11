@@ -2,15 +2,16 @@ export type MenuLink = {
   label: string;
   href: string;
   image?: string;
+  heroImage?: string;
 };
 
 export const CATEGORIES: MenuLink[] = [
-  { label: "Accessories", href: "/categories/accessories", image: "/images/Categories/accessories.png" },
-  { label: "Beauté • Beauty", href: "/categories/beaute-beauty", image: "/images/Categories/beaute-beauty.png" },
-  { label: "Hats", href: "/categories/hats", image: "/images/Categories/hats.png" },
-  { label: "Home & Décor", href: "/categories/home-decor", image: "/images/Categories/home-decor.png" },
-  { label: "For Him", href: "/categories/for-him", image: "/images/Categories/for-him.png" },
-  { label: "For Her", href: "/categories/for-her", image: "/images/Categories/for-her.png" },
+  { label: "Accessories", href: "/categories/accessories", image: "/images/Categories/tsgabrielle-new-accessories.png", heroImage: "/images/Categories/tsgabrielle-hero-accessories.png" },
+  { label: "Beauté • Beauty", href: "/categories/beaute-beauty", image: "/images/Categories/tsgabrielle-new-beauty.png", heroImage: "/images/Categories/tsgabrielle-new-beauty.png" },
+  { label: "Hats", href: "/categories/hats", image: "/images/Categories/tsgabrielle-new-hats.png", heroImage: "/images/Categories/tsgabrielle-hero-hats.png" },
+  { label: "Home & Décor", href: "/categories/home-decor", image: "/images/Categories/tsgabrielle-new-home.png", heroImage: "/images/Categories/tsgabrielle-hero-home.png" },
+  { label: "For Him", href: "/categories/for-him", image: "/images/Categories/tsgabrielle-new-him.png", heroImage: "/images/Categories/tsgabrielle-hero-him.png" },
+  { label: "For Her", href: "/categories/for-her", image: "/images/Categories/tsgabrielle-new-her.png", heroImage: "/images/Categories/tsgabrielle-hero-her.png" },
 ];
 
 export const COLLECTIONS: MenuLink[] = [

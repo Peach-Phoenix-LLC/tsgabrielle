@@ -2,7 +2,7 @@
 
 import React, { useEffect, useState } from "react";
 import { Edit, Loader2, Plus, Save, Trash2, X } from "lucide-react";
-import { ClaudeTextEditor } from "../ClaudeTextEditor";
+import { RichTextEditor } from "../RichTextEditor";
 
 type CategoryItem = {
   id: string;
@@ -87,8 +87,12 @@ export default function CategorySection() {
   async function fetchItems() {
     try {
       const res = await fetch("/api/admin/categories");
-      const data = (await res.json()) as CategoryItem[];
-      setItems(data);
+      const data = await res.json();
+      if (Array.isArray(data)) {
+        setItems(data as CategoryItem[]);
+      } else {
+        setItems([]);
+      }
     } catch {
       // noop
     } finally {
@@ -310,7 +314,7 @@ function TextAreaField({
 }) {
   return (
     <div className="space-y-1">
-      <ClaudeTextEditor
+      <RichTextEditor
         label={label}
         initialValue={value}
         onChange={onChange}

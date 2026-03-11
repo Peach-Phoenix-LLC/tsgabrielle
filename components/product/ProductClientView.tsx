@@ -13,6 +13,7 @@ import { usePeaches } from "@/hooks/usePeaches";
 import { getSupabaseBrowserClient } from "@/lib/supabase/client";
 import { CATEGORIES, COLLECTIONS } from "@/lib/menu";
 import Link from "next/link";
+import Breadcrumbs from "@/components/layout/Breadcrumbs";
 
 interface ProductProps {
   product: {
@@ -116,35 +117,14 @@ export default function ProductClientView({ product }: ProductProps) {
             <Image 
               src={product.images[currentImg]} 
               fill
-              className="h-full w-full object-cover" 
+              className="h-full w-full object-contain" 
               alt={product.title}
             />
-            <div className="absolute inset-0 bg-gradient-to-b from-black/20 via-transparent to-black/40" />
+            {/* Dark overlay removed to fulfill visibility requirement */}
           </motion.div>
         </AnimatePresence>
-
-        {/* Hero Overlay Overlay */}
-        <div className="absolute inset-0 flex flex-col items-center justify-center text-center pointer-events-none p-6">
-          <motion.p 
-            initial={{ y: 20, opacity: 0 }}
-            animate={{ y: 0, opacity: 1 }}
-            transition={{ delay: 0.5 }}
-            className="text-[10px] uppercase tracking-[0.6em] text-white/80 mb-6"
-          >
-            The Edition Spatiale
-          </motion.p>
-          <motion.h1 
-            initial={{ y: 30, opacity: 0 }}
-            animate={{ y: 0, opacity: 1 }}
-            transition={{ delay: 0.7 }}
-            className={`text-6xl md:text-8xl font-light text-white tracking-tighter mix-blend-difference ${product.gifTitleUrl ? "holographic-text" : ""}`}
-            style={product.gifTitleUrl ? { backgroundImage: `url(${product.gifTitleUrl})` } : {}}
-          >
-            {product.title}
-          </motion.h1>
-        </div>
-
-        {/* Navigation Contols */}
+        
+        {/* Navigation Controls */}
         <div className="absolute bottom-12 left-0 right-0 z-20 container-luxe flex justify-between items-end">
           <div className="flex gap-4">
              {product.images.map((_, i) => (
@@ -172,6 +152,11 @@ export default function ProductClientView({ product }: ProductProps) {
         </div>
       </section>
 
+      {/* Breadcrumbs after Hero Image */}
+      <div className="bg-white">
+        <Breadcrumbs />
+      </div>
+
       {/* Purchase & Details Section */}
       <section className="bg-white border-b border-[#e7e7e7]">
         <div className="container-luxe py-24 lg:grid lg:grid-cols-2 gap-24 items-start">
@@ -179,7 +164,7 @@ export default function ProductClientView({ product }: ProductProps) {
           <div className="space-y-12">
             <div className="space-y-4">
               <span className="text-[10px] uppercase tracking-[0.4em] text-[#a932bd] font-medium">Curated Masterpiece</span>
-              <h2 className="text-4xl md:text-5xl font-light tracking-tight">{product.title}</h2>
+              <h2 className="text-4xl md:text-5xl font-light tracking-tight capitalize">{product.title}</h2>
               <div className="flex items-center gap-6 py-2 border-y border-[#f0f0f0]">
                 <p className="text-3xl font-light text-[#a932bd]">${(product.price / 100).toFixed(2)}</p>
                 <div className="h-4 w-px bg-[#e7e7e7]" />
@@ -313,12 +298,12 @@ export default function ProductClientView({ product }: ProductProps) {
                <div className="grid grid-cols-2 gap-8 py-10 border-t border-[#f0f0f0]">
                   <div className="flex flex-col gap-3">
                     <RefreshCw className="text-[#a932bd]" size={20} />
-                    <h4 className="text-[10px] font-bold uppercase tracking-widest">Ethereal Returns</h4>
+                    <h4 className="text-[10px] font-bold capitalize tracking-widest">Ethereal Returns</h4>
                     <p className="text-[10px] text-black/50 leading-relaxed uppercase">Returns accepted within 14 cycles of arrival.</p>
                   </div>
                   <div className="flex flex-col gap-3">
                     <ShieldCheck className="text-[#a932bd]" size={20} />
-                    <h4 className="text-[10px] font-bold uppercase tracking-widest">Secured Core</h4>
+                    <h4 className="text-[10px] font-bold capitalize tracking-widest">Secured Core</h4>
                     <p className="text-[10px] text-black/50 leading-relaxed uppercase">Quantum encryption for every acquisition.</p>
                   </div>
                </div>
@@ -350,7 +335,7 @@ export default function ProductClientView({ product }: ProductProps) {
                   </div>
                   
                   <div className="flex flex-col items-center gap-4 text-center">
-                    <h3 className="text-xl font-light tracking-wide text-[#111111] uppercase">{category.label}</h3>
+                    <h3 className="text-xl font-light tracking-wide text-[#111111] capitalize">{category.label}</h3>
                     <div className="h-px w-8 bg-[#a932bd]/30 transition-all duration-500 group-hover:w-16 group-hover:bg-[#a932bd]" />
                     <Link
                       href={category.href}

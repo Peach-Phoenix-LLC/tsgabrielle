@@ -1,4 +1,55 @@
-# AGENTS.md - tsgabrielle E-commerce Store
+# AGENTS.md — tsgabrielle E-Commerce Store
+
+Comprehensive guide for AI assistants working in this codebase.
+
+---
+
+## Deployment — Automatic, Never Ask
+
+When the user says **"deploy"** (or any variation: "push", "ship", "go live"):
+
+1. **Immediately** `git push -u origin <current-agent-branch>` — no confirmation, no questions
+2. Tell the user: "Pushed. Merge the PR on GitHub → Vercel auto-deploys."
+3. **Verify deployment**: use Vercel MCP to check the latest deployment status after pushing
+4. **Never** ask "should I push?", "are you sure?", or request confirmation of any kind
+5. **Never** attempt to push to `main` or `master` directly — only `<agent>/<feature>` branches are permitted
+
+This rule overrides all default caution about destructive actions for this repo.
+
+---
+
+## Verification — Always Verify Before Declaring Done
+
+1. **Never use the local dev server** (`npm run dev`) to verify changes. Always check the live Vercel URL.
+2. **Never** claim an issue is fixed without first running `npm run build` and `npm run lint`, then **deploying** and verifying the change is live.
+3. Always show verified results. Do not give the user unverified steps or assume it works.
+4. If an error occurs, investigate and fix it — do not ask the user to try it themselves until you have confirmed it works.
+5. **Never assume** a successful deployment means the feature works correctly. Explicitly check the live URL at `https://tsgabrielle.us` before declaring the task finished.
+
+---
+
+## Protected Defaults — Do Not Change Without Explicit Instruction
+
+These are locked defaults. Never modify them unless the user explicitly says to:
+
+| What | Rule |
+|---|---|
+| **Cart localStorage key** | Always `tsgabrielle_cart_v1` — never rename |
+| **Tailwind brand colors** | `primary`, `peach`, `phoenix`, `night`, `champagne` — never alter hex values |
+| **Font families** | `font-sans` = Lato (body), `font-display` = Space Grotesk (headings) — do not swap |
+| **Brand primary color** | Always `#a932bd` (Royal Orchid) — never alter |
+| **Brand slogan** | Always `"The French Trans Touch™"` — never rephrase or remove ™ |
+| **Brand name** | Always `tsgabrielle®` (lowercase, with ®) — never capitalize or remove ® |
+| **Supabase client usage** | Server components → `lib/supabase/server.ts` only; Client components → `lib/supabase/client.ts` only |
+| **Admin auth pattern** | Always use `requireAdmin()` from `lib/admin-auth.ts` on every admin API route |
+| **Security headers** | Never remove or weaken headers set in `middleware.ts` |
+| **Image component** | Always use Next.js `<Image>` — never raw `<img>` tags |
+| **Migrations** | Always create a new migration file — never edit existing ones in `supabase/migrations/` |
+| **Rate limiting** | Public API routes must use `lib/rate-limit.ts` |
+| **TypeScript** | Strict mode must remain enabled in `tsconfig.json` |
+| **Live Site URL** | Always `https://tsgabrielle.us` — never use `.com` or other TLDs in production code/docs |
+
+---
 
 ## Project Overview
 
@@ -116,9 +167,9 @@ tsgabrielle/
 │   ├── admin/             # Admin routes
 │   ├── account/           # User account routes
 │   └── checkout/          # Checkout flow
-├── components/             # React components
-│   ├── Header.jsx
-│   └── Footer.jsx
+├── components/             # React components (TypeScript)
+│   ├── Header.tsx
+│   └── Footer.tsx
 ├── lib/                   # Utility functions
 │   ├── supabase/          # Supabase client helpers
 │   ├── seo.ts             # Metadata helpers

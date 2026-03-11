@@ -3,10 +3,12 @@ import Image from "next/image";
 import { buildMetadata } from "@/lib/seo";
 import { getSupabaseServerClient } from "@/lib/supabase/server";
 import { CATEGORIES, COLLECTIONS } from "@/lib/menu";
-import { getPageContent, getHeroSlides } from "@/lib/content";
+import { getPageContent } from "@/lib/content";
+
+import { EditableText } from "@/components/builder/EditableText";
 
 export const metadata = buildMetadata({
-  title: "Welcome to tsgabrielle® USA • The French Trans Touchr™",
+  title: "Welcome to tsgabrielle® USA • The French Trans Touch™",
   description: "Discover curated lifestyle essentials at tsgabrielle® • Shop our exclusive collections of fashion accessories, luxury beauty, home décor, and apparel for him and her.",
   keywords: [
     "tsgabrielle", "lifestyle brand", "premium fashion", "home decor", "beauty essentials", 
@@ -22,30 +24,21 @@ export const metadata = buildMetadata({
 export const dynamic = "force-dynamic";
 
 export default async function HomePage() {
-  const [content, slides] = await Promise.all([
-    getPageContent("/"),
-    getHeroSlides()
+  const [content] = await Promise.all([
+    getPageContent("/")
   ]);
 
-  const heroSlides = slides.length > 0 
-    ? slides.map(s => s.image_url) 
-    : [
-        "/images/slides/tsgabrielle-Slide1.png",
-        "/images/slides/tsgabrielle-Slide2.png",
-        "/images/slides/tsgabrielle-Slide3.png",
-        "/images/slides/tsgabrielle-Slide4.png"
-      ];
-
-  const catalogueTitle = "Exclusive 💎 New";
-  const catalogueSubtitle = "Just In";
-  const etherealTitle = content.ethereal_title || "Ethereal Craftsmanship";
-  const etherealText = content.ethereal_text || "Defining the next era of high-end aesthetics through material innovation and liquid luxury. tsgabrielle® 2026 presents a curated selection of inclusive products designed for the contemporary global citizen.";
+  // Static hero slides as requested
+  const heroSlides = [
+    "/images/slides/tsgabrielle-Slide1.png",
+    "/images/slides/tsgabrielle-Slide2.png",
+    "/images/slides/tsgabrielle-Slide3.png",
+    "/images/slides/tsgabrielle-Slide4.png"
+  ];
 
   let featuredProducts: any[] = [];
   try {
     const supabase = getSupabaseServerClient();
-    
-    // Fetch featured products
     const { data } = await supabase
       .from("products")
       .select(`
@@ -63,38 +56,30 @@ export default async function HomePage() {
     console.warn("Could not fetch featured products:", error);
   }
 
-  // We use the imported CATEGORIES and COLLECTIONS for the main grid to ensure premium imagery
-  // we take up to 9 for the 3x3 grid
   const displayCategories = CATEGORIES.slice(0, 9);
   const displayCollections = COLLECTIONS.slice(0, 9);
 
   return (
-    <div className="-mt-[100px] lg:-mt-[112px]">
-      <section className="relative flex h-screen items-center justify-center overflow-hidden">
-        <div className="absolute inset-0">
-          {heroSlides.map((src, index) => (
-            <div
-              key={src}
-              className="absolute inset-0 bg-cover bg-center opacity-0 animate-[liquid_32s_ease-in-out_infinite]"
-              style={{ backgroundImage: `url(${src})`, animationDelay: `${index * 8}s` }}
+    <div>
+      {/* Hero Section with optimized transition */}
+      <section className="relative h-screen w-full overflow-hidden bg-white">
+        {heroSlides.map((src, index) => (
+          <div
+            key={src}
+            className="absolute inset-0 opacity-0 animate-slideShowFade"
+            style={{ animationDelay: `${index * 8}s` }}
+          >
+            <Image
+              src={src}
+              alt={`Slide ${index + 1}`}
+              fill
+              priority={index === 0}
+              quality={90}
+              unoptimized
+              className="object-contain"
             />
-          ))}
-        </div>
-        {/* Render overlay text if defined in slides */}
-        {slides.length > 0 && (
-          <div className="relative z-10 text-center text-white pointer-events-none">
-            {slides.map((slide, idx) => (
-              <div
-                key={slide.id}
-                className="absolute inset-0 flex flex-col items-center justify-center opacity-0 animate-[liquid_32s_ease-in-out_infinite]"
-                style={{ animationDelay: `${idx * 8}s` }}
-              >
-                <h2 className="text-6xl md:text-8xl font-light uppercase tracking-tighter mb-4">{slide.title}</h2>
-                <p className="text-sm md:text-base uppercase tracking-[0.5em] font-light">{slide.subtitle}</p>
-              </div>
-            ))}
           </div>
-        )}
+        ))}
       </section>
 
       {/* Featured Products */}
@@ -102,8 +87,18 @@ export default async function HomePage() {
         <div className="container-luxe">
           <div className="mb-20 flex flex-col md:flex-row md:items-end justify-between gap-8 border-b border-[#e7e7e7] pb-12">
             <div>
-              <p className="text-[10px] uppercase tracking-[0.3em] text-[#a932bd] font-medium mb-3">{catalogueSubtitle}</p>
-              <h2 className="text-4xl md:text-6xl font-light tracking-tight text-[#111111]">{catalogueTitle}</h2>
+              <EditableText 
+                contentKey="home_featured_subtitle" 
+                initialValue={content.home_featured_subtitle || "Just In"} 
+                as="p" 
+                className="text-[10px] uppercase tracking-[0.3em] text-[#a932bd] font-medium mb-3 block" 
+              />
+              <EditableText 
+                contentKey="home_featured_title" 
+                initialValue={content.home_featured_title || "Exclusive 💎 New"} 
+                as="h2" 
+                className="text-4xl md:text-6xl font-light tracking-tight text-[#111111] block capitalize" 
+              />
             </div>
             <Link href="/categories" className="text-[10px] uppercase tracking-[0.2em] text-[#555555] font-medium hover:text-[#a932bd] transition-colors">
               View All Arrivals
@@ -139,12 +134,22 @@ export default async function HomePage() {
         </div>
       </section>
 
-      {/* Categories Section - 3x3 Grid */}
+      {/* Categories Section */}
       <section className="bg-[#f9f9f9] py-32 border-t border-[#e7e7e7]">
         <div className="container-luxe">
           <div className="mb-24 text-center space-y-4">
-            <p className="text-[10px] uppercase tracking-[0.4em] text-[#a932bd] font-medium">Shop by Department</p>
-            <h2 className="text-4xl md:text-5xl font-light tracking-tight text-[#111111]">The Elements</h2>
+            <EditableText
+              contentKey="home_categories_subtitle"
+              initialValue={content.home_categories_subtitle || "Shop by Department"}
+              as="p"
+              className="text-[10px] uppercase tracking-[0.4em] text-[#a932bd] font-medium block"
+            />
+            <EditableText
+              contentKey="home_categories_title"
+              initialValue={content.home_categories_title || "The Elements"}
+              as="h2"
+              className="text-4xl md:text-5xl font-light tracking-tight text-[#111111] block capitalize"
+            />
           </div>
           
           <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
@@ -153,22 +158,17 @@ export default async function HomePage() {
               return (
                 <div key={idx} className="group flex flex-col gap-6">
                   <div className="holographic-card-border aspect-[3/4] overflow-hidden bg-[#f9f9f9] rounded-[3rem]">
-                  <Image
+                    <Image
                       src={displayImg}
                       alt={category.label}
                       fill
                       className="h-full w-full object-cover transition-transform duration-1000 group-hover:scale-110"
                     />
                   </div>
-                  
-                  {/* Name & Button Outside */}
                   <div className="flex flex-col items-center gap-4 text-center">
-                    <h3 className="text-xl font-light tracking-wide text-[#111111] uppercase">{category.label}</h3>
+                    <h3 className="text-xl font-light tracking-wide text-[#111111] capitalize">{category.label}</h3>
                     <div className="h-px w-8 bg-[#a932bd]/30 transition-all duration-500 group-hover:w-16 group-hover:bg-[#a932bd]" />
-                    <Link
-                      href={category.href}
-                      className="btn-holographic-outline"
-                    >
+                    <Link href={category.href} className="btn-holographic-outline">
                       Discover
                     </Link>
                   </div>
@@ -179,12 +179,22 @@ export default async function HomePage() {
         </div>
       </section>
 
-      {/* Collections Section - 3x3 Grid */}
+      {/* Collections Section */}
       <section className="bg-white py-32">
         <div className="container-luxe">
           <div className="mb-20 text-center space-y-4">
-            <p className="text-[10px] uppercase tracking-[0.4em] text-[#a932bd] font-medium">Curated Series</p>
-            <h2 className="text-4xl md:text-5xl font-light tracking-tight text-[#111111]">The Collections</h2>
+             <EditableText
+              contentKey="home_collections_subtitle"
+              initialValue={content.home_collections_subtitle || "Curated Series"}
+              as="p"
+              className="text-[10px] uppercase tracking-[0.4em] text-[#a932bd] font-medium block"
+            />
+            <EditableText
+              contentKey="home_collections_title"
+              initialValue={content.home_collections_title || "The Collections"}
+              as="h2"
+              className="text-4xl md:text-5xl font-light tracking-tight text-[#111111] block capitalize"
+            />
           </div>
           
           <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
@@ -193,20 +203,17 @@ export default async function HomePage() {
               return (
                 <div key={idx} className="group flex flex-col gap-6">
                   <div className="holographic-card-border aspect-[3/4] overflow-hidden bg-[#f9f9f9] rounded-[3rem]">
-                  <Image
+                    <Image
                       src={displayImg}
                       alt={collection.label}
                       fill
                       className="h-full w-full object-cover transition-transform duration-1000 group-hover:scale-110"
                     />
                   </div>
-                  <div className="flex flex-col items-center gap-4">
-                    <h3 className="text-xl font-light tracking-wide text-[#111111] uppercase">{collection.label}</h3>
+                  <div className="flex flex-col items-center gap-4 text-center">
+                    <h3 className="text-xl font-light tracking-wide text-[#111111] capitalize">{collection.label}</h3>
                     <div className="h-px w-8 bg-[#a932bd]/30 transition-all group-hover:w-16 group-hover:bg-[#a932bd]" />
-                    <Link
-                      href={collection.href}
-                      className="btn-holographic-outline"
-                    >
+                    <Link href={collection.href} className="btn-holographic-outline">
                       Discover Series
                     </Link>
                   </div>
@@ -216,9 +223,6 @@ export default async function HomePage() {
           </div>
         </div>
       </section>
-      
     </div>
   );
 }
-
-
