@@ -42,6 +42,7 @@
     "prisma/**/*",
     "src/**/*",
     "Ground/**/*",
-    "scripts/**/*"
+    "scripts/**/*",
+    "stitch_tsgabrielle_home_page/**/*"
   ]
 }
