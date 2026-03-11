@@ -38,6 +38,10 @@
   "exclude": [
     "node_modules",
     "supabase/functions/**/*",
-    "ground-platform/**/*"
+    "ground-platform/**/*",
+    "prisma/**/*",
+    "src/**/*",
+    "Ground/**/*",
+    "scripts/**/*"
   ]
 }
