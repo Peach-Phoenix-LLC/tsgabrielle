@@ -1,0 +1,7 @@
+# Unrelated nested projects — exclude from Vercel CLI uploads
+ground-platform/
+.agents/
+
+# Dev artifacts
+*.log
+tsconfig.tsbuildinfo

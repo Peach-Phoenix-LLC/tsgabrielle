@@ -1,31 +1,21 @@
-# Security Pillar: tsgabrielle® Digital Maison
+# Security Policy
 
-## 1. Governance & Protocol
+## Supported Versions
 
-Security is the base layer of the Maison. Every change must be validated against this pillar before Design or Conversion optimizations.
+Use this section to tell people about which versions of your project are
+currently being supported with security updates.
 
-## 2. Payment Security (PayPal-Only)
+| Version | Supported          |
+| ------- | ------------------ |
+| 5.1.x   | :white_check_mark: |
+| 5.0.x   | :x:                |
+| 4.0.x   | :white_check_mark: |
+| < 4.0   | :x:                |
 
-- **Zero-Trust Client Processing**: All transactions are handled via PayPal Smart Buttons. The Maison never touches, stores, or transmits raw credit card data.
-- **Server-Side Validation**: Every transaction must be verified server-side via the PayPal Orders API before fulfillment.
-- **Environment Isolation**: PayPal Client IDs and Secrets are strictly managed via encrypted environment variables.
+## Reporting a Vulnerability
 
-## 3. API & Data Protection
+Use this section to tell people how to report a vulnerability.
 
-- **Prisma Parameterization**: All database interactions use Prisma for built-in SQL injection protection.
-- **Type Safety**: TypeScript is enforced across the stack to prevent runtime data corruption.
-- **Middleware Guard**: Admin routes (`/admin/**`) are protected by NextAuth middleware, requiring explicit Maison Authority (Admin Role).
-
-## 4. Infrastructure & Deployment
-
-- **Google Cloud Run Security**: Traffic is served via Google Cloud Run with edge protection and HTTPS enforced.
-- **Rate Limiting**: Critical endpoints (Checkout, Login) implement tiered rate limiting.
-- **Dependency Sanitization**: Automated `npm audit` on every build to prevent supply chain attacks.
-
-## 5. Incident Response
-
-- **Monitoring**: Real-time logging of authentication failures and anomalous payment spikes.
-- **Triaging**: Vulnerabilities reported via `security@tsgabrielle.com` receive immediate priority.
-
----
-*Status: ACTIVE | Last Hardened: 2026-02-21*
+Tell them where to go, how often they can expect to get an update on a
+reported vulnerability, what to expect if the vulnerability is accepted or
+declined, etc.

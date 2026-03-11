@@ -1,0 +1,158 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  color-scheme: light;
+  --color-primary:    #a932bd;
+  --color-light:      #e7e7e7;
+  --color-bg:         #ffffff;
+  --color-header-bg:  #a932bd;
+  --color-footer-bg:  #a932bd;
+  --color-header-text:#ffffff;
+  --color-footer-text:#ffffff;
+}
+
+body {
+  background-color: var(--color-bg);
+  color: #111111;
+  font-family: var(--font-lato), sans-serif;
+  font-weight: 300;
+  @apply antialiased overflow-x-hidden;
+}
+
+.container-luxe {
+  @apply mx-auto w-full max-w-[1540px] px-6 md:px-10;
+}
+
+.glass-header {
+  background: rgba(255, 255, 255, 0.05);
+  backdrop-filter: blur(24px) saturate(120%);
+  -webkit-backdrop-filter: blur(24px) saturate(120%);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.15);
+}
+
+.holographic-text {
+  background: linear-gradient(90deg, #a932bd, #00d2ff, #a932bd, #ff0099);
+  background-size: 300% 300%;
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+  animation: liquid 6s ease-in-out infinite;
+}
+
+/* Ribbons and general small badges */
+.holographic-border {
+  position: relative;
+  background: #fff;
+  background-clip: padding-box;
+  border: 1px solid transparent;
+  border-radius: 9999px;
+  z-index: 1;
+}
+
+.holographic-border::before {
+  content: "";
+  position: absolute;
+  inset: -1.5px;
+  z-index: -1;
+  border-radius: inherit;
+  background: linear-gradient(to right, #a932bd, #00d2ff, #ff00b3, #a932bd);
+  background-size: 300% 100%;
+  animation: iridescent 4s linear infinite;
+}
+
+/* Buttons with 15px border radius and holographic borderline */
+.btn-holographic-outline {
+  @apply inline-block px-8 py-4 text-[10px] tracking-[0.2em] font-medium text-[#a932bd] transition-all duration-500 relative bg-white;
+  border-radius: 15px;
+  z-index: 1;
+}
+
+.btn-holographic-outline::after {
+  content: "";
+  position: absolute;
+  inset: -1.5px;
+  z-index: -1;
+  border-radius: inherit;
+  background: linear-gradient(135deg, #a932bd, #00d2ff, #ff00b3, #a932bd);
+  background-size: 300% 300%;
+  animation: iridescent 4s linear infinite;
+  opacity: 0.6;
+  transition: opacity 0.5s ease;
+}
+
+.btn-holographic-outline:hover::after {
+  opacity: 1;
+}
+
+.btn-holographic-outline:hover {
+  @apply scale-[1.02];
+  box-shadow: 0 0 15px rgba(169, 50, 189, 0.2);
+}
+
+/* Category/Collection Cards with 3rem border radius and holographic borderline */
+.holographic-card-border {
+  position: relative;
+  z-index: 1;
+  background: #fff;
+  transition: all 0.7s cubic-bezier(0.165, 0.84, 0.44, 1);
+}
+
+.holographic-card-border::after {
+  content: "";
+  position: absolute;
+  inset: -2px;
+  z-index: -1;
+  border-radius: inherit;
+  background: linear-gradient(135deg, #a932bd, #00d2ff, #ff00b3, #a932bd);
+  background-size: 300% 300%;
+  animation: iridescent 8s linear infinite;
+  opacity: 0.35;
+  transition: opacity 0.7s ease;
+}
+
+.holographic-card-border:hover::after {
+  opacity: 0.8;
+}
+
+.holographic-card-border:hover {
+  box-shadow: 0 20px 40px rgba(169, 50, 189, 0.12);
+}
+
+@keyframes slideShowFade {
+  0% { opacity: 0; }
+  5% { opacity: 1; }
+  25% { opacity: 1; }
+  30% { opacity: 0; }
+  100% { opacity: 0; }
+}
+
+@keyframes liquid {
+  0% { background-position: 0% 50%; opacity: 0; }
+  5% { opacity: 1; }
+  20% { background-position: 100% 50%; }
+  40% { background-position: 50% 100%; }
+  60% { background-position: 0% 50%; }
+  95% { opacity: 1; }
+  100% { background-position: 0% 50%; opacity: 0; }
+}
+
+@keyframes iridescent {
+  0% { background-position: 0% 50%; }
+  50% { background-position: 100% 50%; }
+  100% { background-position: 0% 50%; }
+}
+
+/* Core Antigravity Class for tsgabrielle™ UI Elements */
+.zero-gravity-element {
+  transform: translate3d(0, 0, 0);
+  transition: transform 1.2s cubic-bezier(0.165, 0.84, 0.44, 1),
+              box-shadow 1.2s cubic-bezier(0.165, 0.84, 0.44, 1);
+  will-change: transform;
+}
+
+.zero-gravity-element:hover {
+  transform: translate3d(0, -12px, 0) scale(1.02);
+  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.08);
+}
