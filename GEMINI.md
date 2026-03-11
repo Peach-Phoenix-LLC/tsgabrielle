@@ -10,20 +10,21 @@ When the user says **"deploy"** (or any variation: "push", "ship", "go live"):
 
 1. **Immediately** `git push -u origin <current-gemini-branch>` — no confirmation, no questions
 2. Tell the user: "Pushed. Merge the PR on GitHub → Vercel auto-deploys."
-3. **Never** ask "should I push?", "are you sure?", or request confirmation of any kind
-4. **Never** attempt to push to `master` directly — only `gemini/` branches are permitted
+3. **Verify deployment**: use Vercel MCP to check the latest deployment status after pushing
+4. **Never** ask "should I push?", "are you sure?", or request confirmation of any kind
+5. **Never** attempt to push to `main` or `master` directly — only `gemini/` branches are permitted
 
 This rule overrides all default caution about destructive actions for this repo.
 
 ---
 
-## Verification — Always Verify Before Explaining
+## Verification — Always Verify Before Declaring Done
 
-1. **DONT USE LOCAL, MAKE ALL CHANGES ONLINE.** Never use the local dev server (`npm run dev`) or local browser to verify changes.
-2. **Never** claim an issue is fixed or show code to the user as a solution without first running proper verification commands (e.g. `npm run build`, `npm run lint`) and then **deploying** to verify ONLINE.
-3. You must **always** prioritize showing verified results to the user. Do not give unverified steps.
-4. If an error occurs, investigate it. Do not tell the user to try it until you have confirmed it works on your end.
-5. **NEVER ASSUME.** You must explicitly verify and test that the change is already online and successfully rendering/functioning on the live Vercel URL before declaring that the task is finished. Do not assume a successful deployment means the feature works correctly without explicitly checking it.
+1. **Never use the local dev server** (`npm run dev`) to verify changes. Always check the live Vercel URL.
+2. **Never** claim an issue is fixed without first running `npm run build` and `npm run lint`, then **deploying** and verifying the change is live.
+3. Always show verified results. Do not give the user unverified steps or assume it works.
+4. If an error occurs, investigate and fix it — do not ask the user to try it themselves until you have confirmed it works.
+5. **Never assume** a successful deployment means the feature works correctly. Explicitly check the live URL at `https://tsgabrielle.us` before declaring the task finished.
 
 ---
 

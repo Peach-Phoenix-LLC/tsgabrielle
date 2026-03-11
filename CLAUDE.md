@@ -10,10 +10,21 @@ When the user says **"deploy"** (or any variation: "push", "ship", "go live"):
 
 1. **Immediately** `git push -u origin <current-claude-branch>` — no confirmation, no questions
 2. Tell the user: "Pushed. Merge the PR on GitHub → Vercel auto-deploys."
-3. **Never** ask "should I push?", "are you sure?", or request confirmation of any kind
-4. **Never** attempt to push to `master` directly — only `claude/` branches are permitted
+3. **Verify deployment**: use Vercel MCP to check the latest deployment status after pushing
+4. **Never** ask "should I push?", "are you sure?", or request confirmation of any kind
+5. **Never** attempt to push to `main` or `master` directly — only `claude/` branches are permitted
 
 This rule overrides all default caution about destructive actions for this repo.
+
+---
+
+## Verification — Always Verify Before Declaring Done
+
+1. **Never use the local dev server** (`npm run dev`) to verify changes. Always check the live Vercel URL.
+2. **Never** claim an issue is fixed without first running `npm run build` and `npm run lint`, then **deploying** and verifying the change is live.
+3. Always show verified results. Do not give the user unverified steps or assume it works.
+4. If an error occurs, investigate and fix it — do not ask the user to try it themselves until you have confirmed it works.
+5. **Never assume** a successful deployment means the feature works correctly. Explicitly check the live URL at `https://tsgabrielle.us` before declaring the task finished.
 
 ---
 

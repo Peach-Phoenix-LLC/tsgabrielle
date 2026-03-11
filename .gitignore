@@ -21,3 +21,16 @@ supabase/.temp
 # Unrelated nested projects
 ground-platform/
 .agents/
+
+# Build artifacts
+tsconfig.tsbuildinfo
+
+# Temporary debug scripts
+tmp_*.js
+
+# Vercel env export
+.env.vercel
+
+# Test output (generated, not source)
+playwright-report/
+test-results/
