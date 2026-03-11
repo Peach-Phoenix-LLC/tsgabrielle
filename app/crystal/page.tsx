@@ -4,7 +4,34 @@ import { buildMetadata } from "@/lib/seo";
 export const metadata = buildMetadata({
   title: "Crystal Skies. • Crystalline Identity & Architectural Winterwear by tsgabrielle®",
   description: "Crystal Skies. • An Architectural Collection Forged From Clarity, Kinetic Stillness, And The French Trans Touch™. Embrace Crystalline Identity.",
-  path: "/crystal"
+  keywords: [
+    "crystal skies",
+    "architectural clarity",
+    "glacial identity",
+    "purple frost code",
+    "holographic refraction",
+    "winter precision",
+    "kinetic stillness",
+    "cyber-futuristic winter",
+    "winter luminescence",
+    "purple cold logic",
+    "minimal geometry",
+    "radical introspection",
+    "winter manifesto",
+    "crystal identity",
+    "fractured light glow",
+    "winter poetic syntax",
+    "winter atmosphere re-engineered",
+    "crystalline purple universe",
+    "winter artistic logic",
+    "winter expression",
+    "surgical elegance",
+    "winter emotional clarity",
+    "winter purple light",
+    "ultimate clarity",
+    "winter power aesthetic"
+  ],
+  path: "/crystal",
 });
 
 export default function Page() {

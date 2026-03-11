@@ -4,7 +4,34 @@ import { buildMetadata } from "@/lib/seo";
 export const metadata = buildMetadata({
   title: "❄️Glow In Winter 26 • Resilient Luminosity & Future-Winter Wear by tsgabrielle®",
   description: "❄️Glow In Winter 26 • An Existential Collection. Softness as Strength, Light as Survival. The French Trans Touch™ Reimagines Winter.",
-  path: "/glow"
+  keywords: [
+    "glow in winter 26",
+    "resilient luminosity",
+    "winter avant-garde",
+    "trans-seasonal wear",
+    "purple core winter",
+    "holographic frost",
+    "emotional architecture",
+    "winter existentialism",
+    "deconstructed warmth",
+    "kinetic stillness",
+    "quantum ice",
+    "vitalist fashion",
+    "atmosphere re-engineer",
+    "defiant glow",
+    "insurgent warmth",
+    "singular luminescence",
+    "self-igniting style",
+    "profound grace",
+    "unstoppable force",
+    "winter transmuted",
+    "future-winter wear",
+    "identity theorem",
+    "glacial elegance",
+    "tsgabrielle winter",
+    "aesthetic survival"
+  ],
+  path: "/glow",
 });
 
 export default function Page() {
