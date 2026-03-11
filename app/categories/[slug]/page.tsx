@@ -97,7 +97,7 @@ export default async function CategoryPage({ params }: PageProps) {
   const textColor = category.text_color || "#111111";
 
   return (
-    <div className="min-h-screen" style={{ backgroundColor }}>
+    <div className="min-h-screen -mt-[160px] lg:-mt-[195px]" style={{ backgroundColor }}>
       <CollectionHero
         imageUrl={heroImage}
         alt={category.title || category.name}

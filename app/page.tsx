@@ -60,7 +60,7 @@ export default async function HomePage() {
   const displayCollections = COLLECTIONS.slice(0, 9);
 
   return (
-    <div>
+    <div className="-mt-[160px] lg:-mt-[195px]">
       {/* Hero Section with optimized transition */}
       <section className="relative h-screen w-full overflow-hidden bg-white">
         {heroSlides.map((src, index) => (
@@ -146,7 +146,7 @@ export default async function HomePage() {
             />
             <EditableText
               contentKey="home_categories_title"
-              initialValue={content.home_categories_title || "The Elements"}
+              initialValue={content.home_categories_title || "Categories"}
               as="h2"
               className="text-4xl md:text-5xl font-light tracking-tight text-[#111111] block capitalize"
             />

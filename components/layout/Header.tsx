@@ -24,7 +24,7 @@ export function Header() {
 
   return (
     <header 
-      className="absolute top-0 z-50 w-full bg-transparent text-[#a932bd]"
+      className="sticky top-0 z-50 w-full bg-white/70 backdrop-blur-md border-b border-[#a932bd]/10 text-[#a932bd] h-[160px] lg:h-[195px]"
       onMouseLeave={() => {
         setActiveGroup(null);
         setHoveredItem(null);

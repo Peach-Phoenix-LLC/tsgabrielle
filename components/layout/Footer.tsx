@@ -129,13 +129,13 @@ export function Footer() {
       <div className="w-full h-32 bg-gradient-to-b from-white to-transparent absolute top-0 left-0 z-10" />
 
       {/* tsgabrielle icon — top of footer */}
-      <div className="absolute top-36 left-1/2 -translate-x-1/2 z-20">
+      <div className="absolute top-16 left-1/2 -translate-x-1/2 z-20">
         <Image
           src="/images/tsgabrielle-icon.png"
           alt="tsgabrielle"
-          width={15}
-          height={15}
-          className="w-[15px] h-[15px] object-contain"
+          width={240}
+          height={240}
+          className="w-[240px] h-[240px] object-contain"
         />
       </div>
 

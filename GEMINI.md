@@ -66,6 +66,7 @@ These are locked defaults. Gemini must never modify them unless the user explici
 | **TypeScript** | Strict mode must remain enabled in `tsconfig.json` |
 | **3D Hero** | Must remain feature-flagged via `enable_3d_hero` and loaded with `dynamic(..., { ssr: false })` |
 | **Live Site URL** | Always `https://tsgabrielle.us` — never use `.com` or other TLDs in production code/docs |
+| **Short URL Rule** | All long URLs (`/categories/*`, `/collections/*`, `/product/*`) MUST permanently redirect to `/*` |
 
 ---
 

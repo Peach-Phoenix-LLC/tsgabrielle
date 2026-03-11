@@ -317,7 +317,7 @@ export default function ProductClientView({ product }: ProductProps) {
         <div className="container-luxe">
           <div className="mb-24 text-center space-y-4">
             <p className="text-[10px] uppercase tracking-[0.4em] text-[#a932bd] font-medium">Shop by Department</p>
-            <h2 className="text-4xl md:text-5xl font-light tracking-tight text-[#111111]">The Elements</h2>
+            <h2 className="text-4xl md:text-5xl font-light tracking-tight text-[#111111]">Categories</h2>
           </div>
           
           <div className="grid grid-cols-1 md:grid-cols-3 gap-8">

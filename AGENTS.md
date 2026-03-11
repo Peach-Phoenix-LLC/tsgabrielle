@@ -60,6 +60,7 @@ These are locked defaults. Never modify them unless the user explicitly says to:
 | **Rate limiting** | Public API routes must use `lib/rate-limit.ts` |
 | **TypeScript** | Strict mode must remain enabled in `tsconfig.json` |
 | **Live Site URL** | Always `https://tsgabrielle.us` — never use `.com` or other TLDs in production code/docs |
+| **Short URL Rule** | All long URLs (`/categories/*`, `/collections/*`, `/product/*`) MUST permanently redirect to `/*` |
 
 ---
 

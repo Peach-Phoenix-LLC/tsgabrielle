@@ -13,7 +13,12 @@ const nextConfig: NextConfig = {
   },
   async redirects() {
     return [
-      // Categories
+      // Dynamic Short URL Redirection Rule
+      { source: '/categories/:slug', destination: '/:slug', permanent: true },
+      { source: '/collections/:slug', destination: '/:slug', permanent: true },
+      { source: '/product/:slug', destination: '/:slug', permanent: true },
+
+      // Legacy & Specific Categories
       { source: '/him', destination: '/categories/for-him', permanent: true },
       { source: '/her', destination: '/categories/for-her', permanent: true },
 
