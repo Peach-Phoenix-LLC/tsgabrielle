@@ -9,7 +9,12 @@
     "lint": "next lint --no-cache",
     "typecheck": "tsc --noEmit",
     "seed": "node scripts/seed-supabase.js",
-    "import:products:v2": "node scripts/upload-products-csv-v2.js"
+    "import:products:v2": "node scripts/upload-products-csv-v2.js",
+    "db:push": "node scripts/push_schema.js",
+    "seed:collections": "node scripts/seed-collections.js",
+    "seed:update": "node scripts/seed-update.js",
+    "seed:config": "node scripts/seed-beautiful-config.js",
+    "cleanup": "node scripts/perform-cleanup.js"
   },
   "dependencies": {
     "@google-analytics/data": "^5.2.1",
