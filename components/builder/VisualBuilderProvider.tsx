@@ -7,6 +7,7 @@ interface VisualBuilderContextType {
   isEditMode: boolean;
   setIsEditMode: (mode: boolean) => void;
   pendingChanges: Record<string, any>;
+  setPendingChanges: React.Dispatch<React.SetStateAction<Record<string, any>>>;
   updateContent: (key: string, value: string) => void;
   saveChanges: () => Promise<void>;
   isSaving: boolean;
@@ -21,6 +22,7 @@ const VisualBuilderContext = createContext<VisualBuilderContextType>({
   isEditMode: false,
   setIsEditMode: () => {},
   pendingChanges: {},
+  setPendingChanges: () => {},
   updateContent: () => {},
   saveChanges: async () => {},
   isSaving: false,
@@ -36,10 +38,10 @@ export const useVisualBuilder = () => useContext(VisualBuilderContext);
 interface VisualBuilderProviderProps {
   children: React.ReactNode;
   initialEditMode?: boolean;
-  onExit: () => void;
+  onExit?: () => void;
 }
 
-export function VisualBuilderProvider({ children, initialEditMode = true, onExit }: VisualBuilderProviderProps) {
+export function VisualBuilderProvider({ children, initialEditMode = false, onExit }: VisualBuilderProviderProps) {
   const [isEditMode, setIsEditMode] = useState(initialEditMode);
   const [pendingChanges, setPendingChanges] = useState<Record<string, any>>({});
   const [isSaving, setIsSaving] = useState(false);
@@ -97,6 +99,7 @@ export function VisualBuilderProvider({ children, initialEditMode = true, onExit
         isEditMode,
         setIsEditMode,
         pendingChanges,
+        setPendingChanges,
         updateContent,
         saveChanges,
         isSaving,
@@ -120,7 +123,7 @@ export function VisualBuilderProvider({ children, initialEditMode = true, onExit
         },
         canUndo: history.length > 0,
         canRedo: future.length > 0,
-        exitBuilder: onExit,
+        exitBuilder: onExit || (() => setIsEditMode(false)),
       }}
     >
       {children}
