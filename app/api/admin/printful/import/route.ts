@@ -21,6 +21,7 @@ export async function POST(req: Request) {
     const PRINTFUL_API_URL = 'https://api.printful.com';
     const PRINTFUL_HEADERS = {
       'Authorization': `Bearer ${apiKey}`,
+      'X-PF-Store-Id': '17780588',
       'Content-Type': 'application/json'
     };
 
