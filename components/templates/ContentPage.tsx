@@ -10,9 +10,10 @@ interface ContentPageProps {
   heroImage?: string;
   heroVideo?: string;
   body: React.ReactNode;
+  allowBuilder?: boolean;
 }
 
-export function ContentPage({ title, subtitle, heroImage, heroVideo, body }: ContentPageProps) {
+export function ContentPage({ title, subtitle, heroImage, heroVideo, body, allowBuilder = true }: ContentPageProps) {
   const renderContent = (content: string) => {
     // If it looks like HTML or Markdown, render it
     const isMarkdownOrHtml = /<[a-z][\s\S]*>|#{1,6}\s|\*\*|__|\d+\.\s|\*\s|-\s|\[.*\]\(.*\)/.test(content);
@@ -60,6 +61,7 @@ export function ContentPage({ title, subtitle, heroImage, heroVideo, body }: Con
               initialValue={subtitle}
               as="p"
               className="text-[11px] uppercase tracking-[0.4em] text-[#a932bd] font-medium mb-4 block"
+              allowBuilder={allowBuilder}
             />
           )}
           <BuilderText
@@ -67,6 +69,7 @@ export function ContentPage({ title, subtitle, heroImage, heroVideo, body }: Con
             initialValue={title}
             as="h1"
             className="text-5xl md:text-7xl font-light tracking-tight text-[#111111] capitalize block"
+            allowBuilder={allowBuilder}
           />
         </div>
         <div className="text-[#555555] space-y-8 text-lg font-light leading-[2] tracking-wide">
@@ -76,6 +79,7 @@ export function ContentPage({ title, subtitle, heroImage, heroVideo, body }: Con
             as="div"
             multiline={true}
             className="w-full min-h-[500px]"
+            allowBuilder={allowBuilder}
           />
           <div className="mt-8 border-t border-[#e7e7e7] pt-8">
             <p className="text-xs uppercase tracking-widest text-black/50 mb-4 bg-gray-50 inline-block px-3 py-1 rounded">Preview Render:</p>

@@ -53,17 +53,47 @@ export async function GET() {
   if (auth.error) return auth.error;
   try {
     const supabase = getSupabaseServerClient();
-    const { data, error } = await supabase
+    const { data: products, error } = await supabase
       .from("products")
       .select(`
         *,
-        product_variants(id, variant_sku, title, inventory, msrp),
-        product_images(id, url, alt, sort_order)
+        product_variants(id, variant_sku, title, inventory, msrp)
       `)
       .order("created_at", { ascending: false });
 
     if (error) throw error;
-    return NextResponse.json(data);
+
+    const productIds = (products || []).map((product) => product.id).filter(Boolean);
+    let imagesByProduct: Record<string, ImageInput[]> = {};
+
+    if (productIds.length > 0) {
+      const { data: images, error: imagesError } = await supabase
+        .from("product_images")
+        .select("id, product_id, url, alt, sort_order")
+        .in("product_id", productIds)
+        .order("sort_order", { ascending: true });
+
+      if (imagesError) throw imagesError;
+
+      imagesByProduct = (images || []).reduce<Record<string, ImageInput[]>>((acc, image) => {
+        const key = String(image.product_id);
+        if (!acc[key]) acc[key] = [];
+        acc[key].push({
+          id: image.id,
+          url: image.url,
+          alt: image.alt,
+          sort_order: image.sort_order,
+        });
+        return acc;
+      }, {});
+    }
+
+    const response = (products || []).map((product) => ({
+      ...product,
+      product_images: imagesByProduct[String(product.id)] || [],
+    }));
+
+    return NextResponse.json(response);
   } catch (error: any) {
     console.error("Error fetching products:", error);
     return NextResponse.json({ error: error.message }, { status: 500 });

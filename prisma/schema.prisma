@@ -250,38 +250,68 @@ model StoreConfig {
 }
 
 model Category {
-  id          Int      @id @default(autoincrement())
-  name        String
-  slug        String   @unique
-  description String?
-  image_url   String?
-  image_alt   String?
-  sort_order  Int      @default(0)
-  seo_title   String?
-  seo_desc    String?
-  is_active   Boolean  @default(true)
-  is_featured Boolean  @default(false)
-  created_at  DateTime @default(now())
-  updated_at  DateTime @updatedAt
+  id                            Int       @id @default(autoincrement())
+  name                          String
+  slug                          String    @unique
+  title                         String?
+  subtitle                      String?
+  description                   String?
+  tags                          String[]  @default([])
+  hero_image_1                  String?
+  hero_image_2                  String?
+  hero_image_3                  String?
+  hero_description_1            String?
+  hero_description_2            String?
+  hero_description_3            String?
+  background_color              String?
+  text_color                    String?
+  product_grid_background_color String?
+  product_grid_text_color       String?
+  product_grid_accent_color     String?
+  hero_overlay_color            String?
+  image_url                     String?
+  image_alt                     String?
+  sort_order                    Int       @default(0)
+  seo_title                     String?
+  seo_desc                      String?
+  is_active                     Boolean   @default(true)
+  is_featured                   Boolean   @default(false)
+  created_at                    DateTime  @default(now())
+  updated_at                    DateTime  @updatedAt
 
   @@map("categories")
 }
 
 model Collection {
-  id          Int       @id @default(autoincrement())
-  name        String
-  slug        String    @unique
-  description String?
-  image_url   String?
-  image_alt   String?
-  badge       String?
-  start_date  DateTime?
-  end_date    DateTime?
-  sort_order  Int       @default(0)
-  is_active   Boolean   @default(true)
-  is_featured Boolean   @default(false)
-  created_at  DateTime  @default(now())
-  updated_at  DateTime  @updatedAt
+  id                            Int       @id @default(autoincrement())
+  name                          String
+  slug                          String    @unique
+  title                         String?
+  subtitle                      String?
+  description                   String?
+  tags                          String[]  @default([])
+  hero_image_1                  String?
+  hero_image_2                  String?
+  hero_image_3                  String?
+  hero_description_1            String?
+  hero_description_2            String?
+  hero_description_3            String?
+  background_color              String?
+  text_color                    String?
+  product_grid_background_color String?
+  product_grid_text_color       String?
+  product_grid_accent_color     String?
+  hero_overlay_color            String?
+  image_url                     String?
+  image_alt                     String?
+  badge                         String?
+  start_date                    DateTime?
+  end_date                      DateTime?
+  sort_order                    Int       @default(0)
+  is_active                     Boolean   @default(true)
+  is_featured                   Boolean   @default(false)
+  created_at                    DateTime  @default(now())
+  updated_at                    DateTime  @updatedAt
 
   @@map("collections")
 }

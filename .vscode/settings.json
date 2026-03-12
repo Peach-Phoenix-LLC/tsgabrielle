@@ -1,5 +1,4 @@
 {
   "css.lint.unknownAtRules": "ignore",
-  "github.copilot.nextEditSuggestions.enabled": false,
-  "markdown.validate.enabled": true
+  "github.copilot.nextEditSuggestions.enabled": false
 }
