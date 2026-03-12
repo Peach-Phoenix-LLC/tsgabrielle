@@ -47,10 +47,11 @@ export async function requireAdmin(): Promise<
   }
 
   const email = user.email ?? "";
-  const admins = (process.env.ADMIN_EMAILS ?? "")
+  const configuredAdmins = (process.env.ADMIN_EMAILS ?? "")
     .split(",")
     .map((e) => e.trim())
     .filter(Boolean);
+  const admins = configuredAdmins.length > 0 ? configuredAdmins : ["contact@tsgabrielle.us"];
 
   const isAdminRole = user.app_metadata?.role === "admin";
   const isAllowedEmail = admins.includes(email);

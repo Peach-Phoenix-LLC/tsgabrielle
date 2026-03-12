@@ -7,7 +7,7 @@ import { getSupabaseBrowserClient } from "@/lib/supabase/client";
 function SignInForm() {
   const router = useRouter();
   const searchParams = useSearchParams();
-  const redirectTo = searchParams.get("redirect") || "/admin";
+  const redirectTo = searchParams.get("redirect") || "/my-tsgabrielle";
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError] = useState<string | null>(null);
@@ -31,7 +31,7 @@ function SignInForm() {
       if (user?.email?.toLowerCase() === "contact@tsgabrielle.us") {
         router.push("/admin");
       } else {
-        router.push(redirectTo);
+        router.push("/my-tsgabrielle");
       }
       router.refresh();
     } catch (err) {
