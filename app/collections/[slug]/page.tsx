@@ -77,28 +77,33 @@ export default async function CollectionPage({ params }: PageProps) {
   const textColor = collection.text_color || "#111111";
 
   return (
-    <div className="min-h-screen -mt-[160px] lg:-mt-[195px]" style={{ backgroundColor }}>
+    <div className="min-h-screen pb-32 -mt-[160px] lg:-mt-[195px]" style={{ backgroundColor }}>
       <CollectionHero
         imageUrl={heroImage}
         alt={collection.meta_title || collection.name}
         overlayColor={collection.hero_overlay_color || "rgba(0,0,0,0.1)"}
-        descriptions={heroDescriptions}
       />
-      <CollectionHeader
-        title={collection.name}
-        subtitle={collection.short_description || collection.subtitle}
-        description={collection.description}
-        textColor={textColor}
-      />
-      <CollectionPageClient 
-        initialProducts={products} 
-        categories={categories} 
-        gridTheme={{
-          backgroundColor: collection.product_grid_background_color || "#ffffff",
-          textColor: collection.product_grid_text_color || textColor,
-          accentColor: collection.product_grid_accent_color || "#a932bd",
-        }}
-      />
+      <div className="container-luxe pt-8 space-y-10">
+        <CollectionHeader
+          title={collection.name}
+          subtitle={collection.short_description || collection.subtitle}
+          description={collection.description}
+          longDescription={collection.long_description}
+          slogans={heroDescriptions}
+          textColor={textColor}
+        />
+        <div className="pt-16 border-t" style={{ borderColor: `${textColor}20` }}>
+          <CollectionPageClient 
+            initialProducts={products} 
+            categories={categories} 
+            gridTheme={{
+              backgroundColor: collection.product_grid_background_color || "#ffffff",
+              textColor: collection.product_grid_text_color || textColor,
+              accentColor: collection.product_grid_accent_color || "#a932bd",
+            }}
+          />
+        </div>
+      </div>
     </div>
   );
 }
