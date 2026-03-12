@@ -15,7 +15,9 @@
     "seed:update": "node scripts/seed-update.js",
     "seed:config": "node scripts/seed-beautiful-config.js",
     "cleanup": "node scripts/perform-cleanup.js",
-    "postinstall": "prisma generate"
+    "postinstall": "prisma generate",
+    "check:build": "node scripts/check-build-warnings.js",
+    "fix:accessibility": "node scripts/fix-input-labels.js"
   },
   "dependencies": {
     "@google-analytics/data": "^5.2.1",
