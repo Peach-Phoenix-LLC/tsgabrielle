@@ -27,7 +27,9 @@ export async function POST(req: Request) {
     // 1. Fetch Sync Products
     const response = await fetch(`${PRINTFUL_API_URL}/sync/products`, { headers: PRINTFUL_HEADERS });
     if (!response.ok) {
-      throw new Error(`Failed to fetch from Printful: ${response.statusText}`);
+      const errBody = await response.json().catch(() => null);
+      const errMsg = errBody?.error?.message || (typeof errBody?.result === 'string' ? errBody.result : null) || response.statusText;
+      throw new Error(`Failed to fetch from Printful: ${errMsg}`);
     }
     const jsonData = await response.json() as { result: any[] };
     const products = jsonData.result;

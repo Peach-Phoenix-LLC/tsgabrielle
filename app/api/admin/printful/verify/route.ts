@@ -22,9 +22,10 @@ export async function GET() {
 
     if (!res.ok) {
       const errorData = await res.json().catch(() => null);
+      const errorMessage = errorData?.error?.message || (typeof errorData?.result === 'string' ? errorData.result : null) || `Printful API returned status ${res.status}`;
       return NextResponse.json({ 
         connected: false, 
-        error: errorData?.error?.message || `Printful API returned status ${res.status}` 
+        error: `Printful Error: ${errorMessage}` 
       }, { status: res.status });
     }
 
