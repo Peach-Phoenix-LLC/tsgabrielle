@@ -9,6 +9,7 @@ import { COLLECTIONS } from "@/lib/menu";
 // Add dynamic params as this is an ecommerce site, slug could change or be new
 export const dynamicParams = true;
 export const dynamic = "force-dynamic";
+export const revalidate = 0;
 
 // Define params type explicitly for Next.js 15+ constraints (params is a Promise)
 type PageProps = {

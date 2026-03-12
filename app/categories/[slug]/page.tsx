@@ -10,6 +10,7 @@ import { getPageContent } from "@/lib/content";
 // ... existing dynamic settings ...
 export const dynamicParams = true;
 export const dynamic = "force-dynamic";
+export const revalidate = 0;
 
 type PageProps = {
   params: Promise<{ slug: string }>;
