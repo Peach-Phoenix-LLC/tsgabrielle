@@ -16,10 +16,9 @@ export default async function AdminProductsPage() {
       .select(`
         id,
         title,
-        price_cents,
-        active,
-        category:categories(name),
-        variants:product_variants(sku, stock)
+        status,
+        catalogue_category,
+        variants:product_variants(variant_sku, inventory)
       `)
       .order("created_at", { ascending: false });
 
@@ -35,23 +34,19 @@ export default async function AdminProductsPage() {
   const rows = (products || []).map((p: any) => {
     // Get the first variant if available
     const primaryVariant = p.variants?.[0] || {};
-    const stockCount = primaryVariant.stock ?? 0;
-    
-    let stockStatus = "Out of Stock";
-    if (stockCount > 10) stockStatus = `In Stock (${stockCount})`;
-    else if (stockCount > 0) stockStatus = `Low Stock (${stockCount})`;
+    const stockStatus = primaryVariant.inventory || "Out of Stock";
 
     return {
       id: p.id,
       name: p.title,
-      sku: primaryVariant.sku || "N/A",
-      category: (p.category as any)?.name || "Uncategorized",
+      sku: primaryVariant.variant_sku || "N/A",
+      category: p.catalogue_category || "Uncategorized",
       price: new Intl.NumberFormat("en-US", {
         style: "currency",
         currency: "USD",
-      }).format(p.price_cents / 100),
+      }).format(p.msrp_display ? parseFloat(p.msrp_display) : 0),
       stock: stockStatus,
-      isActive: p.active
+      isActive: p.status === 'active'
     };
   });
 

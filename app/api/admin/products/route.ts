@@ -57,12 +57,9 @@ export async function GET() {
       .from("products")
       .select(`
         *,
-        categories(name, slug),
-        collections(name, slug),
-        product_variants(id, sku, title, stock, price_cents, currency),
+        product_variants(id, variant_sku, title, inventory, msrp),
         product_images(id, url, alt, sort_order)
       `)
-      .is("deleted_at", null)
       .order("created_at", { ascending: false });
 
     if (error) throw error;
