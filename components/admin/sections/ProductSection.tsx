@@ -308,7 +308,10 @@ export default function ProductSection() {
     setError(null);
     try {
       const res = await fetch("/api/admin/products");
-      if (!res.ok) throw new Error("Failed to fetch products");
+      if (!res.ok) {
+        const errorData = await res.json().catch(() => null);
+        throw new Error(errorData?.error || `Server returned status ${res.status}`);
+      }
       const data = (await res.json()) as ProductRecord[];
       setProducts(data);
     } catch (e) {

@@ -44,14 +44,21 @@ export default async function HomePage() {
       .select(`
         id,
         title,
-        slug,
-        price_cents,
-        images:product_images(url)
+        base_sku,
+        msrp_display,
+        media_primary_url
       `)
-      .eq("active", true)
+      .eq("status", "active")
       .order("created_at", { ascending: false })
       .limit(4);
-    featuredProducts = data || [];
+
+    featuredProducts = (data || []).map((p: any) => ({
+      id: p.id,
+      title: p.title,
+      slug: p.base_sku || p.id.toString(),
+      price_cents: Math.round(parseFloat(p.msrp_display || "0") * 100),
+      images: p.media_primary_url ? [{ url: p.media_primary_url }] : []
+    }));
   } catch (error) {
     console.warn("Could not fetch featured products:", error);
   }
