@@ -121,30 +121,12 @@ export function Footer() {
   );
 
   return (
-    <footer
-      className="relative w-full flex flex-col justify-end overflow-hidden pt-0 pb-16 text-[#ffffff]"
-      style={{ backgroundColor: "#a932bd" }}
-    >
-      {/* Gradient Transition from White to Purple */}
-      <div className="w-full h-32 bg-gradient-to-b from-white to-transparent absolute top-0 left-0 z-10" />
-
-      {/* tsgabrielle icon — top of footer */}
-      <div className="absolute top-16 left-1/2 -translate-x-1/2 z-20">
-        <Image
-          src="/images/tsgabrielle-icon.png"
-          alt="tsgabrielle"
-          width={100}
-          height={100}
-          className="w-[100px] h-[100px] object-contain"
-        />
-      </div>
-
-      <div className="container-luxe relative z-10 pt-16">
-
-        {/* Newsletter Signup */}
-        <div className="max-w-xl mx-auto text-center mb-16">
-          <h3 className="text-2xl font-light mb-4 text-white">Join the Universe</h3>
-          <p className="text-sm opacity-80 mb-6 text-white">
+    <>
+      {/* Newsletter Signup */}
+      <div className="w-full bg-white py-16">
+        <div className="max-w-xl mx-auto text-center px-4">
+          <h3 className="text-2xl font-light mb-4 text-[#111111]">Join the Universe</h3>
+          <p className="text-sm opacity-80 mb-6 text-[#555555]">
             Subscribe for exclusive updates, new collections, and special offers.
           </p>
           <form onSubmit={handleSubscribe} className="flex flex-col sm:flex-row gap-4">
@@ -154,7 +136,7 @@ export function Footer() {
               onChange={(e) => setEmail(e.target.value)}
               placeholder="Your email address"
               required
-              className="flex-grow bg-white/10 border border-white/20 rounded-full px-6 py-3 text-white placeholder-white/50 focus:outline-none focus:border-white/50 text-sm"
+              className="flex-grow bg-black/5 border border-black/10 rounded-full px-6 py-3 text-[#111111] placeholder-black/50 focus:outline-none focus:border-black/30 text-sm"
             />
             <button
               type="submit"
@@ -164,10 +146,31 @@ export function Footer() {
               {loading ? "Subscribing..." : "Subscribe"}
             </button>
           </form>
-          {message && <p className="text-xs mt-4 text-white">{message}</p>}
+          {message && <p className="text-xs mt-4 text-[#111111]">{message}</p>}
+        </div>
+      </div>
+
+      <footer
+        className="relative w-full flex flex-col justify-end overflow-hidden pt-0 pb-16 text-[#ffffff]"
+        style={{ backgroundColor: "#a932bd" }}
+      >
+        {/* Gradient Transition from White to Purple */}
+        <div className="w-full h-32 bg-gradient-to-b from-white to-transparent absolute top-0 left-0 z-10" />
+
+        {/* tsgabrielle icon — top of footer */}
+        <div className="absolute top-16 left-1/2 -translate-x-1/2 z-20">
+          <Image
+            src="/images/tsgabrielle-icon.png"
+            alt="tsgabrielle"
+            width={50}
+            height={50}
+            className="w-[50px] h-[50px] object-contain"
+          />
         </div>
 
-        {/* Social Links — white icons */}
+        <div className="container-luxe relative z-10 pt-16">
+
+          {/* Social Links — white icons */}
         {socialLinks.length > 0 && (
           <div className="flex justify-center flex-wrap gap-6 mb-16">
             {socialLinks.map(link => (
@@ -279,5 +282,6 @@ export function Footer() {
 
       </div>
     </footer>
+    </>
   );
 }
