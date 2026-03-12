@@ -1,63 +1,61 @@
 "use client";
 
-import React, { createContext, useContext, useState, useEffect } from "react";
-import { createClient } from "@supabase/supabase-js";
+import React, { createContext, useContext, useRef, useState } from "react";
 import { VisualBuilderToolbar } from "./VisualBuilderToolbar";
 
-const supabase = createClient(
-  process.env.NEXT_PUBLIC_SUPABASE_URL!,
-  process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!
-);
-
 interface VisualBuilderContextType {
-  isAdmin: boolean;
   isEditMode: boolean;
   setIsEditMode: (mode: boolean) => void;
   pendingChanges: Record<string, any>;
-  setPendingChanges: React.Dispatch<React.SetStateAction<Record<string, any>>>;
+  updateContent: (key: string, value: string) => void;
   saveChanges: () => Promise<void>;
   isSaving: boolean;
+  undo: () => void;
+  redo: () => void;
+  canUndo: boolean;
+  canRedo: boolean;
+  exitBuilder: () => void;
 }
 
 const VisualBuilderContext = createContext<VisualBuilderContextType>({
-  isAdmin: false,
   isEditMode: false,
   setIsEditMode: () => {},
   pendingChanges: {},
-  setPendingChanges: () => {},
+  updateContent: () => {},
   saveChanges: async () => {},
   isSaving: false,
+  undo: () => {},
+  redo: () => {},
+  canUndo: false,
+  canRedo: false,
+  exitBuilder: () => {},
 });
 
 export const useVisualBuilder = () => useContext(VisualBuilderContext);
 
-export function VisualBuilderProvider({ children }: { children: React.ReactNode }) {
-  const [isAdmin, setIsAdmin] = useState(false);
-  const [isEditMode, setIsEditMode] = useState(false);
+interface VisualBuilderProviderProps {
+  children: React.ReactNode;
+  initialEditMode?: boolean;
+  onExit: () => void;
+}
+
+export function VisualBuilderProvider({ children, initialEditMode = true, onExit }: VisualBuilderProviderProps) {
+  const [isEditMode, setIsEditMode] = useState(initialEditMode);
   const [pendingChanges, setPendingChanges] = useState<Record<string, any>>({});
   const [isSaving, setIsSaving] = useState(false);
+  const [history, setHistory] = useState<Record<string, any>[]>([]);
+  const [future, setFuture] = useState<Record<string, any>[]>([]);
+  const pendingRef = useRef(pendingChanges);
 
-  useEffect(() => {
-    checkAdminStatus();
-  }, []);
+  pendingRef.current = pendingChanges;
 
-  async function checkAdminStatus() {
-    try {
-      const { data: { session } } = await supabase.auth.getSession();
-      if (!session) return;
-
-      const user = session.user;
-      const email = user?.email ?? "";
-      
-      // In a real scenario, this matches the middleware logic
-      // But for client-side, we just check email against contact@tsgabrielle.us for now
-      // Or fetch from an endpoint.
-      if (email.toLowerCase() === "contact@tsgabrielle.us") {
-        setIsAdmin(true);
-      }
-    } catch (e) {
-      console.error("Error checking admin status", e);
-    }
+  function updateContent(key: string, value: string) {
+    setPendingChanges((prev) => {
+      const next = { ...prev, [key]: value };
+      setHistory((current) => [...current, prev]);
+      setFuture([]);
+      return next;
+    });
   }
 
   async function saveChanges() {
@@ -96,17 +94,37 @@ export function VisualBuilderProvider({ children }: { children: React.ReactNode 
   return (
     <VisualBuilderContext.Provider
       value={{
-        isAdmin,
         isEditMode,
         setIsEditMode,
         pendingChanges,
-        setPendingChanges,
+        updateContent,
         saveChanges,
         isSaving,
+        undo: () => {
+          setHistory((current) => {
+            if (current.length === 0) return current;
+            const previous = current[current.length - 1];
+            setFuture((next) => [pendingRef.current, ...next]);
+            setPendingChanges(previous);
+            return current.slice(0, -1);
+          });
+        },
+        redo: () => {
+          setFuture((current) => {
+            if (current.length === 0) return current;
+            const [nextState, ...rest] = current;
+            setHistory((historyState) => [...historyState, pendingRef.current]);
+            setPendingChanges(nextState);
+            return rest;
+          });
+        },
+        canUndo: history.length > 0,
+        canRedo: future.length > 0,
+        exitBuilder: onExit,
       }}
     >
       {children}
-      {isAdmin && <VisualBuilderToolbar />}
+      <VisualBuilderToolbar />
     </VisualBuilderContext.Provider>
   );
 }

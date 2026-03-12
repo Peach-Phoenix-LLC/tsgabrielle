@@ -5,7 +5,7 @@ import { getSupabaseServerClient } from "@/lib/supabase/server";
 import { CATEGORIES, COLLECTIONS } from "@/lib/menu";
 import { getPageContent } from "@/lib/content";
 
-import { EditableText } from "@/components/builder/EditableText";
+import BuilderText from "@/components/builder/BuilderText";
 
 export const metadata = buildMetadata({
   title: "Welcome to tsgabrielle® USA • The French Trans Touch™",
@@ -94,13 +94,13 @@ export default async function HomePage() {
         <div className="container-luxe">
           <div className="mb-20 flex flex-col md:flex-row md:items-end justify-between gap-8 border-b border-[#e7e7e7] pb-12">
             <div>
-              <EditableText 
+              <BuilderText 
                 contentKey="home_featured_subtitle" 
                 initialValue={content.home_featured_subtitle || "Just In"} 
                 as="p" 
                 className="text-[10px] uppercase tracking-[0.3em] text-[#a932bd] font-medium mb-3 block" 
               />
-              <EditableText 
+              <BuilderText 
                 contentKey="home_featured_title" 
                 initialValue={content.home_featured_title || "Exclusive 💎 New"} 
                 as="h2" 
@@ -145,13 +145,13 @@ export default async function HomePage() {
       <section className="bg-[#f9f9f9] py-32 border-t border-[#e7e7e7]">
         <div className="container-luxe">
           <div className="mb-24 text-center space-y-4">
-            <EditableText
+            <BuilderText
               contentKey="home_categories_subtitle"
               initialValue={content.home_categories_subtitle || "Shop by Department"}
               as="p"
               className="text-[10px] uppercase tracking-[0.4em] text-[#a932bd] font-medium block"
             />
-            <EditableText
+            <BuilderText
               contentKey="home_categories_title"
               initialValue={content.home_categories_title || "Categories"}
               as="h2"
@@ -190,13 +190,13 @@ export default async function HomePage() {
       <section className="bg-white py-32">
         <div className="container-luxe">
           <div className="mb-20 text-center space-y-4">
-             <EditableText
+             <BuilderText
               contentKey="home_collections_subtitle"
               initialValue={content.home_collections_subtitle || "Curated Series"}
               as="p"
               className="text-[10px] uppercase tracking-[0.4em] text-[#a932bd] font-medium block"
             />
-            <EditableText
+            <BuilderText
               contentKey="home_collections_title"
               initialValue={content.home_collections_title || "The Collections"}
               as="h2"

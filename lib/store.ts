@@ -23,6 +23,7 @@ function mapProduct(p: any): Product {
     price_cents: Math.round(parseFloat(p.msrp_display || "0") * 100),
     currency: "USD",
     active: p.status === "active",
+    images: p.media_primary_url ? [{ url: p.media_primary_url }] : [],
     metafields: {},
     ...p
   };
@@ -34,7 +35,7 @@ export async function getProductsByCategorySlug(slug: string): Promise<Product[]
   
   let query = supabase
     .from("products")
-    .select("*, product_images(url)")
+    .select("*")
     .eq("status", "active")
     .order("created_at", { ascending: false });
 
@@ -76,26 +77,26 @@ export async function getProductsByCollectionSlug(slug: string): Promise<Product
 
   let query = supabase
     .from("products")
-    .select("*, product_images(url)")
+    .select("*")
     .eq("status", "active")
     .ilike("title", `%${keyword}%`)
     .order("created_at", { ascending: false });
 
   // Special cases for collections with distinct names vs slugs
   if (slug === "edition") {
-    query = supabase.from("products").select("*, product_images(url)").eq("status", "active").ilike("title", "%Édition Spatiale%").order("created_at", { ascending: false });
+    query = supabase.from("products").select("*").eq("status", "active").ilike("title", "%Édition Spatiale%").order("created_at", { ascending: false });
   } else if (slug === "peach") {
-    query = supabase.from("products").select("*, product_images(url)").eq("status", "active").ilike("title", "%Peach Phoenix%").order("created_at", { ascending: false });
+    query = supabase.from("products").select("*").eq("status", "active").ilike("title", "%Peach Phoenix%").order("created_at", { ascending: false });
   } else if (slug === "good") {
-    query = supabase.from("products").select("*, product_images(url)").eq("status", "active").ilike("title", "%Good Vibes%").order("created_at", { ascending: false });
+    query = supabase.from("products").select("*").eq("status", "active").ilike("title", "%Good Vibes%").order("created_at", { ascending: false });
   } else if (slug === "pride") {
-    query = supabase.from("products").select("*, product_images(url)").eq("status", "active").ilike("title", "%Pride%").order("created_at", { ascending: false });
+    query = supabase.from("products").select("*").eq("status", "active").ilike("title", "%Pride%").order("created_at", { ascending: false });
   } else if (slug === "glow") {
-    query = supabase.from("products").select("*, product_images(url)").eq("status", "active").ilike("title", "%Glow In Winter%").order("created_at", { ascending: false });
+    query = supabase.from("products").select("*").eq("status", "active").ilike("title", "%Glow In Winter%").order("created_at", { ascending: false });
   } else if (slug === "crystal") {
-    query = supabase.from("products").select("*, product_images(url)").eq("status", "active").ilike("title", "%Crystal Skies%").order("created_at", { ascending: false });
+    query = supabase.from("products").select("*").eq("status", "active").ilike("title", "%Crystal Skies%").order("created_at", { ascending: false });
   } else if (slug === "transflower") {
-    query = supabase.from("products").select("*, product_images(url)").eq("status", "active").ilike("title", "%TransFLOWer%").order("created_at", { ascending: false });
+    query = supabase.from("products").select("*").eq("status", "active").ilike("title", "%TransFLOWer%").order("created_at", { ascending: false });
   }
 
   const { data } = await query;

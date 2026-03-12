@@ -1,10 +1,8 @@
-"use client";
-
 import React from "react";
 import Image from "next/image";
 import { marked } from "marked";
 import DOMPurify from "isomorphic-dompurify";
-import { EditableText } from "../builder/EditableText";
+import BuilderText from "@/components/builder/BuilderText";
 
 interface ContentPageProps {
   title: string;
@@ -57,14 +55,14 @@ export function ContentPage({ title, subtitle, heroImage, heroVideo, body }: Con
       <section className={`container-luxe max-w-4xl mx-auto relative z-20 px-4 ${(!heroImage && !heroVideo) ? 'pt-48 pb-24' : 'py-24'}`}>
         <div className="text-center mb-16">
           {subtitle && (
-            <EditableText
+            <BuilderText
               contentKey="content_subtitle"
               initialValue={subtitle}
               as="p"
               className="text-[11px] uppercase tracking-[0.4em] text-[#a932bd] font-medium mb-4 block"
             />
           )}
-          <EditableText
+          <BuilderText
             contentKey="content_title"
             initialValue={title}
             as="h1"
@@ -72,7 +70,7 @@ export function ContentPage({ title, subtitle, heroImage, heroVideo, body }: Con
           />
         </div>
         <div className="text-[#555555] space-y-8 text-lg font-light leading-[2] tracking-wide">
-          <EditableText
+          <BuilderText
             contentKey="content_body"
             initialValue={typeof body === "string" ? body : ""}
             as="div"
