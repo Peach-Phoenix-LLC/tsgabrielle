@@ -69,7 +69,7 @@ export async function createPayPalOrderAction(cartItems: any[], formUserId?: str
         const totalAmountFormatted = finalTotal.toFixed(2);
 
         // 2. Resolve User ID
-        let userId = formUserId;
+        const userId = formUserId;
 
         // 3. Create Pending Order in Prisma
         const newOrder = await prisma.order.create({
