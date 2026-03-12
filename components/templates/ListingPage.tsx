@@ -3,6 +3,7 @@ import Image from "next/image";
 import { getProductsByCategorySlug, getProductsByCollectionSlug } from "@/lib/store";
 import { CATEGORIES, COLLECTIONS } from "@/lib/menu";
 import Link from "next/link";
+import Breadcrumbs from "@/components/layout/Breadcrumbs";
 
 export async function CategoryPageTemplate({
   title,
@@ -19,35 +20,40 @@ export async function CategoryPageTemplate({
 
   return (
     <div className="bg-white pb-32">
-      <section className="relative flex h-[70vh] items-center justify-center overflow-hidden -mt-[100px] lg:-mt-[112px]">
+      <section className="relative flex h-[100svh] items-center justify-center overflow-hidden -mt-[100px] lg:-mt-[112px]">
         <div className="absolute inset-0">
           <Image
             src={heroImage}
             alt={title}
             fill
             className="h-full w-full object-cover"
+            priority
           />
-          <div className="absolute inset-0 bg-black/30" />
         </div>
-        <div className="relative z-10 text-center text-white space-y-4 px-4">
-           <p className="text-[10px] uppercase tracking-[0.4em] font-light">Official Catalogue</p>
-           <h1 className="text-5xl md:text-7xl font-light tracking-wide">{title}</h1>
-           {description && <p className="mt-4 text-sm max-w-2xl mx-auto opacity-80 leading-relaxed">{description}</p>}
-         </div>
       </section>
 
-      <section className="container-luxe pt-24 space-y-10">
-        <header className="flex flex-col md:flex-row items-center justify-between border-b border-[#e7e7e7] pb-8 gap-6">
-           <div className="text-xs font-light text-[#555555] tracking-widest uppercase">
-              {products.length} {products.length === 1 ? 'Piece' : 'Pieces'}
-           </div>
-           <div className="flex gap-4">
-              <span className="text-[10px] uppercase tracking-[0.2em] text-[#111111] pb-1 border-b border-[#111111] cursor-pointer">All</span>
-              <span className="text-[10px] uppercase tracking-[0.2em] text-[#555555] hover:text-[#111111] transition-colors cursor-pointer">Newest</span>
-              <span className="text-[10px] uppercase tracking-[0.2em] text-[#555555] hover:text-[#111111] transition-colors cursor-pointer">Price</span>
-           </div>
+      <section className="container-luxe pt-8 space-y-10">
+        <Breadcrumbs textColor="#111111" />
+        
+        <header className="text-center space-y-6 max-w-4xl mx-auto mt-8">
+           <p className="text-[10px] uppercase tracking-[0.4em] font-light text-[#555555]">Official Catalogue</p>
+           <h1 className="text-4xl md:text-6xl font-light tracking-wide uppercase text-[#111111]">{title}</h1>
+           {description && <p className="text-lg md:text-xl font-light text-[#111111]">{description}</p>}
         </header>
-        <ProductGrid products={products} />
+
+        <div className="pt-16 border-t border-[#e7e7e7]">
+          <header className="flex flex-col md:flex-row items-center justify-between pb-8 gap-6">
+             <div className="text-xs font-light text-[#555555] tracking-widest uppercase">
+                {products.length} {products.length === 1 ? 'Piece' : 'Pieces'}
+             </div>
+             <div className="flex gap-4">
+                <span className="text-[10px] uppercase tracking-[0.2em] text-[#111111] pb-1 border-b border-[#111111] cursor-pointer">All</span>
+                <span className="text-[10px] uppercase tracking-[0.2em] text-[#555555] hover:text-[#111111] transition-colors cursor-pointer">Newest</span>
+                <span className="text-[10px] uppercase tracking-[0.2em] text-[#555555] hover:text-[#111111] transition-colors cursor-pointer">Price</span>
+             </div>
+          </header>
+          <ProductGrid products={products} />
+        </div>
       </section>
     </div>
   );
@@ -72,43 +78,48 @@ export async function CollectionPageTemplate({
 
   return (
     <div className="bg-white pb-32">
-      <section className="relative flex min-h-[70vh] items-center justify-center overflow-hidden -mt-[100px] lg:-mt-[112px] pt-32 pb-16">
+      <section className="relative flex h-[100svh] items-center justify-center overflow-hidden -mt-[100px] lg:-mt-[112px]">
         <div className="absolute inset-0">
           <Image
             src={heroImage}
             alt={title}
             fill
-            className="h-full w-full object-cover"
+            className="h-full w-full object-cover object-center"
+            priority
           />
-          <div className="absolute inset-0 bg-black/40" />
         </div>
-        <div className="relative z-10 text-center text-white space-y-6 px-4 max-w-4xl mx-auto">
-           <p className="text-[10px] uppercase tracking-[0.4em] font-light">Curated Series</p>
-           <h1 className="text-4xl md:text-6xl font-light tracking-wide uppercase">{title}</h1>
-           {description && <p className="text-lg md:text-xl font-light opacity-90">{description}</p>}
-           {longDescription && <p className="text-sm md:text-base opacity-80 leading-relaxed text-justify md:text-center mt-4">{longDescription}</p>}
+      </section>
+
+      <section className="container-luxe pt-8 space-y-10">
+        <Breadcrumbs textColor="#111111" />
+        
+        <header className="text-center space-y-6 max-w-4xl mx-auto mt-8">
+           <p className="text-[10px] uppercase tracking-[0.4em] font-light text-[#555555]">Curated Series</p>
+           <h1 className="text-4xl md:text-6xl font-light tracking-wide uppercase text-[#111111]">{title}</h1>
+           {description && <p className="text-lg md:text-xl font-light text-[#111111]">{description}</p>}
+           {longDescription && <p className="text-sm md:text-base text-[#555555] leading-relaxed text-justify md:text-center mt-4">{longDescription}</p>}
            {slogans && slogans.length > 0 && (
              <div className="mt-8 flex flex-wrap justify-center gap-3">
                {slogans.map((slogan, idx) => (
-                 <span key={idx} className="text-xs uppercase tracking-widest border border-white/30 px-4 py-2 bg-black/20 backdrop-blur-sm rounded-sm">
+                 <span key={idx} className="text-xs uppercase tracking-widest border border-black/10 px-4 py-2 bg-black/5 text-[#111111] rounded-sm">
                    {slogan}
                  </span>
                ))}
              </div>
            )}
-        </div>
-      </section>
-
-      <section className="container-luxe pt-24 space-y-10">
-        <header className="flex flex-col md:flex-row items-center justify-between border-b border-[#e7e7e7] pb-8 gap-6">
-           <div className="text-xs font-light text-[#555555] tracking-widest uppercase">
-              {products.length} {products.length === 1 ? 'Piece' : 'Pieces'}
-           </div>
-           <div className="flex gap-4">
-              <span className="text-[10px] uppercase tracking-[0.2em] text-[#111111] pb-1 border-b border-[#111111] cursor-pointer">Series Overview</span>
-           </div>
         </header>
-        <ProductGrid products={products} />
+
+        <div className="pt-16 border-t border-[#e7e7e7]">
+          <header className="flex flex-col md:flex-row items-center justify-between pb-8 gap-6">
+             <div className="text-xs font-light text-[#555555] tracking-widest uppercase">
+                {products.length} {products.length === 1 ? 'Piece' : 'Pieces'}
+             </div>
+             <div className="flex gap-4">
+                <span className="text-[10px] uppercase tracking-[0.2em] text-[#111111] pb-1 border-b border-[#111111] cursor-pointer">Series Overview</span>
+             </div>
+          </header>
+          <ProductGrid products={products} />
+        </div>
       </section>
     </div>
   );
