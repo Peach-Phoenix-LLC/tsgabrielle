@@ -27,8 +27,8 @@ export async function generateMetadata({ params }: PageProps) {
   const category = await getCategoryBySlug(slug);
   if (category) {
     return buildMetadata({
-      title: `${category.name} | tsgabrielle®`,
-      description: category.description || `Shop ${category.name}`,
+      title: category.seo_title || `${category.name} | tsgabrielle®`,
+      description: category.seo_description || category.description || `Shop ${category.name}`,
       path: `/${slug}`
     });
   }
@@ -37,8 +37,8 @@ export async function generateMetadata({ params }: PageProps) {
   const collection = await getCollectionBySlug(slug);
   if (collection) {
     return buildMetadata({
-      title: `${collection.name} | tsgabrielle®`,
-      description: collection.description || `Explore ${collection.name} collection`,
+      title: collection.meta_title || `${collection.name} | tsgabrielle®`,
+      description: collection.meta_description || collection.description || `Explore ${collection.name} collection`,
       path: `/${slug}`
     });
   }
