@@ -245,13 +245,14 @@ export function Footer() {
         <div className="mt-20 flex flex-col items-center gap-10 border-t border-white/10 pt-16">
           <BrandLogo color="light" className="h-[50px] w-auto opacity-100 transition-all duration-700" />
           
-          <div className="flex justify-center items-center w-full">
+          <div className="flex justify-center items-center w-full overflow-hidden">
             <Image
               src="/images/tsgabrielle-payment-methods.png"
               alt="Accepted Payment Methods"
               width={4000}
               height={400}
-              className="h-[320px] md:h-[400px] w-auto max-w-full object-contain"
+              className="w-full max-w-[1600px] h-auto object-contain scale-[5]"
+              style={{ transformOrigin: "center center" }}
             />
           </div>
         </div>

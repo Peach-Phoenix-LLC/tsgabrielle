@@ -24,12 +24,11 @@ export default function AuthCallbackPage() {
       const { data: { user } } = await supabase.auth.getUser();
       const isAdmin = user?.email?.toLowerCase() === "contact@tsgabrielle.us" || user?.app_metadata?.role === "admin";
       
-      if (nextPath) {
-        router.replace(nextPath);
-      } else if (isAdmin) {
-        router.replace("/admin");
+      if (isAdmin) {
+        const adminTarget = nextPath && nextPath.startsWith("/admin") ? nextPath : "/admin";
+        router.replace(adminTarget);
       } else {
-        router.replace("/account");
+        router.replace("/my-tsgabrielle");
       }
       
       router.refresh();
