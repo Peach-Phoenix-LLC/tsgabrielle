@@ -142,8 +142,18 @@ export async function getVariantsByProductId(productId: string): Promise<Product
     .from("product_variants")
     .select("*")
     .eq("product_id", productId)
-    .order("title", { ascending: true });
-  return (data ?? []) as ProductVariant[];
+    .order("sort_order", { ascending: true });
+  
+  return (data ?? []).map((v: any) => ({
+    id: v.id.toString(),
+    product_id: v.product_id.toString(),
+    sku: v.variant_sku,
+    title: v.size_label + (v.color ? ` / ${v.color}` : ""),
+    printful_variant_id: v.printful_variant_id?.toString() || null,
+    stock: parseInt(v.inventory) || 0,
+    price_cents: Math.round(parseFloat(v.msrp || "0") * 100),
+    currency: "USD"
+  })) as ProductVariant[];
 }
 export async function getProductImages(productId: string): Promise<ProductImage[]> {
   if (!hasSupabaseServerEnv()) return [];

@@ -57,13 +57,24 @@ export async function GET() {
       .from("products")
       .select(`
         *,
-        product_variants(id, variant_sku, title, inventory, msrp),
+        product_variants(id, variant_sku, size_label, color, inventory, msrp),
         product_images(id, url, alt, sort_order)
       `)
       .order("created_at", { ascending: false });
 
     if (error) throw error;
-    return NextResponse.json(data);
+
+    // Map variant_sku to sku and size_label/color to title for frontend compatibility
+    const mappedData = (data || []).map((p: any) => ({
+      ...p,
+      product_variants: (p.product_variants || []).map((v: any) => ({
+        ...v,
+        sku: v.variant_sku,
+        title: v.size_label + (v.color ? ` / ${v.color}` : "")
+      }))
+    }));
+
+    return NextResponse.json(mappedData);
   } catch (error: any) {
     console.error("Error fetching products:", error);
     return NextResponse.json({ error: error.message }, { status: 500 });
@@ -98,13 +109,10 @@ export async function POST(req: Request) {
       .from("products")
       .insert({
         title: String(title || "").trim(),
-        slug: String(slug || "").trim(),
-        description: String(description || ""),
-        price_cents: normalizedPriceCents,
-        currency: String(currency || "USD"),
-        category_id: category_id || null,
-        collection_id: collection_id || null,
-        active: active !== false,
+        base_sku: String(slug || "").trim(), // Use slug as base_sku
+        long_description: String(description || ""),
+        msrp_display: (normalizedPriceCents / 100).toString(),
+        status: active !== false ? "active" : "draft",
         metafields: metafields && typeof metafields === "object" ? metafields : {},
       })
       .select("id")
@@ -129,11 +137,11 @@ export async function POST(req: Request) {
     const { error: variantsError } = await supabase.from("product_variants").insert(
       variantsToInsert.map((variant) => ({
         product_id: product.id,
-        sku: variant.sku,
-        title: variant.title || "Default",
-        stock: variant.stock || 0,
-        price_cents: variant.price_cents ?? normalizedPriceCents,
-        currency: variant.currency || "USD",
+        variant_sku: variant.sku,
+        size_label: variant.title || "Default",
+        color: "Standard",
+        inventory: (variant.stock || 0).toString(),
+        msrp: (variant.price_cents ? variant.price_cents / 100 : normalizedPriceCents / 100).toString(),
       }))
     );
 
@@ -219,11 +227,11 @@ export async function PUT(req: Request) {
     for (const variant of variants) {
       const variantPayload = {
         product_id: id,
-        sku: variant.sku,
-        title: variant.title || "Default",
-        stock: variant.stock || 0,
-        price_cents: variant.price_cents ?? normalizedPriceCents,
-        currency: variant.currency || "USD",
+        variant_sku: variant.sku,
+        size_label: variant.title || "Default",
+        color: "Standard",
+        inventory: (variant.stock || 0).toString(),
+        msrp: (variant.price_cents ? variant.price_cents / 100 : normalizedPriceCents / 100).toString(),
       };
 
       if (variant.id) {
