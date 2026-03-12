@@ -1,113 +1,29 @@
-import Script from "next/script";
 import type { Metadata } from "next";
 import { Lato, Space_Grotesk } from "next/font/google";
-import "@/app/globals.css";
 import { AppProviders } from "@/components/providers/AppProviders";
-import { buildMetadata } from "@/lib/seo";
 import { getSiteSettings } from "@/lib/content";
-import { getBuilderModeStatus } from "@/lib/builder-mode";
-import { SpeedInsights } from "@vercel/speed-insights/next";
-import { StoreLayoutWrapper } from "@/components/layout/StoreLayoutWrapper";
-import CookieConsent from "@/components/layout/CookieConsent";
+import "@/app/globals.css";
 
 const spaceGrotesk = Space_Grotesk({ subsets: ["latin"], variable: "--font-space-grotesk" });
 const lato = Lato({ subsets: ["latin"], weight: ["300", "400", "700"], variable: "--font-lato" });
 
-export const metadata: Metadata = buildMetadata({
+export const metadata: Metadata = {
   title: "tsgabrielle | Inclusive Luxury Ecommerce",
-  description: "Luxury ecommerce platform with short collection URLs and inclusive products."
-});
+  description: "Luxury ecommerce platform with short collection URLs and inclusive products.",
+};
 
-export default async function RootLayout({ children }: { children: React.ReactNode }) {
+export default async function RootLayout({
+  children,
+}: {
+  children: React.ReactNode;
+}) {
   const settings = await getSiteSettings();
-  const { isAdmin, builderEnabled } = await getBuilderModeStatus();
 
   return (
-    <html lang="en">
-      <head>
-        {/* Google Tag Manager */}
-        {process.env.NEXT_PUBLIC_GTM_ID && (
-          <Script
-            id="google-tag-manager"
-            strategy="afterInteractive"
-            dangerouslySetInnerHTML={{
-              __html: `
-                (function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
-                new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
-                j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
-                'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
-                })(window,document,'script','dataLayer','${process.env.NEXT_PUBLIC_GTM_ID}');
-              `,
-            }}
-          />
-        )}
-        {/* Google Analytics - G-02TDH8YYHB */}
-        <Script
-          id="google-analytics"
-          strategy="afterInteractive"
-          src={`https://www.googletagmanager.com/gtag/js?id=G-02TDH8YYHB`}
-        />
-        <Script
-          id="google-analytics-config"
-          strategy="afterInteractive"
-          dangerouslySetInnerHTML={{
-            __html: `
-              window.dataLayer = window.dataLayer || [];
-              function gtag(){dataLayer.push(arguments);}
-              gtag('js', new Date());
-
-              // Handle Global Privacy Control (GPC)
-              if (navigator.globalPrivacyControl === true || navigator.globalPrivacyControl === '1') {
-                gtag('set', 'restricted_data_processing', true);
-              }
-
-              // Handle manual opt-out from localStorage
-              const consent = localStorage.getItem('cookie-consent');
-              if (consent === 'rejected') {
-                gtag('set', 'restricted_data_processing', true);
-              }
-
-              gtag('config', 'G-02TDH8YYHB');
-            `,
-          }}
-        />
-      </head>
-      <body className={`${spaceGrotesk.variable} ${lato.variable}`}>
-        <script
-          type="application/ld+json"
-          dangerouslySetInnerHTML={{
-             __html: JSON.stringify({
-              "@context": "https://schema.org/",
-              "@type": "ImageObject",
-              "contentUrl": "https://tsgabrielle.us/images/tsgabrielle-logo-purple.png",
-              "license": "https://tsgabrielle.us/copyright-trademark",
-              "acquireLicensePage": "https://tsgabrielle.us/contact-tsgabrielle",
-              "creditText": "Peach Phoenix, LLC",
-              "creator": {
-                "@type": "Organization",
-                "name": "tsgabrielle"
-              },
-              "copyrightNotice": "Peach Phoenix, LLC"
-            })
-          }}
-        />
-        <CookieConsent />
-        {/* GTM noscript */}
-        {process.env.NEXT_PUBLIC_GTM_ID && (
-          <noscript>
-            <iframe
-              src={`https://www.googletagmanager.com/ns.html?id=${process.env.NEXT_PUBLIC_GTM_ID}`}
-              height="0"
-              width="0"
-              style={{ display: "none", visibility: "hidden" }}
-            ></iframe>
-          </noscript>
-        )}
+    <html lang="en" className={`${spaceGrotesk.variable} ${lato.variable}`}>
+      <body>
         <AppProviders settings={settings}>
-          <StoreLayoutWrapper isAdmin={isAdmin} builderEnabled={builderEnabled}>
-            {children}
-          </StoreLayoutWrapper>
-          <SpeedInsights />
+          {children}
         </AppProviders>
       </body>
     </html>

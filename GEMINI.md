@@ -8,11 +8,11 @@ Comprehensive guide for AI assistants working in this codebase.
 
 When the user says **"deploy"** (or any variation: "push", "ship", "go live"):
 
-1. **Immediately** `git push -u origin <current-gemini-branch>` — no confirmation, no questions
+1. **Immediately** `git push -u origin <current-gemini-branch>` — no confirmation, no questions. Use `gemini/*` prefix for all branches.
 2. Tell the user: "Pushed. Merge the PR on GitHub → Vercel auto-deploys."
 3. **Verify deployment**: use Vercel MCP to check the latest deployment status after pushing
 4. **Never** ask "should I push?", "are you sure?", or request confirmation of any kind
-5. **Never** attempt to push to `main` or `master` directly — only `gemini/` branches are permitted
+5. **Never** attempt to push to `main` or `master` directly — only `gemini/*` branches are permitted
 
 This rule overrides all default caution about destructive actions for this repo.
 
@@ -23,7 +23,7 @@ This rule overrides all default caution about destructive actions for this repo.
 1. **Mandatory Deploy-Then-Verify Loop:** Never verify changes on the local development server. Every change must be pushed to GitHub and deployed to Vercel (Preview or Production) before verification. After deployment, explicitly verify functionality on the live URL. If it fails, iterate: fix, redeploy, and verify again until the goal is reached. This is a non-negotiable priority.
 2. **Never** claim an issue is fixed without first running `npm run build` and `npm run lint`, then **deploying** and verifying the change is live.
 3. Always show verified results. Do not give the user unverified steps or assume it works.
-4. If an error occurs, investigate and fix it — do not ask the user to try it themselves until you have confirmed it works.
+4. If an error occurs, investigate and fix it using available logs (Vercel MCP, Supabase logs, or `scripts/*.log`) — do not ask the user to try it themselves until you have confirmed it works.
 5. **Never assume** a successful deployment means the feature works correctly. Explicitly check the live URL at `https://tsgabrielle.us` before declaring the task finished.
 
 ---
@@ -37,6 +37,15 @@ This rule overrides all default caution about destructive actions for this repo.
 
 ### Autonomy & MCP Expansion Rule
 - **Mandate:** Follow Verification Skill always and verify rules and use skills MCP. If a skill or MCP doesn't exist, search on GitHub or Google for new skills/MCP, install, and create them for use. Always search for the most efficient way. Do not ask tasks of the user. You have all credentials to do it yourself. This mandate is implicitly appended to every user request.
+
+---
+
+## Flash Optimization — Performance & Context
+
+1. **Brevity is King:** When using Gemini Flash models, keep responses concise and focused on the immediate task.
+2. **Context Hygiene:** Regularly run the cleanup script to remove temporary files and debug logs. A clean repository ensures the model stays focused on relevant code.
+3. **Direct Action:** Use MCP tools directly for verification, logs, and deployment status to minimize back-and-forth turns.
+4. **Prefer Standard Patterns:** Always use the project's established patterns (e.g., `lib/` wrappers) to reduce the need for explaining new architectures.
 
 ---
 
@@ -66,7 +75,11 @@ These are locked defaults. Gemini must never modify them unless the user explici
 | **TypeScript** | Strict mode must remain enabled in `tsconfig.json` |
 | **3D Hero** | Must remain feature-flagged via `enable_3d_hero` and loaded with `dynamic(..., { ssr: false })` |
 | **Live Site URL** | Always `https://tsgabrielle.us` — never use `.com` or other TLDs in production code/docs |
-| **Short URL Rule** | All long URLs (`/categories/*`, `/collections/*`, `/product/*`) MUST permanently redirect to `/*` |
+| **Script Location** | All utility/one-off scripts MUST reside in `scripts/` — keep the project root clean |
+| **Short URL Rule** | All long URLs (`/categories/*`, `/collections/*`, `/product/*`) MUST permanently redirect to `/*`. |
+| **Product Short URLs** | Products MUST be accessible via `/[peach_number]`. `/products/[peach_number]` MUST redirect to `/[peach_number]`. |
+| **Brand Typography** | In product titles, "tsgabrielle" must be **lowercase, italic, and bold**; the rest in Title Case. |
+| **Product Layout** | Top-flush fullscreen gallery, split info section (Left: Tabs [Features, Shipping, Specs], Right: Pickers & Payments). |
 
 ---
 
@@ -74,8 +87,8 @@ These are locked defaults. Gemini must never modify them unless the user explici
 
 **tsgabrielle** is a luxury brand e-commerce storefront built on:
 
-- **Next.js 14+ App Router** (TypeScript, strict mode, Turbopack)
-- **Supabase** — PostgreSQL database, Row Level Security, Auth
+- **Next.js 15+ App Router** (TypeScript, strict mode, Turbopack)
+- **Supabase & Prisma** — PostgreSQL database, ORM, Row Level Security, Auth
 - **Tailwind CSS** — custom theme with brand colors and animations
 - **PayPal** — payments (create order → capture → webhook)
 - **Printful** — print-on-demand fulfillment and inventory sync
@@ -100,6 +113,12 @@ npm run start            # Start production server
 # Code Quality (run before committing)
 npm run lint             # ESLint
 npm run typecheck        # TypeScript tsc --noEmit
+
+# Maintenance
+node scripts/perform-cleanup.js        # Run File Audit and legacy cleanup
+npx prisma db push                     # Sync Prisma schema to database
+npm run verify:footer                  # Verify live footer visuals
+npm run verify:deploy                  # Verify production deployment status
 
 # Testing
 npx playwright test                              # All Playwright tests
@@ -201,7 +220,7 @@ tsgabrielle/
 │   ├── klaviyo.ts              # Klaviyo email/event API (subscribeProfileToList, trackClientEvent)
 │   ├── admin-auth.ts           # requireAdmin() — verify admin role via Supabase auth cookie
 │   ├── rate-limit.ts           # In-memory sliding window rate limiter + getClientIp()
-│   ├── sanitize.ts             # HTML sanitization via DOMPurify (XSS prevention)
+│   ├── sanitize.ts             # HTML sanitization via DOMPurify
 │   ├── theme.ts                # Theme variable constants
 │   └── youtube.ts              # YouTube integration module
 ├── hooks/                      # Custom React hooks (4 files)
@@ -213,18 +232,33 @@ tsgabrielle/
 │   └── usePeaches.ts           # Peaches loyalty program rewards/points logic
 ├── config/                     # App-wide configuration
 │   └── navigation.ts           # Navigation structure constants
-├── scripts/                    # One-off utility scripts (14 files)
+├── scripts/                    # One-off utility scripts (31 files)
 │   ├── seed-supabase.js        # Seed database with sample data
-│   ├── upload-products-csv.js  # Bulk product import (legacy)
 │   ├── upload-products-csv-v2.js # Bulk product import v2
 │   ├── apply-migration.js      # Apply Supabase migrations
 │   ├── sync-printful-inventory.ts  # Sync product inventory from Printful
+│   ├── perform-cleanup.js      # File Audit and artifact cleanup
 │   ├── setup-printful-webhooks.js  # Configure Printful webhooks (JS)
+│   ├── verify-live-footer.js    # Live site footer CSS verification
 │   ├── setup-printful-webhooks.ts  # Configure Printful webhooks (TS)
 │   ├── test-printful-auth.js   # Debug Printful authentication
-│   ├── test-printful-oauth.js  # OAuth token testing
-│   ├── test-printful-oauth-2.js # OAuth v2 testing
-│   ├── test-printful-token.js  # Token validation
+│   ├── generate-collections.js # Generate collection page files
+│   ├── seed-collections.js     # Seed initial collection metadata
+│   ├── seed-update.js          # Seed update essentials products
+│   ├── seed-beautiful-config.js # Seed store layout configuration
+│   ├── push_schema.js          # Sync Prisma schema to DB
+│   ├── update-env.js           # Update Printful token in .env.local
+│   ├── append-env.js           # Append Printful keys to .env.local
+│   ├── env-patch-v2.js         # Update Vercel DB env vars v2
+│   ├── env-patch.js            # Patch Vercel DB env vars
+│   ├── replace-map.js          # Inject LiveMap into admin dashboard
+│   ├── final-verification.js   # Production systems sanity check
+│   ├── debug-prisma.js         # Debug Prisma connection
+│   ├── test_db.js              # Direct PG connection test
+│   ├── test-formats.js         # Test Supabase connection formats
+│   ├── test-variants.js        # Test multiple Supabase connection variants
+│   ├── check_tables.js         # Cloud SQL table inspection
+│   ├── update_buttons.js       # Global button style update
 │   ├── deploy-vercel.ps1       # Vercel deployment (PowerShell)
 │   ├── fix-domains.ps1         # Domain configuration (PowerShell)
 │   ├── sync-env.ps1            # Sync environment variables (PowerShell)
@@ -337,6 +371,11 @@ ADMIN_EMAILS                     # Comma-separated list of admin email addresses
 | Config constants | UPPER_SNAKE_CASE | `MAX_RETRIES` |
 | Database tables/columns | snake_case | `product_images`, `order_items` |
 
+### Scripting
+
+- All utility, maintenance, and one-off scripts MUST live in the `scripts/` directory.
+- Do not add scripts to the project root.
+
 ### Imports
 
 Use absolute imports with `@/` prefix (configured in `tsconfig.json`). The `@/` alias maps to `./` (root of the project).
@@ -444,6 +483,7 @@ try {
 ### Security
 
 - **Never** expose `SUPABASE_SERVICE_ROLE_KEY`, `PAYPAL_CLIENT_SECRET`, or other server-only secrets to the client
+- **Never** hardcode API keys or secrets in scripts — use `.env.local` or process environment variables
 - Use `@/lib/sanitize.ts` (DOMPurify) to sanitize any HTML before rendering
 - Rate limiting is implemented in `@/lib/rate-limit.ts` — apply it to public API routes
 - Admin routes are protected via `middleware.ts`; verify admin role with `@/lib/admin-auth.ts`
