@@ -1,5 +1,6 @@
 import Link from "next/link";
 import { getSupabaseServerClient } from "@/lib/supabase/server";
+import { PrintfulImportButton } from "@/components/admin/products/PrintfulImportButton";
 
 export const dynamic = "force-dynamic";
 
@@ -62,12 +63,15 @@ export default async function AdminProductsPage() {
             <h1 className="text-4xl font-light tracking-wide text-[#111111]">Product Inventory</h1>
             <p className="mt-2 text-lg font-light text-[#555555]">Manage your catalog, variants, and stock levels across all collections.</p>
           </div>
-          <Link 
-            href="/admin/products/new" 
-            className="flex items-center gap-2 rounded bg-[#a932bd] px-8 py-4 text-base font-light text-[#ffffff] transition-colors hover:bg-[#921fa6]"
-          >
-            + Add New Product
-          </Link>
+          <div className="flex flex-col gap-4 sm:flex-row">
+            <PrintfulImportButton />
+            <Link 
+              href="/admin/products/new" 
+              className="flex items-center justify-center gap-2 rounded bg-[#a932bd] px-8 py-4 text-base font-light text-[#ffffff] transition-colors hover:bg-[#921fa6]"
+            >
+              + Add New Product
+            </Link>
+          </div>
         </header>
 
         <div className="border border-[#e7e7e7] bg-[#ffffff] p-6">
