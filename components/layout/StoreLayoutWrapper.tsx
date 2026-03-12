@@ -1,16 +1,24 @@
 "use client";
 
 import { usePathname } from "next/navigation";
+import dynamic from "next/dynamic";
 import { Header } from "./Header";
 import { Footer } from "./Footer";
 import Breadcrumbs from "./Breadcrumbs";
-import { VisualBuilderProvider } from "../builder/VisualBuilderProvider";
 
-export function StoreLayoutWrapper({ children }: { children: React.ReactNode }) {
+const BuilderGate = dynamic(() => import("../builder/BuilderGate"), { ssr: false });
+
+interface StoreLayoutWrapperProps {
+  children: React.ReactNode;
+  isAdmin: boolean;
+  builderEnabled: boolean;
+}
+
+export function StoreLayoutWrapper({ children, isAdmin, builderEnabled }: StoreLayoutWrapperProps) {
   const pathname = usePathname();
-  const isAdmin = pathname?.startsWith("/admin");
+  const isAdminRoute = pathname?.startsWith("/admin");
 
-  if (isAdmin) {
+  if (isAdminRoute) {
     return <>{children}</>;
   }
 
@@ -22,16 +30,18 @@ export function StoreLayoutWrapper({ children }: { children: React.ReactNode }) 
   
   const hasFullscreenHero = isHomePage || isCategorySlug || isCollectionSlug;
 
-  return (
+  const content = (
     <>
-      <VisualBuilderProvider>
-        <Header />
-        <main className={hasFullscreenHero ? "" : "pt-24"}>
-          {!hasFullscreenHero && <Breadcrumbs />}
-          {children}
-        </main>
-        <Footer />
-      </VisualBuilderProvider>
+      <Header />
+      <main className={hasFullscreenHero ? "" : "pt-24"}>
+        {!hasFullscreenHero && <Breadcrumbs />}
+        {children}
+      </main>
+      <Footer />
     </>
   );
+
+  if (!isAdmin) return content;
+
+  return <BuilderGate initialEnabled={builderEnabled}>{content}</BuilderGate>;
 }
