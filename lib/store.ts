@@ -12,18 +12,32 @@ export async function getFeatureFlag3D() {
   return data?.enable_3d_hero ?? false;
 }
 
+function mapProduct(p: any): Product {
+  return {
+    id: p.id.toString(),
+    slug: p.base_sku || p.id.toString(),
+    title: p.title,
+    description: p.long_description || p.short_description || "",
+    category_id: null,
+    collection_id: null,
+    price_cents: Math.round(parseFloat(p.msrp_display || "0") * 100),
+    currency: "USD",
+    active: p.status === "active",
+    metafields: {},
+    ...p
+  };
+}
+
 export async function getProductsByCategorySlug(slug: string): Promise<Product[]> {
   if (!hasSupabaseServerEnv()) return [];
   const supabase = getSupabaseServerClient();
-  const { data: category } = await supabase.from("categories").select("id").eq("slug", slug).single();
-  if (!category?.id) return [];
   const { data } = await supabase
     .from("products")
     .select("*, product_images(url)")
-    .eq("category_id", category.id)
-    .eq("active", true)
+    .eq("catalogue_category", slug)
+    .eq("status", "active")
     .order("created_at", { ascending: false });
-  return (data ?? []) as any[];
+  return (data ?? []).map(mapProduct);
 }
 
 export async function getCollectionBySlug(slug: string): Promise<any | null> {
@@ -36,21 +50,17 @@ export async function getCollectionBySlug(slug: string): Promise<any | null> {
 export async function getProductsByCollectionSlug(slug: string): Promise<Product[]> {
   if (!hasSupabaseServerEnv()) return [];
   const supabase = getSupabaseServerClient();
-  const { data: collection } = await supabase.from("collections").select("id").eq("slug", slug).single();
-  if (!collection?.id) return [];
-  return getProductsByCollectionId(collection.id);
-}
-
-export async function getProductsByCollectionId(collectionId: string): Promise<Product[]> {
-  if (!hasSupabaseServerEnv()) return [];
-  const supabase = getSupabaseServerClient();
   const { data } = await supabase
     .from("products")
     .select("*, product_images(url)")
-    .eq("collection_id", collectionId)
-    .eq("active", true)
+    .eq("catalogue_collection", slug)
+    .eq("status", "active")
     .order("created_at", { ascending: false });
-  return (data ?? []) as any[];
+  return (data ?? []).map(mapProduct);
+}
+
+export async function getProductsByCollectionId(collectionId: string): Promise<Product[]> {
+  return getProductsByCollectionSlug(collectionId); // mapped ID to slug fallback
 }
 
 export async function getCategories(): Promise<any[]> {
@@ -63,8 +73,17 @@ export async function getCategories(): Promise<any[]> {
 export async function getProductBySlug(slug: string): Promise<Product | null> {
   if (!hasSupabaseServerEnv()) return null;
   const supabase = getSupabaseServerClient();
-  const { data } = await supabase.from("products").select("*").eq("slug", slug).single();
-  return (data as Product | null) ?? null;
+  const { data } = await supabase.from("products").select("*").eq("base_sku", slug).single();
+  
+  if (!data) {
+    // fallback to ID if it's numeric
+    if (!isNaN(Number(slug))) {
+      const { data: byId } = await supabase.from("products").select("*").eq("id", Number(slug)).single();
+      if (byId) return mapProduct(byId);
+    }
+    return null;
+  }
+  return mapProduct(data);
 }
 
 export async function getVariantsByProductId(productId: string): Promise<ProductVariant[]> {
