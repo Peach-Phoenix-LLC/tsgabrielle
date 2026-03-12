@@ -15,8 +15,7 @@
     "seed:update": "node scripts/seed-update.js",
     "seed:config": "node scripts/seed-beautiful-config.js",
     "cleanup": "node scripts/perform-cleanup.js",
-    "verify:footer": "node scripts/verify-live-footer.js",
-    "verify:deploy": "node scripts/verify-deployment.js"
+    "postinstall": "prisma generate"
   },
   "dependencies": {
     "@google-analytics/data": "^5.2.1",
@@ -41,6 +40,8 @@
     "lucide-react": "^0.577.0",
     "marked": "^17.0.4",
     "next": "^15.1.12",
+    "prisma": "^6.4.1",
+    "@prisma/client": "^6.4.1",
     "openclaw": "^2026.3.8",
     "posthog-js": "^1.359.1",
     "posthog-node": "^5.28.0",

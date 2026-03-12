@@ -1,9 +1,14 @@
-
+require('dotenv').config({ path: '.env.local' });
 const { PrismaClient } = require('@prisma/client');
 const { Pool } = require('pg');
 const { PrismaPg } = require('@prisma/adapter-pg');
 
-const pool = new Pool({ connectionString: 'postgresql://postgres.waoklslnherhziscjbnc:P%40risAZ2026*@aws-0-us-east-1.pooler.supabase.com:5432/postgres' });
+if (!process.env.DATABASE_URL) {
+    console.error("❌ DATABASE_URL is not defined in the environment.");
+    process.exit(1);
+}
+
+const pool = new Pool({ connectionString: process.env.DATABASE_URL });
 const adapter = new PrismaPg(pool);
 const prisma = new PrismaClient({ adapter });
 
