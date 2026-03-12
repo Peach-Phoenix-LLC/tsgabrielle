@@ -3,17 +3,16 @@
 import React, { useState, useEffect } from "react";
 import Image from "next/image";
 import { 
-  Heart, Share2, ChevronLeft, ChevronRight, Maximize2, 
-  Minus, Plus, ShieldCheck, Truck, RefreshCw, Award, 
-  Star, ShoppingBag, CreditCard, X, Check
+  Heart, ChevronLeft, ChevronRight, 
+  Minus, Plus, ShieldCheck, RefreshCw,
+  Star, ShoppingBag, CreditCard, X
 } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
 import { useCart } from "@/hooks/useCart";
 import { usePeaches } from "@/hooks/usePeaches";
 import { getSupabaseBrowserClient } from "@/lib/supabase/client";
-import { CATEGORIES, COLLECTIONS } from "@/lib/menu";
+import { CATEGORIES } from "@/lib/menu";
 import Link from "next/link";
-import Breadcrumbs from "@/components/layout/Breadcrumbs";
 
 interface ProductProps {
   product: {
@@ -39,8 +38,7 @@ interface ProductProps {
 }
 
 export default function ProductClientView({ product }: ProductProps) {
-  const { addItem, items } = useCart();
-  const { tier, points } = usePeaches();
+  const { addItem } = useCart();
   const [currentImg, setCurrentImg] = useState(0);
   const [selectedColor, setSelectedColor] = useState(product.colors[0].name);
   const [selectedSize, setSelectedSize] = useState<any>(null);
@@ -49,7 +47,6 @@ export default function ProductClientView({ product }: ProductProps) {
   const [isWishlisted, setIsWishlisted] = useState(false);
   const [isZoomOpen, setIsZoomOpen] = useState(false);
   const [isAdded, setIsAdded] = useState(false);
-  const [showShare, setShowShare] = useState(false);
   const [userEmail, setUserEmail] = useState<string | null>(null);
 
   useEffect(() => {
@@ -97,21 +94,42 @@ export default function ProductClientView({ product }: ProductProps) {
     setTimeout(() => setIsAdded(false), 2000);
   };
 
-  const easing = [0.165, 0.84, 0.44, 1] as const;
   const displayCategories = CATEGORIES.slice(0, 9);
+
+  // Format product title with tsgabrielle® handling
+  const formatProductTitle = (title: string) => {
+    const brandMatch = title.toLowerCase().startsWith('tsgabrielle');
+    if (brandMatch) {
+      const rest = title.substring(12).trim(); // Skip "tsgabrielle" + maybe space/®
+      return (
+        <>
+          <span className="italic font-bold">tsgabrielle®</span>{" "}
+          <span className="capitalize">{rest}</span>
+        </>
+      );
+    }
+    return <span className="capitalize">{title}</span>;
+  };
+
+  const toTitleCase = (str: string) => {
+    return str.replace(
+      /\w\S*/g,
+      (txt) => txt.charAt(0).toUpperCase() + txt.substr(1).toLowerCase()
+    );
+  };
 
   return (
     <div className="min-h-screen bg-white text-[#111] font-lato font-light selection:bg-[#a932bd]/20">
       
       {/* Fullscreen Hero Gallery */}
-      <section className="relative h-screen w-full overflow-hidden bg-black">
+      <section className="relative h-[85vh] w-full overflow-hidden bg-white">
         <AnimatePresence mode="wait">
           <motion.div
             key={currentImg}
-            initial={{ opacity: 0, scale: 1.1 }}
-            animate={{ opacity: 1, scale: 1 }}
-            exit={{ opacity: 0, scale: 1.05 }}
-            transition={{ duration: 1.5, ease: "easeOut" }}
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            transition={{ duration: 0.8 }}
             className="absolute inset-0"
           >
             <Image 
@@ -119,195 +137,213 @@ export default function ProductClientView({ product }: ProductProps) {
               fill
               className="h-full w-full object-contain" 
               alt={product.title}
+              priority
             />
-            {/* Dark overlay removed to fulfill visibility requirement */}
           </motion.div>
         </AnimatePresence>
         
-        {/* Navigation Controls */}
-        <div className="absolute bottom-12 left-0 right-0 z-20 container-luxe flex justify-between items-end">
-          <div className="flex gap-4">
-             {product.images.map((_, i) => (
-               <button 
-                 key={i} 
-                 onClick={() => setCurrentImg(i)}
-                 className={`h-0.5 transition-all duration-700 ${currentImg === i ? "w-16 bg-white" : "w-4 bg-white/20"}`}
-               />
-             ))}
-          </div>
-          <div className="flex gap-4">
-             <button 
-               onClick={() => setCurrentImg(prev => (prev === 0 ? product.images.length - 1 : prev - 1))}
-               className="group flex h-14 w-14 items-center justify-center rounded-full border border-white/20 backdrop-blur-md transition-all hover:bg-white hover:border-white"
-             >
-               <ChevronLeft className="text-white group-hover:text-black transition-colors" size={24} />
-             </button>
-             <button 
-               onClick={() => setCurrentImg(prev => (prev === product.images.length - 1 ? 0 : prev + 1))}
-               className="group flex h-14 w-14 items-center justify-center rounded-full border border-white/20 backdrop-blur-md transition-all hover:bg-white hover:border-white"
-             >
-               <ChevronRight className="text-white group-hover:text-black transition-colors" size={24} />
-             </button>
-          </div>
+        {/* Navigation Buttons */}
+        <button 
+          onClick={() => setCurrentImg(prev => (prev === 0 ? product.images.length - 1 : prev - 1))}
+          className="absolute left-8 top-1/2 -translate-y-1/2 z-20 group h-14 w-14 flex items-center justify-center rounded-full border border-black/10 bg-white/50 backdrop-blur-md transition-all hover:bg-white"
+        >
+          <ChevronLeft className="text-black" size={24} />
+        </button>
+        <button 
+          onClick={() => setCurrentImg(prev => (prev === product.images.length - 1 ? 0 : prev + 1))}
+          className="absolute right-8 top-1/2 -translate-y-1/2 z-20 group h-14 w-14 flex items-center justify-center rounded-full border border-black/10 bg-white/50 backdrop-blur-md transition-all hover:bg-white"
+        >
+          <ChevronRight className="text-black" size={24} />
+        </button>
+
+        {/* Miniatures Row */}
+        <div className="absolute bottom-8 left-0 right-0 z-20 flex justify-center gap-4 overflow-x-auto px-8 no-scrollbar">
+          {product.images.map((img, i) => (
+            <button 
+              key={i} 
+              onClick={() => setCurrentImg(i)}
+              className={`relative h-20 w-20 flex-shrink-0 overflow-hidden rounded-lg border-2 transition-all ${currentImg === i ? "border-[#a932bd] scale-105" : "border-transparent opacity-60 hover:opacity-100"}`}
+            >
+              <Image src={img} fill className="object-cover" alt={`Thumb ${i}`} />
+            </button>
+          ))}
         </div>
       </section>
 
-      {/* Breadcrumbs after Hero Image */}
-      <div className="bg-white">
-        <Breadcrumbs />
+      {/* Breadcrumbs & Title */}
+      <div className="container-luxe py-8 space-y-4">
+        <nav aria-label="Breadcrumb" className="flex items-center space-x-2 text-[10px] uppercase tracking-[0.2em] font-medium text-black/50">
+          <Link href="/" className="hover:text-[#a932bd] transition-colors">Welcome</Link>
+          <span>•</span>
+          <span className="text-black/30">{toTitleCase(product.tags[0] || "Luxury")}</span>
+          <span>•</span>
+          <span className="text-black">{product.title}</span>
+        </nav>
+        <h1 className="text-4xl md:text-5xl font-light tracking-tight">{formatProductTitle(product.title)}</h1>
       </div>
 
-      {/* Purchase & Details Section */}
-      <section className="bg-white border-b border-[#e7e7e7]">
-        <div className="container-luxe py-24 lg:grid lg:grid-cols-2 gap-24 items-start">
-          
-          <div className="space-y-12">
-            <div className="space-y-4">
-              <span className="text-[10px] uppercase tracking-[0.4em] text-[#a932bd] font-medium">Curated Masterpiece</span>
-              <h2 className="text-4xl md:text-5xl font-light tracking-tight capitalize">{product.title}</h2>
-              <div className="flex items-center gap-6 py-2 border-y border-[#f0f0f0]">
-                <p className="text-3xl font-light text-[#a932bd]">${(product.price / 100).toFixed(2)}</p>
-                <div className="h-4 w-px bg-[#e7e7e7]" />
-                <div className="flex items-center gap-2">
-                  <Star size={14} className="fill-[#a932bd] text-[#a932bd]" />
-                  <span className="text-xs font-medium tracking-widest uppercase">{product.rating} Editorial Score</span>
-                </div>
-              </div>
-            </div>
+      {/* Main Content Split Section */}
+      <section className="container-luxe pb-24 lg:grid lg:grid-cols-2 gap-24 items-start border-t border-[#f0f0f0] pt-12">
+        
+        {/* Left Column: Tabs */}
+        <div className="space-y-12">
+          <div className="flex gap-10 border-b border-[#f0f0f0]">
+            {["premium", "shipping", "specifications"].map(tab => (
+              <button 
+                key={tab} 
+                onClick={() => setActiveTab(tab)}
+                className={`pb-4 text-[10px] uppercase tracking-[0.3em] font-bold transition-all relative ${activeTab === tab ? "text-[#a932bd]" : "text-black/30 hover:text-black"}`}
+              >
+                {tab === "premium" ? "Premium Features" : tab === "shipping" ? "Shipping Info" : "Specifications"}
+                {activeTab === tab && <motion.div layoutId="tab-underline" className="absolute bottom-0 left-0 right-0 h-0.5 bg-[#a932bd]" />}
+              </button>
+            ))}
+          </div>
 
-            <div className="space-y-10">
-               {/* Color */}
-               <div className="space-y-4">
-                <p className="text-[10px] uppercase tracking-widest font-bold">Palette: <span className="font-light">{selectedColor}</span></p>
-                <div className="flex gap-3">
-                  {product.colors.map(color => (
-                    <button 
-                      key={color.name}
-                      onClick={() => setSelectedColor(color.name)}
-                      className={`w-10 h-10 rounded-full border-2 p-1 transition-all ${selectedColor === color.name ? "border-[#a932bd]" : "border-transparent"}`}
-                    >
-                      <div className="w-full h-full rounded-full" style={{ backgroundColor: color.hex }}></div>
-                    </button>
+          <AnimatePresence mode="wait">
+            <motion.div 
+              key={activeTab}
+              initial={{ opacity: 0, y: 10 }}
+              animate={{ opacity: 1, y: 0 }}
+              exit={{ opacity: 0, y: -10 }}
+              transition={{ duration: 0.4 }}
+              className="min-h-[250px]"
+            >
+              {activeTab === "premium" && (
+                <ul className="space-y-6">
+                  {product.details.slice(0, 5).map((item, i) => (
+                    <li key={i} className="flex items-start gap-4">
+                      <div className="mt-1.5 h-2 w-2 rounded-full bg-[#a932bd] flex-shrink-0" />
+                      <span className="text-sm text-[#111] leading-relaxed uppercase tracking-wider font-medium">{item}</span>
+                    </li>
                   ))}
+                </ul>
+              )}
+              {activeTab === "shipping" && (
+                <div className="space-y-6 text-sm text-[#555] uppercase tracking-wider leading-relaxed">
+                  <p className="font-medium text-[#111]">{product.shipping}</p>
+                  <p>{product.care}</p>
                 </div>
-              </div>
-
-               {/* Size */}
-               <div className="space-y-4 text-left">
-                <div className="flex justify-between items-center">
-                  <p className="text-[10px] uppercase tracking-widest font-bold">Measurement: <span className="font-light">{selectedSize?.name || "Unselected"}</span></p>
-                  <button className="text-[8px] uppercase tracking-[0.3em] text-[#a932bd] hover:opacity-60">Architectural Guide</button>
-                </div>
-                <div className="grid grid-cols-3 gap-3">
-                  {product.sizes.map(size => (
-                    <button 
-                      key={size.variantId}
-                      onClick={() => setSelectedSize(size)}
-                      className={`py-4 text-[10px] tracking-widest uppercase transition-all duration-500 rounded-xl ${selectedSize?.variantId === size.variantId ? "bg-[#111111] text-white" : "bg-[#f9f9f9] text-[#111111] hover:bg-[#a932bd]/10 hover:text-[#a932bd]"}`}
-                    >
-                      {size.name}
-                    </button>
-                  ))}
-                </div>
-              </div>
-
-              {/* CTAs */}
-              <div className="flex flex-col gap-4">
-                <div className="flex gap-4">
-                  <div className="flex items-center bg-[#f9f9f9] px-6 rounded-full border border-black/5">
-                    <button onClick={() => setQuantity(q => Math.max(1, q - 1))} className="hover:text-[#a932bd]"><Minus size={16}/></button>
-                    <input type="number" value={quantity} readOnly className="w-14 text-center bg-transparent text-sm font-medium focus:outline-none" />
-                    <button onClick={() => setQuantity(q => q + 1)} className="hover:text-[#a932bd]"><Plus size={16}/></button>
+              )}
+              {activeTab === "specifications" && (
+                <div className="grid grid-cols-2 gap-8 text-[10px] uppercase tracking-[0.2em]">
+                  <div className="space-y-2">
+                    <p className="font-bold text-[#a932bd]">SKU</p>
+                    <p className="text-[#111]">{product.id}</p>
                   </div>
-                  <button 
-                    onClick={handleAddToBag}
-                    className={`flex-1 btn-holographic-outline !py-6 uppercase tracking-[0.4em] font-bold text-xs ${isAdded ? "!text-green-600 !border-green-600/20" : ""}`}
-                  >
-                    {isAdded ? "Secured in Bag" : "Add to Universe"}
-                  </button>
+                  <div className="space-y-2">
+                    <p className="font-bold text-[#a932bd]">Category</p>
+                    <p className="text-[#111]">{product.tags[0] || "Collection"}</p>
+                  </div>
+                  <div className="space-y-2">
+                    <p className="font-bold text-[#a932bd]">Material</p>
+                    <p className="text-[#111]">Luxury Blend</p>
+                  </div>
+                  <div className="space-y-2">
+                    <p className="font-bold text-[#a932bd]">Inventory</p>
+                    <p className="text-[#111]">{product.stock > 0 ? "In Stock" : "Limited Edition"}</p>
+                  </div>
                 </div>
-                <button className="w-full bg-[#111111] text-white py-6 rounded-[15px] uppercase tracking-[0.4em] font-bold text-xs hover:bg-[#a932bd] transition-all duration-700 flex items-center justify-center gap-3">
-                   Instant Acquisition
-                </button>
-              </div>
+              )}
+            </motion.div>
+          </AnimatePresence>
+        </div>
 
-              {/* Security Logos */}
-              <div className="pt-6 border-t border-[#f0f0f0] flex justify-between items-center px-4 grayscale opacity-40 hover:grayscale-0 hover:opacity-100 transition-all duration-1000">
-                <Image src="https://upload.wikimedia.org/wikipedia/commons/b/b0/Apple_Pay_logo.svg" alt="Apple Pay" width={24} height={24} className="h-6 w-auto" />
-                <Image src="https://upload.wikimedia.org/wikipedia/commons/f/f2/Google_Pay_Logo.svg" alt="Google Pay" width={20} height={20} className="h-5 w-auto" />
-                <Image src="https://upload.wikimedia.org/wikipedia/commons/b/b5/PayPal.svg" alt="PayPal" width={20} height={20} className="h-5 w-auto" />
-                <Image src="https://upload.wikimedia.org/wikipedia/commons/5/5a/Venmo_logo.svg" alt="Venmo" width={24} height={24} className="h-6 w-auto" />
-              </div>
+        {/* Right Column: Pickers & Payments */}
+        <div className="space-y-12">
+          {/* Price */}
+          <div className="flex items-center gap-6">
+            <p className="text-4xl font-light text-[#a932bd]">${(product.price / 100).toFixed(2)}</p>
+            <div className="h-6 w-px bg-[#e7e7e7]" />
+            <div className="flex items-center gap-2">
+              <Star size={16} className="fill-[#a932bd] text-[#a932bd]" />
+              <span className="text-xs font-bold tracking-widest uppercase">{product.rating} Editorial</span>
             </div>
           </div>
 
-          {/* Right: Feature Tabs */}
-          <div className="lg:pt-2">
-             <div className="flex flex-col gap-10">
-               <div className="flex flex-col gap-8">
-                 <div className="flex gap-10 border-b border-[#f0f0f0]">
-                    {["premium", "tags", "narrative"].map(tab => (
-                      <button 
-                        key={tab} 
-                        onClick={() => setActiveTab(tab)}
-                        className={`pb-4 text-[10px] uppercase tracking-[0.3em] font-bold transition-all relative ${activeTab === tab ? "text-[#a932bd]" : "text-black/30 hover:text-black"}`}
-                      >
-                        {tab === "premium" ? "Features" : tab === "tags" ? "Universe" : "Narrative"}
-                        {activeTab === tab && <motion.div layoutId="tab-underline" className="absolute bottom-0 left-0 right-0 h-0.5 bg-[#a932bd]" />}
-                      </button>
-                    ))}
-                 </div>
+          <div className="space-y-8">
+            {/* Color Picker with small photo thumbnails if possible */}
+            <div className="space-y-4">
+              <p className="text-[10px] uppercase tracking-widest font-bold">Selection: <span className="font-light">{selectedColor}</span></p>
+              <div className="flex gap-4">
+                {product.colors.map(color => (
+                  <button 
+                    key={color.name}
+                    onClick={() => setSelectedColor(color.name)}
+                    className={`group relative w-12 h-12 rounded-full border-2 p-1 transition-all ${selectedColor === color.name ? "border-[#a932bd]" : "border-transparent"}`}
+                  >
+                    <div className="w-full h-full rounded-full" style={{ backgroundColor: color.hex }}></div>
+                    <span className="absolute -bottom-6 left-1/2 -translate-x-1/2 text-[8px] opacity-0 group-hover:opacity-100 transition-opacity whitespace-nowrap">{color.name}</span>
+                  </button>
+                ))}
+              </div>
+            </div>
 
-                 <AnimatePresence mode="wait">
-                   <motion.div 
-                     key={activeTab}
-                     initial={{ opacity: 0, y: 15 }}
-                     animate={{ opacity: 1, y: 0 }}
-                     exit={{ opacity: 0, y: -15 }}
-                     transition={{ duration: 0.6, ease: easing }}
-                     className="min-h-[300px]"
-                   >
-                     {activeTab === "premium" && (
-                       <ul className="space-y-6">
-                         {product.details.map((item, i) => (
-                           <li key={i} className="flex items-start gap-4">
-                             <div className="mt-1.5 h-1.5 w-1.5 rounded-full bg-[#a932bd]" />
-                             <span className="text-sm text-[#555555] leading-relaxed uppercase tracking-wider font-medium">{item}</span>
-                           </li>
-                         ))}
-                       </ul>
-                     )}
-                     {activeTab === "tags" && (
-                        <div className="flex flex-wrap gap-3">
-                          {product.tags.map((tag, i) => (
-                            <span key={i} className="px-5 py-2.5 bg-[#f9f9f9] text-[9px] uppercase tracking-widest font-bold border border-black/5 rounded-full text-[#a932bd]">
-                              {tag}
-                            </span>
-                          ))}
-                        </div>
-                     )}
-                     {activeTab === "narrative" && (
-                        <div className="text-black/70 leading-loose">
-                           <p className="whitespace-pre-line text-xs uppercase tracking-widest">{product.description}</p>
-                        </div>
-                     )}
-                   </motion.div>
-                 </AnimatePresence>
-               </div>
+            {/* Size / Variant Picker */}
+            <div className="space-y-4">
+              <p className="text-[10px] uppercase tracking-widest font-bold">Size / Fit: <span className="font-light">{selectedSize?.name || "Choose Size"}</span></p>
+              <div className="grid grid-cols-4 gap-2">
+                {product.sizes.map(size => (
+                  <button 
+                    key={size.variantId}
+                    onClick={() => setSelectedSize(size)}
+                    className={`py-4 text-[10px] tracking-widest uppercase transition-all rounded-lg border ${selectedSize?.variantId === size.variantId ? "bg-[#111] text-white border-black" : "bg-white text-[#111] border-black/10 hover:border-[#a932bd]"}`}
+                  >
+                    {size.name}
+                  </button>
+                ))}
+              </div>
+            </div>
 
-               <div className="grid grid-cols-2 gap-8 py-10 border-t border-[#f0f0f0]">
-                  <div className="flex flex-col gap-3">
-                    <RefreshCw className="text-[#a932bd]" size={20} />
-                    <h4 className="text-[10px] font-bold capitalize tracking-widest">Ethereal Returns</h4>
-                    <p className="text-[10px] text-black/50 leading-relaxed uppercase">Returns accepted within 14 cycles of arrival.</p>
-                  </div>
-                  <div className="flex flex-col gap-3">
-                    <ShieldCheck className="text-[#a932bd]" size={20} />
-                    <h4 className="text-[10px] font-bold capitalize tracking-widest">Secured Core</h4>
-                    <p className="text-[10px] text-black/50 leading-relaxed uppercase">Quantum encryption for every acquisition.</p>
-                  </div>
-               </div>
-             </div>
+            {/* Quantity */}
+            <div className="space-y-4">
+              <p className="text-[10px] uppercase tracking-widest font-bold">Quantity</p>
+              <div className="flex items-center w-32 bg-[#f9f9f9] px-4 py-2 rounded-lg border border-black/5 justify-between">
+                <button onClick={() => setQuantity(q => Math.max(1, q - 1))} className="hover:text-[#a932bd]"><Minus size={16}/></button>
+                <span className="text-sm font-medium">{quantity}</span>
+                <button onClick={() => setQuantity(q => q + 1)} className="hover:text-[#a932bd]"><Plus size={16}/></button>
+              </div>
+            </div>
+
+            {/* Action Buttons */}
+            <div className="flex flex-col gap-4">
+              <div className="grid grid-cols-2 gap-4">
+                <button 
+                  onClick={handleAddToBag}
+                  className={`py-5 text-[10px] uppercase tracking-[0.3em] font-bold rounded-xl transition-all border-2 ${isAdded ? "bg-green-600 border-green-600 text-white" : "bg-black text-white border-black hover:bg-[#a932bd] hover:border-[#a932bd]"}`}
+                >
+                  {isAdded ? "Added to Universe" : "Add to Bag"}
+                </button>
+                <button 
+                  onClick={() => setIsWishlisted(!isWishlisted)}
+                  className={`py-5 text-[10px] uppercase tracking-[0.3em] font-bold rounded-xl transition-all border-2 flex items-center justify-center gap-2 ${isWishlisted ? "bg-[#a932bd]/10 border-[#a932bd] text-[#a932bd]" : "bg-white border-black/10 hover:border-black"}`}
+                >
+                  <Heart size={14} className={isWishlisted ? "fill-[#a932bd]" : ""} />
+                  {isWishlisted ? "Wishlisted" : "Wishlist"}
+                </button>
+              </div>
+
+              {/* Express Payments with Original Colors */}
+              <div className="space-y-4 pt-4 border-t border-[#f0f0f0]">
+                <p className="text-[10px] uppercase tracking-widest font-bold text-center text-black/40">Express Checkout</p>
+                <div className="grid grid-cols-2 gap-3">
+                  <button className="h-14 bg-black text-white rounded-xl flex items-center justify-center gap-2 font-bold hover:opacity-90 transition-opacity">
+                    <span className="text-lg"></span> Pay
+                  </button>
+                  <button className="h-14 bg-white border border-gray-200 rounded-xl flex items-center justify-center gap-2 font-medium hover:bg-gray-50 transition-colors">
+                    <Image src="https://www.gstatic.com/images/branding/product/1x/gpay_32dp.png" width={40} height={20} alt="GPay" className="object-contain" />
+                  </button>
+                </div>
+                <div className="grid grid-cols-2 gap-3">
+                  <button className="h-14 bg-[#FFC439] text-[#003087] rounded-xl flex items-center justify-center font-bold hover:bg-[#f2ba34] transition-colors">
+                    PayPal
+                  </button>
+                  <button className="h-14 bg-[#008CFF] text-white rounded-xl flex items-center justify-center font-bold hover:bg-[#007ce6] transition-colors">
+                    Venmo
+                  </button>
+                </div>
+              </div>
+            </div>
           </div>
         </div>
       </section>
@@ -392,4 +428,3 @@ export default function ProductClientView({ product }: ProductProps) {
     </div>
   );
 }
-

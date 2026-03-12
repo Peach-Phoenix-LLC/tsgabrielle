@@ -117,17 +117,22 @@ export async function getCategories(): Promise<any[]> {
 export async function getProductBySlug(slug: string): Promise<Product | null> {
   if (!hasSupabaseServerEnv()) return null;
   const supabase = getSupabaseServerClient();
-  const { data } = await supabase.from("products").select("*").eq("base_sku", slug).single();
   
-  if (!data) {
-    // fallback to ID if it's numeric
-    if (!isNaN(Number(slug))) {
-      const { data: byId } = await supabase.from("products").select("*").eq("id", Number(slug)).single();
-      if (byId) return mapProduct(byId);
-    }
-    return null;
+  // Try slug (base_sku)
+  const { data: bySlug } = await supabase.from("products").select("*").eq("base_sku", slug).single();
+  if (bySlug) return mapProduct(bySlug);
+
+  // Try peach_number if numeric
+  if (!isNaN(Number(slug))) {
+    const { data: byPeach } = await supabase.from("products").select("*").eq("peach_number", Number(slug)).single();
+    if (byPeach) return mapProduct(byPeach);
+    
+    // Try regular ID if peach_number fails
+    const { data: byId } = await supabase.from("products").select("*").eq("id", Number(slug)).single();
+    if (byId) return mapProduct(byId);
   }
-  return mapProduct(data);
+  
+  return null;
 }
 
 export async function getVariantsByProductId(productId: string): Promise<ProductVariant[]> {

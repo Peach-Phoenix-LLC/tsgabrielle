@@ -18,6 +18,7 @@ const nextConfig: NextConfig = {
       { source: '/categories/:slug', destination: '/:slug', permanent: true },
       { source: '/collections/:slug', destination: '/:slug', permanent: true },
       { source: '/product/:slug', destination: '/:slug', permanent: true },
+      { source: '/products/:slug', destination: '/:slug', permanent: true },
 
       // Legacy & Specific Categories
       { source: '/him', destination: '/categories/for-him', permanent: true },

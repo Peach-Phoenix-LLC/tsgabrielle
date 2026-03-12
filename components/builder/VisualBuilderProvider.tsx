@@ -7,6 +7,7 @@ interface VisualBuilderContextType {
   isEditMode: boolean;
   setIsEditMode: (mode: boolean) => void;
   pendingChanges: Record<string, any>;
+  setPendingChanges: React.Dispatch<React.SetStateAction<Record<string, any>>>;
   updateContent: (key: string, value: string) => void;
   saveChanges: () => Promise<void>;
   isSaving: boolean;
@@ -21,6 +22,7 @@ const VisualBuilderContext = createContext<VisualBuilderContextType>({
   isEditMode: false,
   setIsEditMode: () => {},
   pendingChanges: {},
+  setPendingChanges: () => {},
   updateContent: () => {},
   saveChanges: async () => {},
   isSaving: false,
@@ -97,6 +99,7 @@ export function VisualBuilderProvider({ children, initialEditMode = true, onExit
         isEditMode,
         setIsEditMode,
         pendingChanges,
+        setPendingChanges,
         updateContent,
         saveChanges,
         isSaving,

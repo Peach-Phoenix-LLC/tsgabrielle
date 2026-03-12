@@ -30,7 +30,7 @@ export function EditableImage({
   className = "",
   priority = false,
 }: EditableImageProps) {
-  const { isEditMode, pendingChanges, setPendingChanges } = useVisualBuilder();
+  const { isEditMode, pendingChanges, updateContent } = useVisualBuilder();
   const [localSrc, setLocalSrc] = useState(initialSrc);
   const [isUploading, setIsUploading] = useState(false);
 
@@ -63,10 +63,7 @@ export function EditableImage({
         .getPublicUrl(filePath);
 
       setLocalSrc(publicUrl);
-      setPendingChanges((prev) => ({
-        ...prev,
-        [contentKey]: publicUrl,
-      }));
+      updateContent(contentKey, publicUrl);
     } catch (error) {
       console.error("Upload error:", error);
       alert("Failed to upload image");
@@ -120,7 +117,7 @@ export function EditableImage({
                  value={localSrc} 
                  onChange={(e) => {
                     setLocalSrc(e.target.value);
-                    setPendingChanges((prev) => ({...prev, [contentKey]: e.target.value}));
+                    updateContent(contentKey, e.target.value);
                  }}
                  placeholder="Or paste URL"
                  className="text-[10px] px-2 py-1 text-black outline-none w-32 rounded-l" 
