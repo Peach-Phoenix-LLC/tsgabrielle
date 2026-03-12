@@ -38,10 +38,10 @@ export const useVisualBuilder = () => useContext(VisualBuilderContext);
 interface VisualBuilderProviderProps {
   children: React.ReactNode;
   initialEditMode?: boolean;
-  onExit: () => void;
+  onExit?: () => void;
 }
 
-export function VisualBuilderProvider({ children, initialEditMode = true, onExit }: VisualBuilderProviderProps) {
+export function VisualBuilderProvider({ children, initialEditMode = false, onExit }: VisualBuilderProviderProps) {
   const [isEditMode, setIsEditMode] = useState(initialEditMode);
   const [pendingChanges, setPendingChanges] = useState<Record<string, any>>({});
   const [isSaving, setIsSaving] = useState(false);
@@ -123,7 +123,7 @@ export function VisualBuilderProvider({ children, initialEditMode = true, onExit
         },
         canUndo: history.length > 0,
         canRedo: future.length > 0,
-        exitBuilder: onExit,
+        exitBuilder: onExit || (() => setIsEditMode(false)),
       }}
     >
       {children}
