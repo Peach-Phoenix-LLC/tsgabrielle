@@ -25,7 +25,7 @@ export function BrandLogo({ href = "/", className = "", color = 'light' }: Brand
   const logoUrl = (color === 'purple' || color === 'dark') ? defaultLogo : (settings?.site_logo || defaultLogo);
 
   return (
-    <Link href={href} className={`inline-flex items-center ${className}`.trim()}>
+    <Link href={href} className={`inline-flex items-end ${className}`.trim()}>
       <Image 
         src={logoUrl} 
         alt="logo" 
@@ -41,6 +41,20 @@ export function BrandLogo({ href = "/", className = "", color = 'light' }: Brand
           }
         }} 
       />
+      <span 
+        className="font-display font-bold leading-none -ml-2 pb-1 tracking-tighter text-2xl lg:text-4xl"
+        style={{
+          backgroundImage: "url('/images/tsgabrielle-us.gif')",
+          backgroundSize: "cover",
+          backgroundPosition: "center",
+          WebkitBackgroundClip: "text",
+          backgroundClip: "text",
+          color: "transparent",
+          display: "inline-block"
+        }}
+      >
+        .us
+      </span>
     </Link>
   );
 }
