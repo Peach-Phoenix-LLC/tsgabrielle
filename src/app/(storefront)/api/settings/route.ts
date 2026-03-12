@@ -5,7 +5,7 @@ import { authOptions } from '@/lib/auth';
 
 export async function GET() {
     try {
-        // @ts-ignore - Property exists but diagnostic is out of sync
+        // @ts-expect-error - Property exists but diagnostic is out of sync
         const setting = await (prisma as any).globalSetting.findUnique({
             where: { key: 'maintenance_mode' }
         });
@@ -25,7 +25,7 @@ export async function POST(request: Request) {
 
     try {
         const { enabled } = await request.json();
-        // @ts-ignore - Property exists but diagnostic is out of sync
+        // @ts-expect-error - Property exists but diagnostic is out of sync
         const setting = await (prisma as any).globalSetting.upsert({
             where: { key: 'maintenance_mode' },
             update: { value: String(enabled) },

@@ -41,7 +41,7 @@ export async function createOrderAction(formData: FormData, cartItems: any[]) {
         const tax = Number((subtotal * 0.08875).toFixed(2));
         const totalAmount = subtotal + shipping + tax;
 
-        let userId = formData.get('userId') as string | null;
+        const userId = formData.get('userId') as string | null;
 
         // Create the order and nested order items in a single Prisma transaction
         const newOrder = await prisma.order.create({
