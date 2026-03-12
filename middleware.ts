@@ -4,6 +4,14 @@ import { createServerClient } from "@supabase/ssr";
 export async function middleware(request: NextRequest) {
   const { pathname } = request.nextUrl;
 
+  // Short URL Rule: Redirect /products/[peach_number] to /[peach_number]
+  if (pathname.startsWith("/products/")) {
+    const slug = pathname.split("/")[2];
+    if (slug && /^\d+$/.test(slug)) {
+      return NextResponse.redirect(new URL(`/${slug}`, request.url), 301);
+    }
+  }
+
   // Fast path: only routes that need auth checks hit Supabase.
   // All other routes get security headers only (no network call → no timeout).
   const needsAuth =

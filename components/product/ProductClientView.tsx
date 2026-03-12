@@ -100,6 +100,19 @@ export default function ProductClientView({ product }: ProductProps) {
   const easing = [0.165, 0.84, 0.44, 1] as const;
   const displayCategories = CATEGORIES.slice(0, 9);
 
+  // Format product title with tsgabrielle® handling
+  const formatProductTitle = (title: string) => {
+    if (title.toLowerCase().startsWith('tsgabrielle')) {
+      return (
+        <>
+          <span className="italic font-bold">tsgabrielle®</span>
+          {title.substring(10)}
+        </>
+      );
+    }
+    return title;
+  };
+
   return (
     <div className="min-h-screen bg-white text-[#111] font-lato font-light selection:bg-[#a932bd]/20">
       
@@ -120,7 +133,6 @@ export default function ProductClientView({ product }: ProductProps) {
               className="h-full w-full object-contain" 
               alt={product.title}
             />
-            {/* Dark overlay removed to fulfill visibility requirement */}
           </motion.div>
         </AnimatePresence>
         
@@ -164,7 +176,7 @@ export default function ProductClientView({ product }: ProductProps) {
           <div className="space-y-12">
             <div className="space-y-4">
               <span className="text-[10px] uppercase tracking-[0.4em] text-[#a932bd] font-medium">Curated Masterpiece</span>
-              <h2 className="text-4xl md:text-5xl font-light tracking-tight capitalize">{product.title}</h2>
+              <h2 className="text-4xl md:text-5xl font-light tracking-tight capitalize">{formatProductTitle(product.title)}</h2>
               <div className="flex items-center gap-6 py-2 border-y border-[#f0f0f0]">
                 <p className="text-3xl font-light text-[#a932bd]">${(product.price / 100).toFixed(2)}</p>
                 <div className="h-4 w-px bg-[#e7e7e7]" />
@@ -226,17 +238,30 @@ export default function ProductClientView({ product }: ProductProps) {
                     {isAdded ? "Secured in Bag" : "Add to Universe"}
                   </button>
                 </div>
-                <button className="w-full bg-[#111111] text-white py-6 rounded-[15px] uppercase tracking-[0.4em] font-bold text-xs hover:bg-[#a932bd] transition-all duration-700 flex items-center justify-center gap-3">
-                   Instant Acquisition
-                </button>
-              </div>
-
-              {/* Security Logos */}
-              <div className="pt-6 border-t border-[#f0f0f0] flex justify-between items-center px-4 grayscale opacity-40 hover:grayscale-0 hover:opacity-100 transition-all duration-1000">
-                <Image src="https://upload.wikimedia.org/wikipedia/commons/b/b0/Apple_Pay_logo.svg" alt="Apple Pay" width={24} height={24} className="h-6 w-auto" />
-                <Image src="https://upload.wikimedia.org/wikipedia/commons/f/f2/Google_Pay_Logo.svg" alt="Google Pay" width={20} height={20} className="h-5 w-auto" />
-                <Image src="https://upload.wikimedia.org/wikipedia/commons/b/b5/PayPal.svg" alt="PayPal" width={20} height={20} className="h-5 w-auto" />
-                <Image src="https://upload.wikimedia.org/wikipedia/commons/5/5a/Venmo_logo.svg" alt="Venmo" width={24} height={24} className="h-6 w-auto" />
+                <div className="grid grid-cols-2 gap-4">
+                  <button className="w-full bg-[#111111] text-white py-6 rounded-[15px] uppercase tracking-[0.4em] font-bold text-xs hover:bg-[#a932bd] transition-all duration-700 flex items-center justify-center gap-3">
+                    <ShoppingBag size={16} />
+                    Wishlist
+                  </button>
+                  <button className="w-full bg-[#111111] text-white py-6 rounded-[15px] uppercase tracking-[0.4em] font-bold text-xs hover:bg-[#a932bd] transition-all duration-700 flex items-center justify-center gap-3">
+                    <CreditCard size={16} />
+                    Apple Pay
+                  </button>
+                </div>
+                <div className="grid grid-cols-3 gap-4">
+                  <button className="w-full bg-[#111111] text-white py-6 rounded-[15px] uppercase tracking-[0.4em] font-bold text-xs hover:bg-[#a932bd] transition-all duration-700 flex items-center justify-center gap-3">
+                    <CreditCard size={16} />
+                    Google Pay
+                  </button>
+                  <button className="w-full bg-[#111111] text-white py-6 rounded-[15px] uppercase tracking-[0.4em] font-bold text-xs hover:bg-[#a932bd] transition-all duration-700 flex items-center justify-center gap-3">
+                    <CreditCard size={16} />
+                    PayPal
+                  </button>
+                  <button className="w-full bg-[#111111] text-white py-6 rounded-[15px] uppercase tracking-[0.4em] font-bold text-xs hover:bg-[#a932bd] transition-all duration-700 flex items-center justify-center gap-3">
+                    <CreditCard size={16} />
+                    Venmo
+                  </button>
+                </div>
               </div>
             </div>
           </div>
@@ -246,13 +271,13 @@ export default function ProductClientView({ product }: ProductProps) {
              <div className="flex flex-col gap-10">
                <div className="flex flex-col gap-8">
                  <div className="flex gap-10 border-b border-[#f0f0f0]">
-                    {["premium", "tags", "narrative"].map(tab => (
+                    {["premium", "shipping", "specifications"].map(tab => (
                       <button 
                         key={tab} 
                         onClick={() => setActiveTab(tab)}
                         className={`pb-4 text-[10px] uppercase tracking-[0.3em] font-bold transition-all relative ${activeTab === tab ? "text-[#a932bd]" : "text-black/30 hover:text-black"}`}
                       >
-                        {tab === "premium" ? "Features" : tab === "tags" ? "Universe" : "Narrative"}
+                        {tab === "premium" ? "Premium Features" : tab === "shipping" ? "Shipping Info" : "Specifications"}
                         {activeTab === tab && <motion.div layoutId="tab-underline" className="absolute bottom-0 left-0 right-0 h-0.5 bg-[#a932bd]" />}
                       </button>
                     ))}
@@ -277,18 +302,40 @@ export default function ProductClientView({ product }: ProductProps) {
                          ))}
                        </ul>
                      )}
-                     {activeTab === "tags" && (
-                        <div className="flex flex-wrap gap-3">
-                          {product.tags.map((tag, i) => (
-                            <span key={i} className="px-5 py-2.5 bg-[#f9f9f9] text-[9px] uppercase tracking-widest font-bold border border-black/5 rounded-full text-[#a932bd]">
-                              {tag}
-                            </span>
-                          ))}
+                     {activeTab === "shipping" && (
+                        <div className="space-y-6">
+                          <div className="flex items-start gap-4">
+                            <div className="mt-1.5 h-1.5 w-1.5 rounded-full bg-[#a932bd]" />
+                            <span className="text-sm text-[#555555] leading-relaxed uppercase tracking-wider font-medium">{product.shipping}</span>
+                          </div>
+                          <div className="flex items-start gap-4">
+                            <div className="mt-1.5 h-1.5 w-1.5 rounded-full bg-[#a932bd]" />
+                            <span className="text-sm text-[#555555] leading-relaxed uppercase tracking-wider font-medium">{product.care}</span>
+                          </div>
                         </div>
                      )}
-                     {activeTab === "narrative" && (
-                        <div className="text-black/70 leading-loose">
-                           <p className="whitespace-pre-line text-xs uppercase tracking-widest">{product.description}</p>
+                     {activeTab === "specifications" && (
+                        <div className="space-y-6">
+                          <div className="grid grid-cols-2 gap-4">
+                            <div>
+                              <span className="text-xs uppercase tracking-wider font-bold text-[#a932bd]">SKU:</span>
+                              <p className="text-sm text-[#555555] leading-relaxed uppercase tracking-wider font-medium mt-1">{product.id}</p>
+                            </div>
+                            <div>
+                              <span className="text-xs uppercase tracking-wider font-bold text-[#a932bd]">Category:</span>
+                              <p className="text-sm text-[#555555] leading-relaxed uppercase tracking-wider font-medium mt-1">Apparel</p>
+                            </div>
+                          </div>
+                          <div className="grid grid-cols-2 gap-4">
+                            <div>
+                              <span className="text-xs uppercase tracking-wider font-bold text-[#a932bd]">Colors Available:</span>
+                              <p className="text-sm text-[#555555] leading-relaxed uppercase tracking-wider font-medium mt-1">{product.colors.map(c => c.name).join(', ')}</p>
+                            </div>
+                            <div>
+                              <span className="text-xs uppercase tracking-wider font-bold text-[#a932bd]">Sizes Available:</span>
+                              <p className="text-sm text-[#555555] leading-relaxed uppercase tracking-wider font-medium mt-1">{product.sizes.map(s => s.name).join(', ')}</p>
+                            </div>
+                          </div>
                         </div>
                      )}
                    </motion.div>
