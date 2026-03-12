@@ -13,7 +13,7 @@ export async function GET() {
       return NextResponse.json({ connected: false, error: "PRINTFUL_API_KEY environment variable is missing" }, { status: 400 });
     }
 
-    const res = await fetch("https://api.printful.com/store/info", {
+    const res = await fetch("https://api.printful.com/stores", {
       headers: {
         'Authorization': `Bearer ${apiKey}`,
         'Content-Type': 'application/json'
@@ -30,7 +30,8 @@ export async function GET() {
     }
 
     const data = await res.json();
-    return NextResponse.json({ connected: true, store: data.result });
+    const store = Array.isArray(data.result) && data.result.length > 0 ? data.result[0] : null;
+    return NextResponse.json({ connected: true, store });
 
   } catch (error: any) {
     console.error("Printful verification error:", error);
