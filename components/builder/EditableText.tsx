@@ -21,7 +21,7 @@ export function EditableText({
   multiline = false,
 }: EditableTextProps) {
   const Component = (as || "span") as any;
-  const { isEditMode, pendingChanges, setPendingChanges } = useVisualBuilder();
+  const { isEditMode, pendingChanges, updateContent } = useVisualBuilder();
   const [localValue, setLocalValue] = useState(initialValue);
   const [isEditing, setIsEditing] = useState(false);
 
@@ -36,10 +36,7 @@ export function EditableText({
 
   const handleChange = (val: string) => {
     setLocalValue(val);
-    setPendingChanges((prev) => ({
-      ...prev,
-      [contentKey]: val,
-    }));
+    updateContent(contentKey, val);
   };
 
   if (!isEditMode) {

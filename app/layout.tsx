@@ -5,6 +5,7 @@ import "@/app/globals.css";
 import { AppProviders } from "@/components/providers/AppProviders";
 import { buildMetadata } from "@/lib/seo";
 import { getSiteSettings } from "@/lib/content";
+import { getBuilderModeStatus } from "@/lib/builder-mode";
 import { SpeedInsights } from "@vercel/speed-insights/next";
 import { StoreLayoutWrapper } from "@/components/layout/StoreLayoutWrapper";
 import CookieConsent from "@/components/layout/CookieConsent";
@@ -19,6 +20,7 @@ export const metadata: Metadata = buildMetadata({
 
 export default async function RootLayout({ children }: { children: React.ReactNode }) {
   const settings = await getSiteSettings();
+  const { isAdmin, builderEnabled } = await getBuilderModeStatus();
 
   return (
     <html lang="en">
@@ -102,7 +104,9 @@ export default async function RootLayout({ children }: { children: React.ReactNo
           </noscript>
         )}
         <AppProviders settings={settings}>
-          <StoreLayoutWrapper>{children}</StoreLayoutWrapper>
+          <StoreLayoutWrapper isAdmin={isAdmin} builderEnabled={builderEnabled}>
+            {children}
+          </StoreLayoutWrapper>
           <SpeedInsights />
         </AppProviders>
       </body>
