@@ -84,7 +84,7 @@ These are locked defaults. Gemini must never modify them unless the user explici
 
 **tsgabrielle** is a luxury brand e-commerce storefront built on:
 
-- **Next.js 14+ App Router** (TypeScript, strict mode, Turbopack)
+- **Next.js 15+ App Router** (TypeScript, strict mode, Turbopack)
 - **Supabase & Prisma** — PostgreSQL database, ORM, Row Level Security, Auth
 - **Tailwind CSS** — custom theme with brand colors and animations
 - **PayPal** — payments (create order → capture → webhook)
@@ -114,6 +114,8 @@ npm run typecheck        # TypeScript tsc --noEmit
 # Maintenance
 node scripts/perform-cleanup.js        # Run File Audit and legacy cleanup
 npx prisma db push                     # Sync Prisma schema to database
+npm run verify:footer                  # Verify live footer visuals
+npm run verify:deploy                  # Verify production deployment status
 
 # Testing
 npx playwright test                              # All Playwright tests
@@ -234,6 +236,7 @@ tsgabrielle/
 │   ├── sync-printful-inventory.ts  # Sync product inventory from Printful
 │   ├── perform-cleanup.js      # File Audit and artifact cleanup
 │   ├── setup-printful-webhooks.js  # Configure Printful webhooks (JS)
+│   ├── verify-live-footer.js    # Live site footer CSS verification
 │   ├── setup-printful-webhooks.ts  # Configure Printful webhooks (TS)
 │   ├── test-printful-auth.js   # Debug Printful authentication
 │   ├── generate-collections.js # Generate collection page files

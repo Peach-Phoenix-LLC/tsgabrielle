@@ -14,7 +14,9 @@
     "seed:collections": "node scripts/seed-collections.js",
     "seed:update": "node scripts/seed-update.js",
     "seed:config": "node scripts/seed-beautiful-config.js",
-    "cleanup": "node scripts/perform-cleanup.js"
+    "cleanup": "node scripts/perform-cleanup.js",
+    "verify:footer": "node scripts/verify-live-footer.js",
+    "verify:deploy": "node scripts/verify-deployment.js"
   },
   "dependencies": {
     "@google-analytics/data": "^5.2.1",

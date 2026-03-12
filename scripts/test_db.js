@@ -1,17 +1,14 @@
+require('dotenv').config({ path: '.env.local' });
 const { Client } = require('pg');
 
-if (!process.env.DATABASE_URL) {
-    console.error('❌ DATABASE_URL is not set in environment.');
-    process.exit(1);
-}
-
+// Use DATABASE_URL from .env.local
 const client = new Client({
     connectionString: process.env.DATABASE_URL
 });
 
 client.connect()
     .then(() => {
-        console.log('Successfully connected to database with connection string.');
+        console.log('Successfully connected to database.');
         return client.query('SELECT NOW()');
     })
     .then(res => {
