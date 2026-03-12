@@ -1,22 +1,12 @@
 import { NextResponse } from "next/server";
 import { Resend } from "resend";
-import { getSupabaseServerClient } from "@/lib/supabase/server";
+import { requireAdmin } from "@/lib/admin-auth";
 
 export async function POST(req: Request) {
   try {
-    const supabase = getSupabaseServerClient();
-    
     // 1. Verify user is admin
-    const { data: { user } } = await supabase.auth.getUser();
-    if (!user) {
-      return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
-    }
-
-    // Check if user has admin role in app_metadata
-    const isAdmin = user.app_metadata?.role === "admin";
-    if (!isAdmin) {
-      return NextResponse.json({ error: "Unauthorized" }, { status: 403 });
-    }
+    const auth = await requireAdmin();
+    if (auth instanceof NextResponse) return auth;
 
     // 2. Parse request
     const { to, subject, body } = await req.json();
