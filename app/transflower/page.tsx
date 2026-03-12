@@ -4,7 +4,34 @@ import { buildMetadata } from "@/lib/seo";
 export const metadata = buildMetadata({
   title: "TransFLOWer™ • Blooming Luxury Streetwear by tsgabrielle®",
   description: "TransFLOWer™ • A Luxury Streetwear Collection Celebrating Identity, Growth, And Soft Strength.",
-  path: "/transflower"
+  keywords: [
+    "transflower",
+    "blooming identity",
+    "purple floral streetwear",
+    "soft strength",
+    "resilient elegance",
+    "holographic dew",
+    "identity growth",
+    "french trans touch in bloom",
+    "tsgabrielle luxury",
+    "concrete flowers",
+    "delicate structure",
+    "blooming purple",
+    "emotional growth apparel",
+    "floral streetwear",
+    "unbreakable softness",
+    "trans resilience",
+    "floral aesthetic fashion",
+    "identity in bloom",
+    "purple spectrum apparel",
+    "soft luxury streetwear",
+    "purposeful petals",
+    "trans empowerment fashion",
+    "poetic growth",
+    "elegant streetwear",
+    "blooming silhouette"
+  ],
+  path: "/transflower",
 });
 
 export default function Page() {

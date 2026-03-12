@@ -15,74 +15,102 @@ export const collections: Collection[] = [
         path: '/collections/beaute-beauty'
     },
     {
+        title: 'Pride 26',
+        count: '20 pieces',
+        image: '/images/slides/tsgabrielle-Slide1.png',
+        description: 'Pride 26: A radical universe of identity, hyper-visibility, and the incandescent truth of self, forged with vanguardist elegance.',
+        path: '/pride'
+    },
+    {
+        title: 'Good Vibes Only.',
+        count: '18 pieces',
+        image: '/images/slides/tsgabrielle-Slide3.png',
+        description: 'Good Vibes Only. radiates softness, joy, and purple‑powered optimism.',
+        path: '/good'
+    },
+    {
+        title: 'TransLove™',
+        count: '18 pieces',
+        image: '/images/slides/tsgabrielle-Slide4.png',
+        description: 'TransLove™ celebrates identity, visibility, and soft purple‑pink warmth.',
+        path: '/translove'
+    },
+    {
+        title: 'Made In USA',
+        count: '16 pieces',
+        image: '/images/slides/tsgabrielle-Slide2.png',
+        description: 'Made In USA blends American craftsmanship with French purple elegance.',
+        path: '/made-in-usa'
+    },
+    {
         title: 'Peach Phoenix™',
         count: '12 pieces',
         image: '/images/collections/peach-phoenix.png',
-        description: 'Rising from the embers in soft amethyst hues.',
-        path: '/collections/peach-phoenix'
+        description: 'Peach Phoenix™ celebrates rebirth, identity, and peach‑powered transformation.',
+        path: '/peach'
     },
     {
         title: 'Paris',
         count: '24 pieces',
         image: '/images/collections/paris.png',
-        description: 'Chic, timeless elegance inspired by the streets of Paris.',
-        path: '/collections/paris'
+        description: 'Paris blends Parisian elegance with modern purple luxury streetwear.',
+        path: '/paris'
     },
     {
-        title: 'Unicorn 🦄',
+        title: 'Unicorn',
         count: '15 pieces',
         image: '/images/collections/unicorn.png',
-        description: 'Iridescent fabrics and mythical aesthetics.',
-        path: '/collections/unicorn'
+        description: 'Unicorn celebrates magic, individuality, and iridescent identity.',
+        path: '/unicorn'
     },
     {
-        title: 'Arizona 🌵',
+        title: 'Arizona',
         count: '11 pieces',
         image: '/images/collections/arizona.png',
-        description: 'Desert tones meet high-tech utility.',
-        path: '/collections/arizona'
+        description: 'Arizona blends desert heat, resilience, and purple identity.',
+        path: '/arizona'
     },
     {
         title: 'Womanizer',
         count: '18 pieces',
         image: '/images/collections/womanizer.png',
-        description: 'Bold, empowering silhouettes for the modern icon.',
-        path: '/collections/womanizer'
+        description: 'Womanizer celebrates quiet charisma, magnetic presence, and discreet purple‑powered allure.',
+        path: '/womanizer'
     },
     {
-        title: 'TransFLOWer',
+        title: 'TransFLOWer™',
         count: '25 pieces',
         image: 'https://images.unsplash.com/photo-1490750967868-88aa4486c946?auto=format&fit=crop&q=80&w=800',
-        description: 'Organic growth and fluid geometry in bloom.',
-        path: '/collections/transflower'
+        description: 'TransFLOWer™ blends softness, strength, and blooming purple identity.',
+        path: '/transflower'
     },
     {
-        title: 'Flamant 🦩 Rose',
+        title: 'Flamant Rose',
         count: '16 pieces',
         image: '/images/collections/flamant-rose.png',
-        description: 'Vibrant pinks and lightweight summer layers.',
-        path: '/collections/flamant-rose'
+        description: 'Flamant Rose celebrates softness, elegance, and pink‑purple glow.',
+        path: '/flamant-rose'
     },
     {
-        title: '🌌✨ Édition Spatiale • Cosmic Edition',
+        title: '✨ Édition Spatiale • Cosmic Edition',
         count: '20 pieces',
         image: '/images/collections/edition-spatiale.png',
-        description: 'Out-of-this-world textures and astronomical detail.',
-        path: '/collections/cosmic'
+        description: '✨ Édition Spatiale • Cosmic Edition explores cosmic identity and celestial glow.',
+        path: '/edition'
     },
     {
-        title: 'Crystal Skies',
+        title: 'Crystal Skies.',
         count: '14 pieces',
         image: '/images/collections/crystal-skies.png',
-        description: 'Transparent layers and icy, clear-cut aesthetics.',
-        path: '/collections/crystal-skies'
+        description: 'Crystal Skies.: A vanguardist manifesto of winter’s precise clarity, architectural brilliance, and the power of luminous stillness.',
+        path: '/crystal'
     },
     {
-        title: '❄️ Glow in Winter 26',
+        title: '❄️Glow In Winter 26',
         count: '15 pieces',
         image: '/images/collections/glow-in-winter-26.png',
-        description: 'Luminescent fabrics for the peak of winter.',
-        path: '/collections/winter-26'
+        description: '❄️Glow In Winter 26: A vanguardist take on winter\'s resilience, manifesting inner fire and luminous identity.',
+        path: '/glow'
     }
 
 ];

@@ -4,7 +4,34 @@ import { buildMetadata } from "@/lib/seo";
 export const metadata = buildMetadata({
   title: "Made In USA • Premium American Craft Streetwear | tsgabrielle®",
   description: "Made In USA • A Premium Streetwear Collection Blending American Craftsmanship With French Elegance And Purple Identity.",
-  path: "/made-in-usa"
+  keywords: [
+    "made in usa streetwear",
+    "premium american craft",
+    "tsgabrielle craftsmanship",
+    "french elegance american made",
+    "royal purple spectrum",
+    "durable luxury streetwear",
+    "minimalist silhouettes",
+    "intentional creation",
+    "quality purple apparel",
+    "built to last fashion",
+    "premium craft style",
+    "authentic american manufacturing",
+    "elegant durability",
+    "luxury streetwear minimalism",
+    "tsgabrielle identity",
+    "refined american clothing",
+    "purposeful design fashion",
+    "royal purple identity",
+    "american craft french touch",
+    "high quality streetwear",
+    "timeless minimal design",
+    "premium manufacturing",
+    "crafted with purpose",
+    "identity and craft",
+    "tsgabrielle premium"
+  ],
+  path: "/made-in-usa",
 });
 
 export default function Page() {

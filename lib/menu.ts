@@ -43,7 +43,7 @@ export const COLLECTIONS: MenuLink[] = [
     href: "/womanizer",
     image: "/images/Collections/Womanizer/Womanizer.png",
   },
-  { label: "TransFLOWER™", href: "/transflower" },
+  { label: "TransFLOWer™", href: "/transflower" },
   { label: "TransLove™", href: "/translove" },
   { label: "Made In USA", href: "/made-in-usa" },
   { label: "Arizona", href: "/arizona" },

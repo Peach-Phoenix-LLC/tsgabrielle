@@ -4,7 +4,34 @@ import { buildMetadata } from "@/lib/seo";
 export const metadata = buildMetadata({
   title: "TransLove™ • Identity & Self‑Love Streetwear | tsgabrielle®",
   description: "TransLove™ • A Luxury Streetwear Collection Celebrating Identity, Visibility, And Self‑Love.",
-  path: "/translove"
+  keywords: [
+    "translove",
+    "self-love apparel",
+    "purple pink streetwear",
+    "identity visibility",
+    "authentic glow",
+    "trans resistance fashion",
+    "soft warmth style",
+    "parisian elegance",
+    "modern minimalist streetwear",
+    "tsgabrielle love",
+    "french trans touch",
+    "identity as beauty",
+    "emotional streetwear",
+    "visible power fashion",
+    "love revolution apparel",
+    "trans courage",
+    "soft pink undertones",
+    "luxury self-love",
+    "purple identity",
+    "emotional warmth clothing",
+    "authentic beauty streetwear",
+    "pride and love",
+    "self-devotion wear",
+    "tsgabrielle purple spectrum",
+    "love as resistance"
+  ],
+  path: "/translove",
 });
 
 export default function Page() {

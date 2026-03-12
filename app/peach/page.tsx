@@ -4,7 +4,34 @@ import { buildMetadata } from "@/lib/seo";
 export const metadata = buildMetadata({
   title: "Peach Phoenix™ • Rebirth Radiant Individuality by tsgabrielle®",
   description: "Peach Phoenix™ • A Luxury Streetwear Collection Celebrating Rebirth, Identity, And Bold Purple Transformation.",
-  path: "/peach"
+  keywords: [
+    "peach phoenix",
+    "rebirth luxury streetwear",
+    "bold transformation",
+    "tsgabrielle peach",
+    "royal purple fire",
+    "luminous undertones fashion",
+    "french trans touch reborn",
+    "soft curves sharp confidence",
+    "identity as a flame",
+    "glowing transformation",
+    "phoenix rising style",
+    "unapologetic rebirth",
+    "mythical fashion aesthetic",
+    "purple fire streetwear",
+    "reborn identity apparel",
+    "soft strong phoenix",
+    "peach powered fashion",
+    "transformative luxury wear",
+    "glowing identity",
+    "tsgabrielle royal purple",
+    "radiant rebirth style",
+    "fire and softness",
+    "unyielding confidence apparel",
+    "identity rebirth",
+    "peach symbol clothing"
+  ],
+  path: "/peach",
 });
 
 export default function Page() {

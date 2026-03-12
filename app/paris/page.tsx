@@ -4,7 +4,34 @@ import { buildMetadata } from "@/lib/seo";
 export const metadata = buildMetadata({
   title: "Paris • French Collection by tsgabrielle®",
   description: "Paris • A Collection Inspired By Parisian Elegance, Identity, And Modern Purple Minimalism.",
-  path: "/paris"
+  keywords: [
+    "paris luxury streetwear",
+    "parisian elegance",
+    "montmartre inspired",
+    "seine sunset style",
+    "tsgabrielle purple spectrum",
+    "effortless french style",
+    "modern purple minimalism",
+    "french trans touch",
+    "subtle sensual fashion",
+    "unapologetic individuality",
+    "romantic street style",
+    "refined bold apparel",
+    "timeless minimalism",
+    "luxury streetwear paris",
+    "iconic french allure",
+    "signature paris style",
+    "elegant identity clothing",
+    "classic french aesthetic",
+    "modern luxury fashion",
+    "tsgabrielle paris",
+    "style with a heartbeat",
+    "elegant purple apparel",
+    "parisian confidence",
+    "unforgettable streetwear",
+    "french lifestyle fashion"
+  ],
+  path: "/paris",
 });
 
 export default function Page() {

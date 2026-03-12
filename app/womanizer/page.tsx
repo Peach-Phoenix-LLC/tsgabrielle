@@ -4,7 +4,34 @@ import { buildMetadata } from "@/lib/seo";
 export const metadata = buildMetadata({
   title: "Womanizer • Magnetic Luxury Menswear by tsgabrielle®",
   description: "Womanizer • A Luxury Menswear Collection Celebrating Quiet Charisma, Magnetic Presence, And Effortless Allure.",
-  path: "/womanizer"
+  keywords: [
+    "womanizer",
+    "quiet charisma",
+    "magnetic presence",
+    "discreet allure",
+    "stealth luxury",
+    "tsgabrielle purple spectrum",
+    "elegant attraction",
+    "sophisticated charm",
+    "masculine allure",
+    "subtle holographic",
+    "undeniable magnetism",
+    "slow burn aesthetic",
+    "calculated grace",
+    "magnetic elegance",
+    "quiet confidence",
+    "luxury menswear",
+    "refined aesthetic",
+    "charismatic identity",
+    "purple powered charm",
+    "the art of attraction",
+    "effortless magnetism",
+    "stealth streetwear",
+    "lingering impression",
+    "magnetic identity",
+    "mens luxury fashion"
+  ],
+  path: "/womanizer",
 });
 
 export default function Page() {
