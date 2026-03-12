@@ -53,28 +53,52 @@ export async function GET() {
   if (auth.error) return auth.error;
   try {
     const supabase = getSupabaseServerClient();
-    const { data, error } = await supabase
+    const { data: products, error } = await supabase
       .from("products")
       .select(`
         *,
-        product_variants(id, variant_sku, size_label, color, inventory, msrp),
-        product_images(id, url, alt, sort_order)
+        product_variants(id, variant_sku, size_label, color, inventory, msrp)
       `)
       .order("created_at", { ascending: false });
 
     if (error) throw error;
 
-    // Map variant_sku to sku and size_label/color to title for frontend compatibility
-    const mappedData = (data || []).map((p: any) => ({
-      ...p,
-      product_variants: (p.product_variants || []).map((v: any) => ({
+    const productIds = (products || []).map((product) => product.id).filter(Boolean);
+    let imagesByProduct: Record<string, ImageInput[]> = {};
+
+    if (productIds.length > 0) {
+      const { data: images, error: imagesError } = await supabase
+        .from("product_images")
+        .select("id, product_id, url, alt, sort_order")
+        .in("product_id", productIds)
+        .order("sort_order", { ascending: true });
+
+      if (imagesError) throw imagesError;
+
+      imagesByProduct = (images || []).reduce<Record<string, ImageInput[]>>((acc, image) => {
+        const key = String(image.product_id);
+        if (!acc[key]) acc[key] = [];
+        acc[key].push({
+          id: image.id,
+          url: image.url,
+          alt: image.alt,
+          sort_order: image.sort_order,
+        });
+        return acc;
+      }, {});
+    }
+
+    const response = (products || []).map((product: any) => ({
+      ...product,
+      product_images: imagesByProduct[String(product.id)] || [],
+      product_variants: (product.product_variants || []).map((v: any) => ({
         ...v,
         sku: v.variant_sku,
         title: v.size_label + (v.color ? ` / ${v.color}` : "")
       }))
     }));
 
-    return NextResponse.json(mappedData);
+    return NextResponse.json(response);
   } catch (error: any) {
     console.error("Error fetching products:", error);
     return NextResponse.json({ error: error.message }, { status: 500 });

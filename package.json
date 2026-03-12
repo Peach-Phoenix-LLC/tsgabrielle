@@ -9,7 +9,15 @@
     "lint": "next lint --no-cache",
     "typecheck": "tsc --noEmit",
     "seed": "node scripts/seed-supabase.js",
-    "import:products:v2": "node scripts/upload-products-csv-v2.js"
+    "import:products:v2": "node scripts/upload-products-csv-v2.js",
+    "db:push": "node scripts/push_schema.js",
+    "seed:collections": "node scripts/seed-collections.js",
+    "seed:update": "node scripts/seed-update.js",
+    "seed:config": "node scripts/seed-beautiful-config.js",
+    "cleanup": "node scripts/perform-cleanup.js",
+    "postinstall": "prisma generate",
+    "check:build": "node scripts/check-build-warnings.js",
+    "fix:accessibility": "node scripts/fix-input-labels.js"
   },
   "dependencies": {
     "@google-analytics/data": "^5.2.1",
@@ -34,6 +42,8 @@
     "lucide-react": "^0.577.0",
     "marked": "^17.0.4",
     "next": "^15.1.12",
+    "prisma": "^6.4.1",
+    "@prisma/client": "^6.4.1",
     "openclaw": "^2026.3.8",
     "posthog-js": "^1.359.1",
     "posthog-node": "^5.28.0",
