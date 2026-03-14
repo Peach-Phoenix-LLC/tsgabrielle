@@ -1,4 +1,5 @@
 import { NextResponse } from "next/server";
+import { getSupabaseServerClient } from "@/lib/supabase/server";
 import { requireAdmin } from "@/lib/admin-auth";
 
 export async function POST(req: Request) {
@@ -7,43 +8,50 @@ export async function POST(req: Request) {
     if (auth.error) return auth.error;
 
     const { message } = await req.json();
-
     if (!message) {
       return NextResponse.json({ error: "Message is required" }, { status: 400 });
     }
 
-    const OPENCLAW_URL = "http://127.0.0.1:18789/api/v1/agent/turn";
-    
-    const response = await fetch(OPENCLAW_URL, {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json"
-      },
-      body: JSON.stringify({
-        agentId: "main",
-        message: message,
-        channel: "web-dashboard",
-        sourceId: auth.user.email || "admin"
-      }),
-    });
+    const supabase = getSupabaseServerClient();
 
-    if (!response.ok) {
-      const errText = await response.text();
-      console.error("OpenClaw Gateway Error:", errText);
-      return NextResponse.json(
-        { reply: "Peach encountered an error communicating with the local Gateway. Is it running?" },
-        { status: 502 }
-      );
+    const { data: msgData, error: insertError } = await supabase
+      .from("peach_messages")
+      .insert({
+        role: "user",
+        content: message,
+        processed: false
+      })
+      .select()
+      .single();
+
+    if (insertError) throw insertError;
+
+    let reply = null;
+    for (let i = 0; i < 30; i++) {
+      await new Promise(r => setTimeout(r, 1000));
+      const { data: pollData } = await supabase
+        .from("peach_messages")
+        .select("reply, processed")
+        .eq("id", msgData.id)
+        .single();
+
+      if (pollData?.processed && pollData.reply) {
+        reply = pollData.reply;
+        break;
+      }
     }
 
-    const data = await response.json();
-    const finalReply = data.text || data.message || "Done. Check the OpenClaw terminal for details.";
+    if (!reply) {
+      return NextResponse.json({ 
+        reply: "Peach is thinking deeply on your local PC... If this takes too long, make sure the 'Peach Bridge' script is running in your terminal." 
+      });
+    }
 
-    return NextResponse.json({ reply: finalReply });
+    return NextResponse.json({ reply });
   } catch (error: any) {
-    console.error("Error communicating with Peach:", error);
+    console.error("Error in Peach Chat Bridge:", error);
     return NextResponse.json(
-      { reply: "Critical error connecting to the AI brain. Please check server logs." },
+      { reply: "Bridge error. Please check Supabase connectivity." },
       { status: 500 }
     );
   }
