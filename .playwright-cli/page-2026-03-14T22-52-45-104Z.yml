@@ -1,0 +1,39 @@
+- generic [active] [ref=e1]:
+  - generic [ref=e2]:
+    - heading "tsgabrielle® USA • The French Trans Touch™ • Inclusive Luxury Fashion & Décor" [level=1] [ref=e3]
+    - generic [ref=e4]:
+      - generic [ref=e5]:
+        - generic [ref=e6]:
+          - text: Peach Phoenix LuxuryInclusive fashion and décor with couture energy.Curated collections, global fulfillment, and premium quality via Supabase, Printful, and PayPal.
+          - link "Explore Collections" [ref=e8] [cursor=pointer]:
+            - /url: /collections
+            - generic [ref=e9]: Explore Collections
+        - img "Luxury collection" [ref=e11]
+      - generic [ref=e13]:
+        - generic [ref=e14]: Exclusive 💎 New
+        - generic [ref=e15]:
+          - link "3 - tsgabrielle® • Paris - La Tour Eiffel • Mug With Color Inside • Ceramic • 11 oz 3 - tsgabrielle® • Paris - La Tour Eiffel • Mug With Color Inside • Ceramic • 11 oz $14.00" [ref=e16] [cursor=pointer]:
+            - /url: /product/69b05b98d90c97
+            - img "3 - tsgabrielle® • Paris - La Tour Eiffel • Mug With Color Inside • Ceramic • 11 oz" [ref=e18]
+            - generic [ref=e19]:
+              - heading "3 - tsgabrielle® • Paris - La Tour Eiffel • Mug With Color Inside • Ceramic • 11 oz" [level=3] [ref=e20]
+              - paragraph [ref=e21]: $14.00
+          - link "7 - tsgabrielle® • Paris - The Louvre Pyramid • Tough Case • MagSafe® • Compatible with iPhone® • Latest Models 7 - tsgabrielle® • Paris - The Louvre Pyramid • Tough Case • MagSafe® • Compatible with iPhone® • Latest Models $23.00" [ref=e22] [cursor=pointer]:
+            - /url: /product/69b0b6703e62a2
+            - img "7 - tsgabrielle® • Paris - The Louvre Pyramid • Tough Case • MagSafe® • Compatible with iPhone® • Latest Models" [ref=e24]
+            - generic [ref=e25]:
+              - heading "7 - tsgabrielle® • Paris - The Louvre Pyramid • Tough Case • MagSafe® • Compatible with iPhone® • Latest Models" [level=3] [ref=e26]
+              - paragraph [ref=e27]: $23.00
+          - link "8 - tsgabrielle® • Paris - The Louvre Pyramid • Fanny Pack • 2 Sizes 8 - tsgabrielle® • Paris - The Louvre Pyramid • Fanny Pack • 2 Sizes $36.00" [ref=e28] [cursor=pointer]:
+            - /url: /product/69b10ea1cf2991
+            - img "8 - tsgabrielle® • Paris - The Louvre Pyramid • Fanny Pack • 2 Sizes" [ref=e30]
+            - generic [ref=e31]:
+              - heading "8 - tsgabrielle® • Paris - The Louvre Pyramid • Fanny Pack • 2 Sizes" [level=3] [ref=e32]
+              - paragraph [ref=e33]: $36.00
+          - link "tsgabrielle® • For Her • Socks • Black Peach tsgabrielle® • For Her • Socks • Black Peach $14.50" [ref=e34] [cursor=pointer]:
+            - /url: /product/69aa16cdcf9a87
+            - img "tsgabrielle® • For Her • Socks • Black Peach" [ref=e36]
+            - generic [ref=e37]:
+              - heading "tsgabrielle® • For Her • Socks • Black Peach" [level=3] [ref=e38]
+              - paragraph [ref=e39]: $14.50
+  - alert [ref=e40]
