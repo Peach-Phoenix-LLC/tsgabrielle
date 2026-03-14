@@ -417,3 +417,96 @@ enum ReviewStatus {
   APPROVED
   REJECTED
 }
+
+enum PageStatus {
+  DRAFT
+  PUBLISHED
+}
+
+model BuilderPage {
+  id               String    @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  path             String    @unique
+  title            String
+  seo_title        String?
+  seo_description  String?
+  status           PageStatus @default(DRAFT)
+  published_layout Json?
+  draft_layout     Json?
+  version          Int       @default(0)
+  created_at       DateTime  @default(now())
+  updated_at       DateTime  @updatedAt
+  published_at     DateTime?
+  sections         BuilderSection[]
+  versions         BuilderSectionVersion[]
+
+  @@map("builder_pages")
+}
+
+model BuilderSection {
+  id           String   @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  page_id      String   @db.Uuid
+  section_type String
+  props        Json     @default("{}")
+  sort_order   Int      @default(0)
+  is_visible   Boolean  @default(true)
+  created_at   DateTime @default(now())
+  updated_at   DateTime @updatedAt
+  page         BuilderPage @relation(fields: [page_id], references: [id], onDelete: Cascade)
+
+  @@map("builder_sections")
+}
+
+model BuilderSectionVersion {
+  id              String   @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  page_id         String   @db.Uuid
+  version         Int
+  layout_snapshot Json
+  published_by    String?  @db.Uuid
+  created_at      DateTime @default(now())
+  page            BuilderPage @relation(fields: [page_id], references: [id], onDelete: Cascade)
+
+  @@map("builder_section_versions")
+}
+
+model ThemeSetting {
+  id         Int      @id @default(1)
+  colors     Json?
+  typography Json?
+  layout     Json?
+  shadows    Json?
+  custom_css String?
+  is_draft   Boolean  @default(false)
+  updated_at DateTime @updatedAt
+
+  @@map("theme_settings")
+}
+
+model MediaItem {
+  id          String   @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  filename    String
+  url         String
+  alt_text    String?
+  mime_type   String
+  file_size   Int
+  width       Int?
+  height      Int?
+  folder      String   @default("general")
+  tags        String[] @default([])
+  uploaded_by String?  @db.Uuid
+  created_at  DateTime @default(now())
+
+  @@map("media_library")
+}
+
+model SectionTemplate {
+  id            String   @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  name          String
+  section_type  String
+  preview_image String?
+  default_props Json     @default("{}")
+  category      String   @default("content")
+  is_global     Boolean  @default(true)
+  created_at    DateTime @default(now())
+
+  @@map("section_templates")
+}
