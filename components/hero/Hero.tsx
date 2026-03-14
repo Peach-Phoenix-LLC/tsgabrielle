@@ -36,17 +36,17 @@ export function Hero({
       <div className="space-y-6">
         <EditableText 
           contentKey={`${id}-subtitle`}
-          initialContent={subtitle}
+          initialValue={subtitle}
           className="text-sm uppercase tracking-[0.2em] text-phoenix font-bold"
         />
         <EditableText 
           contentKey={`${id}-title`}
-          initialContent={title}
+          initialValue={title}
           className="font-display text-5xl leading-tight"
         />
         <EditableText 
           contentKey={`${id}-description`}
-          initialContent={description}
+          initialValue={description}
           className="max-w-xl text-night/80 text-lg leading-relaxed"
         />
         <div>
@@ -56,7 +56,7 @@ export function Hero({
           >
             <EditableText 
               contentKey={`${id}-button-text`}
-              initialContent={buttonText}
+              initialValue={buttonText}
               className="bg-transparent border-none p-0 inline"
             />
           </Link>

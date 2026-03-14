@@ -34,7 +34,7 @@ export function DynamicSectionRenderer({ section, index }: DynamicSectionRendere
             <div className="mb-12">
               <EditableText 
                 contentKey={`section-${section.id}-title`}
-                initialContent={section.content?.title || "Featured Products"}
+                initialValue={section.content?.title || "Featured Products"}
                 className="text-2xl font-light tracking-tight"
               />
             </div>
@@ -49,12 +49,12 @@ export function DynamicSectionRenderer({ section, index }: DynamicSectionRendere
           <div className="container-luxe max-w-3xl text-center space-y-6">
             <EditableText 
               contentKey={`section-${section.id}-heading`}
-              initialContent={section.content?.heading || "Section Heading"}
+              initialValue={section.content?.heading || "Section Heading"}
               className="text-3xl font-light tracking-tight"
             />
             <EditableText 
               contentKey={`section-${section.id}-body`}
-              initialContent={section.content?.body || "Start typing your content here..."}
+              initialValue={section.content?.body || "Start typing your content here..."}
               className="text-lg text-black/60 font-light leading-relaxed"
             />
           </div>

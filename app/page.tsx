@@ -83,6 +83,7 @@ export default async function HomePage() {
 
   return (
     <div className="-mt-[160px] lg:-mt-[195px]">
+      <h1 className="sr-only">tsgabrielle® USA • The French Trans Touch™ • Inclusive Luxury Fashion & Décor</h1>
       <PageLayoutRenderer layout={layout || defaultLayout} />
     </div>
   );

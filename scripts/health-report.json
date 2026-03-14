@@ -1,9 +1,9 @@
 {
-  "timestamp": "2026-03-14T18:08:38.455Z",
+  "timestamp": "2026-03-14T21:12:04.258Z",
   "checks": {
     "database": {
-      "status": "unhealthy",
-      "details": "Prisma CLI check failed"
+      "status": "healthy",
+      "details": null
     },
     "vercel": {
       "status": "healthy",
@@ -11,7 +11,7 @@
     },
     "oracle_cloud_ollama": {
       "status": "healthy",
-      "latency": "63ms"
+      "latency": "42ms"
     }
   }
 }

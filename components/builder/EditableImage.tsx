@@ -3,13 +3,8 @@
 import React, { useState, useEffect } from "react";
 import Image from "next/image";
 import { useVisualBuilder } from "./VisualBuilderProvider";
-import { Copy, ImageIcon, Loader2 } from "lucide-react";
-import { createClient } from "@supabase/supabase-js";
-
-const supabase = createClient(
-  process.env.NEXT_PUBLIC_SUPABASE_URL!,
-  process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!
-);
+import { ImageIcon, Loader2 } from "lucide-react";
+import { getSupabaseBrowserClient } from "@/lib/supabase/client";
 
 interface EditableImageProps {
   contentKey: string;
@@ -48,6 +43,7 @@ export function EditableImage({
 
     setIsUploading(true);
     try {
+      const supabase = getSupabaseBrowserClient();
       const fileExt = file.name.split(".").pop();
       const fileName = `${Date.now()}-${Math.random().toString(36).substring(7)}.${fileExt}`;
       const filePath = `builder/${fileName}`;

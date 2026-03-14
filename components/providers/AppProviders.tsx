@@ -15,8 +15,16 @@ function VisualBuilderWrapper({
   children: React.ReactNode;
   isAdmin: boolean;
 }) {
-  const searchParams = useSearchParams();
-  const shouldEdit = searchParams.get("builder") === "true";
+  const [shouldEdit, setShouldEdit] = useState(false);
+
+  useEffect(() => {
+    if (isAdmin && typeof window !== "undefined") {
+      const params = new URLSearchParams(window.location.search);
+      if (params.get("builder") === "true") {
+        setShouldEdit(true);
+      }
+    }
+  }, [isAdmin]);
 
   if (!isAdmin) return <>{children}</>;
 
@@ -53,11 +61,9 @@ export function AppProviders({
     <SettingsProvider settings={settings}>
       <PostHogProvider>
         <CartProvider>
-          <Suspense fallback={null}>
-            <VisualBuilderWrapper isAdmin={isAdmin}>
-              {children}
-            </VisualBuilderWrapper>
-          </Suspense>
+          <VisualBuilderWrapper isAdmin={isAdmin}>
+            {children}
+          </VisualBuilderWrapper>
         </CartProvider>
       </PostHogProvider>
     </SettingsProvider>
