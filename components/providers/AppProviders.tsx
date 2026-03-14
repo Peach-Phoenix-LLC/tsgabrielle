@@ -4,8 +4,6 @@ import { Suspense, useEffect, useState } from "react";
 import { CartProvider } from "@/hooks/useCart";
 import { SettingsProvider } from "./SettingsProvider";
 import { PostHogProvider } from "./PostHogProvider";
-import { PeachChat } from "@/components/builder/PeachChat";
-import { VisualBuilderToolbar } from "@/components/builder/VisualBuilderToolbar";
 import { getSupabaseBrowserClient } from "@/lib/supabase/client";
 import { VisualBuilderProvider } from "@/components/builder/VisualBuilderProvider";
 
@@ -22,9 +20,12 @@ export function AppProviders({
   useEffect(() => {
     async function checkAdmin() {
       const { data: { user } } = await supabase.auth.getUser();
+      console.log("AppProviders: checking admin status for user:", user?.email);
       if (user) {
         const admins = ["contact@tsgabrielle.us"];
-        setIsAdmin(user.app_metadata?.role === "admin" || admins.includes(user.email || ""));
+        const isAdm = user.app_metadata?.role === "admin" || admins.includes(user.email || "");
+        console.log("AppProviders: isAdmin decision:", isAdm);
+        setIsAdmin(isAdm);
       }
     }
     checkAdmin();

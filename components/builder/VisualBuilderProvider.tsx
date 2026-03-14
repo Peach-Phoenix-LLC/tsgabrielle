@@ -1,7 +1,9 @@
 "use client";
 
-import React, { createContext, useContext, useRef, useState } from "react";
+import React, { createContext, useContext, useRef, useState, useEffect } from "react";
 import { VisualBuilderToolbar } from "./VisualBuilderToolbar";
+import { useVisualAutoBuilder } from "@/hooks/useVisualAutoBuilder";
+import { PeachChat } from "./PeachChat";
 
 interface VisualBuilderContextType {
   isEditMode: boolean;
@@ -60,17 +62,22 @@ export function VisualBuilderProvider({ children, initialEditMode = false, onExi
     });
   }
 
+  useVisualAutoBuilder();
+
+  useEffect(() => {
+    console.log("Visual Builder initialized. Edit Mode:", isEditMode);
+  }, [isEditMode]);
+
   async function saveChanges() {
     if (Object.keys(pendingChanges).length === 0) return;
     
     setIsSaving(true);
     try {
-      // We will send all pending changes to a new bulk endpoint
       const currentPath = window.location.pathname;
       const updates = Object.entries(pendingChanges).map(([key, value]) => ({
         page_path: currentPath,
         content_key: key,
-        content_type: typeof value === 'string' && value.startsWith('<') ? 'html' : 'text', // Simple heuristic for now
+        content_type: typeof value === 'string' && value.startsWith('<') ? 'html' : 'text',
         content_value: String(value),
         sort_order: 0
       }));
@@ -84,7 +91,6 @@ export function VisualBuilderProvider({ children, initialEditMode = false, onExi
       if (!res.ok) throw new Error("Failed to save changes");
       
       setPendingChanges({});
-      // Optionally show a toast here
     } catch (e) {
       console.error("Error saving builder changes", e);
       alert("Failed to save changes");
@@ -128,6 +134,7 @@ export function VisualBuilderProvider({ children, initialEditMode = false, onExi
     >
       {children}
       <VisualBuilderToolbar />
+      <PeachChat />
     </VisualBuilderContext.Provider>
   );
 }
