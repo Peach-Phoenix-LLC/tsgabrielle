@@ -3,10 +3,12 @@ import { getSupabaseServerClient } from "@/lib/supabase/server";
 import { requireAdmin } from "@/lib/admin-auth";
 import { createClient } from "@supabase/supabase-js";
 
-const supabaseAdmin = createClient(
-  process.env.NEXT_PUBLIC_SUPABASE_URL!,
-  process.env.SUPABASE_SERVICE_ROLE_KEY!
-);
+function getSupabaseAdmin() {
+  return createClient(
+    process.env.NEXT_PUBLIC_SUPABASE_URL!,
+    process.env.SUPABASE_SERVICE_ROLE_KEY!
+  );
+}
 
 export async function GET(req: Request) {
   const auth = await requireAdmin();
@@ -63,6 +65,7 @@ export async function POST(req: Request) {
     const arrayBuffer = await file.arrayBuffer();
     const buffer = Buffer.from(arrayBuffer);
 
+    const supabaseAdmin = getSupabaseAdmin();
     const { error: uploadError } = await supabaseAdmin.storage
       .from("images")
       .upload(filePath, buffer, {
@@ -72,9 +75,7 @@ export async function POST(req: Request) {
 
     if (uploadError) throw uploadError;
 
-    const {
-      data: { publicUrl },
-    } = supabaseAdmin.storage.from("images").getPublicUrl(filePath);
+    const { data: { publicUrl } } = supabaseAdmin.storage.from("images").getPublicUrl(filePath);
 
     // Save to media library
     const supabase = getSupabaseServerClient();
@@ -124,7 +125,7 @@ export async function DELETE(req: Request) {
         const url = new URL(item.url);
         const pathParts = url.pathname.split("/storage/v1/object/public/images/");
         if (pathParts[1]) {
-          await supabaseAdmin.storage
+          await getSupabaseAdmin().storage
             .from("images")
             .remove([decodeURIComponent(pathParts[1])]);
         }

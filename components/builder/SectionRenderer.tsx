@@ -12,7 +12,6 @@ interface SectionRendererProps {
   onDelete?: (sectionId: string) => void;
   onDuplicate?: (sectionId: string) => void;
   onToggleVisibility?: (sectionId: string) => void;
-  onUpdateProps?: (sectionId: string, props: Record<string, any>) => void;
 }
 
 export default function SectionRenderer({
@@ -21,7 +20,6 @@ export default function SectionRenderer({
   onDelete,
   onDuplicate,
   onToggleVisibility,
-  onUpdateProps,
 }: SectionRendererProps) {
   const { isEditMode } = useVisualBuilder();
 

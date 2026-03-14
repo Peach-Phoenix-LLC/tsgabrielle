@@ -7,7 +7,6 @@ import {
   X,
   Eye,
   Loader2,
-  Layers,
   Palette,
   ImageIcon,
   Layout,
@@ -45,7 +44,6 @@ export function VisualBuilderToolbar() {
   } = useVisualBuilder();
 
   const [activePanel, setActivePanel] = useState<PanelType>(null);
-  const [structureKeys, setStructureKeys] = useState<string[]>([]);
   const [pageSections, setPageSections] = useState<BuilderSection[]>([]);
   const [viewport, setViewport] = useState<"desktop" | "tablet" | "mobile">("desktop");
   const [seoTitle, setSeoTitle] = useState("");
@@ -74,24 +72,6 @@ export function VisualBuilderToolbar() {
   useEffect(() => {
     loadSections();
   }, [loadSections]);
-
-  // Load structure keys for the legacy structure panel
-  useEffect(() => {
-    if (activePanel !== "structure") return;
-    let isMounted = true;
-    (async () => {
-      try {
-        const res = await fetch(`/api/admin/page-content?page_path=${encodeURIComponent(currentPath)}`);
-        if (!res.ok) return;
-        const data = await res.json();
-        const keys = Array.isArray(data) ? data.map((item: any) => item.content_key) : [];
-        if (isMounted) setStructureKeys(keys);
-      } catch {
-        // ignore
-      }
-    })();
-    return () => { isMounted = false; };
-  }, [activePanel, currentPath]);
 
   const addSection = async (def: SectionDefinition) => {
     const newSection: BuilderSection = {
