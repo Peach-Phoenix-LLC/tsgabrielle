@@ -1,9 +1,13 @@
 "use client";
 
-import { Suspense } from "react";
+import { Suspense, useEffect, useState } from "react";
 import { CartProvider } from "@/hooks/useCart";
 import { SettingsProvider } from "./SettingsProvider";
 import { PostHogProvider } from "./PostHogProvider";
+import { PeachChat } from "@/components/builder/PeachChat";
+import { VisualBuilderToolbar } from "@/components/builder/VisualBuilderToolbar";
+import { createClient } from "@/lib/supabase/client";
+import { VisualBuilderProvider } from "@/components/builder/VisualBuilderProvider";
 
 export function AppProviders({
   children,
@@ -12,11 +16,33 @@ export function AppProviders({
   children: React.ReactNode;
   settings?: Record<string, string>;
 }) {
+  const [isAdmin, setIsAdmin] = useState(false);
+  const supabase = createClient();
+
+  useEffect(() => {
+    async function checkAdmin() {
+      const { data: { user } } = await supabase.auth.getUser();
+      if (user) {
+        const admins = ["contact@tsgabrielle.us"];
+        setIsAdmin(user.app_metadata?.role === "admin" || admins.includes(user.email || ""));
+      }
+    }
+    checkAdmin();
+  }, [supabase]);
+
   return (
     <SettingsProvider settings={settings}>
       <Suspense fallback={null}>
         <PostHogProvider>
-          <CartProvider>{children}</CartProvider>
+          <CartProvider>
+            {isAdmin ? (
+              <VisualBuilderProvider initialEditMode={false}>
+                {children}
+              </VisualBuilderProvider>
+            ) : (
+              children
+            )}
+          </CartProvider>
         </PostHogProvider>
       </Suspense>
     </SettingsProvider>
