@@ -1,13 +1,31 @@
 "use client";
 
 import { Suspense, useEffect, useState } from "react";
+import { useSearchParams } from "next/navigation";
 import { CartProvider } from "@/hooks/useCart";
 import { SettingsProvider } from "./SettingsProvider";
 import { PostHogProvider } from "./PostHogProvider";
-import { PeachChat } from "@/components/builder/PeachChat";
-import { VisualBuilderToolbar } from "@/components/builder/VisualBuilderToolbar";
 import { getSupabaseBrowserClient } from "@/lib/supabase/client";
 import { VisualBuilderProvider } from "@/components/builder/VisualBuilderProvider";
+
+function VisualBuilderWrapper({ 
+  children,
+  isAdmin 
+}: { 
+  children: React.ReactNode;
+  isAdmin: boolean;
+}) {
+  const searchParams = useSearchParams();
+  const shouldEdit = searchParams.get("builder") === "true";
+
+  if (!isAdmin) return <>{children}</>;
+
+  return (
+    <VisualBuilderProvider initialEditMode={shouldEdit}>
+      {children}
+    </VisualBuilderProvider>
+  );
+}
 
 export function AppProviders({
   children,
@@ -22,11 +40,9 @@ export function AppProviders({
   useEffect(() => {
     async function checkAdmin() {
       const { data: { user } } = await supabase.auth.getUser();
-      console.log("AppProviders: checking admin status for user:", user?.email);
       if (user) {
         const admins = ["contact@tsgabrielle.us"];
         const isAdm = user.app_metadata?.role === "admin" || admins.includes(user.email || "");
-        console.log("AppProviders: isAdmin decision:", isAdm);
         setIsAdmin(isAdm);
       }
     }
@@ -35,19 +51,16 @@ export function AppProviders({
 
   return (
     <SettingsProvider settings={settings}>
-      <Suspense fallback={null}>
-        <PostHogProvider>
-          <CartProvider>
-            {isAdmin ? (
-              <VisualBuilderProvider initialEditMode={false}>
-                {children}
-              </VisualBuilderProvider>
-            ) : (
-              children
-            )}
-          </CartProvider>
-        </PostHogProvider>
-      </Suspense>
+      <PostHogProvider>
+        <CartProvider>
+          <Suspense fallback={null}>
+            <VisualBuilderWrapper isAdmin={isAdmin}>
+              {children}
+            </VisualBuilderWrapper>
+          </Suspense>
+        </CartProvider>
+      </PostHogProvider>
     </SettingsProvider>
   );
 }
+

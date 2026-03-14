@@ -7,6 +7,7 @@ import {
   BarChart3, Bell, LogOut, ChevronRight, Mail, Loader2, Languages
 } from "lucide-react";
 import Image from "next/image";
+import Link from "next/link";
 import LiveMap from "@/components/admin/LiveMap";
 
 
@@ -110,6 +111,13 @@ export default function AdminDashboard() {
             <p className="text-[10px] uppercase tracking-widest text-black/40 mt-2">Peach Phoenix, LLC. Operations</p>
           </div>
           <div className="flex gap-4">
+            <Link 
+              href="/?builder=true" 
+              className="px-6 py-2 bg-black text-white rounded-full text-[8px] font-bold uppercase tracking-[0.2em] flex items-center gap-2 hover:bg-[#a932bd] transition-all"
+            >
+              <Palette size={12} />
+              Edit Page Visually
+            </Link>
             <div className="px-4 py-2 bg-green-500/10 text-green-600 rounded-full text-[8px] font-bold uppercase tracking-widest flex items-center gap-2">
               <div className="w-1.5 h-1.5 bg-green-500 rounded-full animate-pulse" />
               Store Active

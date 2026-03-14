@@ -65,6 +65,12 @@ export function VisualBuilderProvider({ children, initialEditMode = false, onExi
   useVisualAutoBuilder();
 
   useEffect(() => {
+    if (initialEditMode) {
+      setIsEditMode(true);
+    }
+  }, [initialEditMode]);
+
+  useEffect(() => {
     console.log("Visual Builder initialized. Edit Mode:", isEditMode);
   }, [isEditMode]);
 

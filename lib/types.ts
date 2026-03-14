@@ -100,3 +100,16 @@ export type OrderItem = {
 export type FeatureFlags = {
   enable_3d_hero: boolean;
 };
+
+export type PageSection = {
+  id: string;
+  type: string;
+  settings: Record<string, any>;
+  content?: Record<string, any>;
+};
+
+export type PageLayout = {
+  page_path: string;
+  sections: PageSection[];
+  theme_overrides?: Record<string, any>;
+};

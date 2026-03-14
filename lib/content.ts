@@ -1,6 +1,36 @@
 import { getSupabaseServerClient } from "./supabase/server";
+import { PageLayout } from "./types";
 
 export type PageContentMap = Record<string, string>;
+
+export async function getPageLayout(pagePath: string): Promise<PageLayout | null> {
+  try {
+    const supabase = getSupabaseServerClient();
+    const { data, error } = await supabase
+      .from("page_layouts")
+      .select("*")
+      .eq("page_path", pagePath)
+      .maybeSingle();
+
+    if (error) {
+      console.error(`Error fetching layout for ${pagePath}:`, error);
+      return null;
+    }
+
+    if (data) {
+      return {
+        page_path: data.page_path,
+        sections: data.sections,
+        theme_overrides: data.theme_overrides
+      };
+    }
+
+    return null;
+  } catch (error) {
+    console.error(`Unexpected error fetching layout for ${pagePath}:`, error);
+    return null;
+  }
+}
 
 export async function getPageContent(pagePath: string): Promise<PageContentMap> {
   try {
