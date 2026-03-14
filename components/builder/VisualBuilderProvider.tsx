@@ -2,6 +2,8 @@
 
 import React, { createContext, useContext, useRef, useState } from "react";
 import { VisualBuilderToolbar } from "./VisualBuilderToolbar";
+import { useVisualAutoBuilder } from "@/hooks/useVisualAutoBuilder";
+import { PeachChat } from "./PeachChat";
 
 interface VisualBuilderContextType {
   isEditMode: boolean;
@@ -59,6 +61,8 @@ export function VisualBuilderProvider({ children, initialEditMode = false, onExi
       return next;
     });
   }
+
+  useVisualAutoBuilder();
 
   async function saveChanges() {
     if (Object.keys(pendingChanges).length === 0) return;

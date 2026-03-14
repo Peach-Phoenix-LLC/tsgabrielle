@@ -31,7 +31,7 @@ export function VisualBuilderToolbar() {
     canRedo,
     exitBuilder,
   } = useVisualBuilder();
-  const [activePanel, setActivePanel] = useState<null | "sections" | "design" | "media" | "structure">(null);
+  const [activePanel, setActivePanel] = useState<null | "sections" | "design" | "media" | "structure" | "pages" | "seo">(null);
   const [structureKeys, setStructureKeys] = useState<string[]>([]);
 
   const hasChanges = Object.keys(pendingChanges).length > 0;
@@ -76,10 +76,22 @@ export function VisualBuilderToolbar() {
             <Plus size={14} /> Add Section
           </button>
           <button
+            onClick={() => setActivePanel(activePanel === "pages" ? null : "pages")}
+            className="px-3 py-2 rounded-full text-[10px] uppercase tracking-widest font-bold flex items-center gap-2 bg-white/10 hover:bg-white/20 transition-all"
+          >
+            <Layers size={14} /> New Page
+          </button>
+          <button
+            onClick={() => setActivePanel(activePanel === "seo" ? null : "seo")}
+            className="px-3 py-2 rounded-full text-[10px] uppercase tracking-widest font-bold flex items-center gap-2 bg-white/10 hover:bg-white/20 transition-all"
+          >
+            <Search size={14} /> SEO
+          </button>
+          <button
             onClick={() => setActivePanel(activePanel === "design" ? null : "design")}
             className="px-3 py-2 rounded-full text-[10px] uppercase tracking-widest font-bold flex items-center gap-2 bg-white/10 hover:bg-white/20 transition-all"
           >
-            <Palette size={14} /> Design Settings
+            <Palette size={14} /> Design
           </button>
           <button
             onClick={() => setActivePanel(activePanel === "media" ? null : "media")}
@@ -172,6 +184,8 @@ export function VisualBuilderToolbar() {
               {activePanel === "design" && "Design Settings"}
               {activePanel === "media" && "Media Manager"}
               {activePanel === "structure" && "Page Structure"}
+              {activePanel === "pages" && "Manage Pages"}
+              {activePanel === "seo" && "SEO & Meta"}
             </span>
             <button
               onClick={() => setActivePanel(null)}
@@ -181,6 +195,41 @@ export function VisualBuilderToolbar() {
             </button>
           </div>
           <div className="p-4 text-sm text-white/70 space-y-3">
+            {activePanel === "pages" && (
+              <div className="space-y-4">
+                <button className="w-full bg-[#a932bd] py-3 rounded-xl text-[10px] uppercase font-bold tracking-widest text-white">
+                  + Create New CMS Page
+                </button>
+                <div className="space-y-2">
+                  <p className="text-[10px] text-white/40 uppercase tracking-widest">Active Store Pages</p>
+                  {["Home", "The Brand", "About", "Sustainability", "FAQ"].map(p => (
+                    <div key={p} className="flex items-center justify-between p-2 rounded bg-white/5 text-xs">
+                      <span>{p}</span>
+                      <span className="text-[#a932bd] cursor-pointer">Edit</span>
+                    </div>
+                  ))}
+                </div>
+              </div>
+            )}
+            {activePanel === "seo" && (
+              <div className="space-y-4">
+                <div className="space-y-1">
+                  <label className="text-[10px] uppercase tracking-widest text-white/40">URL Handle</label>
+                  <input type="text" value={currentPath} readOnly className="w-full bg-white/5 border border-white/10 p-2 rounded text-xs outline-none focus:border-[#a932bd]" />
+                </div>
+                <div className="space-y-1">
+                  <label className="text-[10px] uppercase tracking-widest text-white/40">SEO Title</label>
+                  <input type="text" placeholder="Enter SEO Title" className="w-full bg-white/5 border border-white/10 p-2 rounded text-xs outline-none focus:border-[#a932bd]" />
+                </div>
+                <div className="space-y-1">
+                  <label className="text-[10px] uppercase tracking-widest text-white/40">Meta Description</label>
+                  <textarea rows={3} placeholder="Enter description..." className="w-full bg-white/5 border border-white/10 p-2 rounded text-xs outline-none focus:border-[#a932bd]" />
+                </div>
+                <button className="w-full bg-green-600 py-2 rounded-lg text-[10px] uppercase font-bold tracking-widest text-white">
+                  Save Meta Data
+                </button>
+              </div>
+            )}
             {activePanel === "sections" && (
               <>
                 <p>Add sections will be enabled once section templates are defined for this page type.</p>

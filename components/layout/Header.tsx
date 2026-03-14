@@ -8,6 +8,8 @@ import { MENU_GROUPS } from "@/lib/menu";
 import { useCart } from "@/hooks/useCart";
 import { Search, Heart, ShoppingBag, Menu as MenuIcon } from "lucide-react";
 
+import { VisualEditable } from "@/components/builder/VisualEditable";
+
 export function Header() {
   const [open, setOpen] = useState(false);
   const [activeGroup, setActiveGroup] = useState<string | null>(null);
@@ -42,7 +44,17 @@ export function Header() {
         
         {/* Center Section: Logo (Now primary for all screens) */}
         <div className="flex justify-center flex-1">
-          <BrandLogo color="purple" className="h-12 lg:h-[75px] w-auto" />
+          <Link href="/">
+            <VisualEditable
+              contentKey="header_logo"
+              type="image"
+              initialValue="/images/tsgabrielle-logo-purple.png"
+              alt="tsgabrielle® logo"
+              width={200}
+              height={75}
+              className="h-12 lg:h-[75px] w-auto object-contain"
+            />
+          </Link>
         </div>
 
         {/* Right Section: Wishlist & Cart */}
@@ -72,7 +84,11 @@ export function Header() {
                 href={group.href} 
                 className="text-[13px] font-display font-light tracking-[0.4em] transition-all duration-500 hover:opacity-60"
               >
-                {LABEL_MAP[group.label] || group.label}
+                <VisualEditable
+                  contentKey={`header_nav_${group.label.toLowerCase().replace(/\s+/g, '_')}`}
+                  type="text"
+                  initialValue={LABEL_MAP[group.label] || group.label}
+                />
               </Link>
             </div>
           ))}

@@ -132,9 +132,22 @@ The system must maintain full functionality with:
 
 # Maintenance
 node scripts/perform-cleanup.js        # Run File Audit and legacy cleanup
+node scripts/seo-scanner.js           # Run SEO Audit
+node scripts/security-scanner.js      # Run Security Audit
 npx prisma db push                     # Sync Prisma schema to database
 npm run verify:footer                  # Verify live footer visuals
 npm run verify:deploy                  # Verify production deployment status
+
+---
+
+# AUTONOMOUS DEVOPS LOOP
+
+When triggered by the "Nightly DevOps Audit" cron job:
+1. Run `node scripts/seo-scanner.js`
+2. Run `node scripts/security-scanner.js`
+3. Read `scripts/seo-report.json` and `scripts/security-report.json`
+4. Summarize findings and report any critical issues to the user.
+5. If auto-repairable issues are detected, attempt repair and redeploy.
 
 # Testing
 npx playwright test                              # All Playwright tests

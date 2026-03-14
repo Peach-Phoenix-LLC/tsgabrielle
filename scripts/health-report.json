@@ -1,0 +1,17 @@
+{
+  "timestamp": "2026-03-14T16:28:35.696Z",
+  "checks": {
+    "database": {
+      "status": "unhealthy",
+      "details": "Prisma CLI check failed"
+    },
+    "vercel": {
+      "status": "healthy",
+      "details": "Status Code: 200"
+    },
+    "oracle_cloud_ollama": {
+      "status": "healthy",
+      "latency": "42ms"
+    }
+  }
+}
