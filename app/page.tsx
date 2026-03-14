@@ -63,9 +63,6 @@ export default async function HomePage() {
     console.warn("Could not fetch featured products:", error);
   }
 
-  const displayCategories = CATEGORIES.slice(0, 9);
-  const displayCollections = COLLECTIONS.slice(0, 9);
-
   return (
     <div className="-mt-[160px] lg:-mt-[195px]">
       {/* Hero Section with optimized transition */}
@@ -103,7 +100,7 @@ export default async function HomePage() {
               <BuilderText 
                 contentKey="home_featured_title" 
                 initialValue={content.home_featured_title || "Exclusive 💎 New"} 
-                as="h2" 
+                as="h1" 
                 className="text-4xl md:text-6xl font-light tracking-tight text-[#111111] block capitalize" 
               />
             </div>
@@ -115,8 +112,8 @@ export default async function HomePage() {
           <div className="grid grid-cols-1 gap-12 sm:grid-cols-2 md:grid-cols-4 md:gap-8">
             {featuredProducts && featuredProducts.length > 0 ? (
               featuredProducts.map((product) => (
-                <Link key={product.id} href={`/product/${product.slug}`} className="group flex flex-col gap-6">
-                  <div className="aspect-[3/4] overflow-hidden bg-[#f9f9f9]">
+                <Link key={product.id} href={`/${product.slug}`} className="group flex flex-col gap-6">
+                  <div className="aspect-[3/4] overflow-hidden bg-[#f9f9f9] relative">
                     <Image
                       src={product.images?.[0]?.url || "/images/logo-icon.png"}
                       alt={product.title}
@@ -137,96 +134,6 @@ export default async function HomePage() {
                 <p className="text-xs font-light text-[#555555] uppercase tracking-[0.3em]">Awaiting New Arrival</p>
               </div>
             )}
-          </div>
-        </div>
-      </section>
-
-      {/* Categories Section */}
-      <section className="bg-[#f9f9f9] py-32 border-t border-[#e7e7e7]">
-        <div className="container-luxe">
-          <div className="mb-24 text-center space-y-4">
-            <BuilderText
-              contentKey="home_categories_subtitle"
-              initialValue={content.home_categories_subtitle || "Shop by Department"}
-              as="p"
-              className="text-[10px] uppercase tracking-[0.4em] text-[#a932bd] font-medium block"
-            />
-            <BuilderText
-              contentKey="home_categories_title"
-              initialValue={content.home_categories_title || "Categories"}
-              as="h2"
-              className="text-4xl md:text-5xl font-light tracking-tight text-[#111111] block capitalize"
-            />
-          </div>
-          
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-            {displayCategories.map((category, idx) => {
-              const displayImg = category.image || heroSlides[idx % 4];
-              return (
-                <div key={idx} className="group flex flex-col gap-6">
-                  <div className="holographic-card-border aspect-[3/4] overflow-hidden bg-[#f9f9f9] rounded-[3rem]">
-                    <Image
-                      src={displayImg}
-                      alt={category.label}
-                      fill
-                      className="h-full w-full object-cover transition-transform duration-1000 group-hover:scale-110"
-                    />
-                  </div>
-                  <div className="flex flex-col items-center gap-4 text-center">
-                    <h3 className="text-xl font-light tracking-wide text-[#111111] capitalize">{category.label}</h3>
-                    <div className="h-px w-8 bg-[#a932bd]/30 transition-all duration-500 group-hover:w-16 group-hover:bg-[#a932bd]" />
-                    <Link href={category.href} className="btn-holographic-outline">
-                      Discover
-                    </Link>
-                  </div>
-                </div>
-              );
-            })}
-          </div>
-        </div>
-      </section>
-
-      {/* Collections Section */}
-      <section className="bg-white py-32">
-        <div className="container-luxe">
-          <div className="mb-20 text-center space-y-4">
-             <BuilderText
-              contentKey="home_collections_subtitle"
-              initialValue={content.home_collections_subtitle || "Curated Series"}
-              as="p"
-              className="text-[10px] uppercase tracking-[0.4em] text-[#a932bd] font-medium block"
-            />
-            <BuilderText
-              contentKey="home_collections_title"
-              initialValue={content.home_collections_title || "The Collections"}
-              as="h2"
-              className="text-4xl md:text-5xl font-light tracking-tight text-[#111111] block capitalize"
-            />
-          </div>
-          
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-            {displayCollections.map((collection, idx) => {
-              const displayImg = collection.image || heroSlides[(idx + 2) % 4];
-              return (
-                <div key={idx} className="group flex flex-col gap-6">
-                  <div className="holographic-card-border aspect-[3/4] overflow-hidden bg-[#f9f9f9] rounded-[3rem]">
-                    <Image
-                      src={displayImg}
-                      alt={collection.label}
-                      fill
-                      className="h-full w-full object-cover transition-transform duration-1000 group-hover:scale-110"
-                    />
-                  </div>
-                  <div className="flex flex-col items-center gap-4 text-center">
-                    <h3 className="text-xl font-light tracking-wide text-[#111111] capitalize">{collection.label}</h3>
-                    <div className="h-px w-8 bg-[#a932bd]/30 transition-all group-hover:w-16 group-hover:bg-[#a932bd]" />
-                    <Link href={collection.href} className="btn-holographic-outline">
-                      Discover Series
-                    </Link>
-                  </div>
-                </div>
-              );
-            })}
           </div>
         </div>
       </section>
