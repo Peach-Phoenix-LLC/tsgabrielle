@@ -22,7 +22,19 @@ body {
 }
 
 .container-luxe {
-  @apply mx-auto w-full max-w-[1540px] px-6 md:px-10;
+  margin-left: auto;
+  margin-right: auto;
+  width: 100%;
+  max-width: 1540px;
+  padding-left: 1.5rem;
+  padding-right: 1.5rem;
+}
+
+@media (min-width: 768px) {
+  .container-luxe {
+    padding-left: 2.5rem;
+    padding-right: 2.5rem;
+  }
 }
 
 .glass-header {

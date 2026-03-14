@@ -4,7 +4,6 @@ import { requireAdmin } from "@/lib/admin-auth";
 
 export async function POST(req: Request) {
   try {
-    // 1. Verify the user is an admin
     const auth = await requireAdmin();
     if (auth.error) return auth.error;
 
@@ -15,7 +14,6 @@ export async function POST(req: Request) {
 
     const supabase = getSupabaseServerClient();
 
-    // 2. Insert message into the bridge table
     const { data: msgData, error: insertError } = await supabase
       .from("peach_messages")
       .insert({
@@ -28,7 +26,6 @@ export async function POST(req: Request) {
 
     if (insertError) throw insertError;
 
-    // 3. Poll for reply (max 30 seconds)
     let reply = null;
     for (let i = 0; i < 30; i++) {
       await new Promise(r => setTimeout(r, 1000));
@@ -45,18 +42,9 @@ export async function POST(req: Request) {
     }
 
     if (!reply) {
-      // Temporary Cloud simulation for DevOps Guardian
-      if (message.toLowerCase().includes("hey") || message.toLowerCase().includes("hello")) {
-        reply = "Bonjour! I am Peach, your tsgabrielle® DevOps bot. I am now operating 100% ONLINE. How can I help you build today?";
-      } else {
-        reply = "Peach AI is currently transitioning to a full cloud-based orchestration. Your message has been logged for analysis: " + message;
-      }
-      
-      // Update the message in Supabase so the UI sees it as processed
-      await supabase
-        .from("peach_messages")
-        .update({ processed: true, reply: reply })
-        .eq("id", msgData.id);
+      return NextResponse.json({ 
+        reply: "Peach is thinking deeply on your local PC... If this takes too long, make sure the 'Peach Bridge' script is running in your terminal." 
+      });
     }
 
     return NextResponse.json({ reply });

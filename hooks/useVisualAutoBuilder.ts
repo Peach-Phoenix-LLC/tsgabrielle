@@ -3,20 +3,14 @@
 import { useEffect } from "react";
 import { useVisualBuilder } from "@/components/builder/VisualBuilderProvider";
 
-/**
- * Automatically makes standard text elements editable when in builder mode.
- * Targets: p, span, h1, h2, h3, h4, h5, h6, li, a, button
- */
 export function useVisualAutoBuilder() {
   const { isEditMode, updateContent, pendingChanges } = useVisualBuilder();
 
   useEffect(() => {
-    console.log("useVisualAutoBuilder effect running. isEditMode:", isEditMode);
     if (!isEditMode) return;
 
     const handleClick = (e: MouseEvent) => {
       const target = e.target as HTMLElement;
-      console.log("Builder click detected on tag:", target.tagName);
       const editableTags = ['P', 'SPAN', 'H1', 'H2', 'H3', 'H4', 'H5', 'H6', 'LI', 'A', 'BUTTON'];
       
       if (editableTags.includes(target.tagName) && !target.closest('.visual-builder-ignore')) {

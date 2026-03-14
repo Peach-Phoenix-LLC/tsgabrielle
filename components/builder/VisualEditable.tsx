@@ -18,11 +18,6 @@ interface VisualEditableProps {
   priority?: boolean;
 }
 
-/**
- * The Universal Wrapper for 100% editability.
- * If type="text" or "html", it uses EditableText.
- * If type="image", it uses EditableImage.
- */
 export function VisualEditable({
   contentKey,
   type,

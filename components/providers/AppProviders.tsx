@@ -1,7 +1,6 @@
 "use client";
 
-import { Suspense, useEffect, useState } from "react";
-import { useSearchParams } from "next/navigation";
+import { useEffect, useState } from "react";
 import { CartProvider } from "@/hooks/useCart";
 import { SettingsProvider } from "./SettingsProvider";
 import { PostHogProvider } from "./PostHogProvider";
@@ -69,4 +68,3 @@ export function AppProviders({
     </SettingsProvider>
   );
 }
-

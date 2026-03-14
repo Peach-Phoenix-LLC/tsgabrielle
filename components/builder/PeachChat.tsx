@@ -27,7 +27,6 @@ export function PeachChat() {
     setIsLoading(true);
 
     try {
-      // Connect to the OpenClaw Gateway on your local PC
       const res = await fetch("/api/admin/peach-chat", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
@@ -59,7 +58,6 @@ export function PeachChat() {
 
   return (
     <div className="fixed bottom-24 right-6 z-[9999] w-[380px] h-[500px] bg-white rounded-3xl shadow-[0_20px_50px_rgba(169,50,189,0.3)] border border-[#a932bd]/20 flex flex-col overflow-hidden animate-in fade-in slide-in-from-bottom-4 duration-300">
-      {/* Header */}
       <div className="bg-[#a932bd] p-4 text-white flex items-center justify-between">
         <div className="flex items-center gap-3">
           <div className="bg-white/20 p-2 rounded-xl">
@@ -75,7 +73,6 @@ export function PeachChat() {
         </button>
       </div>
 
-      {/* Messages */}
       <div ref={scrollRef} className="flex-1 overflow-y-auto p-4 space-y-4 bg-[#fcfaff]">
         {messages.map((m, i) => (
           <div key={i} className={`flex ${m.role === "user" ? "justify-end" : "justify-start"}`}>
@@ -101,7 +98,6 @@ export function PeachChat() {
         )}
       </div>
 
-      {/* Input */}
       <div className="p-4 bg-white border-t border-[#a932bd]/10">
         <div className="relative flex items-center">
           <input

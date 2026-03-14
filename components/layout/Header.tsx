@@ -7,7 +7,6 @@ import { BrandLogo } from "@/components/layout/BrandLogo";
 import { MENU_GROUPS } from "@/lib/menu";
 import { useCart } from "@/hooks/useCart";
 import { Search, Heart, ShoppingBag, Menu as MenuIcon } from "lucide-react";
-
 import { VisualEditable } from "@/components/builder/VisualEditable";
 
 export function Header() {
@@ -32,9 +31,7 @@ export function Header() {
         setHoveredItem(null);
       }}
     >
-      {/* Row 1: Search, Logo (Centered), and Icons */}
       <div className="container-luxe flex items-center justify-between py-6 lg:py-8">
-        {/* Left Section: Search & Mobile Menu */}
         <div className="flex items-center gap-6 flex-1">
           <button className="lg:hidden text-[#a932bd] hover:opacity-75 transition-opacity" onClick={() => setOpen((v) => !v)}>
             <MenuIcon size={24} />
@@ -42,7 +39,6 @@ export function Header() {
           <Search size={22} className="cursor-pointer hover:opacity-75 transition-opacity" />
         </div>
         
-        {/* Center Section: Logo (Now primary for all screens) */}
         <div className="flex justify-center flex-1">
           <Link href="/">
             <VisualEditable
@@ -57,7 +53,6 @@ export function Header() {
           </Link>
         </div>
 
-        {/* Right Section: Wishlist & Cart */}
         <div className="flex items-center justify-end gap-6 flex-1">
           <Link href="/account/wishlist" className="relative">
             <Heart size={22} className="hover:opacity-75 transition-opacity" />
@@ -71,7 +66,6 @@ export function Header() {
         </div>
       </div>
 
-      {/* Row 2: Mega Menu Navigation (Desktop Only) */}
       <div className="hidden lg:flex justify-center border-t border-b border-[#a932bd]/10 py-4">
         <nav className="flex items-center gap-12">
           {MENU_GROUPS.map((group) => (
@@ -95,7 +89,6 @@ export function Header() {
         </nav>
       </div>
 
-      {/* Mega Menu Overlay */}
       <div 
         className={`
           absolute left-0 top-full w-full bg-white/50 backdrop-blur-md border-b border-[#a932bd]/10 
@@ -161,7 +154,6 @@ export function Header() {
         </div>
       </div>
 
-      {/* Mobile Menu Overlay */}
       {open && (
         <div className="fixed inset-0 top-0 z-[60] flex flex-col bg-white lg:hidden">
           <div className="flex items-center justify-between px-6 py-6 border-b border-[#e7e7e7]">
