@@ -15,6 +15,7 @@ import {
   Redo2,
   Plus,
   UploadCloud,
+  Search,
 } from "lucide-react";
 import { useVisualBuilder } from "./VisualBuilderProvider";
 

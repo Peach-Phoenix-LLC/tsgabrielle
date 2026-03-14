@@ -29,7 +29,7 @@ export async function POST(req: Request) {
         message: message,
         // Identify this as coming from the internal web dashboard
         channel: "web-dashboard",
-        sourceId: auth.email || "admin"
+        sourceId: auth.user.email || "admin"
       }),
     });
 

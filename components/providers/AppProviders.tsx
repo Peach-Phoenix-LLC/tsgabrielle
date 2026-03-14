@@ -6,7 +6,7 @@ import { SettingsProvider } from "./SettingsProvider";
 import { PostHogProvider } from "./PostHogProvider";
 import { PeachChat } from "@/components/builder/PeachChat";
 import { VisualBuilderToolbar } from "@/components/builder/VisualBuilderToolbar";
-import { createClient } from "@/lib/supabase/client";
+import { getSupabaseBrowserClient } from "@/lib/supabase/client";
 import { VisualBuilderProvider } from "@/components/builder/VisualBuilderProvider";
 
 export function AppProviders({
@@ -17,14 +17,17 @@ export function AppProviders({
   settings?: Record<string, string>;
 }) {
   const [isAdmin, setIsAdmin] = useState(false);
-  const supabase = createClient();
+  const supabase = getSupabaseBrowserClient();
 
   useEffect(() => {
     async function checkAdmin() {
       const { data: { user } } = await supabase.auth.getUser();
+      console.log("AppProviders: checking admin status for user:", user?.email);
       if (user) {
         const admins = ["contact@tsgabrielle.us"];
-        setIsAdmin(user.app_metadata?.role === "admin" || admins.includes(user.email || ""));
+        const isAdm = user.app_metadata?.role === "admin" || admins.includes(user.email || "");
+        console.log("AppProviders: isAdmin decision:", isAdm);
+        setIsAdmin(isAdm);
       }
     }
     checkAdmin();

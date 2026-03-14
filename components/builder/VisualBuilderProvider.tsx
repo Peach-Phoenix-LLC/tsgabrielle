@@ -1,6 +1,6 @@
 "use client";
 
-import React, { createContext, useContext, useRef, useState } from "react";
+import React, { createContext, useContext, useRef, useState, useEffect } from "react";
 import { VisualBuilderToolbar } from "./VisualBuilderToolbar";
 import { useVisualAutoBuilder } from "@/hooks/useVisualAutoBuilder";
 import { PeachChat } from "./PeachChat";
@@ -63,6 +63,10 @@ export function VisualBuilderProvider({ children, initialEditMode = false, onExi
   }
 
   useVisualAutoBuilder();
+
+  useEffect(() => {
+    console.log("Visual Builder initialized. Edit Mode:", isEditMode);
+  }, [isEditMode]);
 
   async function saveChanges() {
     if (Object.keys(pendingChanges).length === 0) return;
@@ -132,6 +136,7 @@ export function VisualBuilderProvider({ children, initialEditMode = false, onExi
     >
       {children}
       <VisualBuilderToolbar />
+      <PeachChat />
     </VisualBuilderContext.Provider>
   );
 }

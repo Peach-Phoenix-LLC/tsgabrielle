@@ -172,10 +172,10 @@ export default function ProductClientView({ product }: ProductProps) {
 
       {/* Breadcrumbs & Title */}
       <div className="container-luxe py-8 space-y-4">
-        <nav aria-label="Breadcrumb" className="flex items-center space-x-2 text-[10px] uppercase tracking-[0.2em] font-medium text-black/50">
+        <nav aria-label="Breadcrumb" className="flex items-center space-x-2 text-[10px] uppercase tracking-[0.2em] font-medium text-black/80">
           <Link href="/" className="hover:text-[#a932bd] transition-colors">Welcome</Link>
           <span>•</span>
-          <span className="text-black/30">{toTitleCase(product.tags[0] || "Luxury")}</span>
+          <span className="text-black/60">{toTitleCase(product.tags[0] || "Luxury")}</span>
           <span>•</span>
           <span className="text-black">{product.title}</span>
         </nav>
@@ -192,7 +192,7 @@ export default function ProductClientView({ product }: ProductProps) {
               <button 
                 key={tab} 
                 onClick={() => setActiveTab(tab)}
-                className={`pb-4 text-[10px] uppercase tracking-[0.3em] font-bold transition-all relative ${activeTab === tab ? "text-[#a932bd]" : "text-black/30 hover:text-black"}`}
+                className={`pb-4 text-[10px] uppercase tracking-[0.3em] font-bold transition-all relative ${activeTab === tab ? "text-[#a932bd]" : "text-black/60 hover:text-black"}`}
               >
                 {tab === "premium" ? "Premium Features" : tab === "shipping" ? "Shipping Info" : "Specifications"}
                 {activeTab === tab && <motion.div layoutId="tab-underline" className="absolute bottom-0 left-0 right-0 h-0.5 bg-[#a932bd]" />}
@@ -310,7 +310,7 @@ export default function ProductClientView({ product }: ProductProps) {
               <div className="grid grid-cols-2 gap-4">
                 <button 
                   onClick={handleAddToBag}
-                  className={`py-5 text-[10px] uppercase tracking-[0.3em] font-bold rounded-xl transition-all border-2 ${isAdded ? "bg-green-600 border-green-600 text-white" : "bg-black text-white border-black hover:bg-[#a932bd] hover:border-[#a932bd]"}`}
+                  className={`py-5 text-[10px] uppercase tracking-[0.3em] font-bold rounded-xl transition-all border-2 ${isAdded ? "bg-green-700 border-green-700 text-white" : "bg-black text-white border-black hover:bg-[#a932bd] hover:border-[#a932bd]"}`}
                 >
                   {isAdded ? "Added to Universe" : "Add to Bag"}
                 </button>
@@ -325,7 +325,7 @@ export default function ProductClientView({ product }: ProductProps) {
 
               {/* Express Payments with Original Colors */}
               <div className="space-y-4 pt-4 border-t border-[#f0f0f0]">
-                <p className="text-[10px] uppercase tracking-widest font-bold text-center text-black/40">Express Checkout</p>
+                <p className="text-[10px] uppercase tracking-widest font-bold text-center text-black/70">Express Checkout</p>
                 <div className="grid grid-cols-2 gap-3">
                   <button className="h-14 bg-black text-white rounded-xl flex items-center justify-center gap-2 font-bold hover:opacity-90 transition-opacity">
                     <span className="text-lg"></span> Pay
@@ -338,7 +338,7 @@ export default function ProductClientView({ product }: ProductProps) {
                   <button className="h-14 bg-[#FFC439] text-[#003087] rounded-xl flex items-center justify-center font-bold hover:bg-[#f2ba34] transition-colors">
                     PayPal
                   </button>
-                  <button className="h-14 bg-[#008CFF] text-white rounded-xl flex items-center justify-center font-bold hover:bg-[#007ce6] transition-colors">
+                  <button className="h-14 bg-[#0074D9] text-white rounded-xl flex items-center justify-center font-bold hover:bg-[#0063ba] transition-colors">
                     Venmo
                   </button>
                 </div>

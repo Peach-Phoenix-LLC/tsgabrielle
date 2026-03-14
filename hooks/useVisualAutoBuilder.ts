@@ -11,10 +11,12 @@ export function useVisualAutoBuilder() {
   const { isEditMode, updateContent, pendingChanges } = useVisualBuilder();
 
   useEffect(() => {
+    console.log("useVisualAutoBuilder effect running. isEditMode:", isEditMode);
     if (!isEditMode) return;
 
     const handleClick = (e: MouseEvent) => {
       const target = e.target as HTMLElement;
+      console.log("Builder click detected on tag:", target.tagName);
       const editableTags = ['P', 'SPAN', 'H1', 'H2', 'H3', 'H4', 'H5', 'H6', 'LI', 'A', 'BUTTON'];
       
       if (editableTags.includes(target.tagName) && !target.closest('.visual-builder-ignore')) {

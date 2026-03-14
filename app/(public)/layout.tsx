@@ -29,7 +29,7 @@ export default async function PublicLayout({ children }: { children: React.React
         }}
       />
       <CookieConsent />
-      <StoreLayoutWrapper isAdmin={isAdmin} builderEnabled={builderEnabled}>
+      <StoreLayoutWrapper>
         {children}
       </StoreLayoutWrapper>
       <SpeedInsights />

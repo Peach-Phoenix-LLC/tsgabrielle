@@ -58,7 +58,7 @@ const ShareModal = ({ isOpen, onClose, product }: { isOpen: boolean, onClose: ()
                     className="bg-white border border-black/5 p-8 rounded-2xl w-full max-w-md relative shadow-2xl"
                     onClick={e => e.stopPropagation()}
                 >
-                    <button onClick={onClose} className="absolute top-4 right-4 text-black/40 hover:text-[#a932bd] transition-colors">
+                    <button onClick={onClose} className="absolute top-4 right-4 text-black/70 hover:text-[#a932bd] transition-colors">
                         <X size={20} />
                     </button>
                     <h3 className="text-xl font-light tracking-widest uppercase mb-6 text-[#1a1a1a]">Share Product</h3>
@@ -66,19 +66,19 @@ const ShareModal = ({ isOpen, onClose, product }: { isOpen: boolean, onClose: ()
                         {[
                             { icon: Facebook, label: 'Facebook', color: '#1877F2' },
                             { icon: Twitter, label: 'Twitter', color: '#1DA1F2' },
-                            { icon: Send, label: 'Telegram', color: '#0088cc' },
-                            { icon: MessageCircle, label: 'WhatsApp', color: '#25D366' },
+                            { icon: Send, label: 'Telegram', color: '#006699' },
+                            { icon: MessageCircle, label: 'WhatsApp', color: '#128C7E' },
                         ].map((net) => (
                             <button key={net.label} className="flex flex-col items-center gap-2 group">
                                 <div className="w-12 h-12 rounded-full border border-black/5 flex items-center justify-center group-hover:bg-black/5 transition-all">
-                                    <net.icon size={20} className="text-[#1a1a1a]/40 group-hover:text-[#a932bd]" />
+                                    <net.icon size={20} className="text-[#1a1a1a]/70 group-hover:text-[#a932bd]" />
                                 </div>
-                                <span className="text-[10px] text-[#1a1a1a]/40 uppercase tracking-tighter">{net.label}</span>
+                                <span className="text-[10px] text-[#1a1a1a]/70 uppercase tracking-tighter">{net.label}</span>
                             </button>
                         ))}
                     </div>
                     <div className="space-y-2">
-                        <span className="text-[10px] text-[#1a1a1a]/40 uppercase tracking-widest">Copy Connection Link</span>
+                        <span className="text-[10px] text-[#1a1a1a]/70 uppercase tracking-widest">Copy Connection Link</span>
                         <div className="flex bg-neutral-50 rounded-lg border border-black/5 p-1">
                             <input
                                 readOnly

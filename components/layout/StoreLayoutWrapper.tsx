@@ -1,18 +1,9 @@
 "use client";
 
 import { usePathname } from "next/navigation";
-import dynamic from "next/dynamic";
 import { Header } from "./Header";
 import { Footer } from "./Footer";
 import Breadcrumbs from "./Breadcrumbs";
-
-const BuilderGate = dynamic(() => import("../builder/BuilderGate"), { ssr: false });
-
-interface StoreLayoutWrapperProps {
-  children: React.ReactNode;
-  isAdmin: boolean;
-  builderEnabled: boolean;
-}
 
 export function StoreLayoutWrapper({ children }: { children: React.ReactNode }) {
   const pathname = usePathname();
