@@ -6,7 +6,7 @@ import { SettingsProvider } from "./SettingsProvider";
 import { PostHogProvider } from "./PostHogProvider";
 import { PeachChat } from "@/components/builder/PeachChat";
 import { VisualBuilderToolbar } from "@/components/builder/VisualBuilderToolbar";
-import { createClient } from "@/lib/supabase/client";
+import { getSupabaseBrowserClient } from "@/lib/supabase/client";
 import { VisualBuilderProvider } from "@/components/builder/VisualBuilderProvider";
 
 export function AppProviders({
@@ -17,7 +17,7 @@ export function AppProviders({
   settings?: Record<string, string>;
 }) {
   const [isAdmin, setIsAdmin] = useState(false);
-  const supabase = createClient();
+  const supabase = getSupabaseBrowserClient();
 
   useEffect(() => {
     async function checkAdmin() {

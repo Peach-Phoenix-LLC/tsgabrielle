@@ -5,16 +5,11 @@ import { StoreLayoutWrapper } from "@/components/layout/StoreLayoutWrapper";
 import CookieConsent from "@/components/layout/CookieConsent";
 import { BuilderProvider } from "@/hooks/useBuilder";
 
-// Note: Fonts are loaded in the root layout, so they don't need to be here.
-
 export default async function PublicLayout({ children }: { children: React.ReactNode }) {
   const { isAdmin, builderEnabled } = await getBuilderModeStatus();
 
   return (
     <BuilderProvider>
-      {/* We can add scripts and other head elements here if needed, but they will be nested.
-          It's better to keep GTM/GA in the root layout if they apply truly globally.
-          For this example, we assume they are part of the public-facing site experience. */}
       <Script
         id="google-tag-manager"
         strategy="afterInteractive"
@@ -29,7 +24,7 @@ export default async function PublicLayout({ children }: { children: React.React
         }}
       />
       <CookieConsent />
-      <StoreLayoutWrapper isAdmin={isAdmin} builderEnabled={builderEnabled}>
+      <StoreLayoutWrapper>
         {children}
       </StoreLayoutWrapper>
       <SpeedInsights />

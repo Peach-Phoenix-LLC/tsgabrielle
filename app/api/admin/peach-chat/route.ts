@@ -23,11 +23,13 @@ export async function POST(req: Request) {
         agentId: "main",
         message: message,
         channel: "web-dashboard",
-        sourceId: auth.email || "admin"
+        sourceId: auth.user.email || "admin"
       }),
     });
 
     if (!response.ok) {
+      const errText = await response.text();
+      console.error("OpenClaw Gateway Error:", errText);
       return NextResponse.json(
         { reply: "Peach encountered an error communicating with the local Gateway. Is it running?" },
         { status: 502 }
@@ -39,6 +41,7 @@ export async function POST(req: Request) {
 
     return NextResponse.json({ reply: finalReply });
   } catch (error: any) {
+    console.error("Error communicating with Peach:", error);
     return NextResponse.json(
       { reply: "Critical error connecting to the AI brain. Please check server logs." },
       { status: 500 }
