@@ -1,4 +1,5 @@
 import { NextResponse } from "next/server";
+import { revalidatePath } from "next/cache";
 import { getSupabaseServerClient } from "@/lib/supabase/server";
 import { requireAdmin } from "@/lib/admin-auth";
 
@@ -57,6 +58,9 @@ export async function POST(req: Request) {
       .single();
 
     if (updateError) throw updateError;
+
+    // Revalidate the public-facing page so visitors see the new content immediately
+    revalidatePath(path);
 
     return NextResponse.json({
       success: true,
