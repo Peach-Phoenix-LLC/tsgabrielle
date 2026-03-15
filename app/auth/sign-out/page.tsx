@@ -8,6 +8,7 @@ export default function SignOutPage() {
 
   const signOut = async () => {
     const supabase = getSupabaseBrowserClient();
+    if (!supabase) return;
     await supabase.auth.signOut();
     router.push("/");
     router.refresh();

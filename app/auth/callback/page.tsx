@@ -19,6 +19,7 @@ export default function AuthCallbackPage() {
       }
       
       const supabase = getSupabaseBrowserClient();
+      if (!supabase) return;
       await supabase.auth.exchangeCodeForSession(code);
       
       const { data: { user } } = await supabase.auth.getUser();

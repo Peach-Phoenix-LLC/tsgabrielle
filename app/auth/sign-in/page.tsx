@@ -20,6 +20,7 @@ function SignInForm() {
     setError(null);
     try {
       const supabase = getSupabaseBrowserClient();
+      if (!supabase) return;
       const { data, error: signInError } = await supabase.auth.signInWithPassword({ email, password });
       if (signInError) {
         console.error('Sign-in error:', signInError);
@@ -46,6 +47,7 @@ function SignInForm() {
     setError(null);
     try {
       const supabase = getSupabaseBrowserClient();
+      if (!supabase) return;
       const { error: oauthError } = await supabase.auth.signInWithOAuth({
         provider: "google",
         options: { redirectTo: `${window.location.origin}/auth/callback?next=${encodeURIComponent(redirectTo)}` },

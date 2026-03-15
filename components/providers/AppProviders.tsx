@@ -42,10 +42,11 @@ export function AppProviders({
   settings?: Record<string, string>;
 }) {
   const [isAdmin, setIsAdmin] = useState(false);
-  const supabase = getSupabaseBrowserClient();
 
   useEffect(() => {
     async function checkAdmin() {
+      const supabase = getSupabaseBrowserClient();
+      if (!supabase) return;
       const { data: { user } } = await supabase.auth.getUser();
       if (user) {
         const admins = ["contact@tsgabrielle.us"];
@@ -54,7 +55,7 @@ export function AppProviders({
       }
     }
     checkAdmin();
-  }, [supabase]);
+  }, []);
 
   return (
     <SettingsProvider settings={settings}>

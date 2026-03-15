@@ -4,6 +4,9 @@
 
 :root {
   color-scheme: light;
+  /* Font variables — populated by Google Fonts <link> in layout.tsx */
+  --font-lato: 'Lato', system-ui, -apple-system, sans-serif;
+  --font-space-grotesk: 'Space Grotesk', system-ui, -apple-system, sans-serif;
   --color-primary:    #a932bd;
   --color-light:      #e7e7e7;
   --color-bg:         #ffffff;

@@ -51,6 +51,7 @@ export default function ProductClientView({ product }: ProductProps) {
 
   useEffect(() => {
     const supabase = getSupabaseBrowserClient();
+    if (!supabase) return;
     supabase.auth.getUser().then(({ data }) => {
       if (data.user?.email) setUserEmail(data.user.email);
     });

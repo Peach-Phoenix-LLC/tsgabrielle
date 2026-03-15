@@ -18,6 +18,7 @@ export default function SignUpPage() {
     setMessage(null);
     try {
       const supabase = getSupabaseBrowserClient();
+      if (!supabase) return;
       const { error: signUpError } = await supabase.auth.signUp({
         email,
         password,
@@ -37,6 +38,7 @@ export default function SignUpPage() {
     setError(null);
     try {
       const supabase = getSupabaseBrowserClient();
+      if (!supabase) return;
       const { error: oauthError } = await supabase.auth.signInWithOAuth({
         provider: "google",
         options: { redirectTo: `${window.location.origin}/auth/callback` },

@@ -14,6 +14,7 @@ export default function CheckoutPage() {
 
   useEffect(() => {
     const supabase = getSupabaseBrowserClient();
+    if (!supabase) return;
     supabase.auth.getUser().then(({ data }) => {
       if (data.user?.email) {
         setUserEmail(data.user.email);

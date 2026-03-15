@@ -492,6 +492,7 @@ function ProductEditor({ product, onBack }: { product: ProductRecord | null; onB
     setUploadingImage(index);
     try {
       const supabase = getSupabaseBrowserClient();
+      if (!supabase) return;
       const fileExt = file.name.split('.').pop();
       const fileName = `${Math.random().toString(36).substring(2)}.${fileExt}`;
       const filePath = `products/${fileName}`;
