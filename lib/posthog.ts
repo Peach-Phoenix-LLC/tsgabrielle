@@ -9,9 +9,24 @@ export function initPostHog() {
   posthog.init(POSTHOG_KEY, {
     api_host: POSTHOG_HOST,
     person_profiles: "identified_only",
-    capture_pageview: false, // We handle this manually in the provider
+    capture_pageview: false,
     capture_pageleave: true,
     autocapture: true,
+    // Session replay
+    disable_session_recording: false,
+    session_recording: {
+      maskAllInputs: false,
+      maskInputFn: (text, element) => {
+        // Mask password and payment fields, show everything else
+        const type = (element as HTMLInputElement)?.type;
+        if (type === "password" || element?.getAttribute("data-sensitive") === "true") {
+          return "*".repeat(text.length);
+        }
+        return text;
+      },
+    },
+    // Feature flags
+    advanced_disable_feature_flags: false,
   });
 
   return posthog;
