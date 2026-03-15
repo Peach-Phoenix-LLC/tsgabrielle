@@ -111,9 +111,11 @@ export default async function CategoryPage({ params }: PageProps) {
         description={displayDescription}
         textColor={textColor}
       />
-      <CollectionPageClient 
-        initialProducts={products} 
-        categories={categories} 
+      <CollectionPageClient
+        collectionSlug={resolvedParams.slug}
+        collectionName={category.title || category.name}
+        initialProducts={products}
+        categories={categories}
         gridTheme={{
           backgroundColor: category.product_grid_background_color || "#ffffff",
           textColor: category.product_grid_text_color || textColor,

@@ -1,6 +1,8 @@
 "use client";
 
-import { useState, useMemo } from "react";
+import { useState, useMemo, useEffect } from "react";
+import { usePostHog } from "posthog-js/react";
+import { trackCollectionViewed } from "@/lib/posthog-events";
 import SortFilterBar from "./SortFilterBar";
 import ProductGrid from "./ProductGrid";
 
@@ -17,6 +19,8 @@ type Product = {
 type Category = { id: string; name: string };
 
 type Props = {
+  collectionSlug?: string;
+  collectionName?: string;
   initialProducts: Product[];
   categories: Category[];
   gridTheme?: {
@@ -26,9 +30,21 @@ type Props = {
   };
 };
 
-export default function CollectionPageClient({ initialProducts, categories, gridTheme }: Props) {
+export default function CollectionPageClient({ collectionSlug, collectionName, initialProducts, categories, gridTheme }: Props) {
+  const posthog = usePostHog();
   const [sort, setSort] = useState("title");
   const [filter, setFilter] = useState("");
+
+  useEffect(() => {
+    // Track collection view on mount
+    if (collectionSlug && collectionName) {
+      trackCollectionViewed({
+        slug: collectionSlug,
+        name: collectionName,
+        product_count: initialProducts.length,
+      });
+    }
+  }, [collectionSlug, collectionName, initialProducts.length]);
 
   const filtered = useMemo(() => {
     let list = [...initialProducts];
@@ -55,14 +71,32 @@ export default function CollectionPageClient({ initialProducts, categories, grid
     }
   }, [initialProducts, sort, filter]);
 
+  const handleSortChange = (newSort: string) => {
+    setSort(newSort);
+    posthog?.capture("collection_sort_changed", {
+      collection_slug: collectionSlug,
+      sort_type: newSort,
+    });
+  };
+
+  const handleFilterChange = (newFilter: string) => {
+    setFilter(newFilter);
+    const categoryName = newFilter ? categories.find(c => c.id === newFilter)?.name : null;
+    posthog?.capture("collection_filter_changed", {
+      collection_slug: collectionSlug,
+      category_id: newFilter || null,
+      category_name: categoryName,
+    });
+  };
+
   return (
     <>
       <SortFilterBar
         categories={categories}
-        onSortChange={setSort}
-        onFilterChange={setFilter}
+        onSortChange={handleSortChange}
+        onFilterChange={handleFilterChange}
       />
-      <ProductGrid products={filtered} theme={gridTheme} />
+      <ProductGrid products={filtered} theme={gridTheme} collectionSlug={collectionSlug} />
     </>
   );
 }

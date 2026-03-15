@@ -2,15 +2,17 @@
 
 import React, { useState, useEffect } from "react";
 import Image from "next/image";
-import { 
-  Heart, ChevronLeft, ChevronRight, 
+import {
+  Heart, ChevronLeft, ChevronRight,
   Minus, Plus, ShieldCheck, RefreshCw,
   Star, ShoppingBag, CreditCard, X
 } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
+import { usePostHog } from "posthog-js/react";
 import { useCart } from "@/hooks/useCart";
 import { usePeaches } from "@/hooks/usePeaches";
 import { getSupabaseBrowserClient } from "@/lib/supabase/client";
+import { trackProductViewed } from "@/lib/posthog-events";
 import { CATEGORIES } from "@/lib/menu";
 import Link from "next/link";
 
@@ -39,6 +41,7 @@ interface ProductProps {
 
 export default function ProductClientView({ product }: ProductProps) {
   const { addItem } = useCart();
+  const posthog = usePostHog();
   const [currentImg, setCurrentImg] = useState(0);
   const [selectedColor, setSelectedColor] = useState(product.colors[0].name);
   const [selectedSize, setSelectedSize] = useState<any>(null);
@@ -54,7 +57,16 @@ export default function ProductClientView({ product }: ProductProps) {
     supabase.auth.getUser().then(({ data }) => {
       if (data.user?.email) setUserEmail(data.user.email);
     });
-  }, []);
+
+    // Track product view
+    trackProductViewed({
+      id: product.id,
+      title: product.title,
+      price: product.price / 100,
+      category: product.tags?.[0],
+      image: product.images[0],
+    });
+  }, [product.id, product.title, product.price, product.tags, product.images]);
 
   const handleAddToBag = () => {
     if (!selectedSize) {
@@ -267,9 +279,16 @@ export default function ProductClientView({ product }: ProductProps) {
               <p className="text-[10px] uppercase tracking-widest font-bold">Selection: <span className="font-light">{selectedColor}</span></p>
               <div className="flex gap-4">
                 {product.colors.map(color => (
-                  <button 
+                  <button
                     key={color.name}
-                    onClick={() => setSelectedColor(color.name)}
+                    onClick={() => {
+                      setSelectedColor(color.name);
+                      posthog?.capture("product_variant_selected", {
+                        product_id: product.id,
+                        variant_type: "color",
+                        variant_value: color.name,
+                      });
+                    }}
                     className={`group relative w-12 h-12 rounded-full border-2 p-1 transition-all ${selectedColor === color.name ? "border-[#a932bd]" : "border-transparent"}`}
                   >
                     <div className="w-full h-full rounded-full" style={{ backgroundColor: color.hex }}></div>
@@ -284,9 +303,17 @@ export default function ProductClientView({ product }: ProductProps) {
               <p className="text-[10px] uppercase tracking-widest font-bold">Size / Fit: <span className="font-light">{selectedSize?.name || "Choose Size"}</span></p>
               <div className="grid grid-cols-4 gap-2">
                 {product.sizes.map(size => (
-                  <button 
+                  <button
                     key={size.variantId}
-                    onClick={() => setSelectedSize(size)}
+                    onClick={() => {
+                      setSelectedSize(size);
+                      posthog?.capture("product_variant_selected", {
+                        product_id: product.id,
+                        variant_type: "size",
+                        variant_value: size.name,
+                        variant_id: size.variantId,
+                      });
+                    }}
                     className={`py-4 text-[10px] tracking-widest uppercase transition-all rounded-lg border ${selectedSize?.variantId === size.variantId ? "bg-[#111] text-white border-black" : "bg-white text-[#111] border-black/10 hover:border-[#a932bd]"}`}
                   >
                     {size.name}
@@ -314,8 +341,16 @@ export default function ProductClientView({ product }: ProductProps) {
                 >
                   {isAdded ? "Added to Universe" : "Add to Bag"}
                 </button>
-                <button 
-                  onClick={() => setIsWishlisted(!isWishlisted)}
+                <button
+                  onClick={() => {
+                    const newWishlistState = !isWishlisted;
+                    setIsWishlisted(newWishlistState);
+                    posthog?.capture("product_wishlist_toggled", {
+                      product_id: product.id,
+                      product_title: product.title,
+                      action: newWishlistState ? "added" : "removed",
+                    });
+                  }}
                   className={`py-5 text-[10px] uppercase tracking-[0.3em] font-bold rounded-xl transition-all border-2 flex items-center justify-center gap-2 ${isWishlisted ? "bg-[#a932bd]/10 border-[#a932bd] text-[#a932bd]" : "bg-white border-black/10 hover:border-black"}`}
                 >
                   <Heart size={14} className={isWishlisted ? "fill-[#a932bd]" : ""} />

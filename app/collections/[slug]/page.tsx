@@ -94,9 +94,11 @@ export default async function CollectionPage({ params }: PageProps) {
           textColor={textColor}
         />
         <div className="pt-16 border-t" style={{ borderColor: `${textColor}20` }}>
-          <CollectionPageClient 
-            initialProducts={products} 
-            categories={categories} 
+          <CollectionPageClient
+            collectionSlug={resolvedParams.slug}
+            collectionName={collection.name}
+            initialProducts={products}
+            categories={categories}
             gridTheme={{
               backgroundColor: collection.product_grid_background_color || "#ffffff",
               textColor: collection.product_grid_text_color || textColor,

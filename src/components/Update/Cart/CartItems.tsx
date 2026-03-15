@@ -1,12 +1,27 @@
 'use client';
 
-import React from 'react';
+import React, { useEffect } from 'react';
+import { usePostHog } from 'posthog-js/react';
 import { useCartStore } from '@/lib/store';
 import { motion, AnimatePresence } from 'framer-motion';
 import Link from 'next/link';
 
 const CartItems = () => {
+    const posthog = usePostHog();
     const { items, updateQuantity, removeItem } = useCartStore();
+
+    useEffect(() => {
+        // Track cart view
+        if (items.length > 0) {
+            const totalValue = items.reduce((sum, item) => sum + (item.price * item.quantity), 0);
+            posthog?.capture("cart_viewed", {
+                item_count: items.length,
+                total_value: totalValue,
+                currency: "USD",
+                product_names: items.map(i => i.name),
+            });
+        }
+    }, [items.length, posthog]);
 
     if (items.length === 0) {
         return (
@@ -64,7 +79,16 @@ const CartItems = () => {
                                         </p>
                                     </div>
                                     <button
-                                        onClick={() => removeItem(item.id)}
+                                        onClick={() => {
+                                            removeItem(item.id);
+                                            posthog?.capture("product_removed_from_cart", {
+                                                product_id: item.id,
+                                                product_name: item.name,
+                                                price: item.price,
+                                                quantity_removed: item.quantity,
+                                                currency: "USD",
+                                            });
+                                        }}
                                         className="w-10 h-10 rounded-full flex items-center justify-center text-[#888888] hover:bg-[#1a1a1a] hover:text-white transition-all duration-300"
                                     >
                                         <span className="material-symbols-outlined text-[18px]">close</span>
@@ -73,9 +97,41 @@ const CartItems = () => {
 
                                 <div className="flex justify-between items-end mt-12">
                                     <div className="flex items-center space-x-10 border border-[#e7e7e7] px-8 py-3 rounded-full bg-white group-hover:border-[#a932bd]/30 transition-colors">
-                                        <button onClick={() => updateQuantity(item.id, item.quantity - 1)} className="text-[#1a1a1a] hover:text-[#a932bd] transition-colors text-lg">-</button>
+                                        <button
+                                            onClick={() => {
+                                                const newQuantity = item.quantity - 1;
+                                                updateQuantity(item.id, newQuantity);
+                                                if (newQuantity > 0) {
+                                                    posthog?.capture("cart_quantity_updated", {
+                                                        product_id: item.id,
+                                                        product_name: item.name,
+                                                        old_quantity: item.quantity,
+                                                        new_quantity: newQuantity,
+                                                        change: -1,
+                                                    });
+                                                }
+                                            }}
+                                            className="text-[#1a1a1a] hover:text-[#a932bd] transition-colors text-lg"
+                                        >
+                                            -
+                                        </button>
                                         <span className="text-[14px] font-light w-4 text-center">{item.quantity}</span>
-                                        <button onClick={() => updateQuantity(item.id, item.quantity + 1)} className="text-[#1a1a1a] hover:text-[#a932bd] transition-colors text-lg">+</button>
+                                        <button
+                                            onClick={() => {
+                                                const newQuantity = item.quantity + 1;
+                                                updateQuantity(item.id, newQuantity);
+                                                posthog?.capture("cart_quantity_updated", {
+                                                    product_id: item.id,
+                                                    product_name: item.name,
+                                                    old_quantity: item.quantity,
+                                                    new_quantity: newQuantity,
+                                                    change: 1,
+                                                });
+                                            }}
+                                            className="text-[#1a1a1a] hover:text-[#a932bd] transition-colors text-lg"
+                                        >
+                                            +
+                                        </button>
                                     </div>
                                     <div className="text-right">
                                         <p className="text-[18px] font-light text-[#1a1a1a] tracking-[0.05em]">

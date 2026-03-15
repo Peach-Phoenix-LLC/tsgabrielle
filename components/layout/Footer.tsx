@@ -3,14 +3,17 @@
 import { useState } from "react";
 import Link from "next/link";
 import Image from "next/image";
+import { usePostHog } from "posthog-js/react";
 import { BrandName } from "@/components/BrandName";
 import { BrandLogo } from "./BrandLogo";
 import { useSettings } from "@/components/providers/SettingsProvider";
+import { trackNewsletterSubscribed } from "@/lib/posthog-events";
 import { MENU_GROUPS } from "@/lib/menu";
 
 
 export function Footer() {
   const settings = useSettings();
+  const posthog = usePostHog();
   const [email, setEmail] = useState("");
   const [message, setMessage] = useState("");
   const [loading, setLoading] = useState(false);
@@ -21,6 +24,10 @@ export function Footer() {
     setMessage("");
 
     try {
+      posthog?.capture("newsletter_signup_attempted", {
+        source: "footer",
+      });
+
       const response = await fetch("/api/klaviyo/subscribe", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
@@ -31,9 +38,21 @@ export function Footer() {
         throw new Error("Failed to subscribe.");
       }
 
+      // Extract domain from email for privacy
+      const emailDomain = email.split("@")[1];
+      trackNewsletterSubscribed(email, "footer");
+      posthog?.capture("newsletter_signup_confirmed", {
+        email_domain: emailDomain,
+        source: "footer",
+      });
+
       setMessage("Thank you for subscribing!");
       setEmail("");
     } catch (error) {
+      posthog?.capture("newsletter_signup_failed", {
+        error_type: error instanceof Error ? error.message : "unknown",
+        source: "footer",
+      });
       setMessage("Subscription failed. Please try again.");
     }
 

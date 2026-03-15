@@ -1,10 +1,12 @@
 'use client';
 
 import React from 'react';
+import { usePostHog } from 'posthog-js/react';
 import { useCartStore } from '@/lib/store';
 import Link from 'next/link';
 
 const OrderSummary = () => {
+    const posthog = usePostHog();
     const { getSubtotal, items } = useCartStore();
     const subtotal = getSubtotal();
     const shipping = subtotal > 150 ? 0 : 15;
@@ -53,6 +55,16 @@ const OrderSummary = () => {
 
                 <Link
                     href="/checkout"
+                    onClick={() => {
+                        posthog?.capture("checkout_initiated", {
+                            subtotal: subtotal,
+                            shipping: shipping,
+                            total_value: total,
+                            item_count: items.length,
+                            currency: "USD",
+                            product_names: items.map(i => i.name),
+                        });
+                    }}
                     className="w-full py-6 bg-[#a932bd] text-white text-[12px] font-light tracking-[0.4em] uppercase rounded-full flex items-center justify-center hover:shadow-[0_25px_60px_rgba(169,50,189,0.4)] transition-all duration-500 group overflow-hidden relative"
                 >
                     <span className="relative z-10">Initiate Checkout</span>

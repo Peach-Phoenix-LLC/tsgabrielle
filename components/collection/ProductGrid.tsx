@@ -2,6 +2,7 @@
 
 import Image from "next/image";
 import Link from "next/link";
+import { usePostHog } from "posthog-js/react";
 
 type Product = {
   id: string;
@@ -17,7 +18,16 @@ type Theme = {
   accentColor?: string;
 };
 
-export default function ProductGrid({ products, theme = {} }: { products: Product[]; theme?: Theme }) {
+export default function ProductGrid({
+  products,
+  theme = {},
+  collectionSlug,
+}: {
+  products: Product[];
+  theme?: Theme;
+  collectionSlug?: string;
+}) {
+  const posthog = usePostHog();
   const bg = theme.backgroundColor || "#ffffff";
   const text = theme.textColor || "#111111";
   const accent = theme.accentColor || "#a932bd";
@@ -42,7 +52,19 @@ export default function ProductGrid({ products, theme = {} }: { products: Produc
               key={p.id}
               className="group border border-[#e7e7e7] bg-white rounded-md overflow-hidden hover:shadow-xl transition-all duration-300"
             >
-              <Link href={`/product/${p.slug}`} className="block h-full flex flex-col">
+              <Link
+                href={`/product/${p.slug}`}
+                className="block h-full flex flex-col"
+                onClick={() => {
+                  posthog?.capture("product_clicked", {
+                    product_id: p.id,
+                    product_title: p.title,
+                    product_price: p.price_cents / 100,
+                    collection_slug: collectionSlug,
+                    source: "collection_grid",
+                  });
+                }}
+              >
                 <div className="relative h-72 sm:h-80 w-full overflow-hidden bg-[#f9f9f9]">
                   <Image
                     src={defaultImage}
